@@ -421,13 +421,13 @@ const translations = {
     "customers.customerHome": "المنزل:",
     "customers.customerRoad": "الطريق:",
     "customers.customerBlock": "المجمع:",
-    "customers.customerTown": "ا��منطقة:",
+    "customers.customerTown": "المنطقة",
     "customers.save": "حفظ",
 
     // Revenue
     "revenue.title": "تحليلات الإيرادات",
     "revenue.overview": "نظرة عامة على الإيرادات",
-    "revenue.totalRevenue": "إجمالي ��لإيرادات",
+    "revenue.totalRevenue": "إجمالي الإيرادات",
     "revenue.ordersCount": "عدد الطلبات",
     "revenue.avgOrderValue": "متوسط قيمة الطلب",
     "revenue.monthlyTrend": "اتجاه الإيرادات الشهرية",
@@ -475,7 +475,7 @@ const translations = {
     // Messages
     "message.deleteConfirm": "هل أنت متأكد من حذف هذا العنصر؟",
     "message.productAdded": "تم إضافة المنتج بنجاح",
-    "message.productUpdated": "تم تحديث المنت�� بنجاح",
+    "message.productUpdated": "تم تحديث المنتج بنجاح",
     "message.productDeleted": "تم حذف المنتج بنجاح",
     "message.orderAdded": "تم إضافة الطلب بنجاح",
     "message.orderUpdated": "تم تحديث الطلب بنجاح",
@@ -507,7 +507,7 @@ const translations = {
     "store.cartEmpty": "سلتك فارغة",
     "store.cartTotal": "إجمالي السلة",
     "store.checkout": "إتمام الطلب",
-    "store.continueShopping": "متابعة الت��وق",
+    "store.continueShopping": "متابعة التسوق",
     "store.removeFromCart": "إزالة من السلة",
     "store.updateQuantity": "تحديث الكمية",
     "store.clearCart": "إفراغ السلة",

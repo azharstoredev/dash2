@@ -428,7 +428,7 @@ export const categoryDb = {
     try {
       const { data, error } = await supabase
         .from("categories")
-        .insert([category])
+        .insert([newCategory])
         .select()
         .single();
 
@@ -538,12 +538,10 @@ export const categoryDb = {
     }
   },
 
-  // Get a single category by ID
   async getById(id: string): Promise<Category | null> {
     if (!supabase) {
       return fallbackCategories.find((c) => c.id === id) || null;
     }
-
     try {
       const { data, error } = await supabase
         .from("categories")
@@ -552,9 +550,7 @@ export const categoryDb = {
         .single();
 
       if (error) {
-        if (error.code === "PGRST116") {
-          return null; // No rows returned
-        }
+        if (error.code === "PGRST116") return null;
         console.warn(
           "Supabase error, falling back to in-memory storage:",
           error.message,
@@ -562,7 +558,7 @@ export const categoryDb = {
         return fallbackCategories.find((c) => c.id === id) || null;
       }
 
-      return data;
+      return data || null;
     } catch (error) {
       console.warn("Supabase connection failed, using in-memory storage");
       return fallbackCategories.find((c) => c.id === id) || null;
