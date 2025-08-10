@@ -585,7 +585,7 @@ const translations = {
 } as const;
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("en");
+  const [language, setLanguageState] = useState<Language>("ar");
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem("adminLanguage") as Language;
