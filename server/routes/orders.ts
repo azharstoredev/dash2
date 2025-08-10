@@ -23,10 +23,12 @@ export const createOrder: RequestHandler = async (req, res) => {
         .json({ error: "Customer ID and items are required" });
     }
 
-    const total = items.reduce(
+    const itemsTotal = items.reduce(
       (sum: number, item: OrderItem) => sum + item.price * item.quantity,
       0,
     );
+    const deliveryFee = deliveryType === "delivery" ? 1.5 : 0;
+    const total = itemsTotal + deliveryFee;
 
     const orderData = {
       customerId,

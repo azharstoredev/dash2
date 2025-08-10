@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
+import { useData } from "../contexts/DataContext";
 import { useCart } from "../contexts/CartContext";
 import { createCustomer, createOrder } from "../services/api";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
@@ -26,8 +27,9 @@ interface CheckoutDialogProps {
 }
 
 export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { items, getTotalPrice, clearCart } = useCart();
+  const { refetchData } = useData();
 
   const [step, setStep] = useState(1);
   const [customerInfo, setCustomerInfo] = useState({
@@ -130,6 +132,10 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
       setOrderNumber(order.id);
       setOrderSuccess(true);
       clearCart();
+      // Ensure admin dashboard receives the order without manual refresh
+      try {
+        await refetchData();
+      } catch {}
     } catch (error) {
       console.error("Error placing order:", error);
       alert("Failed to place order. Please try again.");
@@ -173,6 +179,70 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
   // Success State
   if (orderSuccess) {
+    const phoneEl = (
+      <span className="font-extrabold text-primary underline">+973 36283382</span>
+    );
+
+    const successExtra = (
+      <div className="text-sm text-gray-700 space-y-2 auto-text">
+        {deliveryType === "delivery" ? (
+          <>
+            {language === "ar" ? (
+              <div className="space-y-2">
+                <p>{t("checkout.orderSuccessMessage")} {t("checkout.processingMessage")}</p>
+                <div className="p-3 bg-blue-50 rounded border border-blue-200">
+                  <p>
+                    سنقوم بتوصيل الطلب خلال 1-3 أيام. إذا رغبت في تغيير الموقع أو إضافة أو إزالة أو إلغاء الطلب تواصل على الرقم {phoneEl}. وللاستفسار عن التوصيل تواصل على الرقم {phoneEl}.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <p>
+                  {t("checkout.orderSuccessMessage")} {t("checkout.processingMessage")}
+                </p>
+                <div className="p-3 bg-blue-50 rounded border border-blue-200">
+                  <p>
+                    We will deliver the order in 1-3 days. If you would like to change the location or add, remove or cancel the order, contact {phoneEl}. If you have questions about delivery, contact {phoneEl}.
+                  </p>
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            {language === "ar" ? (
+              <div className="space-y-2">
+                <p>{t("checkout.orderSuccessMessage")}</p>
+                <div className="p-3 bg-blue-50 rounded border border-blue-200 space-y-2">
+                  <p>يمكنك استلام الطلب من العنوان أدناه بعد يوم واحد من الآن.</p>
+                  <p>
+                    <span className="font-semibold">العنوان:</span> منزل 1348، طريق 416، مجمع 604، سترة (القرية).
+                  </p>
+                  <p>
+                    إذا رغبت في تغيير الموقع أو إضافة أو إزالة أو إلغاء الطلب تواصل على الرقم {phoneEl}. عند الوصول اتصل على الرقم {phoneEl}.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <p>{t("checkout.orderSuccessMessage")}</p>
+                <div className="p-3 bg-blue-50 rounded border border-blue-200 space-y-2">
+                  <p>You can pick up the order from the address below after 1 day from now.</p>
+                  <p>
+                    <span className="font-semibold">Address:</span> Home 1348, Road 416, Block 604, Sitra Alqarya.
+                  </p>
+                  <p>
+                    If you would like to change the location or add, remove or cancel the order, contact {phoneEl}. When you arrive, call the number {phoneEl}.
+                  </p>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    );
+
     return (
       <Dialog open={open} onOpenChange={handleClose}>
         <DialogContent className="w-[95vw] sm:max-w-md max-h-[95vh] p-0 rounded-lg sm:rounded-md">
@@ -186,14 +256,10 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
               <h2 className="text-2xl font-bold text-green-600">
                 {t("checkout.orderSuccess")}
               </h2>
-              <p className="text-gray-600">
-                {t("checkout.orderSuccessMessage")}
-              </p>
+              {successExtra}
             </div>
             <div className="space-y-2">
-              <p className="text-sm font-medium">
-                {t("checkout.orderNumber")}:
-              </p>
+              <p className="text-sm font-medium">{t("checkout.orderNumber")}:</p>
               <Badge variant="outline" className="text-lg px-4 py-2 font-mono">
                 #{orderNumber}
               </Badge>
@@ -382,62 +448,46 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                     <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center">
                       <span className="font-bold">2</span>
                     </div>
-                    <span className="auto-text">
-                      {t("checkout.deliveryOptions")}
-                    </span>
+                    <span className="auto-text">{t("checkout.deliveryOptions")}</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <RadioGroup
                     value={deliveryType}
-                    onValueChange={(value) =>
-                      setDeliveryType(value as "delivery" | "pickup")
-                    }
-                    className="grid grid-cols-1 gap-6"
+                    onValueChange={(value) => setDeliveryType(value as "delivery" | "pickup")}
+                    className="grid grid-cols-1 gap-4"
                   >
-                    <div className="flex items-center space-x-3 [dir=rtl]:space-x-reverse p-6 border-2 rounded-xl hover:bg-gray-50 cursor-pointer transition-all touch-manipulation">
+                    <div
+                      className={`flex items-center space-x-3 [dir=rtl]:space-x-reverse p-5 border-2 rounded-xl cursor-pointer transition-all touch-manipulation ${
+                        deliveryType === "delivery" ? "border-primary bg-primary/5" : "hover:bg-gray-50"
+                      }`}
+                      onClick={() => setDeliveryType("delivery")}
+                      role="button"
+                      tabIndex={0}
+                    >
                       <RadioGroupItem value="delivery" id="delivery" />
                       <div className="flex items-center space-x-4 [dir=rtl]:space-x-reverse flex-1">
                         <Truck className="w-6 h-6 text-primary" />
-                        <div>
-                          <Label
-                            htmlFor="delivery"
-                            className="text-base font-medium cursor-pointer auto-text"
-                          >
-                            {t("checkout.delivery")}
-                          </Label>
-                          <p className="text-sm text-gray-500 auto-text">
-                            {t("checkout.deliveryDescription")}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="text-right auto-text">
-                        <span className="text-xl font-bold text-primary">
-                          BD 2.00
-                        </span>
+                        <Label htmlFor="delivery" className="text-base font-medium cursor-pointer auto-text">
+                          {t("checkout.delivery")}
+                        </Label>
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-3 [dir=rtl]:space-x-reverse p-6 border-2 rounded-xl hover:bg-gray-50 cursor-pointer transition-all touch-manipulation">
+                    <div
+                      className={`flex items-center space-x-3 [dir=rtl]:space-x-reverse p-5 border-2 rounded-xl cursor-pointer transition-all touch-manipulation ${
+                        deliveryType === "pickup" ? "border-primary bg-primary/5" : "hover:bg-gray-50"
+                      }`}
+                      onClick={() => setDeliveryType("pickup")}
+                      role="button"
+                      tabIndex={0}
+                    >
                       <RadioGroupItem value="pickup" id="pickup" />
                       <div className="flex items-center space-x-4 [dir=rtl]:space-x-reverse flex-1">
                         <Package className="w-6 h-6 text-primary" />
-                        <div>
-                          <Label
-                            htmlFor="pickup"
-                            className="text-base font-medium cursor-pointer auto-text"
-                          >
-                            {t("checkout.pickup")}
-                          </Label>
-                          <p className="text-sm text-gray-500 auto-text">
-                            {t("checkout.pickupDescription")}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="text-right auto-text">
-                        <span className="text-xl font-bold text-green-600">
-                          {t("checkout.free")}
-                        </span>
+                        <Label htmlFor="pickup" className="text-base font-medium cursor-pointer auto-text">
+                          {t("checkout.pickup")}
+                        </Label>
                       </div>
                     </div>
                   </RadioGroup>
@@ -530,18 +580,13 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                     </div>
                     <div className="flex justify-between auto-text">
                       <span>{t("checkout.deliveryFee")}:</span>
-                      <span>
-                        {deliveryType === "delivery" ? "BD 2.00" : "BD 0.00"}
-                      </span>
+                      <span>{deliveryType === "delivery" ? "BD 1.50" : "BD 0.00"}</span>
                     </div>
                     <Separator />
                     <div className="flex justify-between text-lg font-bold auto-text">
                       <span>{t("checkout.total")}:</span>
                       <span className="text-primary">
-                        BD{" "}
-                        {(
-                          totalPrice + (deliveryType === "delivery" ? 2 : 0)
-                        ).toFixed(2)}
+                        BD {(totalPrice + (deliveryType === "delivery" ? 1.5 : 0)).toFixed(2)}
                       </span>
                     </div>
                   </div>

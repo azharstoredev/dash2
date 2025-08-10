@@ -141,21 +141,6 @@ export default function Checkout() {
               {t("checkout.thankYou") ||
                 "Thank you for your order! We have received your order and will process it shortly."}
             </p>
-
-            <div className="bg-blue-50 p-4 rounded-lg space-y-2 text-sm">
-              <p className="font-medium text-blue-900">What happens next?</p>
-              <ul className="text-blue-800 space-y-1 text-left">
-                <li>• We will contact you shortly to confirm your order</li>
-                <li>
-                  •{" "}
-                  {orderDetails?.deliveryType === "delivery"
-                    ? `Your order will be delivered to your address${orderDetails?.deliveryArea === "jao-askar" ? " (Jao/Askar area)" : " (All towns)"}`
-                    : "Your order will be ready for pickup"}
-                </li>
-                <li>• You will receive updates about your order status</li>
-              </ul>
-            </div>
-
             <div className="space-y-2">
               <p className="text-sm font-medium">
                 {t("checkout.orderNumber") || "Order Number"}:
@@ -250,50 +235,32 @@ export default function Checkout() {
                   }
                 >
                   <div className="space-y-3">
-                    <div className="flex items-center space-x-2 [dir=rtl]:space-x-reverse">
+                    <div
+                      className={`flex items-center space-x-2 [dir=rtl]:space-x-reverse p-4 border rounded-lg cursor-pointer ${
+                        deliveryType === "delivery" ? "border-primary bg-primary/5" : "hover:bg-gray-50"
+                      }`}
+                      onClick={() => setDeliveryType("delivery")}
+                    >
                       <RadioGroupItem value="delivery" id="delivery" />
                       <Label htmlFor="delivery" className="font-medium">
                         {t("checkout.delivery")}
                       </Label>
                     </div>
-
-                    {deliveryType === "delivery" && (
-                      <div className="ml-6 [dir=rtl]:ml-0 [dir=rtl]:mr-6 space-y-2">
-                        <RadioGroup
-                          value={deliveryArea}
-                          onValueChange={(value) =>
-                            setDeliveryArea(value as "all-towns" | "jao-askar")
-                          }
-                        >
-                          <div className="flex items-center space-x-2 [dir=rtl]:space-x-reverse">
-                            <RadioGroupItem value="all-towns" id="all-towns" />
-                            <Label
-                              htmlFor="all-towns"
-                              className="font-semibold text-primary"
-                            >
-                              All Towns (Recommended)
-                            </Label>
-                          </div>
-                          <div className="flex items-center space-x-2 [dir=rtl]:space-x-reverse">
-                            <RadioGroupItem value="jao-askar" id="jao-askar" />
-                            <Label htmlFor="jao-askar">Jao or Askar only</Label>
-                          </div>
-                        </RadioGroup>
-                      </div>
-                    )}
                   </div>
 
-                  <div className="flex items-center justify-between space-x-2 [dir=rtl]:space-x-reverse">
+                  <div
+                    className={`flex items-center justify-between space-x-2 [dir=rtl]:space-x-reverse p-4 border rounded-lg cursor-pointer ${
+                      deliveryType === "pickup" ? "border-primary bg-primary/5" : "hover:bg-gray-50"
+                    }`}
+                    onClick={() => setDeliveryType("pickup")}
+                  >
                     <div className="flex items-center space-x-2 [dir=rtl]:space-x-reverse">
                       <RadioGroupItem value="pickup" id="pickup" />
                       <Label htmlFor="pickup" className="font-medium">
                         {t("checkout.pickup")}
                       </Label>
                     </div>
-                    <Badge
-                      variant="secondary"
-                      className="text-green-700 bg-green-100"
-                    >
+                    <Badge variant="secondary" className="text-green-700 bg-green-100">
                       Free
                     </Badge>
                   </div>
@@ -353,11 +320,21 @@ export default function Checkout() {
                 <Separator />
 
                 {/* Total */}
-                <div className="flex justify-between items-center text-xl font-bold p-4 bg-primary/5 rounded-lg [dir=rtl]:flex-row-reverse">
-                  <span className="auto-text">{t("orders.orderTotal")}:</span>
-                  <span className="text-primary text-2xl ltr-text">
-                    BD {totalPrice.toFixed(2)}
-                  </span>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center text-base [dir=rtl]:flex-row-reverse">
+                    <span className="auto-text">{t("checkout.subtotal")}:</span>
+                    <span className="text-primary ltr-text">BD {totalPrice.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-base [dir=rtl]:flex-row-reverse">
+                    <span className="auto-text">{t("checkout.deliveryFee")}:</span>
+                    <span className="text-primary ltr-text">{deliveryType === "delivery" ? "BD 1.50" : "BD 0.00"}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xl font-bold p-4 bg-primary/5 rounded-lg [dir=rtl]:flex-row-reverse">
+                    <span className="auto-text">{t("orders.orderTotal")}:</span>
+                    <span className="text-primary text-2xl ltr-text">
+                      BD {(totalPrice + (deliveryType === "delivery" ? 1.5 : 0)).toFixed(2)}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Place Order Button */}
@@ -367,9 +344,7 @@ export default function Checkout() {
                   className="w-full"
                   size="lg"
                 >
-                  {isSubmitting
-                    ? t("common.loading")
-                    : t("checkout.placeOrder")}
+                  {isSubmitting ? t("common.loading") : t("checkout.placeOrder")}
                 </Button>
               </CardContent>
             </Card>

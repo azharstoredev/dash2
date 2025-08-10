@@ -147,8 +147,8 @@ export default function Categories() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Categories</h1>
-          <p className="text-gray-600 mt-2">Manage product categories</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t("nav.categories")}</h1>
+          <p className="text-gray-600 mt-2">{t("products.subtitle")}</p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
@@ -157,24 +157,22 @@ export default function Categories() {
               className="bg-dashboard-primary hover:bg-dashboard-primary-light"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Add New Category
+              {t("common.add")} {t("nav.categories")}
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle>
-                {editingCategory ? "Edit Category" : "Add New Category"}
+                {editingCategory ? t("products.edit") : t("common.add")} {t("nav.categories")}
               </DialogTitle>
               <DialogDescription>
-                {editingCategory
-                  ? "Update the category details."
-                  : "Create a new product category."}
+                {t("products.subtitle")}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit}>
               <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="name">Category Name</Label>
+                  <Label htmlFor="name">{t("nav.categories")} {t("products.name")}</Label>
                   <Input
                     id="name"
                     value={formData.name}
@@ -184,20 +182,20 @@ export default function Categories() {
                         name: e.target.value,
                       }))
                     }
-                    placeholder="Enter category name"
+                    placeholder={t("nav.categories")}
                     required
                   />
                 </div>
               </div>
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={closeDialog}>
-                  Cancel
+                  {t("common.cancel")}
                 </Button>
                 <Button
                   type="submit"
                   className="bg-dashboard-primary hover:bg-dashboard-primary-light"
                 >
-                  {editingCategory ? "Update" : "Create"}
+                  {editingCategory ? t("products.save") : t("common.save")}
                 </Button>
               </DialogFooter>
             </form>
@@ -211,7 +209,7 @@ export default function Categories() {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 [dir=rtl]:left-auto [dir=rtl]:right-3" />
             <Input
-              placeholder="Search categories..."
+              placeholder={t("common.search")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 [dir=rtl]:pl-3 [dir=rtl]:pr-10"
@@ -241,7 +239,7 @@ export default function Categories() {
                         {translateCategory(category.name)}
                       </CardTitle>
                       <CardDescription>
-                        {productCount} product{productCount !== 1 ? "s" : ""}
+                        {productCount} {t("nav.products")}
                       </CardDescription>
                     </div>
                   </div>
@@ -253,10 +251,6 @@ export default function Categories() {
 
               <CardContent className="pt-0">
                 <div className="space-y-3">
-                  <div className="text-sm text-gray-600">
-                    Created: {new Date(category.createdAt).toLocaleDateString()}
-                  </div>
-
                   <div className="flex gap-2 pt-2">
                     <Button
                       size="sm"
@@ -265,7 +259,7 @@ export default function Categories() {
                       onClick={() => openDialog(category)}
                     >
                       <Edit className="w-4 h-4 mr-1" />
-                      Edit
+                      {t("common.edit")}
                     </Button>
                     <Button
                       size="sm"
@@ -289,12 +283,10 @@ export default function Categories() {
           <CardContent className="text-center py-12">
             <FolderOpen className="w-12 h-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              {searchTerm ? "No categories found" : "No categories yet"}
+              {searchTerm ? t("common.noData") : t("empty.addFirstProduct")}
             </h3>
             <p className="text-gray-600">
-              {searchTerm
-                ? "Try adjusting your search terms"
-                : "Create your first category to organize your products"}
+              {t("empty.adjustSearch")}
             </p>
             {!searchTerm && (
               <Button
@@ -302,7 +294,7 @@ export default function Categories() {
                 onClick={() => openDialog()}
               >
                 <Plus className="w-4 h-4 mr-2" />
-                Add Category
+                {t("common.add")} {t("nav.categories")}
               </Button>
             )}
           </CardContent>

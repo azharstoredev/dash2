@@ -25,7 +25,7 @@ interface DashboardLayoutProps {
 const getNavigation = (t: (key: string) => string) => [
   { name: t("nav.dashboard"), href: "/admin/", icon: LayoutDashboard },
   { name: t("nav.products"), href: "/admin/products", icon: Package },
-  { name: "Categories", href: "/admin/categories", icon: FolderOpen },
+  { name: t("nav.categories") as any, href: "/admin/categories", icon: FolderOpen },
   { name: t("nav.orders"), href: "/admin/orders", icon: ShoppingCart },
   { name: t("nav.customers"), href: "/admin/customers", icon: Users },
   { name: t("nav.revenue"), href: "/admin/revenue", icon: TrendingUp },
@@ -71,8 +71,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <img
               src={
                 language === "ar"
-                  ? "https://cdn.builder.io/api/v1/image/assets%2F22d5611cd8c847859f0fef8105890b91%2F9d5f63fd358a4946ace1b6ce56f63e7e?format=webp&width=800"
-                  : "https://cdn.builder.io/api/v1/image/assets%2F22d5611cd8c847859f0fef8105890b91%2F9d5f63fd358a4946ace1b6ce56f63e7e?format=webp&width=800"
+                  ? "https://cdn.builder.io/api/v1/image/assets%2F22d5611cd8c847859f0fef8105890b91%2F16a76df3c393470e995ec2718d67ab09?format=webp&width=800"
+                  : "https://cdn.builder.io/api/v1/image/assets%2F22d5611cd8c847859f0fef8105890b91%2Feb0b70b9250f4bfca41dbc5a78c2ce45?format=webp&width=800"
               }
               alt="أزهار ستور - azharstore"
               className="h-8 w-8 object-contain"
