@@ -428,7 +428,7 @@ export const categoryDb = {
     try {
       const { data, error } = await supabase
         .from("categories")
-        .insert([category])
+        .insert([newCategory])
         .select()
         .single();
 
