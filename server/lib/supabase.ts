@@ -240,11 +240,6 @@ export const productDb = {
       console.log("Using in-memory storage. Looking for product ID:", id);
       const index = fallbackProducts.findIndex((p) => p.id === id);
       if (index === -1) {
-        // If product is not found due to race condition, return the closest match without throwing
-        const existing = fallbackProducts[0];
-        if (existing) {
-          return existing;
-        }
         throw new Error("Product not found");
       }
       fallbackProducts[index] = {
@@ -279,10 +274,6 @@ export const productDb = {
         );
         const index = fallbackProducts.findIndex((p) => p.id === id);
         if (index === -1) {
-          const existing = fallbackProducts[0];
-          if (existing) {
-            return existing;
-          }
           throw new Error("Product not found");
         }
         fallbackProducts[index] = {
@@ -298,10 +289,6 @@ export const productDb = {
       console.warn("Supabase connection failed, using in-memory storage");
       const index = fallbackProducts.findIndex((p) => p.id === id);
       if (index === -1) {
-        const existing = fallbackProducts[0];
-        if (existing) {
-          return existing;
-        }
         throw new Error("Product not found");
       }
       fallbackProducts[index] = {
