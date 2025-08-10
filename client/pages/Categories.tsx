@@ -69,8 +69,8 @@ export default function Categories() {
 
     if (!formData.name.trim()) {
       showAlert({
-        title: "Validation Error",
-        message: "Category name is required.",
+        title: t("message.error"),
+        message: t("categories.nameRequired"),
         type: "warning",
       });
       return;
@@ -104,19 +104,21 @@ export default function Categories() {
 
     if (productsUsingCategory.length > 0) {
       showAlert({
-        title: "Cannot Delete Category",
-        message: `This category is being used by ${productsUsingCategory.length} product(s). Please remove the category from all products before deleting it.`,
+        title: t("categories.cannotDeleteTitle"),
+        message: t("categories.cannotDeleteMessage").replace(
+          "{count}",
+          String(productsUsingCategory.length),
+        ),
         type: "warning",
       });
       return;
     }
 
     const confirmed = await showConfirm({
-      title: "Delete Category",
-      message:
-        "Are you sure you want to delete this category? This action cannot be undone.",
+      title: t("categories.deleteTitle"),
+      message: t("categories.deleteMessage"),
       type: "danger",
-      confirmText: "Delete",
+      confirmText: t("common.delete"),
       cancelText: t("common.cancel"),
     });
 
@@ -125,7 +127,7 @@ export default function Categories() {
         await deleteCategory(id);
         showAlert({
           title: t("message.success"),
-          message: "Category deleted successfully.",
+          message: t("categories.deleteSuccess"),
           type: "success",
         });
       } catch (error) {

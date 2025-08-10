@@ -145,7 +145,7 @@ export default function Checkout() {
               <p className="text-sm font-medium">
                 {t("checkout.orderNumber") || "Order Number"}:
               </p>
-              <Badge variant="outline" className="text-lg px-4 py-2">
+              <Badge variant="outline" className="text-lg px-4 py-2 ltr-text">
                 #{orderNumber}
               </Badge>
             </div>

@@ -319,7 +319,7 @@ export default function Products() {
                       />
                     </div>
                     <div className="grid gap-2">
-                      <Label htmlFor="category">Category</Label>
+                      <Label htmlFor="category">{t("products.category")}</Label>
                       <select
                         id="category"
                         value={formData.categoryId}
@@ -331,10 +331,10 @@ export default function Products() {
                         }
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                       >
-                        <option value="">Select Category</option>
+                        <option value="">{t("products.selectCategory")}</option>
                         {categories.map((category) => (
                           <option key={category.id} value={category.id}>
-                            {category.name}
+                            {translateCategory(category.name)}
                           </option>
                         ))}
                       </select>
@@ -466,7 +466,7 @@ export default function Products() {
                             {/* Variant Image Upload */}
                             <div>
                               <Label className="text-sm font-medium">
-                                Variant Image (Optional)
+                                {t("products.variantImageOptional")}
                               </Label>
                               <div className="mt-2">
                                 {variant.image ? (
@@ -484,7 +484,7 @@ export default function Products() {
                                         updateVariant(index, "image", "")
                                       }
                                     >
-                                      Remove Image
+                                      {t("products.removeImage")}
                                     </Button>
                                   </div>
                                 ) : (
@@ -519,7 +519,7 @@ export default function Products() {
                                       className="cursor-pointer flex flex-col items-center justify-center text-sm text-gray-600 hover:text-gray-800"
                                     >
                                       <Plus className="w-6 h-6 mb-1" />
-                                      Upload Image
+                                      {t("products.uploadImage")}
                                     </label>
                                   </div>
                                 )}

@@ -72,6 +72,12 @@ const translations = {
     "products.uploadImages": "Upload Images",
     "products.images": "images",
     "products.noImages": "No images uploaded yet",
+    // Added keys
+    "products.category": "Category",
+    "products.selectCategory": "Select Category",
+    "products.variantImageOptional": "Variant Image (Optional)",
+    "products.removeImage": "Remove Image",
+    "products.uploadImage": "Upload Image",
 
     // Orders
     "orders.title": "Orders",
@@ -127,6 +133,8 @@ const translations = {
     "orders.selectProduct": "Select product",
     "orders.selectVariant": "Select variant",
     "orders.notesPlaceholder": "Special instructions or notes...",
+    // Added key
+    "orders.refresh": "Refresh",
 
     // Customers
     "customers.title": "Customers",
@@ -286,6 +294,13 @@ const translations = {
     "category.electronics": "Electronics",
     "category.accessories": "Accessories",
     "category.homeOffice": "Home & Office",
+    // Category dialogs
+    "categories.deleteTitle": "Delete Category",
+    "categories.deleteMessage": "Are you sure you want to delete this category? This action cannot be undone.",
+    "categories.deleteSuccess": "Category deleted successfully.",
+    "categories.cannotDeleteTitle": "Cannot Delete Category",
+    "categories.cannotDeleteMessage": "This category is being used by {count} product(s). Please remove the category from all products before deleting it.",
+    "categories.nameRequired": "Category name is required.",
   },
   ar: {
     // Navigation
@@ -337,6 +352,12 @@ const translations = {
     "products.uploadImages": "رفع الصور",
     "products.images": "صور",
     "products.noImages": "لم يتم رفع أي صور بعد",
+    // Added keys (AR)
+    "products.category": "التصنيف",
+    "products.selectCategory": "اختر التصنيف",
+    "products.variantImageOptional": "صورة النوع (اختياري)",
+    "products.removeImage": "إزالة الصورة",
+    "products.uploadImage": "رفع صورة",
 
     // Orders
     "orders.title": "الطلبات",
@@ -391,6 +412,8 @@ const translations = {
     "orders.selectProduct": "اختر المنتج",
     "orders.selectVariant": "اختر النوع",
     "orders.notesPlaceholder": "تعليمات خاصة أو ملاحظات...",
+    // Added key
+    "orders.refresh": "تحديث",
 
     // Customers
     "customers.title": "العملاء",
@@ -412,13 +435,13 @@ const translations = {
     "customers.customerHome": "المنزل:",
     "customers.customerRoad": "الطريق:",
     "customers.customerBlock": "المجمع:",
-    "customers.customerTown": "ا��منطقة:",
+    "customers.customerTown": "المنطقة:",
     "customers.save": "حفظ",
 
     // Revenue
     "revenue.title": "تحليلات الإيرادات",
     "revenue.overview": "نظرة عامة على الإيرادات",
-    "revenue.totalRevenue": "إجمالي ��لإيرادات",
+    "revenue.totalRevenue": "إجمالي الإيرادات",
     "revenue.ordersCount": "عدد الطلبات",
     "revenue.avgOrderValue": "متوسط قيمة الطلب",
     "revenue.monthlyTrend": "اتجاه الإيرادات الشهرية",
@@ -465,7 +488,7 @@ const translations = {
     // Messages
     "message.deleteConfirm": "هل أنت متأكد من حذف هذا العنصر؟",
     "message.productAdded": "تم إضافة المنتج بنجاح",
-    "message.productUpdated": "تم تحديث المنت�� بنجاح",
+    "message.productUpdated": "تم تحديث المنتج بنجاح",
     "message.productDeleted": "تم حذف المنتج بنجاح",
     "message.orderAdded": "تم إضافة الطلب بنجاح",
     "message.orderUpdated": "تم تحديث الطلب بنجاح",
@@ -497,7 +520,7 @@ const translations = {
     "store.cartEmpty": "سلتك فارغة",
     "store.cartTotal": "إجمالي السلة",
     "store.checkout": "إتمام الطلب",
-    "store.continueShopping": "متابعة الت��وق",
+    "store.continueShopping": "متابعة التسوق",
     "store.removeFromCart": "إزالة من السلة",
     "store.updateQuantity": "تحديث الكمية",
     "store.clearCart": "إفراغ السلة",
@@ -551,6 +574,13 @@ const translations = {
     "category.electronics": "الأجهزة الإلكترونية",
     "category.accessories": "الإكسسوارات",
     "category.homeOffice": "المنزل والمكتب",
+    // Category dialogs
+    "categories.deleteTitle": "حذف التصنيف",
+    "categories.deleteMessage": "هل أنت متأكد من حذف هذا التصنيف؟ هذا الإجراء لا يمكن التراجع عنه.",
+    "categories.deleteSuccess": "تم حذف التصنيف بنجاح.",
+    "categories.cannotDeleteTitle": "لا يمكن حذف التصنيف",
+    "categories.cannotDeleteMessage": "هذا التصنيف مستخدم في {count} منتج. يرجى إزالة التصنيف من جميع المنتجات قبل الحذف.",
+    "categories.nameRequired": "اسم التصنيف مطلوب.",
   },
 } as const;
 

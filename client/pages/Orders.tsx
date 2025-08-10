@@ -57,6 +57,7 @@ export default function Orders() {
     getCustomerById,
     getProductById,
     getVariantById,
+    refetchData,
   } = useData();
   const { showConfirm, showAlert } = useDialog();
   const { t } = useLanguage();
@@ -292,287 +293,292 @@ export default function Orders() {
           </h1>
           <p className="text-gray-600 mt-2">{t("orders.subtitle")}</p>
         </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button
-              onClick={() => openDialog()}
-              className="bg-dashboard-primary hover:bg-dashboard-primary-light"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              {t("orders.addNew")}
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>
-                {editingOrder ? t("orders.editOrder") : t("orders.addOrder")}
-              </DialogTitle>
-              <DialogDescription>
-                {editingOrder ? t("orders.editOrder") : t("orders.addOrder")}
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleSubmit}>
-              <div className="grid gap-6 py-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="customer">{t("orders.customer")}</Label>
-                  <Select
-                    value={formData.customerId}
-                    onValueChange={(value) =>
-                      setFormData((prev) => ({ ...prev, customerId: value }))
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder={t("orders.selectCustomer")} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {customers.map((customer) => (
-                        <SelectItem key={customer.id} value={customer.id}>
-                          {customer.name} - {customer.phone}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+        <div className="flex items-center gap-2">
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button
+                onClick={() => openDialog()}
+                className="bg-dashboard-primary hover:bg-dashboard-primary-light"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                {t("orders.addNew")}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>
+                  {editingOrder ? t("orders.editOrder") : t("orders.addOrder")}
+                </DialogTitle>
+                <DialogDescription>
+                  {editingOrder ? t("orders.editOrder") : t("orders.addOrder")}
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleSubmit}>
+                <div className="grid gap-6 py-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="customer">{t("orders.customer")}</Label>
+                    <Select
+                      value={formData.customerId}
+                      onValueChange={(value) =>
+                        setFormData((prev) => ({ ...prev, customerId: value }))
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder={t("orders.selectCustomer")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {customers.map((customer) => (
+                          <SelectItem key={customer.id} value={customer.id}>
+                            {customer.name} - {customer.phone}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-                <div className="grid gap-2">
-                  <Label>{t("nav.products")}</Label>
-                  <div className="space-y-4">
-                    {formData.items.map((item, index) => {
-                      const product = getProductById(item.productId);
-                      const availableVariants = getAvailableVariants(
-                        item.productId,
-                      );
-                      const selectedVariant =
-                        item.variantId && item.variantId !== "no-variant"
-                          ? getVariantById(item.productId, item.variantId)
-                          : null;
+                  <div className="grid gap-2">
+                    <Label>{t("nav.products")}</Label>
+                    <div className="space-y-4">
+                      {formData.items.map((item, index) => {
+                        const product = getProductById(item.productId);
+                        const availableVariants = getAvailableVariants(
+                          item.productId,
+                        );
+                        const selectedVariant =
+                          item.variantId && item.variantId !== "no-variant"
+                            ? getVariantById(item.productId, item.variantId)
+                            : null;
 
-                      return (
-                        <div
-                          key={index}
-                          className="flex gap-2 items-end p-4 border rounded-lg"
-                        >
-                          <div className="flex-1">
-                            <Label>{t("orders.product")}</Label>
-                            <Select
-                              value={item.productId}
-                              onValueChange={(value) =>
-                                updateOrderItem(index, "productId", value)
-                              }
-                            >
-                              <SelectTrigger>
-                                <SelectValue
-                                  placeholder={t("orders.selectProduct")}
-                                />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {products.map((product) => (
-                                  <SelectItem
-                                    key={product.id}
-                                    value={product.id}
-                                  >
-                                    {product.name} - ${product.price}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-
-                          {availableVariants.length > 0 && (
+                        return (
+                          <div
+                            key={index}
+                            className="flex gap-2 items-end p-4 border rounded-lg"
+                          >
                             <div className="flex-1">
-                              <Label>{t("orders.variant")}</Label>
+                              <Label>{t("orders.product")}</Label>
                               <Select
-                                value={item.variantId || "no-variant"}
+                                value={item.productId}
                                 onValueChange={(value) =>
-                                  updateOrderItem(index, "variantId", value)
+                                  updateOrderItem(index, "productId", value)
                                 }
                               >
                                 <SelectTrigger>
                                   <SelectValue
-                                    placeholder={t("orders.selectVariant")}
+                                    placeholder={t("orders.selectProduct")}
                                   />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="no-variant">
-                                    {t("orders.variant")}
-                                  </SelectItem>
-                                  {availableVariants.map((variant) => (
+                                  {products.map((product) => (
                                     <SelectItem
-                                      key={variant.id}
-                                      value={variant.id}
+                                      key={product.id}
+                                      value={product.id}
                                     >
-                                      {variant.name} ({t("products.stock")}:{" "}
-                                      {variant.stock})
+                                      {product.name} - ${product.price}
                                     </SelectItem>
                                   ))}
                                 </SelectContent>
                               </Select>
                             </div>
-                          )}
 
-                          <div className="w-24">
-                            <Label>{t("orders.quantity")}</Label>
-                            <Input
-                              type="number"
-                              min="1"
-                              max={
-                                selectedVariant
-                                  ? selectedVariant.stock
-                                  : product?.totalStock || 999
-                              }
-                              value={item.quantity === 0 ? "" : item.quantity}
-                              onChange={(e) =>
-                                updateOrderItem(
-                                  index,
-                                  "quantity",
-                                  parseInt(e.target.value) || 1,
-                                )
-                              }
-                              onFocus={(e) => {
-                                if (e.target.value === "0") {
-                                  e.target.value = "";
+                            {availableVariants.length > 0 && (
+                              <div className="flex-1">
+                                <Label>{t("orders.variant")}</Label>
+                                <Select
+                                  value={item.variantId || "no-variant"}
+                                  onValueChange={(value) =>
+                                    updateOrderItem(index, "variantId", value)
+                                  }
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue
+                                      placeholder={t("orders.selectVariant")}
+                                    />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="no-variant">
+                                      {t("orders.variant")}
+                                    </SelectItem>
+                                    {availableVariants.map((variant) => (
+                                      <SelectItem
+                                        key={variant.id}
+                                        value={variant.id}
+                                      >
+                                        {variant.name} ({t("products.stock")}:{" "}
+                                        {variant.stock})
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                            )}
+
+                            <div className="w-24">
+                              <Label>{t("orders.quantity")}</Label>
+                              <Input
+                                type="number"
+                                min="1"
+                                max={
+                                  selectedVariant
+                                    ? selectedVariant.stock
+                                    : product?.totalStock || 999
                                 }
-                              }}
-                            />
-                          </div>
-                          <div className="w-24">
-                            <Label>{t("orders.price")}</Label>
-                            <Input
-                              type="number"
-                              step="0.01"
-                              value={item.price === 0 ? "" : item.price}
-                              onChange={(e) =>
-                                updateOrderItem(
-                                  index,
-                                  "price",
-                                  parseFloat(e.target.value) || 0,
-                                )
-                              }
-                              onFocus={(e) => {
-                                if (e.target.value === "0") {
-                                  e.target.value = "";
+                                value={item.quantity === 0 ? "" : item.quantity}
+                                onChange={(e) =>
+                                  updateOrderItem(
+                                    index,
+                                    "quantity",
+                                    parseInt(e.target.value) || 1,
+                                  )
                                 }
-                              }}
-                            />
+                                onFocus={(e) => {
+                                  if (e.target.value === "0") {
+                                    e.target.value = "";
+                                  }
+                                }}
+                              />
+                            </div>
+                            <div className="w-24">
+                              <Label>{t("orders.price")}</Label>
+                              <Input
+                                type="number"
+                                step="0.01"
+                                value={item.price === 0 ? "" : item.price}
+                                onChange={(e) =>
+                                  updateOrderItem(
+                                    index,
+                                    "price",
+                                    parseFloat(e.target.value) || 0,
+                                  )
+                                }
+                                onFocus={(e) => {
+                                  if (e.target.value === "0") {
+                                    e.target.value = "";
+                                  }
+                                }}
+                              />
+                            </div>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="icon"
+                              onClick={() => removeProductFromOrder(index)}
+                              className="text-red-600 hover:text-red-700"
+                            >
+                              <Minus className="w-4 h-4" />
+                            </Button>
                           </div>
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            onClick={() => removeProductFromOrder(index)}
-                            className="text-red-600 hover:text-red-700"
-                          >
-                            <Minus className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      );
-                    })}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={addProductToOrder}
-                      className="w-full"
-                    >
-                      <Plus className="w-4 h-4 mr-2" />
-                      {t("orders.addItem")}
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="status">{t("orders.status")}</Label>
-                    <Select
-                      value={formData.status}
-                      onValueChange={(value: Order["status"]) =>
-                        setFormData((prev) => ({ ...prev, status: value }))
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="processing">
-                          {t("orders.processing")}
-                        </SelectItem>
-                        <SelectItem value="ready">
-                          {t("orders.ready")}
-                        </SelectItem>
-                        <SelectItem value="delivered">
-                          {t("orders.delivered")}
-                        </SelectItem>
-                        <SelectItem value="picked-up">
-                          {t("orders.pickedUp")}
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                        );
+                      })}
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={addProductToOrder}
+                        className="w-full"
+                      >
+                        <Plus className="w-4 h-4 mr-2" />
+                        {t("orders.addItem")}
+                      </Button>
+                    </div>
                   </div>
 
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="status">{t("orders.status")}</Label>
+                      <Select
+                        value={formData.status}
+                        onValueChange={(value: Order["status"]) =>
+                          setFormData((prev) => ({ ...prev, status: value }))
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="processing">
+                            {t("orders.processing")}
+                          </SelectItem>
+                          <SelectItem value="ready">
+                            {t("orders.ready")}
+                          </SelectItem>
+                          <SelectItem value="delivered">
+                            {t("orders.delivered")}
+                          </SelectItem>
+                          <SelectItem value="picked-up">
+                            {t("orders.pickedUp")}
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="grid gap-2">
+                      <Label htmlFor="deliveryType">
+                        {t("orders.deliveryType")}
+                      </Label>
+                      <Select
+                        value={formData.deliveryType}
+                        onValueChange={(value: Order["deliveryType"]) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            deliveryType: value,
+                          }))
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="delivery">
+                            {t("orders.delivery")}
+                          </SelectItem>
+                          <SelectItem value="pickup">
+                            {t("orders.pickup")}
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
                   <div className="grid gap-2">
-                    <Label htmlFor="deliveryType">
-                      {t("orders.deliveryType")}
-                    </Label>
-                    <Select
-                      value={formData.deliveryType}
-                      onValueChange={(value: Order["deliveryType"]) =>
+                    <Label htmlFor="notes">{t("orders.notes")}</Label>
+                    <Textarea
+                      id="notes"
+                      value={formData.notes}
+                      onChange={(e) =>
                         setFormData((prev) => ({
                           ...prev,
-                          deliveryType: value,
+                          notes: e.target.value,
                         }))
                       }
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="delivery">
-                          {t("orders.delivery")}
-                        </SelectItem>
-                        <SelectItem value="pickup">
-                          {t("orders.pickup")}
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                      placeholder={t("orders.notesPlaceholder")}
+                      rows={3}
+                    />
+                  </div>
+
+                  <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                    <span className="font-medium">Total:</span>
+                    <span className="text-xl font-bold text-dashboard-primary">
+                      BD {calculateTotal().toFixed(2)}
+                    </span>
                   </div>
                 </div>
-
-                <div className="grid gap-2">
-                  <Label htmlFor="notes">{t("orders.notes")}</Label>
-                  <Textarea
-                    id="notes"
-                    value={formData.notes}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        notes: e.target.value,
-                      }))
-                    }
-                    placeholder={t("orders.notesPlaceholder")}
-                    rows={3}
-                  />
-                </div>
-
-                <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                  <span className="font-medium">Total:</span>
-                  <span className="text-xl font-bold text-dashboard-primary">
-                    BD {calculateTotal().toFixed(2)}
-                  </span>
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type="button" variant="outline" onClick={closeDialog}>
-                  {t("common.cancel")}
-                </Button>
-                <Button
-                  type="submit"
-                  className="bg-dashboard-primary hover:bg-dashboard-primary-light"
-                >
-                  {editingOrder ? t("orders.save") : t("orders.addOrder")}
-                </Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
+                <DialogFooter>
+                  <Button type="button" variant="outline" onClick={closeDialog}>
+                    {t("common.cancel")}
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="bg-dashboard-primary hover:bg-dashboard-primary-light"
+                  >
+                    {editingOrder ? t("orders.save") : t("orders.addOrder")}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
+          <Button variant="outline" onClick={refetchData}>
+            {t("orders.refresh")}
+          </Button>
+        </div>
       </div>
 
       {/* Search Bar */}

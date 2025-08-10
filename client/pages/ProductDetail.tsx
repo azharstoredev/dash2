@@ -33,6 +33,7 @@ interface Product {
     id: string;
     name: string;
     stock: number;
+    image?: string; // Added image field for variants
   }>;
   total_stock: number;
 }
@@ -63,14 +64,21 @@ export default function ProductDetail() {
         const response = await fetch(`/api/products/${id}`);
         if (response.ok) {
           const product = await response.json();
-          setProduct(product);
+          const normalized = {
+            ...product,
+            total_stock: product.total_stock ?? product.totalStock ?? 0,
+          };
+          setProduct(normalized);
         } else if (response.status === 404) {
           setProduct(null);
         } else {
           // Fallback to getting all products
           const products = await getProducts();
           const foundProduct = products.find((p) => p.id === id);
-          setProduct(foundProduct || null);
+          const normalized = foundProduct
+            ? { ...foundProduct, total_stock: foundProduct.total_stock ?? foundProduct.totalStock ?? 0 }
+            : null;
+          setProduct(normalized || null);
         }
       } catch (error) {
         console.error("Failed to fetch product:", error);
@@ -197,26 +205,28 @@ export default function ProductDetail() {
               )}
             </div>
 
-            {/* Image Thumbnails */}
-            {product.images.length > 1 && (
+            {/* Image Thumbnails incl. variant images */}
+            {(product.images.length > 1 || product.variants.some((v) => v.image)) && (
               <div className="grid grid-cols-4 gap-2">
-                {product.images.map((image, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedImageIndex(index)}
-                    className={`aspect-square overflow-hidden rounded-lg border-2 transition-all ${
-                      selectedImageIndex === index
-                        ? "border-primary ring-2 ring-primary/20"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                  >
-                    <img
-                      src={image}
-                      alt={`${product.name} ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
+                {[...product.images, ...product.variants.filter((v) => v.image).map((v) => v.image as string)].map(
+                  (image, index) => (
+                    <button
+                      key={`${image}-${index}`}
+                      onClick={() => setSelectedImageIndex(index)}
+                      className={`aspect-square overflow-hidden rounded-lg border-2 transition-all ${
+                        selectedImageIndex === index
+                          ? "border-primary ring-2 ring-primary/20"
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      <img
+                        src={image}
+                        alt={`${product.name} ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ),
+                )}
               </div>
             )}
           </div>

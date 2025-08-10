@@ -41,7 +41,7 @@ interface Product {
 
 export default function Store() {
   const navigate = useNavigate();
-  const { t, language, setLanguage } = useLanguage();
+  const { t, language, setLanguage, translateCategory } = useLanguage();
   const { getTotalItems, setIsCartOpen, isCartOpen } = useCart();
   const { categories, getCategoryById } = useData();
   const [products, setProducts] = useState<Product[]>([]);
@@ -56,8 +56,14 @@ export default function Store() {
     const fetchProducts = async () => {
       try {
         const data = await getProducts();
-        setProducts(data);
-        setFilteredProducts(data);
+        // Normalize category field for filtering
+        const normalized = data.map((p: any) => ({
+          ...p,
+          categoryId: p.categoryId || p.category_id || "",
+          total_stock: p.total_stock ?? p.totalStock ?? 0,
+        }));
+        setProducts(normalized);
+        setFilteredProducts(normalized);
       } catch (error) {
         console.error("Failed to fetch products:", error);
       } finally {
@@ -170,74 +176,58 @@ export default function Store() {
       {/* Search and Category Filter */}
       <div className="border-b bg-gray-50/50">
         <div className="container mx-auto px-4 py-6 space-y-4">
-          {/* Search Bar */}
-          <div className="max-w-md mx-auto relative">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground [dir=rtl]:left-auto [dir=rtl]:right-3" />
-              <Input
-                type="text"
-                placeholder={t("store.search")}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-10 [dir=rtl]:pl-10 [dir=rtl]:pr-10 text-center [dir=rtl]:text-right [dir=ltr]:text-left"
-              />
+          {/* Search Bar + Categories row */}
+          <div className="flex flex-col gap-4">
+            <div className="max-w-2xl mx-auto w-full relative">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground [dir=rtl]:left-auto [dir=rtl]:right-3" />
+                <Input
+                  type="text"
+                  placeholder={t("store.search")}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 pr-10 [dir=rtl]:pl-10 [dir=rtl]:pr-10 text-center [dir=rtl]:text-right [dir=ltr]:text-left"
+                />
+                {searchQuery && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearSearch}
+                    className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 [dir=rtl]:right-auto [dir=rtl]:left-1"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
               {searchQuery && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={clearSearch}
-                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 [dir=rtl]:right-auto [dir=rtl]:left-1"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
+                <p className="text-sm text-muted-foreground mt-2 text-center">
+                  {filteredProducts.length} {t("store.searchResults")}
+                </p>
               )}
             </div>
-            {searchQuery && (
-              <p className="text-sm text-muted-foreground mt-2 text-center">
-                {filteredProducts.length} {t("store.searchResults")}
-              </p>
-            )}
-          </div>
 
-          {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-2">
-            <Button
-              variant={selectedCategory === "all" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSelectedCategory("all")}
-              className="rounded-full"
-            >
-              {t("store.allProducts")}
-            </Button>
-            {categories.map((category) => {
-              // Map category names to translation keys
-              const getTranslatedCategoryName = (name: string) => {
-                switch (name.toLowerCase()) {
-                  case "electronics":
-                    return t("category.electronics");
-                  case "accessories":
-                    return t("category.accessories");
-                  case "home & office":
-                    return t("category.homeOffice");
-                  default:
-                    return name;
-                }
-              };
-
-              return (
+            {/* Category chips aligned with search */}
+            <div className="flex flex-wrap justify-center gap-2">
+              <Button
+                variant={selectedCategory === "all" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedCategory("all")}
+                className="rounded-full"
+              >
+                {t("store.allProducts")}
+              </Button>
+              {categories.map((category) => (
                 <Button
                   key={category.id}
-                  variant={
-                    selectedCategory === category.id ? "default" : "outline"
-                  }
+                  variant={selectedCategory === category.id ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedCategory(category.id)}
                   className="rounded-full"
                 >
-                  {getTranslatedCategoryName(category.name)}
+                  {translateCategory(category.name)}
                 </Button>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </div>
       </div>
