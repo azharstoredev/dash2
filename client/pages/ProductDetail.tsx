@@ -33,6 +33,7 @@ interface Product {
     id: string;
     name: string;
     stock: number;
+    image?: string; // Added image property
   }>;
   total_stock: number;
 }
@@ -256,10 +257,19 @@ export default function ProductDetail() {
                     {product.variants.map((variant) => (
                       <div
                         key={variant.id}
-                        className="p-3 border rounded-lg text-center"
+                        className="p-3 border rounded-lg text-center space-y-2"
                       >
-                        <div className="font-medium">{variant.name}</div>
-                        <div className="text-sm text-muted-foreground">
+                        {/** Variant image if available */}
+                        {/** @ts-ignore variant may have image */}
+                        {variant.image ? (
+                          <img
+                            src={/* @ts-ignore */ variant.image}
+                            alt={variant.name}
+                            className="w-full h-24 object-cover rounded"
+                          />
+                        ) : null}
+                        <div className="font-medium auto-text">{variant.name}</div>
+                        <div className="text-sm text-muted-foreground auto-text">
                           {variant.stock} {t("products.stock")}
                         </div>
                       </div>

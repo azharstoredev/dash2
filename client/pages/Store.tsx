@@ -74,9 +74,10 @@ export default function Store() {
 
     // Filter by category
     if (selectedCategory !== "all") {
-      filtered = filtered.filter(
-        (product) => product.categoryId === selectedCategory,
-      );
+      filtered = filtered.filter((product: any) => {
+        const pid = product.categoryId || product.category_id;
+        return pid === selectedCategory;
+      });
     }
 
     // Filter by search query
@@ -171,73 +172,53 @@ export default function Store() {
       <div className="border-b bg-gray-50/50">
         <div className="container mx-auto px-4 py-6 space-y-4">
           {/* Search Bar */}
-          <div className="max-w-md mx-auto relative">
+          <div className="flex flex-col gap-3">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground [dir=rtl]:left-auto [dir=rtl]:right-3" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground [dir=rtl]:left-auto [dir=rtl]:right-3" />
               <Input
                 type="text"
                 placeholder={t("store.search")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-10 [dir=rtl]:pl-10 [dir=rtl]:pr-10 text-center [dir=rtl]:text-right [dir=ltr]:text-left"
+                className="pl-10 pr-10 [dir=rtl]:pl-10 [dir=rtl]:pr-10"
               />
               {searchQuery && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={clearSearch}
-                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 [dir=rtl]:right-auto [dir=rtl]:left-1"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 p-0 [dir=rtl]:right-auto [dir=rtl]:left-1"
                 >
                   <X className="h-4 w-4" />
                 </Button>
               )}
             </div>
-            {searchQuery && (
-              <p className="text-sm text-muted-foreground mt-2 text-center">
-                {filteredProducts.length} {t("store.searchResults")}
-              </p>
-            )}
-          </div>
-
-          {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-2">
-            <Button
-              variant={selectedCategory === "all" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSelectedCategory("all")}
-              className="rounded-full"
-            >
-              {t("store.allProducts")}
-            </Button>
-            {categories.map((category) => {
-              // Map category names to translation keys
-              const getTranslatedCategoryName = (name: string) => {
-                switch (name.toLowerCase()) {
-                  case "electronics":
-                    return t("category.electronics");
-                  case "accessories":
-                    return t("category.accessories");
-                  case "home & office":
-                    return t("category.homeOffice");
-                  default:
-                    return name;
-                }
-              };
-
-              return (
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                variant={selectedCategory === "all" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedCategory("all")}
+                className="rounded-full"
+              >
+                {t("store.allProducts")}
+              </Button>
+              {categories.map((category) => (
                 <Button
                   key={category.id}
-                  variant={
-                    selectedCategory === category.id ? "default" : "outline"
-                  }
+                  variant={selectedCategory === category.id ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedCategory(category.id)}
                   className="rounded-full"
                 >
-                  {getTranslatedCategoryName(category.name)}
+                  {category.name}
                 </Button>
-              );
-            })}
+              ))}
+            </div>
+            {searchQuery && (
+              <p className="text-sm text-muted-foreground">
+                {filteredProducts.length} {t("store.searchResults")}
+              </p>
+            )}
           </div>
         </div>
       </div>

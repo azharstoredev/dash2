@@ -72,6 +72,10 @@ const translations = {
     "products.uploadImages": "Upload Images",
     "products.images": "images",
     "products.noImages": "No images uploaded yet",
+    "products.variantImageOptional": "Variant Image (Optional)",
+    "categories.deleteConfirmTitle": "Delete Category",
+    "categories.deleteConfirmMessage": "Are you sure you want to delete this category? This action cannot be undone.",
+    "categories.deletedSuccess": "Category deleted successfully.",
 
     // Orders
     "orders.title": "Orders",
@@ -185,6 +189,7 @@ const translations = {
     "common.no": "No",
     "common.back": "Back",
     "common.next": "Next",
+    "common.refresh": "Refresh",
 
     // Empty states
     "empty.noProductsFound": "No products found",
@@ -337,6 +342,10 @@ const translations = {
     "products.uploadImages": "رفع الصور",
     "products.images": "صور",
     "products.noImages": "لم يتم رفع أي صور بعد",
+    "products.variantImageOptional": "صورة النوع (اختياري)",
+    "categories.deleteConfirmTitle": "حذف التصنيف",
+    "categories.deleteConfirmMessage": "هل أنت متأكد من حذف هذا التصنيف؟ هذا الإجراء لا يمكن التراجع عنه.",
+    "categories.deletedSuccess": "تم حذف التصنيف بنجاح.",
 
     // Orders
     "orders.title": "الطلبات",
@@ -449,6 +458,7 @@ const translations = {
     "common.no": "لا",
     "common.back": "السابق",
     "common.next": "التالي",
+    "common.refresh": "تحديث",
 
     // Empty states
     "empty.noProductsFound": "لا توجد منتجات",

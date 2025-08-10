@@ -22,6 +22,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { useData as useDataCtx } from "@/contexts/DataContext";
 import {
   Select,
   SelectContent,
@@ -46,6 +47,7 @@ import {
 } from "lucide-react";
 
 export default function Orders() {
+  const { refetchData } = useDataCtx();
   const {
     orders,
     customers,
@@ -291,6 +293,11 @@ export default function Orders() {
             {t("orders.title")}
           </h1>
           <p className="text-gray-600 mt-2">{t("orders.subtitle")}</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => refetchData()}>
+            {t("common.refresh")}
+          </Button>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>

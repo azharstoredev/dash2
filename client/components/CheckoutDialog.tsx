@@ -260,7 +260,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
             </div>
             <div className="space-y-2">
               <p className="text-sm font-medium">{t("checkout.orderNumber")}:</p>
-              <Badge variant="outline" className="text-lg px-4 py-2 font-mono">
+              <Badge variant="outline" className="text-lg px-4 py-2 font-mono ltr-text">
                 #{orderNumber}
               </Badge>
             </div>
