@@ -426,9 +426,15 @@ export const categoryDb = {
     }
 
     try {
+      const insertPayload = {
+        id: newCategory.id,
+        name: newCategory.name,
+        created_at: newCategory.created_at,
+      };
+
       const { data, error } = await supabase
         .from("categories")
-        .insert([category])
+        .insert([insertPayload])
         .select()
         .single();
 

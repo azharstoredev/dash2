@@ -141,9 +141,21 @@ export const orderDb = {
     }
 
     try {
+      const insertPayload = {
+        id: newOrder.id,
+        customer_id: newOrder.customer_id,
+        items: newOrder.items,
+        total: newOrder.total,
+        status: newOrder.status,
+        delivery_type: newOrder.delivery_type,
+        notes: newOrder.notes,
+        created_at: newOrder.created_at,
+        updated_at: newOrder.updated_at,
+      };
+
       const { data, error } = await supabase
         .from("orders")
-        .insert([newOrder])
+        .insert([insertPayload])
         .select()
         .single();
 
@@ -195,9 +207,19 @@ export const orderDb = {
     }
 
     try {
+      const payload: any = { updated_at: new Date().toISOString() };
+      if (updates.items !== undefined) payload.items = updates.items;
+      if (updates.total !== undefined) payload.total = updates.total;
+      if (updates.status !== undefined) payload.status = updates.status;
+      if (updates.deliveryType !== undefined)
+        payload.delivery_type = updates.deliveryType;
+      if (updates.notes !== undefined) payload.notes = updates.notes;
+      if (updates.customerId !== undefined)
+        payload.customer_id = updates.customerId;
+
       const { data, error } = await supabase
         .from("orders")
-        .update({ ...updates, updated_at: new Date().toISOString() })
+        .update(payload)
         .eq("id", id)
         .select()
         .single();
