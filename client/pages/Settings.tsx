@@ -308,6 +308,44 @@ export default function Settings() {
     }
   };
 
+  const fixCharacters = async () => {
+    setIsFixingCharacters(true);
+    try {
+      const response = await fetch('/api/system/fix-characters', {
+        method: 'POST',
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        showAlert({
+          title: "Character Fix Complete",
+          message: `Successfully fixed ${result.totalFixes} corrupted characters across ${result.fixReport.length} files. The page will refresh to apply changes.`,
+          type: "success",
+        });
+
+        // Refresh the page after a short delay to see the fixes
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        showAlert({
+          title: "Character Fix Failed",
+          message: result.error || "Failed to fix characters",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      showAlert({
+        title: "Character Fix Error",
+        message: "Network error while trying to fix characters",
+        type: "error",
+      });
+    } finally {
+      setIsFixingCharacters(false);
+    }
+  };
+
   const tabs = [
     { id: "basic", label: t("settings.basicSettings"), icon: Store },
     { id: "delivery", label: t("settings.deliverySettings"), icon: Truck },
