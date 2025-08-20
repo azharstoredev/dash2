@@ -565,13 +565,13 @@ const translations = {
     // Added keys (AR)
     "products.category": "التصنيف",
     "products.selectCategory": "اختر التصنيف",
-    "products.variantImageOptional": "صورة النوع (اختياري)",
+    "products.variantImageOptional": "صورة الن��ع (اختياري)",
     "products.removeImage": "إزالة الصورة",
     "products.uploadImage": "رفع صورة",
 
     // Orders
     "orders.title": "الطلبات",
-    "orders.subtitle": "����دارة طلبات العملاء والتوصيل",
+    "orders.subtitle": "إدارة طلبات العملاء والتوصيل",
     "orders.addNew": "إضافة طلب جديد",
     "orders.search": "البحث في الطلبات...",
     "orders.orderId": "رقم الطلب",
@@ -599,7 +599,7 @@ const translations = {
     "orders.delivery": "توصيل",
     "orders.pickup": "استلام",
     "orders.processing": "قيد المعالجة",
-    "orders.ready": "جا��ز",
+    "orders.ready": "جاهز",
     "orders.delivered": "تم التسليم",
     "orders.pickedUp": "تم الاستلام",
     "orders.orderDetails": "تفاصيل الطلب",
@@ -623,7 +623,7 @@ const translations = {
     "orders.selectVariant": "اختر النوع",
     "orders.notesPlaceholder": "تعليمات خاصة أو ملاحظات...",
     // Added key
-    "orders.refresh": "تحدي��",
+    "orders.refresh": "تحديث",
 
     // Customers
     "customers.title": "العملاء",
@@ -729,7 +729,7 @@ const translations = {
     // Store
     "store.title": "المتجر",
     "store.cart": "السلة",
-    "store.addToCart": "إضافة للسلة",
+    "store.addToCart": "إضافة للسل��",
     "store.quantity": "الكمية",
     "store.variant": "النوع",
     "store.selectVariant": "اختر النوع",
@@ -799,7 +799,7 @@ const translations = {
     "categories.deleteTitle": "حذف التصنيف",
     "categories.deleteMessage":
       "هل أنت متأكد من حذف هذا التصنيف؟ هذا الإجراء لا يمكن التراجع عنه.",
-    "categories.deleteSuccess": "تم حذف التصنيف بنجاح.",
+    "categories.deleteSuccess": "تم ��ذف التصنيف بنجاح.",
     "categories.cannotDeleteTitle": "لا يمكن حذف التصنيف",
     "categories.cannotDeleteMessage":
       "هذا التصنيف مستخدم في {count} م��تج. ير��ى إزالة التص��يف من جميع المنتجات قبل الحذف.",
@@ -884,7 +884,7 @@ const translations = {
     "settings.pickupAddressEn": "عنوان الاستلام (إنجليزي)",
     "settings.pickupAddressAr": "عنوان الاستلام (عربي)",
     "settings.deliveryAreas": "مناطق التوصيل",
-    "settings.addDeliveryArea": "إضافة منطقة توصيل",
+    "settings.addDeliveryArea": "إضافة منطقة توص��ل",
     "settings.removeDeliveryArea": "إزالة",
     "settings.operationalSettings": "الإعدادات التشغيلية",
     "settings.uiBehavior": "سلوك الواجهة",
