@@ -76,12 +76,24 @@ export const createOrder: RequestHandler = async (req, res) => {
       }
     }
 
+    // Calculate expected total
     const itemsTotal = items.reduce(
-      (sum: number, item: OrderItem) => sum + item.price * item.quantity,
+      (sum: number, item: OrderItem) => sum + (item.price * item.quantity),
       0,
     );
     const deliveryFee = deliveryType === "delivery" ? 1.5 : 0;
-    const total = itemsTotal + deliveryFee;
+    const expectedTotal = itemsTotal + deliveryFee;
+
+    // Use the total from request if provided, otherwise use calculated total
+    const finalTotal = total !== undefined ? total : expectedTotal;
+
+    console.log("Total calculation:", {
+      itemsTotal: itemsTotal.toFixed(2),
+      deliveryFee: deliveryFee.toFixed(2),
+      expectedTotal: expectedTotal.toFixed(2),
+      requestTotal: total,
+      finalTotal: finalTotal.toFixed(2)
+    });
 
     const orderData = {
       customerId,
