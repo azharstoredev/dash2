@@ -519,7 +519,7 @@ const translations = {
     "common.item": "item",
     "common.items": "items",
     "common.itemAr": "منتج",
-    "common.itemsAr": "منتجات",
+    "common.itemsAr": "من��جات",
     "common.language": "Language",
     "common.languageAr": "العربية",
 
@@ -547,7 +547,7 @@ const translations = {
     "nav.adminPanel": "لوحة الإدارة",
 
     // Dashboard
-    "dashboard.title": "لوحة التحكم",
+    "dashboard.title": "ل��حة التحكم",
     "dashboard.totalRevenue": "إجمالي الإيرادات",
     "dashboard.totalOrders": "إجمالي الطلبات",
     "dashboard.recentOrders": "الطلبات الأخيرة",
@@ -673,7 +673,7 @@ const translations = {
     // Revenue
     "revenue.title": "تحليلات الإيرادات",
     "revenue.overview": "نظرة عامة على الإيرادات",
-    "revenue.totalRevenue": "إجمالي ا��إيرادات",
+    "revenue.totalRevenue": "إجمالي الإيرادات",
     "revenue.ordersCount": "عدد الطلبات",
     "revenue.avgOrderValue": "متوسط قيمة الطلب",
     "revenue.monthlyTrend": "اتجاه الإيرادات الشهرية",
@@ -705,14 +705,14 @@ const translations = {
     "common.back": "السابق",
     "common.next": "التالي",
     "common.success": "نجح",
-    "common.added": "تمت الإضاف��",
+    "common.added": "تمت الإضافة",
 
     // Empty states
     "empty.noProductsFound": "لا توجد منتجات",
     "empty.noCustomersFound": "لا يوجد عملاء",
     "empty.noOrdersFound": "لا توجد طلبات",
     "empty.adjustSearch": "حاول تعديل مصطلحات البحث",
-    "empty.addFirstProduct": "ابدأ بإضافة أول منتج لك",
+    "empty.addFirstProduct": "ابدأ ب��ضافة أول منتج لك",
     "empty.addFirstCustomer": "ابدأ بإضافة أول عميل لك",
     "empty.addFirstOrder": "ابدأ بإنشاء أول طلب لك",
     "empty.addProduct": "إضافة منتج",
@@ -728,12 +728,12 @@ const translations = {
     "message.orderUpdated": "تم تحديث الطلب بنجاح",
     "message.orderDeleted": "تم حذف الطلب بنجاح",
     "message.customerAdded": "تم إضافة العميل بنجاح",
-    "message.customerUpdated": "تم تحدي�� العميل بنجاح",
+    "message.customerUpdated": "تم تحديث العميل بنجاح",
     "message.customerDeleted": "تم حذف العميل بنجاح",
     "message.error": "حدث خطأ",
     "message.success": "تمت العملية بنجاح",
 
-    "message.customerSaveError": "فشل في حفظ العميل. يرجى المحاولة مرة أخرى.",
+    "message.customerSaveError": "فشل في حفظ العميل. يرجى المحاولة مر�� أخرى.",
     "message.productSaveError": "فشل في حفظ المنتج. يرجى المحاولة مرة أخرى.",
     "message.uploadError": "فشل في رفع الصور. يرجى المحاولة مرة أخرى.",
 
@@ -751,7 +751,7 @@ const translations = {
     // Store
     "store.title": "المتجر",
     "store.cart": "السلة",
-    "store.addToCart": "إضافة للسل��",
+    "store.addToCart": "إضافة للسلة",
     "store.quantity": "الكمية",
     "store.variant": "النوع",
     "store.selectVariant": "اختر النوع",
@@ -780,13 +780,13 @@ const translations = {
     "checkout.pickup": "استلام",
     "checkout.orderSummary": "ملخص الطلب",
     "checkout.subtotal": "المجموع الفرعي",
-    "checkout.deliveryFee": "رسوم الت��ص��ل",
+    "checkout.deliveryFee": "رسوم التوصيل",
     "checkout.total": "المجموع الكلي",
     "checkout.orderTotal": "إجمالي الطلب",
     "checkout.placeOrder": "إرسال الطلب",
     "checkout.orderSuccess": "تم تأكيد الطلب بنجاح!",
     "checkout.thankYou":
-      "شكراً لك على طلبك! لقد استلمنا طلبك وسنقوم بمعالجته قريباً.",
+      "شكراً لك على طلبك! لقد ا��تلمنا طلبك وسنقوم بمعالجته قريباً.",
     "checkout.orderNumber": "رقم الطلب",
     "checkout.backToStore": "العودة للمتجر",
     "checkout.noCreditCard": "لا حاجة لبطاقة ائتمان - الدفع عند التسليم فقط!",
@@ -800,7 +800,7 @@ const translations = {
     "checkout.contactPhone": "سيتم التواصل معك عبر الهاتف للتأكيد",
     "checkout.deliveryTime": "التوصيل خلال 1-3 أيام عمل",
     "checkout.importError":
-      "فشل في استيراد الإعدادات. يرجى الت��قق من تنسي�� الملف.",
+      "فشل في استيراد الإعدادات. يرجى التحقق من تنسيق الملف.",
 
     // Additional store keys
     "store.outOfStock": "نفد المخزون",
@@ -821,10 +821,10 @@ const translations = {
     "categories.deleteTitle": "حذف التصنيف",
     "categories.deleteMessage":
       "هل أنت متأكد من حذف هذا التصنيف؟ هذا الإجراء لا يمكن التراجع عنه.",
-    "categories.deleteSuccess": "تم ��ذف التصنيف بنجاح.",
+    "categories.deleteSuccess": "تم حذف التصنيف بنجاح.",
     "categories.cannotDeleteTitle": "لا يمكن حذف التصنيف",
     "categories.cannotDeleteMessage":
-      "هذا التصنيف مستخدم في {count} م��تج. ير��ى إزالة التص��يف من جميع المنتجات قبل الحذف.",
+      "هذا التصنيف مستخدم في {count} منتج. يرجى إزالة التصنيف من جميع المنتجات قبل الحذف.",
     "categories.nameRequired": "اسم التصنيف مطلوب.",
 
     // Analytics
@@ -851,7 +851,7 @@ const translations = {
     "analytics.orders": "الطلبات",
     "analytics.revenue": "الإيرادات (د.ب)",
     "analytics.visitors": "الزوار",
-    "analytics.last7days": "آخر 7 أيام",
+    "analytics.last7days": "آخر 7 أ��ام",
     "analytics.last30days": "آخر 30 يوماً",
     "analytics.last90days": "آخر 90 يوماً",
     "analytics.refresh": "تحديث",
@@ -890,7 +890,7 @@ const translations = {
     "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
     "settings.resetConfirm":
       "هل أنت متأكد من إعادة تعيين جميع الإعدادات للقيم الافتراضية؟",
-    "settings.unsavedChanges": "لديك تغي��رات غير ��حفوظة. لا تنس ا��حفظ!",
+    "settings.unsavedChanges": "لديك تغييرات غير محفوظة. لا تنس الحفظ!",
     "settings.advancedSettings": "الإعدادات المتقدمة",
     "settings.performanceMode": "وضع الأداء",
     "settings.imageCompression": "ضغط الصور",
@@ -908,8 +908,8 @@ const translations = {
     "settings.lowStockThreshold": "حد المخزون المنخفض",
     "settings.maxOrderQuantity": "الحد الأقصى لكمية الطلب",
     "settings.orderProcessingTime": "وقت معالجة الطلب",
-    "settings.performanceOptimization": "الأداء وا��تحسين",
-    "settings.userExperience": "��جربة المستخدم",
+    "settings.performanceOptimization": "الأداء والتحسين",
+    "settings.userExperience": "تجربة المستخدم",
     "settings.systemSettings": "إعدادات النظام",
 
     // Settings Tabs
@@ -928,7 +928,7 @@ const translations = {
     "settings.pickupAddressEn": "عنوان الاستلام (إنجليزي)",
     "settings.pickupAddressAr": "عنوان الاستلام (عربي)",
     "settings.deliveryAreas": "مناطق التوصيل",
-    "settings.addDeliveryArea": "إضافة منطقة توص��ل",
+    "settings.addDeliveryArea": "إضافة منطقة توصيل",
     "settings.removeDeliveryArea": "إزالة",
     "settings.operationalSettings": "الإعدادات التشغيلية",
     "settings.uiBehavior": "سلوك الواجهة",
@@ -946,11 +946,11 @@ const translations = {
     "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياطي",
     "settings.importDescription": "رفع ملف إعدادات مُصدّر مسبقاً",
     "settings.chooseFile": "اختر الملف",
-    "settings.noFileChosen": "لم يتم اخ��يار ملف",
-    "settings.displayOptions": "خيارات ��لعرض",
+    "settings.noFileChosen": "لم يتم اختيار ملف",
+    "settings.displayOptions": "خيارات العرض",
     "settings.paymentSettings": "إعدادات الدفع",
 
-    "settings.enablePerformanceMode": "وضع الأداء",
+    "settings.enablePerformanceMode": "��ضع الأداء",
     "settings.enableImageCompression": "ضغط الصور",
     "settings.maxImageSizeMB": "الحد الأقصى لحجم الصورة (ميجابايت)",
     "settings.enableAutoSave": "الحفظ التلقائي",
@@ -967,7 +967,7 @@ const translations = {
 
     // Store Information
     "settings.storeInformation": "معلومات المتجر",
-    "settings.storeName": "اسم ا��متج��",
+    "settings.storeName": "اسم المتجر",
     "settings.storeDescription": "وصف المتجر",
     "settings.currency": "العملة",
     "settings.currencySymbol": "رمز العملة",
@@ -1001,7 +1001,7 @@ const translations = {
     "settings.estimatedDeliveryTime": "الوقت المتوقع للتوصيل",
 
     // Order Messages
-    "settings.orderMessages": "رسائل الطلب��ت",
+    "settings.orderMessages": "رسائل الطلبات",
     "settings.englishMessages": "الرسائل الإنجليزية",
     "settings.arabicMessages": "الرسائل العربية",
     "settings.orderSuccessMessage": "رسالة نجاح الطلب",
@@ -1025,7 +1025,7 @@ const translations = {
     // Order success messages
     "orderSuccess.headline": "تم تأكيد الطلب!",
     "orderSuccess.headlineAr": "تم تأكيد الطلب!",
-    "orderSuccess.prepareOrder": "سنقوم بتجهيز طلبك خل��ل 2-4 ساعات",
+    "orderSuccess.prepareOrder": "سنقوم بتجهيز طلبك خلال 2-4 ساعات",
     "orderSuccess.prepareOrderAr": "سنقوم بتجهيز طلبك خلال 2-4 ساعات",
     "orderSuccess.contactPhone": "سيتم التواصل معك عبر الهاتف للتأكيد",
     "orderSuccess.contactPhoneAr": "سيتم التواصل معك عبر الهاتف للتأكيد",
