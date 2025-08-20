@@ -226,7 +226,10 @@ export default function Checkout() {
             {/* Delivery Options */}
             <Card>
               <CardHeader>
-                <CardTitle>{t("checkout.deliveryOptions")}</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Truck className="w-5 h-5 text-primary" />
+                  {t("checkout.deliveryOptions")}
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <RadioGroup
@@ -237,33 +240,58 @@ export default function Checkout() {
                 >
                   <div className="space-y-3">
                     <div
-                      className={`flex items-center space-x-2 [dir=rtl]:space-x-reverse p-4 border rounded-lg cursor-pointer ${
-                        deliveryType === "delivery" ? "border-primary bg-primary/5" : "hover:bg-gray-50"
+                      className={`flex items-center justify-between p-5 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
+                        deliveryType === "delivery"
+                          ? "border-primary bg-primary/10 shadow-md"
+                          : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                       }`}
                       onClick={() => setDeliveryType("delivery")}
                     >
-                      <RadioGroupItem value="delivery" id="delivery" />
-                      <Label htmlFor="delivery" className="font-medium">
-                        {t("checkout.delivery")}
-                      </Label>
+                      <div className="flex items-center gap-4">
+                        <RadioGroupItem value="delivery" id="delivery" className="w-5 h-5" />
+                        <div className="flex items-center gap-3">
+                          <Truck className="w-5 h-5 text-primary" />
+                          <div>
+                            <Label htmlFor="delivery" className="font-semibold text-lg cursor-pointer">
+                              {t("checkout.delivery")}
+                            </Label>
+                            <p className="text-sm text-gray-600 auto-text">
+                              {language === "ar" ? "التوصيل إلى عنوانك" : "We'll deliver to your address"}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                        {language === "ar" ? "د.ب 1.50" : "BD 1.50"}
+                      </Badge>
                     </div>
-                  </div>
 
-                  <div
-                    className={`flex items-center justify-between space-x-2 [dir=rtl]:space-x-reverse p-4 border rounded-lg cursor-pointer ${
-                      deliveryType === "pickup" ? "border-primary bg-primary/5" : "hover:bg-gray-50"
-                    }`}
-                    onClick={() => setDeliveryType("pickup")}
-                  >
-                    <div className="flex items-center space-x-2 [dir=rtl]:space-x-reverse">
-                      <RadioGroupItem value="pickup" id="pickup" />
-                      <Label htmlFor="pickup" className="font-medium">
-                        {t("checkout.pickup")}
-                      </Label>
+                    <div
+                      className={`flex items-center justify-between p-5 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
+                        deliveryType === "pickup"
+                          ? "border-primary bg-primary/10 shadow-md"
+                          : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                      }`}
+                      onClick={() => setDeliveryType("pickup")}
+                    >
+                      <div className="flex items-center gap-4">
+                        <RadioGroupItem value="pickup" id="pickup" className="w-5 h-5" />
+                        <div className="flex items-center gap-3">
+                          <MapPin className="w-5 h-5 text-green-600" />
+                          <div>
+                            <Label htmlFor="pickup" className="font-semibold text-lg cursor-pointer">
+                              {t("checkout.pickup")}
+                            </Label>
+                            <p className="text-sm text-gray-600 auto-text">
+                              {language === "ar" ? "الاستلام من المتجر" : "Pick up from our store"}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
+                        {language === "ar" ? "مجاني" : "Free"}
+                      </Badge>
                     </div>
-                    <Badge variant="secondary" className="text-green-700 bg-green-100">
-                      Free
-                    </Badge>
                   </div>
                 </RadioGroup>
               </CardContent>
