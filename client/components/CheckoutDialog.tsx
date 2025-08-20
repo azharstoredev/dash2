@@ -302,7 +302,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
     return (
       <Dialog open={open} onOpenChange={onClose}>
-        <DialogContent className="max-w-md w-[95vw] mx-auto p-0 bg-white rounded-2xl border-0 shadow-2xl max-h-[95vh] overflow-hidden">
+        <DialogContent className="max-w-lg w-[95vw] mx-auto p-0 bg-white rounded-2xl border-0 shadow-2xl max-h-[95vh] overflow-hidden">
           <div className="flex flex-col h-full">
             {/* Header with Success Animation */}
             <DialogHeader className="p-6 pb-4 border-b bg-gradient-to-br from-green-50 to-emerald-50">
