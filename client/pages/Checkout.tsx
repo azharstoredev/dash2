@@ -108,7 +108,13 @@ export default function Checkout() {
       clearCart();
     } catch (error) {
       console.error("Failed to place order:", error);
-      alert(t("message.error"));
+
+      // Show more specific error message
+      const errorMessage = error instanceof Error
+        ? error.message
+        : "An unknown error occurred while placing your order";
+
+      alert(`${t("message.error")}: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }
