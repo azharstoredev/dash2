@@ -519,7 +519,7 @@ const translations = {
     "common.item": "item",
     "common.items": "items",
     "common.itemAr": "منتج",
-    "common.itemsAr": "من��جات",
+    "common.itemsAr": "منتجات",
     "common.language": "Language",
     "common.languageAr": "العربية",
 
@@ -729,7 +729,7 @@ const translations = {
     "message.orderDeleted": "تم حذف الطلب بنجاح",
     "message.customerAdded": "تم إضافة العميل بنجاح",
     "message.customerUpdated": "تم تحديث العميل بنجاح",
-    "message.customerDeleted": "تم حذف العميل بنجاح",
+    "message.customerDeleted": "تم حذف العميل ب��جاح",
     "message.error": "حدث خطأ",
     "message.success": "تمت العملية بنجاح",
 
@@ -782,7 +782,7 @@ const translations = {
     "checkout.subtotal": "المجموع الفرعي",
     "checkout.deliveryFee": "رسوم التوصيل",
     "checkout.total": "المجموع الكلي",
-    "checkout.orderTotal": "إجمالي الطلب",
+    "checkout.orderTotal": "إجمالي ��لطلب",
     "checkout.placeOrder": "إرسال الطلب",
     "checkout.orderSuccess": "تم تأكيد الطلب بنجاح!",
     "checkout.thankYou":
@@ -1020,7 +1020,7 @@ const translations = {
     "common.itemAr": "منتج",
     "common.itemsAr": "منتجات",
     "common.language": "اللغة",
-    "common.languageAr": "العربية",
+    "common.languageAr": "العرب��ة",
 
     // Order success messages
     "orderSuccess.headline": "تم تأكيد الطلب!",
