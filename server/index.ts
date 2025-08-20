@@ -47,6 +47,7 @@ import {
   getSystemHealth,
   initializeLogs,
 } from "./routes/logs";
+import { handleFixCharacters } from "./routes/fix-characters";
 
 export function createServer() {
   const app = express();
