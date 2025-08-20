@@ -597,7 +597,7 @@ const translations = {
     "products.noProducts": "لا توجد منتجات",
     "products.addProduct": "إضافة منتج",
     "products.editProduct": "تعديل منتج",
-    "products.productName": "اسم المنتج",
+    "products.productName": "اسم ال��نتج",
     "products.productPrice": "سعر المنتج",
     "products.productDescription": "وصف المنتج",
     "products.productImages": "صور المنتج",
@@ -651,7 +651,7 @@ const translations = {
     "orders.pickup": "استلام",
     "orders.processing": "قيد المعالجة",
     "orders.ready": "جاهز",
-    "orders.delivered": "تم التسليم",
+    "orders.delivered": "تم التسل��م",
     "orders.pickedUp": "تم الاستلام",
     "orders.orderDetails": "تفاصيل الطلب",
     "orders.items": "العناصر",
@@ -815,7 +815,7 @@ const translations = {
     "checkout.placeOrder": "إرسال الطلب",
     "checkout.orderSuccess": "تم تأكيد الطلب بنجاح!",
     "checkout.thankYou":
-      "شكراً لك على طلبك! لقد ا��تلمنا طلبك وسنقوم بمعالجته قريباً.",
+      "شكراً لك على طلبك! لقد استلمنا طلبك وسنقوم بمعالجته قريباً.",
     "checkout.orderNumber": "رقم الطلب",
     "checkout.backToStore": "العودة للمتجر",
     "checkout.noCreditCard": "لا حاجة لبطاقة ائتمان - الدفع عند التسليم فقط!",
@@ -985,7 +985,7 @@ const translations = {
     "settings.pickupAddress": "عنوان الاستلام",
     "settings.pickupAddressEn": "عنوان الاستلام (إنجليزي)",
     "settings.pickupAddressAr": "عنوان الاستلام (عربي)",
-    "settings.deliveryAreas": "مناطق التوصيل",
+    "settings.deliveryAreas": "م��اطق التوصيل",
     "settings.addDeliveryArea": "إضافة منطقة توصيل",
     "settings.removeDeliveryArea": "إزالة",
     "settings.operationalSettings": "الإعدادات التشغيلية",
@@ -1004,7 +1004,7 @@ const translations = {
     "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياط��",
     "settings.importDescription": "رفع ملف إعداد��ت مُصدّر مسبقاً",
     "settings.chooseFile": "اختر الملف",
-    "settings.noFileChosen": "ل�� يتم اختيار ملف",
+    "settings.noFileChosen": "لم يتم اختيار ملف",
     "settings.displayOptions": "خيارات العرض",
     "settings.paymentSettings": "إعدادات الدفع",
 
@@ -1052,7 +1052,7 @@ const translations = {
 
     // Shipping & Delivery
     "settings.shippingDelivery": "الشحن والتوصيل",
-    "settings.enableDelivery": "تفعيل التوصيل",
+    "settings.enableDelivery": "تفعي�� التوصيل",
     "settings.enablePickup": "تفعيل الاستلام",
     "settings.deliveryFee": "رسوم التوصيل",
     "settings.freeDeliveryThreshold": "حد التوصيل المجاني",
