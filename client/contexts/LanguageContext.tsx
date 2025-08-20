@@ -572,7 +572,7 @@ const translations = {
     "nav.analytics": "التحليلات",
     "nav.categories": "التصنيفات",
     "nav.settings": "الإعدادات",
-    "nav.logout": "تسجيل الخروج",
+    "nav.logout": "تس��يل الخروج",
     "nav.adminPanel": "لوحة الإدارة",
 
     // Dashboard
@@ -678,14 +678,14 @@ const translations = {
 
     // Customers
     "customers.title": "العملاء",
-    "customers.subtitle": "إدارة قاع��ة بيانات العملاء",
+    "customers.subtitle": "إدارة قاعدة بيانات العملاء",
     "customers.addNew": "إضافة عميل جديد",
     "customers.search": "البحث في العملاء...",
     "customers.name": "الاسم",
     "customers.phone": "الهاتف",
     "customers.address": "العنوان",
 
-    "customers.edit": "تعديل",
+    "customers.edit": "ت��ديل",
     "customers.delete": "حذف",
     "customers.noCustomers": "لا يوجد عملاء",
     "customers.addCustomer": "إضافة عميل",
@@ -708,7 +708,7 @@ const translations = {
     "revenue.monthlyTrend": "اتجاه الإيرادات الشهرية",
     "revenue.dailyRevenue": "الإيرادات اليومية (هذا الشهر)",
     "revenue.topProducts": "أفضل المنتجات من حيث الإيرادات",
-    "revenue.deliveryAnalysis": "تحليل نوع التسليم",
+    "revenue.deliveryAnalysis": "��حليل نوع التسليم",
     "revenue.revenueByStatus": "الإيرادات حسب حالة الطلب",
     "revenue.month": "الشهر",
     "revenue.revenue": "الإيرادات",
@@ -785,7 +785,7 @@ const translations = {
     "store.variant": "النوع",
     "store.selectVariant": "اختر النوع",
     "store.cartEmpty": "سلتك فارغة",
-    "store.cartTotal": "إجمالي ا��سلة",
+    "store.cartTotal": "إجمالي السلة",
     "store.checkout": "إتمام الطلب",
     "store.continueShopping": "متابعة التسوق",
     "store.removeFromCart": "إزالة من السلة",
@@ -854,7 +854,7 @@ const translations = {
     "categories.cannotDeleteTitle": "لا يمكن حذف التصنيف",
     "categories.cannotDeleteMessage":
       "هذا التصنيف مستخدم في {count} م��تج. يرجى إزال�� التصنيف من جميع المنتجات قبل الحذف.",
-    "categories.nameRequired": "��سم التصنيف مطلوب.",
+    "categories.nameRequired": "اسم التصنيف مطلوب.",
 
     // Analytics
     "analytics.title": "تحليلات الموقع",
@@ -945,7 +945,7 @@ const translations = {
     "settings.save": "حفظ الإعدادات",
     "settings.reset": "إعادة تعيين",
     "settings.saveSuccess": "تم حفظ الإعدادات بنجاح!",
-    "settings.saveError": "فشل ��ي حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
+    "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
     "settings.resetConfirm":
       "هل أنت متأكد من إعادة تعيين جميع الإعدادات للقيم الافتراضية؟",
     "settings.unsavedChanges": "لديك تغييرات غير محفوظة. لا تنس الحفظ!",
@@ -965,8 +965,8 @@ const translations = {
     "settings.autoOrderConfirmation": "تأكيد الطلب التلقائي",
     "settings.lowStockThreshold": "حد المخزون المنخفض",
     "settings.maxOrderQuantity": "الحد الأقصى لكمية الطلب",
-    "settings.orderProcessingTime": "وقت معالجة الطل��",
-    "settings.performanceOptimization": "الأداء والتحسين",
+    "settings.orderProcessingTime": "وقت معالجة الطلب",
+    "settings.performanceOptimization": "الأداء ��التحسين",
     "settings.userExperience": "تجربة المستخدم",
     "settings.systemSettings": "إعدادات النظام",
 
@@ -1003,8 +1003,8 @@ const translations = {
     "settings.importSettings": "استيراد الإعدادات",
     "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياط��",
     "settings.importDescription": "رفع ملف إعداد��ت مُصدّر مسبقاً",
-    "settings.chooseFile": "اختر ا��ملف",
-    "settings.noFileChosen": "لم يتم اختيار ملف",
+    "settings.chooseFile": "اختر الملف",
+    "settings.noFileChosen": "لم يتم اخت��ار ملف",
     "settings.displayOptions": "خيارات العرض",
     "settings.paymentSettings": "إعدادات الدفع",
 
@@ -1025,7 +1025,7 @@ const translations = {
 
     // Store Information
     "settings.storeInformation": "معلومات المتجر",
-    "settings.storeName": "اسم المتجر",
+    "settings.storeName": "اسم ��لمتجر",
     "settings.storeDescription": "وصف المتجر",
     "settings.currency": "العملة",
     "settings.currencySymbol": "رمز العملة",
