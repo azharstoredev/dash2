@@ -98,10 +98,10 @@ export const createOrder: RequestHandler = async (req, res) => {
     const orderData = {
       customerId,
       items,
-      total,
+      total: finalTotal,
       status: status || "processing",
       deliveryType: deliveryType || "delivery",
-      notes,
+      notes: notes || "",
     };
 
     console.log("Creating order with processed data:", orderData);
