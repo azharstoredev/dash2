@@ -147,6 +147,7 @@ const App = () => (
             <AuthProvider>
               <DataProvider>
                 <DialogProvider>
+                  <PageTracker />
                   <AppContent />
                 </DialogProvider>
               </DataProvider>
