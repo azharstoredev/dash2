@@ -206,6 +206,7 @@ export default function Settings() {
   const [activeTab, setActiveTab] = useState("basic");
   const [isSaving, setIsSaving] = useState(false);
   const [isFixingCharacters, setIsFixingCharacters] = useState(false);
+  const [isDiagnosing, setIsDiagnosing] = useState(false);
 
   useEffect(() => {
     const savedSettings = localStorage.getItem("storeSettings");
