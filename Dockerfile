@@ -49,10 +49,6 @@ RUN adduser --system --uid 1001 nodejs
 RUN chown -R nodejs:nodejs /app
 USER nodejs
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:8080/api/ping || exit 1
-
 # Start the server
 EXPOSE 8080
 CMD [ "npm", "start" ]
