@@ -572,7 +572,7 @@ const translations = {
     "nav.analytics": "التحليلات",
     "nav.categories": "التصنيفات",
     "nav.settings": "الإعدادات",
-    "nav.logout": "تسجي�� الخروج",
+    "nav.logout": "تسجيل الخروج",
     "nav.adminPanel": "لوحة الإدارة",
 
     // Dashboard
@@ -678,14 +678,14 @@ const translations = {
 
     // Customers
     "customers.title": "العملاء",
-    "customers.subtitle": "إدارة قاعدة بيانات العملاء",
+    "customers.subtitle": "إدارة قا��دة بيانات العملاء",
     "customers.addNew": "إضافة عميل جديد",
     "customers.search": "البحث في العملاء...",
     "customers.name": "الاسم",
     "customers.phone": "الهاتف",
     "customers.address": "العنوان",
 
-    "customers.edit": "تعد��ل",
+    "customers.edit": "تعديل",
     "customers.delete": "حذف",
     "customers.noCustomers": "لا يوجد عملاء",
     "customers.addCustomer": "إضافة عميل",
@@ -707,8 +707,8 @@ const translations = {
     "revenue.avgOrderValue": "متوسط قيمة الطلب",
     "revenue.monthlyTrend": "اتجاه الإيرادات الشهرية",
     "revenue.dailyRevenue": "الإيرادات اليومية (هذا الشهر)",
-    "revenue.topProducts": "أفضل المنتجات من حيث الإيرادات",
-    "revenue.deliveryAnalysis": "تح��يل نوع التسليم",
+    "revenue.topProducts": "أفضل المنتجات من حي�� الإيرادات",
+    "revenue.deliveryAnalysis": "تحليل نوع التسليم",
     "revenue.revenueByStatus": "الإيرادات حسب حالة الطلب",
     "revenue.month": "الشهر",
     "revenue.revenue": "الإيرادات",
@@ -854,7 +854,7 @@ const translations = {
     "categories.cannotDeleteTitle": "لا يمكن حذف التصنيف",
     "categories.cannotDeleteMessage":
       "هذا التصنيف مستخدم في {count} منتج. يرجى إزالة التصنيف من جميع المنتجات قبل الحذف.",
-    "categories.nameRequired": "اسم التصنيف مطلوب.",
+    "categories.nameRequired": "اسم التصنيف مطلو��.",
 
     // Analytics
     "analytics.title": "تحليلات الموقع",
@@ -893,7 +893,7 @@ const translations = {
       "لا توجد بيانات تحليلات متاحة حالياً. ابدأ باستخدام الموقع لجمع البيانات.",
     "analytics.loadingData": "جارٍ تحميل بيانات التحليلات...",
     "analytics.tryAgain": "إعادة المحاولة",
-    "analytics.noPageData": "لا توجد بيانات صفحات مت��حة",
+    "analytics.noPageData": "لا توجد بيانات صفحات متاحة",
     "analytics.noDeviceData": "لا توجد بيانات أجهزة متاحة",
     "analytics.noErrorsGood": "لا توجد أخطاء - الموقع يعمل بشكل جيد!",
     "analytics.desktop": "الكمبيوتر المكتبي",
@@ -945,7 +945,7 @@ const translations = {
     "settings.save": "حفظ الإعدادات",
     "settings.reset": "إعادة تعيين",
     "settings.saveSuccess": "تم حفظ الإعدادات بنجاح!",
-    "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
+    "settings.saveError": "فشل في حفظ الإعدادات. يرج�� المحاولة مرة أخرى.",
     "settings.resetConfirm":
       "هل أنت متأكد من إعادة تعيين جميع الإعدادات للقيم الافتراضية؟",
     "settings.unsavedChanges": "لديك تغييرات غير محفوظة. لا تنس الحفظ!",
@@ -986,8 +986,8 @@ const translations = {
     "settings.pickupAddressEn": "عنوان الاستلام (إنجليزي)",
     "settings.pickupAddressAr": "عنوان الاستلام (عربي)",
     "settings.deliveryAreas": "مناطق التوصيل",
-    "settings.addDeliveryArea": "إضافة منطقة توصيل",
-    "settings.removeDeliveryArea": "إزال��",
+    "settings.addDeliveryArea": "إضافة منطقة ��وصيل",
+    "settings.removeDeliveryArea": "إزالة",
     "settings.operationalSettings": "الإعدادات التشغيلية",
     "settings.uiBehavior": "سلوك الواجهة",
     "settings.adminSettings": "إعدادات الإدارة",
