@@ -64,7 +64,8 @@ import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { DataProvider } from "@/contexts/DataContext";
 import { DialogProvider } from "@/contexts/DialogContext";
@@ -83,6 +84,19 @@ import Settings from "@/pages/Settings";
 import Store from "@/pages/Store";
 import ProductDetail from "@/pages/ProductDetail";
 import NotFound from "@/pages/NotFound";
+import { analyticsService } from "@/services/analytics";
+
+// Component to track page views
+function PageTracker() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Track page view when location changes
+    analyticsService.trackPageView(location.pathname);
+  }, [location]);
+
+  return null;
+}
 
 const queryClient = new QueryClient();
 
