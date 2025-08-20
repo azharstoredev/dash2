@@ -38,11 +38,7 @@ import {
   deleteImage,
   getStorageInfo,
 } from "./routes/upload";
-import {
-  trackEvent,
-  getAnalytics,
-  getRealTimeData,
-} from "./routes/analytics";
+import { trackEvent, getAnalytics, getRealTimeData } from "./routes/analytics";
 import {
   getLogs,
   addLog,

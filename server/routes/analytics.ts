@@ -4,7 +4,12 @@ import { join } from "path";
 
 interface AnalyticsEvent {
   timestamp: string;
-  type: "page_view" | "order_placed" | "customer_created" | "product_viewed" | "error";
+  type:
+    | "page_view"
+    | "order_placed"
+    | "customer_created"
+    | "product_viewed"
+    | "error";
   page?: string;
   userAgent?: string;
   ip?: string;
@@ -72,14 +77,15 @@ function writeAnalyticsData(data: AnalyticsData) {
 // Track analytics event
 export const trackEvent: RequestHandler = (req, res) => {
   try {
-    const { type, page, orderId, customerId, productId, error, revenue } = req.body;
-    
+    const { type, page, orderId, customerId, productId, error, revenue } =
+      req.body;
+
     if (!type) {
       return res.status(400).json({ error: "Event type is required" });
     }
 
     const analyticsData = readAnalyticsData();
-    
+
     const event: AnalyticsEvent = {
       timestamp: new Date().toISOString(),
       type,
@@ -121,85 +127,116 @@ export const getAnalytics: RequestHandler = (req, res) => {
   try {
     const { timeRange = "7days" } = req.query;
     const analyticsData = readAnalyticsData();
-    
+
     const now = new Date();
-    const daysAgo = timeRange === "7days" ? 7 : timeRange === "30days" ? 30 : 90;
+    const daysAgo =
+      timeRange === "7days" ? 7 : timeRange === "30days" ? 30 : 90;
     const startDate = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
 
     // Filter events by time range
-    const filteredEvents = analyticsData.events.filter(event => 
-      new Date(event.timestamp) >= startDate
+    const filteredEvents = analyticsData.events.filter(
+      (event) => new Date(event.timestamp) >= startDate,
     );
 
     // Calculate metrics
-    const pageViews = filteredEvents.filter(e => e.type === "page_view").length;
-    const orders = filteredEvents.filter(e => e.type === "order_placed");
-    const errors = filteredEvents.filter(e => e.type === "error");
-    const productViews = filteredEvents.filter(e => e.type === "product_viewed");
+    const pageViews = filteredEvents.filter(
+      (e) => e.type === "page_view",
+    ).length;
+    const orders = filteredEvents.filter((e) => e.type === "order_placed");
+    const errors = filteredEvents.filter((e) => e.type === "error");
+    const productViews = filteredEvents.filter(
+      (e) => e.type === "product_viewed",
+    );
 
     // Calculate revenue
-    const totalRevenue = orders.reduce((sum, order) => sum + (order.revenue || 0), 0);
+    const totalRevenue = orders.reduce(
+      (sum, order) => sum + (order.revenue || 0),
+      0,
+    );
 
     // Get unique visitors (approximate by unique IPs)
-    const uniqueIPs = new Set(filteredEvents.map(e => e.ip)).size;
+    const uniqueIPs = new Set(filteredEvents.map((e) => e.ip)).size;
 
     // Daily breakdown
     const dailyData = [];
     for (let i = daysAgo - 1; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);
-      const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const dayStart = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+      );
       const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
 
-      const dayEvents = filteredEvents.filter(event => {
+      const dayEvents = filteredEvents.filter((event) => {
         const eventDate = new Date(event.timestamp);
         return eventDate >= dayStart && eventDate < dayEnd;
       });
 
-      const dayPageViews = dayEvents.filter(e => e.type === "page_view").length;
-      const dayOrders = dayEvents.filter(e => e.type === "order_placed").length;
+      const dayPageViews = dayEvents.filter(
+        (e) => e.type === "page_view",
+      ).length;
+      const dayOrders = dayEvents.filter(
+        (e) => e.type === "order_placed",
+      ).length;
       const dayRevenue = dayEvents
-        .filter(e => e.type === "order_placed")
+        .filter((e) => e.type === "order_placed")
         .reduce((sum, order) => sum + (order.revenue || 0), 0);
 
       dailyData.push({
-        date: date.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+        date: date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        }),
         pageViews: dayPageViews,
         orders: dayOrders,
         revenue: dayRevenue,
-        visitors: new Set(dayEvents.map(e => e.ip)).size,
+        visitors: new Set(dayEvents.map((e) => e.ip)).size,
       });
     }
 
     // Top pages
-    const pageViewEvents = filteredEvents.filter(e => e.type === "page_view" && e.page);
-    const pageStats = pageViewEvents.reduce((acc, event) => {
-      const page = event.page || "/";
-      acc[page] = (acc[page] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    const pageViewEvents = filteredEvents.filter(
+      (e) => e.type === "page_view" && e.page,
+    );
+    const pageStats = pageViewEvents.reduce(
+      (acc, event) => {
+        const page = event.page || "/";
+        acc[page] = (acc[page] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
 
     const topPages = Object.entries(pageStats)
-      .map(([page, views]) => ({ page, views, title: page === "/" ? "الصفحة الرئيسية" : page }))
+      .map(([page, views]) => ({
+        page,
+        views,
+        title: page === "/" ? "الصفحة الرئيسية" : page,
+      }))
       .sort((a, b) => b.views - a.views)
       .slice(0, 10);
 
     // Browser breakdown (simplified)
     const userAgents = filteredEvents
-      .map(e => e.userAgent || "")
-      .filter(ua => ua);
-    
+      .map((e) => e.userAgent || "")
+      .filter((ua) => ua);
+
     const deviceTypes = {
-      mobile: userAgents.filter(ua => /Mobile|Android|iPhone/i.test(ua)).length,
-      desktop: userAgents.filter(ua => !/Mobile|Android|iPhone/i.test(ua) && ua.length > 0).length,
+      mobile: userAgents.filter((ua) => /Mobile|Android|iPhone/i.test(ua))
+        .length,
+      desktop: userAgents.filter(
+        (ua) => !/Mobile|Android|iPhone/i.test(ua) && ua.length > 0,
+      ).length,
     };
 
     // Current active sessions (last 5 minutes)
     const fiveMinutesAgo = new Date(now.getTime() - 5 * 60 * 1000);
-    const recentEvents = analyticsData.events.filter(event => 
-      new Date(event.timestamp) >= fiveMinutesAgo
+    const recentEvents = analyticsData.events.filter(
+      (event) => new Date(event.timestamp) >= fiveMinutesAgo,
     );
-    const activeSessions = new Set(recentEvents.map(e => e.ip)).size;
+    const activeSessions = new Set(recentEvents.map((e) => e.ip)).size;
 
     const response = {
       timeRange,
@@ -215,10 +252,14 @@ export const getAnalytics: RequestHandler = (req, res) => {
       dailyData,
       topPages,
       deviceBreakdown: [
-        { name: "الكمبيوتر المكتبي", value: deviceTypes.desktop, color: "#8884d8" },
+        {
+          name: "الكمبيوتر المكتبي",
+          value: deviceTypes.desktop,
+          color: "#8884d8",
+        },
         { name: "الهاتف المحمول", value: deviceTypes.mobile, color: "#82ca9d" },
       ],
-      errors: errors.slice(-20).map(e => ({
+      errors: errors.slice(-20).map((e) => ({
         timestamp: e.timestamp,
         error: e.error,
         page: e.page,
@@ -238,26 +279,28 @@ export const getRealTimeData: RequestHandler = (req, res) => {
   try {
     const analyticsData = readAnalyticsData();
     const now = new Date();
-    
+
     // Last 5 minutes for active users
     const fiveMinutesAgo = new Date(now.getTime() - 5 * 60 * 1000);
-    const recentEvents = analyticsData.events.filter(event => 
-      new Date(event.timestamp) >= fiveMinutesAgo
+    const recentEvents = analyticsData.events.filter(
+      (event) => new Date(event.timestamp) >= fiveMinutesAgo,
     );
-    
-    const activeSessions = new Set(recentEvents.map(e => e.ip)).size;
-    
+
+    const activeSessions = new Set(recentEvents.map((e) => e.ip)).size;
+
     // Last hour stats
     const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
-    const hourlyEvents = analyticsData.events.filter(event => 
-      new Date(event.timestamp) >= oneHourAgo
+    const hourlyEvents = analyticsData.events.filter(
+      (event) => new Date(event.timestamp) >= oneHourAgo,
     );
-    
+
     const response = {
       activeSessions,
-      lastHourPageViews: hourlyEvents.filter(e => e.type === "page_view").length,
-      lastHourOrders: hourlyEvents.filter(e => e.type === "order_placed").length,
-      lastHourErrors: hourlyEvents.filter(e => e.type === "error").length,
+      lastHourPageViews: hourlyEvents.filter((e) => e.type === "page_view")
+        .length,
+      lastHourOrders: hourlyEvents.filter((e) => e.type === "order_placed")
+        .length,
+      lastHourErrors: hourlyEvents.filter((e) => e.type === "error").length,
       timestamp: now.toISOString(),
     };
 

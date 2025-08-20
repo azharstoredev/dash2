@@ -9,7 +9,12 @@ import { customerApi, productApi, orderApi, categoryApi } from "@/services/api";
 import { analyticsService } from "@/services/analytics";
 
 // Helper function to add logs
-async function addLog(level: "info" | "warning" | "error", category: string, message: string, details?: any) {
+async function addLog(
+  level: "info" | "warning" | "error",
+  category: string,
+  message: string,
+  details?: any,
+) {
   try {
     await fetch("/api/logs", {
       method: "POST",
@@ -233,14 +238,21 @@ export function DataProvider({ children }: { children: ReactNode }) {
       analyticsService.trackCustomerCreated(newCustomer.id);
 
       // Log customer creation
-      addLog("info", "customer", `New customer registered: ${newCustomer.name}`, {
-        customerId: newCustomer.id,
-        customerName: newCustomer.name,
-        phone: newCustomer.phone,
-      });
+      addLog(
+        "info",
+        "customer",
+        `New customer registered: ${newCustomer.name}`,
+        {
+          customerId: newCustomer.id,
+          customerName: newCustomer.name,
+          phone: newCustomer.phone,
+        },
+      );
     } catch (error) {
       console.error("Failed to add customer:", error);
-      addLog("error", "customer", "Failed to create customer", { error: error.message });
+      addLog("error", "customer", "Failed to create customer", {
+        error: error.message,
+      });
       throw error;
     }
   };
@@ -286,7 +298,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
       });
     } catch (error) {
       console.error("Failed to add product:", error);
-      addLog("error", "product", "Failed to create product", { error: error.message });
+      addLog("error", "product", "Failed to create product", {
+        error: error.message,
+      });
       throw error;
     }
   };
@@ -333,7 +347,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
       });
     } catch (error) {
       console.error("Failed to add order:", error);
-      addLog("error", "order", "Failed to create order", { error: error.message });
+      addLog("error", "order", "Failed to create order", {
+        error: error.message,
+      });
       throw error;
     }
   };

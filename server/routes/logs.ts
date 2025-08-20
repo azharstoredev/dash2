@@ -5,7 +5,14 @@ import { join } from "path";
 export interface LogEntry {
   timestamp: string;
   level: "info" | "warning" | "error" | "debug";
-  category: "system" | "user" | "order" | "product" | "customer" | "analytics" | "security";
+  category:
+    | "system"
+    | "user"
+    | "order"
+    | "product"
+    | "customer"
+    | "analytics"
+    | "security";
   message: string;
   details?: any;
   userId?: string;
@@ -49,14 +56,14 @@ export function addLogEntry(logEntry: Omit<LogEntry, "timestamp">) {
     ...logEntry,
     timestamp: new Date().toISOString(),
   };
-  
+
   logs.push(newEntry);
   writeLogs(logs);
-  
+
   // Also log to console for development
   const logLevel = newEntry.level.toUpperCase();
   const message = `[${newEntry.timestamp}] ${logLevel}: [${newEntry.category}] ${newEntry.message}`;
-  
+
   switch (newEntry.level) {
     case "error":
       console.error(message, newEntry.details || "");
@@ -75,38 +82,41 @@ export function addLogEntry(logEntry: Omit<LogEntry, "timestamp">) {
 // Get logs with filtering and pagination
 export const getLogs: RequestHandler = (req, res) => {
   try {
-    const { 
-      level, 
-      category, 
-      startDate, 
-      endDate, 
-      limit = "100", 
-      offset = "0" 
+    const {
+      level,
+      category,
+      startDate,
+      endDate,
+      limit = "100",
+      offset = "0",
     } = req.query;
 
     let logs = readLogs();
 
     // Apply filters
     if (level) {
-      logs = logs.filter(log => log.level === level);
+      logs = logs.filter((log) => log.level === level);
     }
 
     if (category) {
-      logs = logs.filter(log => log.category === category);
+      logs = logs.filter((log) => log.category === category);
     }
 
     if (startDate) {
       const start = new Date(startDate as string);
-      logs = logs.filter(log => new Date(log.timestamp) >= start);
+      logs = logs.filter((log) => new Date(log.timestamp) >= start);
     }
 
     if (endDate) {
       const end = new Date(endDate as string);
-      logs = logs.filter(log => new Date(log.timestamp) <= end);
+      logs = logs.filter((log) => new Date(log.timestamp) <= end);
     }
 
     // Sort by timestamp (newest first)
-    logs.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    logs.sort(
+      (a, b) =>
+        new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+    );
 
     // Apply pagination
     const limitNum = parseInt(limit as string);
@@ -132,8 +142,8 @@ export const addLog: RequestHandler = (req, res) => {
     const { level, category, message, details } = req.body;
 
     if (!level || !category || !message) {
-      return res.status(400).json({ 
-        error: "Missing required fields: level, category, message" 
+      return res.status(400).json({
+        error: "Missing required fields: level, category, message",
       });
     }
 
@@ -157,7 +167,7 @@ export const addLog: RequestHandler = (req, res) => {
 export const clearLogs: RequestHandler = (req, res) => {
   try {
     writeLogs([]);
-    
+
     // Add a log entry about clearing logs
     addLogEntry({
       level: "info",
@@ -178,15 +188,18 @@ export const clearLogs: RequestHandler = (req, res) => {
 export const exportLogs: RequestHandler = (req, res) => {
   try {
     const logs = readLogs();
-    
+
     const exportData = {
       exportTimestamp: new Date().toISOString(),
       totalEntries: logs.length,
       logs: logs,
     };
 
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Content-Disposition', `attachment; filename="system-logs-${new Date().toISOString().split('T')[0]}.json"`);
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="system-logs-${new Date().toISOString().split("T")[0]}.json"`,
+    );
     res.json(exportData);
 
     // Log the export action
@@ -208,15 +221,20 @@ export const getSystemHealth: RequestHandler = (req, res) => {
   try {
     const logs = readLogs();
     const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000);
-    
-    const recentLogs = logs.filter(log => new Date(log.timestamp) >= last24Hours);
-    
-    const errorCount = recentLogs.filter(log => log.level === "error").length;
-    const warningCount = recentLogs.filter(log => log.level === "warning").length;
-    const infoCount = recentLogs.filter(log => log.level === "info").length;
-    
+
+    const recentLogs = logs.filter(
+      (log) => new Date(log.timestamp) >= last24Hours,
+    );
+
+    const errorCount = recentLogs.filter((log) => log.level === "error").length;
+    const warningCount = recentLogs.filter(
+      (log) => log.level === "warning",
+    ).length;
+    const infoCount = recentLogs.filter((log) => log.level === "info").length;
+
     const systemHealth = {
-      status: errorCount > 10 ? "critical" : errorCount > 5 ? "warning" : "healthy",
+      status:
+        errorCount > 10 ? "critical" : errorCount > 5 ? "warning" : "healthy",
       last24Hours: {
         errors: errorCount,
         warnings: warningCount,
@@ -238,53 +256,53 @@ export const getSystemHealth: RequestHandler = (req, res) => {
 // Initialize some sample logs for demonstration
 export function initializeLogs() {
   const logs = readLogs();
-  
+
   if (logs.length === 0) {
     const sampleLogs: Omit<LogEntry, "timestamp">[] = [
       {
         level: "info",
         category: "system",
         message: "Server started successfully",
-        details: { port: 8080, mode: "development" }
+        details: { port: 8080, mode: "development" },
       },
       {
         level: "info",
         category: "user",
         message: "Admin logged into dashboard",
-        details: { userAgent: "Browser" }
+        details: { userAgent: "Browser" },
       },
       {
         level: "info",
         category: "order",
         message: "New order created",
-        details: { orderId: "order_001", total: 25.50 }
+        details: { orderId: "order_001", total: 25.5 },
       },
       {
         level: "info",
         category: "customer",
         message: "New customer registered",
-        details: { customerName: "Ahmed Al-Rashid" }
+        details: { customerName: "Ahmed Al-Rashid" },
       },
       {
         level: "info",
         category: "product",
         message: "Product inventory updated",
-        details: { productName: "USB Cable", newStock: 45 }
+        details: { productName: "USB Cable", newStock: 45 },
       },
       {
         level: "warning",
         category: "system",
         message: "High memory usage detected",
-        details: { usage: "85%" }
+        details: { usage: "85%" },
       },
       {
         level: "info",
         category: "analytics",
         message: "Analytics data refreshed",
-        details: { recordsProcessed: 1250 }
-      }
+        details: { recordsProcessed: 1250 },
+      },
     ];
 
-    sampleLogs.forEach(logEntry => addLogEntry(logEntry));
+    sampleLogs.forEach((logEntry) => addLogEntry(logEntry));
   }
 }

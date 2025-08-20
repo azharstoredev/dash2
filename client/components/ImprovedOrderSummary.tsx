@@ -13,11 +13,11 @@ interface ImprovedOrderSummaryProps {
   isFormValid: boolean;
 }
 
-export default function ImprovedOrderSummary({ 
-  deliveryType, 
-  onPlaceOrder, 
-  isSubmitting, 
-  isFormValid 
+export default function ImprovedOrderSummary({
+  deliveryType,
+  onPlaceOrder,
+  isSubmitting,
+  isFormValid,
 }: ImprovedOrderSummaryProps) {
   const { t, language } = useLanguage();
   const { items, getTotalPrice } = useCart();
@@ -42,10 +42,11 @@ export default function ImprovedOrderSummary({
               {t("checkout.orderItems")}
             </h3>
             <Badge variant="secondary" className="ml-auto">
-              {items.length} {items.length === 1 ? t("common.item") : t("common.items")}
+              {items.length}{" "}
+              {items.length === 1 ? t("common.item") : t("common.items")}
             </Badge>
           </div>
-          
+
           <div className="space-y-3">
             {items.map((item) => (
               <div
@@ -67,13 +68,16 @@ export default function ImprovedOrderSummary({
                         {t("store.quantity")}: {item.quantity}
                       </span>
                       <span className="ltr-text">
-                        {language === "ar" ? "د.ب" : "BD"} {item.price.toFixed(2)} {language === "ar" ? "للقطعة" : "each"}
+                        {language === "ar" ? "د.ب" : "BD"}{" "}
+                        {item.price.toFixed(2)}{" "}
+                        {language === "ar" ? "للقطعة" : "each"}
                       </span>
                     </div>
                   </div>
                   <div className="text-end">
                     <div className="text-lg font-bold text-primary ltr-text">
-                      {language === "ar" ? "د.ب" : "BD"} {(item.price * item.quantity).toFixed(2)}
+                      {language === "ar" ? "د.ب" : "BD"}{" "}
+                      {(item.price * item.quantity).toFixed(2)}
                     </div>
                   </div>
                 </div>
@@ -93,19 +97,27 @@ export default function ImprovedOrderSummary({
               <MapPin className="w-5 h-5 text-blue-600" />
             )}
             <h3 className="font-semibold text-blue-900">
-              {deliveryType === "delivery" ? t("checkout.delivery") : t("checkout.pickup")}
+              {deliveryType === "delivery"
+                ? t("checkout.delivery")
+                : t("checkout.pickup")}
             </h3>
             {deliveryType === "pickup" && (
-              <Badge variant="secondary" className="bg-green-100 text-green-700 ml-auto">
+              <Badge
+                variant="secondary"
+                className="bg-green-100 text-green-700 ml-auto"
+              >
                 {language === "ar" ? "مجاني" : "Free"}
               </Badge>
             )}
           </div>
           <p className="text-sm text-blue-700">
-            {deliveryType === "delivery" 
-              ? (language === "ar" ? "سيتم التوصيل إلى عنوانك" : "We'll deliver to your address")
-              : (language === "ar" ? "الاستلام من المتجر" : "Pick up from our store")
-            }
+            {deliveryType === "delivery"
+              ? language === "ar"
+                ? "سيتم التوصيل إلى عنوانك"
+                : "We'll deliver to your address"
+              : language === "ar"
+                ? "الاستلام من المتجر"
+                : "Pick up from our store"}
           </p>
         </div>
 
@@ -121,16 +133,17 @@ export default function ImprovedOrderSummary({
               {language === "ar" ? "د.ب" : "BD"} {totalPrice.toFixed(2)}
             </span>
           </div>
-          
+
           <div className="flex justify-between items-center text-lg">
             <span className="auto-text font-medium text-gray-700">
               {t("checkout.deliveryFee")}:
             </span>
             <span className="ltr-text font-semibold text-gray-900">
-              {deliveryFee === 0 
-                ? (language === "ar" ? "مجاني" : "Free")
-                : `${language === "ar" ? "د.ب" : "BD"} ${deliveryFee.toFixed(2)}`
-              }
+              {deliveryFee === 0
+                ? language === "ar"
+                  ? "مجاني"
+                  : "Free"
+                : `${language === "ar" ? "د.ب" : "BD"} ${deliveryFee.toFixed(2)}`}
             </span>
           </div>
 
@@ -145,7 +158,6 @@ export default function ImprovedOrderSummary({
             </span>
           </div>
         </div>
-
 
         {/* Place Order Button */}
         <Button
@@ -162,17 +174,19 @@ export default function ImprovedOrderSummary({
           ) : (
             <>
               <ShoppingCart className="w-5 h-5 mr-2" />
-              {t("checkout.placeOrder")} • {language === "ar" ? "د.ب" : "BD"} {finalTotal.toFixed(2)}
+              {t("checkout.placeOrder")} • {language === "ar" ? "د.ب" : "BD"}{" "}
+              {finalTotal.toFixed(2)}
             </>
           )}
         </Button>
 
         {/* Order Note */}
         <div className="text-center text-sm text-gray-500 bg-gray-50 p-3 rounded-lg">
-          <p>{language === "ar" 
-            ? "سيتم التواصل معك خلال 2-4 ساعات لتأكيد الطلب"
-            : "We'll contact you within 2-4 hours to confirm your order"
-          }</p>
+          <p>
+            {language === "ar"
+              ? "سيتم التواصل معك خلال 2-4 ساعات لتأكيد الطلب"
+              : "We'll contact you within 2-4 hours to confirm your order"}
+          </p>
         </div>
       </CardContent>
     </Card>

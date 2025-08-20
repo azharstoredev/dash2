@@ -39,12 +39,20 @@ import {
   Smartphone,
   Monitor,
 } from "lucide-react";
-import { analyticsService, AnalyticsData, RealTimeData } from "@/services/analytics";
+import {
+  analyticsService,
+  AnalyticsData,
+  RealTimeData,
+} from "@/services/analytics";
 
 const Analytics = () => {
   const { language, t } = useLanguage();
-  const [timeRange, setTimeRange] = useState<"7days" | "30days" | "90days">("7days");
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null);
+  const [timeRange, setTimeRange] = useState<"7days" | "30days" | "90days">(
+    "7days",
+  );
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(
+    null,
+  );
   const [realTimeData, setRealTimeData] = useState<RealTimeData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -110,7 +118,9 @@ const Analytics = () => {
         <div className="text-center">
           <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-2" />
           <p className="text-muted-foreground">
-            {language === "ar" ? "جارٍ تحميل بيانات التحليلات..." : "Loading analytics data..."}
+            {language === "ar"
+              ? "جارٍ تحميل بيانات التحليلات..."
+              : "Loading analytics data..."}
           </p>
         </div>
       </div>
@@ -144,10 +154,9 @@ const Analytics = () => {
             <div className="text-center">
               <AlertCircle className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
               <p className="text-muted-foreground">
-                {language === "ar" 
+                {language === "ar"
                   ? "لا توجد بيانات تحليلات متاحة حالياً. ابدأ باستخدام الموقع لجمع البيانات."
-                  : "No analytics data available yet. Start using the website to collect data."
-                }
+                  : "No analytics data available yet. Start using the website to collect data."}
               </p>
             </div>
           </CardContent>
@@ -165,21 +174,29 @@ const Analytics = () => {
             {language === "ar" ? "تحليلات الموقع" : "Website Analytics"}
           </h1>
           <p className="text-muted-foreground mt-2">
-            {language === "ar" 
+            {language === "ar"
               ? "إحصائيات حقيقية لأداء موقعك والزوار"
-              : "Real website performance and visitor insights"
-            }
+              : "Real website performance and visitor insights"}
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Select value={timeRange} onValueChange={(value: any) => setTimeRange(value)}>
+          <Select
+            value={timeRange}
+            onValueChange={(value: any) => setTimeRange(value)}
+          >
             <SelectTrigger className="w-40">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="7days">{getTimeRangeLabel("7days")}</SelectItem>
-              <SelectItem value="30days">{getTimeRangeLabel("30days")}</SelectItem>
-              <SelectItem value="90days">{getTimeRangeLabel("90days")}</SelectItem>
+              <SelectItem value="7days">
+                {getTimeRangeLabel("7days")}
+              </SelectItem>
+              <SelectItem value="30days">
+                {getTimeRangeLabel("30days")}
+              </SelectItem>
+              <SelectItem value="90days">
+                {getTimeRangeLabel("90days")}
+              </SelectItem>
             </SelectContent>
           </Select>
           <Button onClick={handleRefresh} variant="outline" size="sm">
@@ -197,10 +214,13 @@ const Analytics = () => {
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
                 <span className="text-sm font-medium">
-                  {language === "ar" ? "تتبع مباشر نشط" : "Real-time tracking active"}
+                  {language === "ar"
+                    ? "تتبع مباشر نشط"
+                    : "Real-time tracking active"}
                 </span>
                 <Badge variant="secondary" className="ml-2">
-                  {realTimeData.activeSessions} {language === "ar" ? "نشط الآن" : "active now"}
+                  {realTimeData.activeSessions}{" "}
+                  {language === "ar" ? "نشط الآن" : "active now"}
                 </Badge>
               </div>
               <div className="text-xs text-muted-foreground">
@@ -274,7 +294,8 @@ const Analytics = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">
-              {language === "ar" ? "د.ب" : "BD"} {analyticsData.summary.revenue.toFixed(2)}
+              {language === "ar" ? "د.ب" : "BD"}{" "}
+              {analyticsData.summary.revenue.toFixed(2)}
             </div>
             <p className="text-xs text-muted-foreground">
               {getTimeRangeLabel(timeRange)}
@@ -288,7 +309,9 @@ const Analytics = () => {
         {/* Daily Trends */}
         <Card>
           <CardHeader>
-            <CardTitle>{language === "ar" ? "الاتجاهات اليومية" : "Daily Trends"}</CardTitle>
+            <CardTitle>
+              {language === "ar" ? "الاتجاهات اليومية" : "Daily Trends"}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -296,17 +319,25 @@ const Analytics = () => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
                 <YAxis />
-                <Tooltip 
-                  labelFormatter={(value) => `${language === "ar" ? "التاريخ" : "Date"}: ${value}`}
+                <Tooltip
+                  labelFormatter={(value) =>
+                    `${language === "ar" ? "التاريخ" : "Date"}: ${value}`
+                  }
                   formatter={(value, name) => [
                     value,
-                    name === "pageViews" 
-                      ? language === "ar" ? "مشاهدات الصفحات" : "Page Views"
+                    name === "pageViews"
+                      ? language === "ar"
+                        ? "مشاهدات الصفحات"
+                        : "Page Views"
                       : name === "visitors"
-                      ? language === "ar" ? "الزوار" : "Visitors"
-                      : name === "orders"
-                      ? language === "ar" ? "الطلبات" : "Orders"
-                      : name
+                        ? language === "ar"
+                          ? "الزوار"
+                          : "Visitors"
+                        : name === "orders"
+                          ? language === "ar"
+                            ? "الطلبات"
+                            : "Orders"
+                          : name,
                   ]}
                 />
                 <Area
@@ -333,7 +364,9 @@ const Analytics = () => {
         {/* Device Breakdown */}
         <Card>
           <CardHeader>
-            <CardTitle>{language === "ar" ? "توزيع الأجهزة" : "Device Breakdown"}</CardTitle>
+            <CardTitle>
+              {language === "ar" ? "توزيع الأجهزة" : "Device Breakdown"}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             {analyticsData.deviceBreakdown.length > 0 ? (
@@ -359,7 +392,11 @@ const Analytics = () => {
               <div className="flex items-center justify-center h-[300px] text-muted-foreground">
                 <div className="text-center">
                   <Monitor className="w-8 h-8 mx-auto mb-2" />
-                  <p>{language === "ar" ? "لا توجد بيانات أجهزة متاحة" : "No device data available"}</p>
+                  <p>
+                    {language === "ar"
+                      ? "لا توجد بيانات أجهزة متاحة"
+                      : "No device data available"}
+                  </p>
                 </div>
               </div>
             )}
@@ -372,16 +409,23 @@ const Analytics = () => {
         {/* Top Pages */}
         <Card>
           <CardHeader>
-            <CardTitle>{language === "ar" ? "أهم الصفحات" : "Top Pages"}</CardTitle>
+            <CardTitle>
+              {language === "ar" ? "أهم الصفحات" : "Top Pages"}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             {analyticsData.topPages.length > 0 ? (
               <div className="space-y-4">
                 {analyticsData.topPages.map((page, index) => (
-                  <div key={index} className="flex items-center justify-between">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
                     <div>
                       <div className="font-medium">{page.title}</div>
-                      <div className="text-xs text-muted-foreground">{page.page}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {page.page}
+                      </div>
                     </div>
                     <div className="font-bold">{page.views}</div>
                   </div>
@@ -391,7 +435,11 @@ const Analytics = () => {
               <div className="flex items-center justify-center h-[200px] text-muted-foreground">
                 <div className="text-center">
                   <Globe className="w-8 h-8 mx-auto mb-2" />
-                  <p>{language === "ar" ? "لا توجد بيانات صفحات متاحة" : "No page data available"}</p>
+                  <p>
+                    {language === "ar"
+                      ? "لا توجد بيانات صفحات متاحة"
+                      : "No page data available"}
+                  </p>
                 </div>
               </div>
             )}
@@ -411,9 +459,12 @@ const Analytics = () => {
               <div className="space-y-3">
                 {analyticsData.errors.slice(0, 5).map((error, index) => (
                   <div key={index} className="text-sm">
-                    <div className="font-medium text-red-600">{error.error}</div>
+                    <div className="font-medium text-red-600">
+                      {error.error}
+                    </div>
                     <div className="text-xs text-muted-foreground">
-                      {error.page} • {new Date(error.timestamp).toLocaleString()}
+                      {error.page} •{" "}
+                      {new Date(error.timestamp).toLocaleString()}
                     </div>
                   </div>
                 ))}
@@ -422,7 +473,11 @@ const Analytics = () => {
               <div className="flex items-center justify-center h-[200px] text-muted-foreground">
                 <div className="text-center">
                   <Activity className="w-8 h-8 mx-auto mb-2 text-green-500" />
-                  <p>{language === "ar" ? "لا توجد أخطاء - الموقع يعمل بشكل جيد!" : "No errors - site running smoothly!"}</p>
+                  <p>
+                    {language === "ar"
+                      ? "لا توجد أخطاء - الموقع يعمل بشكل جيد!"
+                      : "No errors - site running smoothly!"}
+                  </p>
                 </div>
               </div>
             )}
@@ -441,10 +496,9 @@ const Analytics = () => {
         <CardContent>
           <div className="space-y-3 text-sm text-muted-foreground">
             <p>
-              {language === "ar" 
+              {language === "ar"
                 ? "تُظهر هذه اللوحة بيانات حقيقية من استخدام موقعك. البيانات محدثة كل 30 ثانية."
-                : "This dashboard shows real data from your website usage. Data is updated every 30 seconds."
-              }
+                : "This dashboard shows real data from your website usage. Data is updated every 30 seconds."}
             </p>
             <div className="flex flex-wrap gap-4 text-xs">
               <span>

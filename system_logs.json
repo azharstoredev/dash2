@@ -72,5 +72,19 @@
     "ip": "::ffff:127.0.0.1",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
     "timestamp": "2025-08-20T14:42:37.250Z"
+  },
+  {
+    "level": "info",
+    "category": "product",
+    "message": "New product added: asfdsadf",
+    "details": {
+      "productId": "175570134749485j9ulvrb",
+      "productName": "asfdsadf",
+      "price": 2,
+      "variants": 0
+    },
+    "ip": "::ffff:127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+    "timestamp": "2025-08-20T14:49:07.744Z"
   }
 ]

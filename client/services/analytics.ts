@@ -1,7 +1,12 @@
 // Analytics service for tracking real website events
 
 export interface AnalyticsEvent {
-  type: "page_view" | "order_placed" | "customer_created" | "product_viewed" | "error";
+  type:
+    | "page_view"
+    | "order_placed"
+    | "customer_created"
+    | "product_viewed"
+    | "error";
   page?: string;
   orderId?: string;
   customerId?: string;
@@ -116,7 +121,9 @@ class AnalyticsService {
   }
 
   // Get analytics data
-  async getAnalytics(timeRange: "7days" | "30days" | "90days" = "7days"): Promise<AnalyticsData> {
+  async getAnalytics(
+    timeRange: "7days" | "30days" | "90days" = "7days",
+  ): Promise<AnalyticsData> {
     try {
       const response = await fetch(`${this.baseUrl}?timeRange=${timeRange}`);
       if (!response.ok) {

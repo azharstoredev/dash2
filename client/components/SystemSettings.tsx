@@ -33,7 +33,14 @@ import {
 interface LogEntry {
   timestamp: string;
   level: "info" | "warning" | "error" | "debug";
-  category: "system" | "user" | "order" | "product" | "customer" | "analytics" | "security";
+  category:
+    | "system"
+    | "user"
+    | "order"
+    | "product"
+    | "customer"
+    | "analytics"
+    | "security";
   message: string;
   details?: any;
   userId?: string;
@@ -137,21 +144,14 @@ export default function SystemSettings() {
   // Refresh data
   const handleRefresh = async () => {
     setLoading(true);
-    await Promise.all([
-      fetchLogs(),
-      fetchSystemHealth(),
-      refetchData(),
-    ]);
+    await Promise.all([fetchLogs(), fetchSystemHealth(), refetchData()]);
     setLoading(false);
   };
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      await Promise.all([
-        fetchLogs(),
-        fetchSystemHealth(),
-      ]);
+      await Promise.all([fetchLogs(), fetchSystemHealth()]);
       setLoading(false);
     };
 
@@ -205,7 +205,9 @@ export default function SystemSettings() {
       analytics: "bg-indigo-100 text-indigo-800",
       security: "bg-red-100 text-red-800",
     };
-    return colors[category as keyof typeof colors] || "bg-gray-100 text-gray-800";
+    return (
+      colors[category as keyof typeof colors] || "bg-gray-100 text-gray-800"
+    );
   };
 
   const formatTimestamp = (timestamp: string) => {
@@ -235,9 +237,12 @@ export default function SystemSettings() {
               <div className="flex items-center gap-2">
                 <Badge variant="outline">
                   {import.meta.env.MODE === "development"
-                    ? language === "ar" ? "تطوير" : "Development"
-                    : language === "ar" ? "إنتاج" : "Production"
-                  }
+                    ? language === "ar"
+                      ? "تطوير"
+                      : "Development"
+                    : language === "ar"
+                      ? "إنتاج"
+                      : "Production"}
                 </Badge>
               </div>
             </div>
@@ -271,18 +276,26 @@ export default function SystemSettings() {
             <CardTitle className="flex items-center gap-2">
               <Activity className="w-5 h-5" />
               {language === "ar" ? "صحة النظام" : "System Health"}
-              <Badge 
+              <Badge
                 variant={
-                  systemHealth.status === "healthy" ? "default" :
-                  systemHealth.status === "warning" ? "secondary" : "destructive"
+                  systemHealth.status === "healthy"
+                    ? "default"
+                    : systemHealth.status === "warning"
+                      ? "secondary"
+                      : "destructive"
                 }
               >
-                {systemHealth.status === "healthy" 
-                  ? language === "ar" ? "سليم" : "Healthy"
+                {systemHealth.status === "healthy"
+                  ? language === "ar"
+                    ? "سليم"
+                    : "Healthy"
                   : systemHealth.status === "warning"
-                  ? language === "ar" ? "تحذير" : "Warning" 
-                  : language === "ar" ? "حرج" : "Critical"
-                }
+                    ? language === "ar"
+                      ? "تحذير"
+                      : "Warning"
+                    : language === "ar"
+                      ? "حرج"
+                      : "Critical"}
               </Badge>
             </CardTitle>
           </CardHeader>
@@ -380,11 +393,21 @@ export default function SystemSettings() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">{language === "ar" ? "الكل" : "All"}</SelectItem>
-                  <SelectItem value="error">{language === "ar" ? "خطأ" : "Error"}</SelectItem>
-                  <SelectItem value="warning">{language === "ar" ? "تحذير" : "Warning"}</SelectItem>
-                  <SelectItem value="info">{language === "ar" ? "معلومات" : "Info"}</SelectItem>
-                  <SelectItem value="debug">{language === "ar" ? "تصحيح" : "Debug"}</SelectItem>
+                  <SelectItem value="all">
+                    {language === "ar" ? "الكل" : "All"}
+                  </SelectItem>
+                  <SelectItem value="error">
+                    {language === "ar" ? "خطأ" : "Error"}
+                  </SelectItem>
+                  <SelectItem value="warning">
+                    {language === "ar" ? "تحذير" : "Warning"}
+                  </SelectItem>
+                  <SelectItem value="info">
+                    {language === "ar" ? "معلومات" : "Info"}
+                  </SelectItem>
+                  <SelectItem value="debug">
+                    {language === "ar" ? "تصحيح" : "Debug"}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -397,17 +420,36 @@ export default function SystemSettings() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">{language === "ar" ? "الكل" : "All"}</SelectItem>
-                  <SelectItem value="system">{language === "ar" ? "النظام" : "System"}</SelectItem>
-                  <SelectItem value="user">{language === "ar" ? "المستخدم" : "User"}</SelectItem>
-                  <SelectItem value="order">{language === "ar" ? "الطلبات" : "Orders"}</SelectItem>
-                  <SelectItem value="product">{language === "ar" ? "المنتجات" : "Products"}</SelectItem>
-                  <SelectItem value="customer">{language === "ar" ? "العملاء" : "Customers"}</SelectItem>
+                  <SelectItem value="all">
+                    {language === "ar" ? "الكل" : "All"}
+                  </SelectItem>
+                  <SelectItem value="system">
+                    {language === "ar" ? "النظام" : "System"}
+                  </SelectItem>
+                  <SelectItem value="user">
+                    {language === "ar" ? "المستخدم" : "User"}
+                  </SelectItem>
+                  <SelectItem value="order">
+                    {language === "ar" ? "الطلبات" : "Orders"}
+                  </SelectItem>
+                  <SelectItem value="product">
+                    {language === "ar" ? "المنتجات" : "Products"}
+                  </SelectItem>
+                  <SelectItem value="customer">
+                    {language === "ar" ? "العملاء" : "Customers"}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <Button size="sm" variant="outline" onClick={handleRefresh} disabled={loading}>
-              <RefreshCw className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} />
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={handleRefresh}
+              disabled={loading}
+            >
+              <RefreshCw
+                className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`}
+              />
               {language === "ar" ? "تحديث" : "Refresh"}
             </Button>
             <Button size="sm" variant="outline" onClick={exportLogs}>
@@ -435,7 +477,10 @@ export default function SystemSettings() {
                         {getLevelIcon(log.level)}
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <Badge variant="outline" className={getCategoryColor(log.category)}>
+                            <Badge
+                              variant="outline"
+                              className={getCategoryColor(log.category)}
+                            >
                               {log.category}
                             </Badge>
                             <span className="text-xs text-muted-foreground">
@@ -457,16 +502,19 @@ export default function SystemSettings() {
             ) : (
               <div className="text-center py-8 text-muted-foreground">
                 <Clock className="w-8 h-8 mx-auto mb-2" />
-                <p>{language === "ar" ? "لا توجد سجلات متاحة" : "No logs available"}</p>
+                <p>
+                  {language === "ar"
+                    ? "لا توجد سجلات متاحة"
+                    : "No logs available"}
+                </p>
               </div>
             )}
           </div>
           {logs.length > 0 && (
             <div className="mt-4 text-sm text-muted-foreground text-center">
-              {language === "ar" 
+              {language === "ar"
                 ? `عرض ${logs.length} من السجلات الأخيرة`
-                : `Showing ${logs.length} recent log entries`
-              }
+                : `Showing ${logs.length} recent log entries`}
             </div>
           )}
         </CardContent>

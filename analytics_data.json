@@ -657,12 +657,82 @@
       "page": "/",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
       "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "timestamp": "2025-08-20T14:48:34.639Z",
+      "type": "page_view",
+      "page": "/",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "timestamp": "2025-08-20T14:48:39.319Z",
+      "type": "page_view",
+      "page": "/",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "timestamp": "2025-08-20T14:48:40.651Z",
+      "type": "page_view",
+      "page": "/",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "timestamp": "2025-08-20T14:48:51.064Z",
+      "type": "page_view",
+      "page": "/admin",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "timestamp": "2025-08-20T14:48:54.056Z",
+      "type": "page_view",
+      "page": "/admin/orders",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "timestamp": "2025-08-20T14:49:00.321Z",
+      "type": "page_view",
+      "page": "/admin/categories",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "timestamp": "2025-08-20T14:49:01.917Z",
+      "type": "page_view",
+      "page": "/admin/products",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "timestamp": "2025-08-20T14:49:13.060Z",
+      "type": "page_view",
+      "page": "/admin/analytics",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "timestamp": "2025-08-20T14:49:24.718Z",
+      "type": "page_view",
+      "page": "/admin/settings",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "timestamp": "2025-08-20T14:49:46.127Z",
+      "type": "page_view",
+      "page": "/admin/",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "ip": "::ffff:127.0.0.1"
     }
   ],
   "sessionData": {
     "totalSessions": 0,
     "uniqueVisitors": 0,
-    "pageViews": 94,
-    "lastUpdated": "2025-08-20T14:48:29.314Z"
+    "pageViews": 104,
+    "lastUpdated": "2025-08-20T14:49:46.127Z"
   }
 }

@@ -353,8 +353,10 @@ const translations = {
     "analytics.realTimeTracking": "Real-time tracking active",
     "analytics.lastUpdated": "Last updated",
     "analytics.aboutData": "About This Data",
-    "analytics.dataDescription": "This dashboard shows real data from your website usage. Data is updated every 30 seconds.",
-    "analytics.noDataAvailable": "No analytics data available yet. Start using the website to collect data.",
+    "analytics.dataDescription":
+      "This dashboard shows real data from your website usage. Data is updated every 30 seconds.",
+    "analytics.noDataAvailable":
+      "No analytics data available yet. Start using the website to collect data.",
     "analytics.loadingData": "Loading analytics data...",
     "analytics.tryAgain": "Try Again",
     "analytics.noPageData": "No page data available",
@@ -885,8 +887,10 @@ const translations = {
     "analytics.realTimeTracking": "تتبع مباشر نشط",
     "analytics.lastUpdated": "آخر تحديث",
     "analytics.aboutData": "حول هذه البيانات",
-    "analytics.dataDescription": "تُظهر هذه اللوحة بيانات حقيقية من استخدام موقعك. البيانات محدثة كل 30 ثانية.",
-    "analytics.noDataAvailable": "لا توجد بيانات تحليلات متاحة حالياً. ابدأ باستخدام الموقع لجمع البيانات.",
+    "analytics.dataDescription":
+      "تُظهر هذه اللوحة بيانات حقيقية من استخدام موقعك. البيانات محدثة كل 30 ثانية.",
+    "analytics.noDataAvailable":
+      "لا توجد بيانات تحليلات متاحة حالياً. ابدأ باستخدام الموقع لجمع البيانات.",
     "analytics.loadingData": "جارٍ تحميل بيانات التحليلات...",
     "analytics.tryAgain": "إعادة المحاولة",
     "analytics.noPageData": "لا توجد بيانات صفحات مت��حة",

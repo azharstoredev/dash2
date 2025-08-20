@@ -25,19 +25,29 @@ export const createOrder: RequestHandler = async (req, res) => {
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       console.error("Invalid items data:", { items });
-      return res.status(400).json({ error: "Order items are required and must be a non-empty array" });
+      return res
+        .status(400)
+        .json({
+          error: "Order items are required and must be a non-empty array",
+        });
     }
 
     // Validate each item
     for (const item of items) {
       if (!item.productId || !item.quantity || !item.price) {
         console.error("Invalid item data:", item);
-        return res.status(400).json({ error: "Each item must have productId, quantity, and price" });
+        return res
+          .status(400)
+          .json({
+            error: "Each item must have productId, quantity, and price",
+          });
       }
 
       if (item.quantity <= 0) {
         console.error("Invalid quantity:", item);
-        return res.status(400).json({ error: "Item quantity must be greater than 0" });
+        return res
+          .status(400)
+          .json({ error: "Item quantity must be greater than 0" });
       }
 
       if (item.price < 0) {
@@ -78,7 +88,7 @@ export const createOrder: RequestHandler = async (req, res) => {
 
     // Calculate expected total
     const itemsTotal = items.reduce(
-      (sum: number, item: OrderItem) => sum + (item.price * item.quantity),
+      (sum: number, item: OrderItem) => sum + item.price * item.quantity,
       0,
     );
     const deliveryFee = deliveryType === "delivery" ? 1.5 : 0;
@@ -92,7 +102,7 @@ export const createOrder: RequestHandler = async (req, res) => {
       deliveryFee: deliveryFee.toFixed(2),
       expectedTotal: expectedTotal.toFixed(2),
       requestTotal: total,
-      finalTotal: finalTotal.toFixed(2)
+      finalTotal: finalTotal.toFixed(2),
     });
 
     const orderData = {
@@ -113,7 +123,10 @@ export const createOrder: RequestHandler = async (req, res) => {
       console.error("Failed to create order in database:", createError);
       return res.status(500).json({
         error: "Failed to create order in database",
-        details: createError instanceof Error ? createError.message : "Unknown database error"
+        details:
+          createError instanceof Error
+            ? createError.message
+            : "Unknown database error",
       });
     }
 

@@ -110,9 +110,10 @@ export default function Checkout() {
       console.error("Failed to place order:", error);
 
       // Show more specific error message
-      const errorMessage = error instanceof Error
-        ? error.message
-        : "An unknown error occurred while placing your order";
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "An unknown error occurred while placing your order";
 
       alert(`${t("message.error")}: ${errorMessage}`);
     } finally {
@@ -156,7 +157,10 @@ export default function Checkout() {
               <p className="text-sm font-medium auto-text">
                 {t("checkout.orderNumber") || "Order Number"}:
               </p>
-              <Badge variant="outline" className="text-lg px-4 py-2 ltr-text font-mono">
+              <Badge
+                variant="outline"
+                className="text-lg px-4 py-2 ltr-text font-mono"
+              >
                 #{orderNumber}
               </Badge>
             </div>
@@ -258,20 +262,32 @@ export default function Checkout() {
                       onClick={() => setDeliveryType("delivery")}
                     >
                       <div className="flex items-center gap-4">
-                        <RadioGroupItem value="delivery" id="delivery" className="w-5 h-5" />
+                        <RadioGroupItem
+                          value="delivery"
+                          id="delivery"
+                          className="w-5 h-5"
+                        />
                         <div className="flex items-center gap-3">
                           <Truck className="w-5 h-5 text-primary" />
                           <div>
-                            <Label htmlFor="delivery" className="font-semibold text-lg cursor-pointer">
+                            <Label
+                              htmlFor="delivery"
+                              className="font-semibold text-lg cursor-pointer"
+                            >
                               {t("checkout.delivery")}
                             </Label>
                             <p className="text-sm text-gray-600 auto-text">
-                              {language === "ar" ? "التوصيل إلى عنوانك" : "We'll deliver to your address"}
+                              {language === "ar"
+                                ? "التوصيل إلى عنوانك"
+                                : "We'll deliver to your address"}
                             </p>
                           </div>
                         </div>
                       </div>
-                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                      <Badge
+                        variant="outline"
+                        className="bg-blue-50 text-blue-700 border-blue-200"
+                      >
                         {language === "ar" ? "د.ب 1.50" : "BD 1.50"}
                       </Badge>
                     </div>
@@ -285,20 +301,32 @@ export default function Checkout() {
                       onClick={() => setDeliveryType("pickup")}
                     >
                       <div className="flex items-center gap-4">
-                        <RadioGroupItem value="pickup" id="pickup" className="w-5 h-5" />
+                        <RadioGroupItem
+                          value="pickup"
+                          id="pickup"
+                          className="w-5 h-5"
+                        />
                         <div className="flex items-center gap-3">
                           <MapPin className="w-5 h-5 text-green-600" />
                           <div>
-                            <Label htmlFor="pickup" className="font-semibold text-lg cursor-pointer">
+                            <Label
+                              htmlFor="pickup"
+                              className="font-semibold text-lg cursor-pointer"
+                            >
                               {t("checkout.pickup")}
                             </Label>
                             <p className="text-sm text-gray-600 auto-text">
-                              {language === "ar" ? "الاستلام من المتجر" : "Pick up from our store"}
+                              {language === "ar"
+                                ? "الاستلام من المتجر"
+                                : "Pick up from our store"}
                             </p>
                           </div>
                         </div>
                       </div>
-                      <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
+                      <Badge
+                        variant="secondary"
+                        className="bg-green-100 text-green-700 border-green-200"
+                      >
                         {language === "ar" ? "مجاني" : "Free"}
                       </Badge>
                     </div>
