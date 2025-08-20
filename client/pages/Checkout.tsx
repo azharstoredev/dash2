@@ -15,7 +15,8 @@ import {
 import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group";
 import { Separator } from "../components/ui/separator";
 import { Badge } from "../components/ui/badge";
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, Check, Truck, MapPin } from "lucide-react";
+import ImprovedOrderSummary from "../components/ImprovedOrderSummary";
 
 export default function Checkout() {
   const { t } = useLanguage();
@@ -81,11 +82,15 @@ export default function Checkout() {
         price: item.price,
       }));
 
+      // Calculate final total including delivery fee
+      const deliveryFee = deliveryType === "delivery" ? 1.5 : 0;
+      const finalTotal = totalPrice + deliveryFee;
+
       // Create order
       const order = await createOrder({
         customerId: customer.id,
         items: orderItems,
-        total: totalPrice,
+        total: finalTotal,
         status: "processing",
         deliveryType,
         notes:
@@ -103,7 +108,14 @@ export default function Checkout() {
       clearCart();
     } catch (error) {
       console.error("Failed to place order:", error);
-      alert(t("message.error"));
+
+      // Show more specific error message
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "An unknown error occurred while placing your order";
+
+      alert(`${t("message.error")}: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -145,7 +157,10 @@ export default function Checkout() {
               <p className="text-sm font-medium auto-text">
                 {t("checkout.orderNumber") || "Order Number"}:
               </p>
-              <Badge variant="outline" className="text-lg px-4 py-2 ltr-text font-mono">
+              <Badge
+                variant="outline"
+                className="text-lg px-4 py-2 ltr-text font-mono"
+              >
                 #{orderNumber}
               </Badge>
             </div>
@@ -225,7 +240,10 @@ export default function Checkout() {
             {/* Delivery Options */}
             <Card>
               <CardHeader>
-                <CardTitle>{t("checkout.deliveryOptions")}</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Truck className="w-5 h-5 text-primary" />
+                  {t("checkout.deliveryOptions")}
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <RadioGroup
@@ -236,33 +254,82 @@ export default function Checkout() {
                 >
                   <div className="space-y-3">
                     <div
-                      className={`flex items-center space-x-2 [dir=rtl]:space-x-reverse p-4 border rounded-lg cursor-pointer ${
-                        deliveryType === "delivery" ? "border-primary bg-primary/5" : "hover:bg-gray-50"
+                      className={`flex items-center justify-between p-5 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
+                        deliveryType === "delivery"
+                          ? "border-primary bg-primary/10 shadow-md"
+                          : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                       }`}
                       onClick={() => setDeliveryType("delivery")}
                     >
-                      <RadioGroupItem value="delivery" id="delivery" />
-                      <Label htmlFor="delivery" className="font-medium">
-                        {t("checkout.delivery")}
-                      </Label>
+                      <div className="flex items-center gap-4">
+                        <RadioGroupItem
+                          value="delivery"
+                          id="delivery"
+                          className="w-5 h-5"
+                        />
+                        <div className="flex items-center gap-3">
+                          <Truck className="w-5 h-5 text-primary" />
+                          <div>
+                            <Label
+                              htmlFor="delivery"
+                              className="font-semibold text-lg cursor-pointer"
+                            >
+                              {t("checkout.delivery")}
+                            </Label>
+                            <p className="text-sm text-gray-600 auto-text">
+                              {language === "ar"
+                                ? "التوصيل إلى عنوانك"
+                                : "We'll deliver to your address"}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <Badge
+                        variant="outline"
+                        className="bg-blue-50 text-blue-700 border-blue-200"
+                      >
+                        {language === "ar" ? "د.ب 1.50" : "BD 1.50"}
+                      </Badge>
                     </div>
-                  </div>
 
-                  <div
-                    className={`flex items-center justify-between space-x-2 [dir=rtl]:space-x-reverse p-4 border rounded-lg cursor-pointer ${
-                      deliveryType === "pickup" ? "border-primary bg-primary/5" : "hover:bg-gray-50"
-                    }`}
-                    onClick={() => setDeliveryType("pickup")}
-                  >
-                    <div className="flex items-center space-x-2 [dir=rtl]:space-x-reverse">
-                      <RadioGroupItem value="pickup" id="pickup" />
-                      <Label htmlFor="pickup" className="font-medium">
-                        {t("checkout.pickup")}
-                      </Label>
+                    <div
+                      className={`flex items-center justify-between p-5 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
+                        deliveryType === "pickup"
+                          ? "border-primary bg-primary/10 shadow-md"
+                          : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                      }`}
+                      onClick={() => setDeliveryType("pickup")}
+                    >
+                      <div className="flex items-center gap-4">
+                        <RadioGroupItem
+                          value="pickup"
+                          id="pickup"
+                          className="w-5 h-5"
+                        />
+                        <div className="flex items-center gap-3">
+                          <MapPin className="w-5 h-5 text-green-600" />
+                          <div>
+                            <Label
+                              htmlFor="pickup"
+                              className="font-semibold text-lg cursor-pointer"
+                            >
+                              {t("checkout.pickup")}
+                            </Label>
+                            <p className="text-sm text-gray-600 auto-text">
+                              {language === "ar"
+                                ? "الاستلام من المتجر"
+                                : "Pick up from our store"}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <Badge
+                        variant="secondary"
+                        className="bg-green-100 text-green-700 border-green-200"
+                      >
+                        {language === "ar" ? "مجاني" : "Free"}
+                      </Badge>
                     </div>
-                    <Badge variant="secondary" className="text-green-700 bg-green-100">
-                      Free
-                    </Badge>
                   </div>
                 </RadioGroup>
               </CardContent>
@@ -280,74 +347,12 @@ export default function Checkout() {
 
           {/* Order Summary */}
           <div>
-            <Card className="sticky top-4">
-              <CardHeader>
-                <CardTitle>{t("checkout.orderSummary")}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Order Items */}
-                <div className="space-y-4">
-                  {items.map((item) => (
-                    <div
-                      key={`${item.productId}-${item.variantId}`}
-                      className="flex justify-between items-start gap-4 p-3 bg-gray-50 rounded-lg"
-                    >
-                      <div className="flex-1 space-y-1 text-start">
-                        <p className="font-medium text-base auto-text">
-                          {item.productName}
-                        </p>
-                        {item.variantName && (
-                          <p className="text-muted-foreground text-sm auto-text">
-                            {item.variantName}
-                          </p>
-                        )}
-                        <p className="text-muted-foreground text-sm auto-text">
-                          {t("store.quantity")}: {item.quantity}
-                        </p>
-                      </div>
-                      <div className="text-end flex-shrink-0">
-                        <p className="font-semibold text-lg text-primary ltr-text">
-                          BD {(item.price * item.quantity).toFixed(2)}
-                        </p>
-                        <p className="text-xs text-muted-foreground ltr-text">
-                          BD {item.price.toFixed(2)} each
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <Separator />
-
-                {/* Total */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center text-base">
-                    <span className="auto-text text-start">{t("checkout.subtotal")}:</span>
-                    <span className="text-primary ltr-text text-end">BD {totalPrice.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-base">
-                    <span className="auto-text text-start">{t("checkout.deliveryFee")}:</span>
-                    <span className="text-primary ltr-text text-end">{deliveryType === "delivery" ? "BD 1.50" : "BD 0.00"}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xl font-bold p-4 bg-primary/5 rounded-lg">
-                    <span className="auto-text text-start">{t("orders.orderTotal")}:</span>
-                    <span className="text-primary text-2xl ltr-text text-end">
-                      BD {(totalPrice + (deliveryType === "delivery" ? 1.5 : 0)).toFixed(2)}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Place Order Button */}
-                <Button
-                  onClick={handlePlaceOrder}
-                  disabled={!isFormValid() || isSubmitting}
-                  className="w-full"
-                  size="lg"
-                >
-                  {isSubmitting ? t("common.loading") : t("checkout.placeOrder")}
-                </Button>
-              </CardContent>
-            </Card>
+            <ImprovedOrderSummary
+              deliveryType={deliveryType}
+              onPlaceOrder={handlePlaceOrder}
+              isSubmitting={isSubmitting}
+              isFormValid={isFormValid()}
+            />
           </div>
         </div>
       </div>

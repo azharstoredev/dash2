@@ -15,13 +15,45 @@ export const getAllOrders: RequestHandler = async (req, res) => {
 export const createOrder: RequestHandler = async (req, res) => {
   try {
     console.log("Creating order with data:", req.body);
-    const { customerId, items, status, deliveryType, notes } = req.body;
+    const { customerId, items, status, deliveryType, notes, total } = req.body;
 
-    if (!customerId || !items || !Array.isArray(items) || items.length === 0) {
-      console.error("Invalid order data:", { customerId, items });
+    // Validate required fields
+    if (!customerId) {
+      console.error("Missing customerId:", req.body);
+      return res.status(400).json({ error: "Customer ID is required" });
+    }
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      console.error("Invalid items data:", { items });
       return res
         .status(400)
-        .json({ error: "Customer ID and items are required" });
+        .json({
+          error: "Order items are required and must be a non-empty array",
+        });
+    }
+
+    // Validate each item
+    for (const item of items) {
+      if (!item.productId || !item.quantity || !item.price) {
+        console.error("Invalid item data:", item);
+        return res
+          .status(400)
+          .json({
+            error: "Each item must have productId, quantity, and price",
+          });
+      }
+
+      if (item.quantity <= 0) {
+        console.error("Invalid quantity:", item);
+        return res
+          .status(400)
+          .json({ error: "Item quantity must be greater than 0" });
+      }
+
+      if (item.price < 0) {
+        console.error("Invalid price:", item);
+        return res.status(400).json({ error: "Item price cannot be negative" });
+      }
     }
 
     // Check stock availability before processing order
@@ -54,24 +86,49 @@ export const createOrder: RequestHandler = async (req, res) => {
       }
     }
 
+    // Calculate expected total
     const itemsTotal = items.reduce(
       (sum: number, item: OrderItem) => sum + item.price * item.quantity,
       0,
     );
     const deliveryFee = deliveryType === "delivery" ? 1.5 : 0;
-    const total = itemsTotal + deliveryFee;
+    const expectedTotal = itemsTotal + deliveryFee;
+
+    // Use the total from request if provided, otherwise use calculated total
+    const finalTotal = total !== undefined ? total : expectedTotal;
+
+    console.log("Total calculation:", {
+      itemsTotal: itemsTotal.toFixed(2),
+      deliveryFee: deliveryFee.toFixed(2),
+      expectedTotal: expectedTotal.toFixed(2),
+      requestTotal: total,
+      finalTotal: finalTotal.toFixed(2),
+    });
 
     const orderData = {
       customerId,
       items,
-      total,
+      total: finalTotal,
       status: status || "processing",
       deliveryType: deliveryType || "delivery",
-      notes,
+      notes: notes || "",
     };
 
     console.log("Creating order with processed data:", orderData);
-    const newOrder = await orderDb.create(orderData);
+    let newOrder;
+    try {
+      newOrder = await orderDb.create(orderData);
+      console.log("Order created successfully:", newOrder.id);
+    } catch (createError) {
+      console.error("Failed to create order in database:", createError);
+      return res.status(500).json({
+        error: "Failed to create order in database",
+        details:
+          createError instanceof Error
+            ? createError.message
+            : "Unknown database error",
+      });
+    }
 
     // Reduce stock after successful order creation
     for (const item of items) {

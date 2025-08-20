@@ -38,6 +38,15 @@ import {
   deleteImage,
   getStorageInfo,
 } from "./routes/upload";
+import { trackEvent, getAnalytics, getRealTimeData } from "./routes/analytics";
+import {
+  getLogs,
+  addLog,
+  clearLogs,
+  exportLogs,
+  getSystemHealth,
+  initializeLogs,
+} from "./routes/logs";
 
 export function createServer() {
   const app = express();
@@ -91,6 +100,21 @@ export function createServer() {
   app.post("/api/categories", createCategory);
   app.put("/api/categories/:id", updateCategory);
   app.delete("/api/categories/:id", deleteCategory);
+
+  // Analytics routes
+  app.post("/api/analytics/track", trackEvent);
+  app.get("/api/analytics", getAnalytics);
+  app.get("/api/analytics/realtime", getRealTimeData);
+
+  // Logs routes
+  app.get("/api/logs", getLogs);
+  app.post("/api/logs", addLog);
+  app.delete("/api/logs", clearLogs);
+  app.get("/api/logs/export", exportLogs);
+  app.get("/api/logs/health", getSystemHealth);
+
+  // Initialize sample logs
+  initializeLogs();
 
   return app;
 }

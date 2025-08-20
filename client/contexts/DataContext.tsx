@@ -6,6 +6,32 @@ import {
   ReactNode,
 } from "react";
 import { customerApi, productApi, orderApi, categoryApi } from "@/services/api";
+import { analyticsService } from "@/services/analytics";
+
+// Helper function to add logs
+async function addLog(
+  level: "info" | "warning" | "error",
+  category: string,
+  message: string,
+  details?: any,
+) {
+  try {
+    await fetch("/api/logs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        level,
+        category,
+        message,
+        details,
+      }),
+    });
+  } catch (error) {
+    console.error("Failed to add log:", error);
+  }
+}
 
 export interface Customer {
   id: string;
@@ -207,8 +233,26 @@ export function DataProvider({ children }: { children: ReactNode }) {
     try {
       const newCustomer = await customerApi.create(customerData);
       setCustomers((prev) => [...prev, newCustomer]);
+
+      // Track customer creation analytics
+      analyticsService.trackCustomerCreated(newCustomer.id);
+
+      // Log customer creation
+      addLog(
+        "info",
+        "customer",
+        `New customer registered: ${newCustomer.name}`,
+        {
+          customerId: newCustomer.id,
+          customerName: newCustomer.name,
+          phone: newCustomer.phone,
+        },
+      );
     } catch (error) {
       console.error("Failed to add customer:", error);
+      addLog("error", "customer", "Failed to create customer", {
+        error: error.message,
+      });
       throw error;
     }
   };
@@ -244,8 +288,19 @@ export function DataProvider({ children }: { children: ReactNode }) {
     try {
       const newProduct = await productApi.create(productData);
       setProducts((prev) => [...prev, newProduct]);
+
+      // Log product creation
+      addLog("info", "product", `New product added: ${newProduct.name}`, {
+        productId: newProduct.id,
+        productName: newProduct.name,
+        price: newProduct.price,
+        variants: newProduct.variants?.length || 0,
+      });
     } catch (error) {
       console.error("Failed to add product:", error);
+      addLog("error", "product", "Failed to create product", {
+        error: error.message,
+      });
       throw error;
     }
   };
@@ -278,8 +333,23 @@ export function DataProvider({ children }: { children: ReactNode }) {
     try {
       const newOrder = await orderApi.create(orderData);
       setOrders((prev) => [...prev, newOrder]);
+
+      // Track order placement analytics
+      analyticsService.trackOrderPlaced(newOrder.id, newOrder.total);
+
+      // Log order creation
+      addLog("info", "order", `New order created: #${newOrder.id}`, {
+        orderId: newOrder.id,
+        total: newOrder.total,
+        customerId: newOrder.customerId,
+        itemCount: newOrder.items.length,
+        deliveryType: newOrder.deliveryType,
+      });
     } catch (error) {
       console.error("Failed to add order:", error);
+      addLog("error", "order", "Failed to create order", {
+        error: error.message,
+      });
       throw error;
     }
   };

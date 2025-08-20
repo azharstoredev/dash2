@@ -17,7 +17,10 @@ async function apiCall<T>(url: string, options?: RequestInit): Promise<T> {
       let errorMessage = `API Error: ${response.status}`;
 
       try {
-        const errorData = await response.json();
+        // Clone the response to avoid "body stream already read" error
+        const responseClone = response.clone();
+        const errorData = await responseClone.json();
+
         console.error("API Error details:", {
           url: `${API_BASE}${url}`,
           status: response.status,
@@ -25,9 +28,9 @@ async function apiCall<T>(url: string, options?: RequestInit): Promise<T> {
           errorData,
         });
 
-        if (errorData.error) {
+        if (errorData?.error) {
           errorMessage = errorData.error;
-        } else if (errorData.message) {
+        } else if (errorData?.message) {
           errorMessage = errorData.message;
         } else {
           errorMessage = `${errorMessage} ${response.statusText}`;

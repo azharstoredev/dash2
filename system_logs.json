@@ -1,0 +1,90 @@
+[
+  {
+    "level": "info",
+    "category": "system",
+    "message": "Server started successfully",
+    "details": {
+      "port": 8080,
+      "mode": "development"
+    },
+    "timestamp": "2025-08-20T14:36:33.230Z"
+  },
+  {
+    "level": "info",
+    "category": "user",
+    "message": "Admin logged into dashboard",
+    "details": {
+      "userAgent": "Browser"
+    },
+    "timestamp": "2025-08-20T14:36:33.232Z"
+  },
+  {
+    "level": "info",
+    "category": "order",
+    "message": "New order created",
+    "details": {
+      "orderId": "order_001",
+      "total": 25.5
+    },
+    "timestamp": "2025-08-20T14:36:33.233Z"
+  },
+  {
+    "level": "info",
+    "category": "customer",
+    "message": "New customer registered",
+    "details": {
+      "customerName": "Ahmed Al-Rashid"
+    },
+    "timestamp": "2025-08-20T14:36:33.233Z"
+  },
+  {
+    "level": "info",
+    "category": "product",
+    "message": "Product inventory updated",
+    "details": {
+      "productName": "USB Cable",
+      "newStock": 45
+    },
+    "timestamp": "2025-08-20T14:36:33.234Z"
+  },
+  {
+    "level": "warning",
+    "category": "system",
+    "message": "High memory usage detected",
+    "details": {
+      "usage": "85%"
+    },
+    "timestamp": "2025-08-20T14:36:33.234Z"
+  },
+  {
+    "level": "info",
+    "category": "analytics",
+    "message": "Analytics data refreshed",
+    "details": {
+      "recordsProcessed": 1250
+    },
+    "timestamp": "2025-08-20T14:36:33.234Z"
+  },
+  {
+    "level": "info",
+    "category": "system",
+    "message": "System logs exported (7 entries)",
+    "ip": "::ffff:127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+    "timestamp": "2025-08-20T14:42:37.250Z"
+  },
+  {
+    "level": "info",
+    "category": "product",
+    "message": "New product added: asfdsadf",
+    "details": {
+      "productId": "175570134749485j9ulvrb",
+      "productName": "asfdsadf",
+      "price": 2,
+      "variants": 0
+    },
+    "ip": "::ffff:127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+    "timestamp": "2025-08-20T14:49:07.744Z"
+  }
+]

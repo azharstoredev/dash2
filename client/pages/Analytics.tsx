@@ -1,6 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useData } from "@/contexts/DataContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -24,315 +23,282 @@ import {
   PieChart,
   Pie,
   Cell,
+  AreaChart,
+  Area,
 } from "recharts";
 import {
   Eye,
   Users,
-  Globe,
-  Monitor,
-  Smartphone,
+  ShoppingBag,
   TrendingUp,
-  TrendingDown,
+  Activity,
+  AlertCircle,
   RefreshCw,
+  Globe,
   Clock,
-  MapPin,
+  Smartphone,
+  Monitor,
 } from "lucide-react";
+import {
+  analyticsService,
+  AnalyticsData,
+  RealTimeData,
+} from "@/services/analytics";
 
 const Analytics = () => {
   const { language, t } = useLanguage();
-  const { orders, customers, products } = useData();
-  const [timeRange, setTimeRange] = useState("7days");
-  const [isRealTime, setIsRealTime] = useState(true);
-
-  // Calculate real analytics from your actual data
-  const analyticsData = useMemo(() => {
-    const now = new Date();
-    const daysAgo =
-      timeRange === "7days" ? 7 : timeRange === "30days" ? 30 : 90;
-    const startDate = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
-
-    // Filter recent orders
-    const recentOrders = orders.filter((order) => {
-      const orderDate = new Date(order.createdAt || order.created_at || "");
-      return orderDate >= startDate;
-    });
-
-    // Filter recent customers
-    const recentCustomers = customers.filter((customer) => {
-      const customerDate = new Date(customer.createdAt || "");
-      return customerDate >= startDate;
-    });
-
-    const totalOrders = recentOrders.length;
-    const totalRevenue = recentOrders.reduce(
-      (sum, order) => sum + order.total,
-      0,
-    );
-    const totalCustomers = recentCustomers.length;
-    const totalProducts = products.length;
-
-    return {
-      totalOrders,
-      totalRevenue,
-      totalCustomers,
-      totalProducts,
-      recentOrders,
-      recentCustomers,
-    };
-  }, [orders, customers, products, timeRange]);
-
-  const [liveVisitors, setLiveVisitors] = useState(
-    Math.max(1, Math.floor(analyticsData.totalOrders / 10)),
+  const [timeRange, setTimeRange] = useState<"7days" | "30days" | "90days">(
+    "7days",
   );
-  const [totalPageViews, setTotalPageViews] = useState(
-    analyticsData.totalOrders * 3 + 100,
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(
+    null,
   );
-  const [uniqueVisitors, setUniqueVisitors] = useState(
-    analyticsData.totalCustomers + 20,
-  );
-  const [bounceRate, setBounceRate] = useState(
-    Math.max(20, 60 - analyticsData.totalOrders),
-  );
+  const [realTimeData, setRealTimeData] = useState<RealTimeData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Simulate real-time updates
-  useEffect(() => {
-    if (!isRealTime) return;
-
-    const interval = setInterval(() => {
-      // Simulate random changes in real-time data
-      setLiveVisitors((prev) => {
-        const change = Math.floor(Math.random() * 5) - 2; // -2 to +2
-        return Math.max(0, prev + change);
-      });
-
-      // Occasionally increment page views
-      if (Math.random() > 0.7) {
-        setTotalPageViews((prev) => prev + 1);
-      }
-
-      // Occasionally increment unique visitors
-      if (Math.random() > 0.8) {
-        setUniqueVisitors((prev) => prev + 1);
-      }
-    }, 3000); // Update every 3 seconds
-
-    return () => clearInterval(interval);
-  }, [isRealTime]);
-
-  // Real daily visit data based on orders and customers
-  const dailyVisits = useMemo(() => {
-    const days = timeRange === "7days" ? 7 : timeRange === "30days" ? 30 : 90;
-    const data = [];
-
-    for (let i = days - 1; i >= 0; i--) {
-      const date = new Date();
-      date.setDate(date.getDate() - i);
-      const dayStart = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-      );
-      const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
-
-      // Count real orders for this day
-      const dayOrders = orders.filter((order) => {
-        const orderDate = new Date(order.createdAt || order.created_at || "");
-        return orderDate >= dayStart && orderDate < dayEnd;
-      });
-
-      // Count real customers for this day
-      const dayCustomers = customers.filter((customer) => {
-        const customerDate = new Date(customer.createdAt || "");
-        return customerDate >= dayStart && customerDate < dayEnd;
-      });
-
-      data.push({
-        date: date.toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-        }),
-        visitors: Math.max(dayCustomers.length * 2, dayOrders.length * 3, 5), // Estimate visitors from customers/orders
-        pageViews: Math.max(dayOrders.length * 5, dayCustomers.length * 4, 10), // Estimate page views
-      });
+  // Load analytics data
+  const loadAnalyticsData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await analyticsService.getAnalytics(timeRange);
+      setAnalyticsData(data);
+    } catch (err) {
+      console.error("Failed to load analytics:", err);
+      setError("فشل في تحميل بيانات التحليلات");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    return data;
-  }, [timeRange, orders, customers]);
+  // Load real-time data
+  const loadRealTimeData = async () => {
+    try {
+      const data = await analyticsService.getRealTimeData();
+      setRealTimeData(data);
+    } catch (err) {
+      console.error("Failed to load real-time data:", err);
+    }
+  };
 
-  // Mock device breakdown data
-  const deviceData = [
-    { name: "Desktop", value: 45, color: "#8884d8" },
-    { name: "Mobile", value: 40, color: "#82ca9d" },
-    { name: "Tablet", value: 15, color: "#ffc658" },
-  ];
+  useEffect(() => {
+    loadAnalyticsData();
+  }, [timeRange]);
 
-  // Mock traffic sources data
-  const trafficSources = [
-    { source: "Direct", visitors: 324, percentage: 36.2 },
-    { source: "Google Search", visitors: 287, percentage: 32.1 },
-    { source: "Social Media", visitors: 156, percentage: 17.5 },
-    { source: "Referrals", visitors: 89, percentage: 10.0 },
-    { source: "Email", visitors: 36, percentage: 4.2 },
-  ];
-
-  // Real top pages based on your actual data
-  const topPages = useMemo(() => {
-    const basePages = [
-      {
-        page: "/",
-        views: Math.max(analyticsData.totalCustomers * 2, 50),
-        title: "Homepage",
-      },
-      {
-        page: "/products",
-        views: Math.max(analyticsData.totalOrders * 2, 30),
-        title: "Products",
-      },
-      {
-        page: "/checkout",
-        views: analyticsData.totalOrders,
-        title: "Checkout",
-      },
-    ];
-
-    // Add real products from your database
-    const productPages = products.slice(0, 3).map((product) => ({
-      page: `/product/${product.id}`,
-      views: Math.max(Math.floor(Math.random() * 50) + 10, 15),
-      title: product.name,
-    }));
-
-    return [...basePages, ...productPages].sort((a, b) => b.views - a.views);
-  }, [analyticsData, products]);
+  useEffect(() => {
+    // Load real-time data immediately and then every 30 seconds
+    loadRealTimeData();
+    const interval = setInterval(loadRealTimeData, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleRefresh = () => {
-    // Refresh real data calculations
-    setLiveVisitors(
-      Math.max(
-        1,
-        Math.floor(analyticsData.totalOrders / 10) +
-          Math.floor(Math.random() * 5),
-      ),
-    );
-    setTotalPageViews(
-      analyticsData.totalOrders * 3 + 100 + Math.floor(Math.random() * 20),
-    );
-    setUniqueVisitors(
-      analyticsData.totalCustomers + 20 + Math.floor(Math.random() * 10),
-    );
+    loadAnalyticsData();
+    loadRealTimeData();
   };
+
+  // Translation helpers
+  const getTimeRangeLabel = (range: string) => {
+    switch (range) {
+      case "7days":
+        return language === "ar" ? "آخر 7 أيام" : "Last 7 days";
+      case "30days":
+        return language === "ar" ? "آخر 30 يوماً" : "Last 30 days";
+      case "90days":
+        return language === "ar" ? "آخر 90 يوماً" : "Last 90 days";
+      default:
+        return range;
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-2" />
+          <p className="text-muted-foreground">
+            {language === "ar"
+              ? "جارٍ تحميل بيانات التحليلات..."
+              : "Loading analytics data..."}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Card className="max-w-md">
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <AlertCircle className="w-8 h-8 text-red-500 mx-auto mb-2" />
+              <p className="text-muted-foreground mb-4">{error}</p>
+              <Button onClick={handleRefresh}>
+                <RefreshCw className="w-4 h-4 mr-2" />
+                {language === "ar" ? "إعادة المحاولة" : "Try Again"}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!analyticsData) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Card className="max-w-md">
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <AlertCircle className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
+              <p className="text-muted-foreground">
+                {language === "ar"
+                  ? "لا توجد بيانات تحليلات متاحة حالياً. ابدأ باستخدام الموقع لجمع البيانات."
+                  : "No analytics data available yet. Start using the website to collect data."}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
-            {t("analytics.title")}
+          <h1 className="text-3xl font-bold">
+            {language === "ar" ? "تحليلات الموقع" : "Website Analytics"}
           </h1>
-          <p className="text-gray-600 mt-2">
-            Real-time website analytics and visitor insights
+          <p className="text-muted-foreground mt-2">
+            {language === "ar"
+              ? "إحصائيات حقيقية لأداء موقعك والزوار"
+              : "Real website performance and visitor insights"}
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Select value={timeRange} onValueChange={setTimeRange}>
+          <Select
+            value={timeRange}
+            onValueChange={(value: any) => setTimeRange(value)}
+          >
             <SelectTrigger className="w-40">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="7days">Last 7 days</SelectItem>
-              <SelectItem value="30days">Last 30 days</SelectItem>
-              <SelectItem value="90days">Last 90 days</SelectItem>
+              <SelectItem value="7days">
+                {getTimeRangeLabel("7days")}
+              </SelectItem>
+              <SelectItem value="30days">
+                {getTimeRangeLabel("30days")}
+              </SelectItem>
+              <SelectItem value="90days">
+                {getTimeRangeLabel("90days")}
+              </SelectItem>
             </SelectContent>
           </Select>
           <Button onClick={handleRefresh} variant="outline" size="sm">
             <RefreshCw className="w-4 h-4 mr-2" />
-            Refresh
+            {language === "ar" ? "تحديث" : "Refresh"}
           </Button>
         </div>
       </div>
 
       {/* Real-time Status */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div
-                className={`w-3 h-3 rounded-full ${isRealTime ? "bg-green-500 animate-pulse" : "bg-gray-400"}`}
-              ></div>
-              <span className="text-sm font-medium">
-                {isRealTime
-                  ? "Real-time tracking active"
-                  : "Real-time tracking paused"}
-              </span>
+      {realTimeData && (
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                <span className="text-sm font-medium">
+                  {language === "ar"
+                    ? "تتبع مباشر نشط"
+                    : "Real-time tracking active"}
+                </span>
+                <Badge variant="secondary" className="ml-2">
+                  {realTimeData.activeSessions}{" "}
+                  {language === "ar" ? "نشط الآن" : "active now"}
+                </Badge>
+              </div>
+              <div className="text-xs text-muted-foreground">
+                {language === "ar" ? "آخر تحديث: " : "Last updated: "}
+                {new Date(realTimeData.timestamp).toLocaleTimeString()}
+              </div>
             </div>
-            <Button
-              onClick={() => setIsRealTime(!isRealTime)}
-              variant="outline"
-              size="sm"
-            >
-              {isRealTime ? "Pause" : "Resume"}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Live Visitors</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {language === "ar" ? "مشاهدات الصفحات" : "Page Views"}
+            </CardTitle>
             <Eye className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">
-              {liveVisitors}
-            </div>
-            <p className="text-xs text-muted-foreground">Currently browsing</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
-            <Globe className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {analyticsData.totalOrders}
+            <div className="text-2xl font-bold text-blue-600">
+              {analyticsData.summary.pageViews.toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">
-              Orders in selected period
+              {getTimeRangeLabel(timeRange)}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {language === "ar" ? "زوار فريدون" : "Unique Visitors"}
+            </CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              BD {analyticsData.totalRevenue.toFixed(2)}
+            <div className="text-2xl font-bold text-green-600">
+              {analyticsData.summary.uniqueVisitors}
             </div>
             <p className="text-xs text-muted-foreground">
-              Revenue in selected period
+              {getTimeRangeLabel(timeRange)}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">New Customers</CardTitle>
-            <TrendingDown className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">
+              {language === "ar" ? "إجمالي الطلبات" : "Total Orders"}
+            </CardTitle>
+            <ShoppingBag className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {analyticsData.totalCustomers}
+            <div className="text-2xl font-bold text-purple-600">
+              {analyticsData.summary.orders}
             </div>
             <p className="text-xs text-muted-foreground">
-              Customers in selected period
+              {getTimeRangeLabel(timeRange)}
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              {language === "ar" ? "إجمالي الإيرادات" : "Total Revenue"}
+            </CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-orange-600">
+              {language === "ar" ? "د.ب" : "BD"}{" "}
+              {analyticsData.summary.revenue.toFixed(2)}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {getTimeRangeLabel(timeRange)}
             </p>
           </CardContent>
         </Card>
@@ -340,33 +306,57 @@ const Analytics = () => {
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Visitor Trends */}
+        {/* Daily Trends */}
         <Card>
           <CardHeader>
-            <CardTitle>Visitor Trends</CardTitle>
+            <CardTitle>
+              {language === "ar" ? "الاتجاهات اليومية" : "Daily Trends"}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={dailyVisits}>
+              <AreaChart data={analyticsData.dailyData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
                 <YAxis />
-                <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="visitors"
-                  stroke="#8884d8"
-                  strokeWidth={2}
-                  name="Visitors"
+                <Tooltip
+                  labelFormatter={(value) =>
+                    `${language === "ar" ? "التاريخ" : "Date"}: ${value}`
+                  }
+                  formatter={(value, name) => [
+                    value,
+                    name === "pageViews"
+                      ? language === "ar"
+                        ? "مشاهدات الصفحات"
+                        : "Page Views"
+                      : name === "visitors"
+                        ? language === "ar"
+                          ? "الزوار"
+                          : "Visitors"
+                        : name === "orders"
+                          ? language === "ar"
+                            ? "الطلبات"
+                            : "Orders"
+                          : name,
+                  ]}
                 />
-                <Line
+                <Area
                   type="monotone"
                   dataKey="pageViews"
-                  stroke="#82ca9d"
-                  strokeWidth={2}
-                  name="Page Views"
+                  stackId="1"
+                  stroke="#8884d8"
+                  fill="#8884d8"
+                  fillOpacity={0.6}
                 />
-              </LineChart>
+                <Area
+                  type="monotone"
+                  dataKey="visitors"
+                  stackId="1"
+                  stroke="#82ca9d"
+                  fill="#82ca9d"
+                  fillOpacity={0.6}
+                />
+              </AreaChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
@@ -374,105 +364,154 @@ const Analytics = () => {
         {/* Device Breakdown */}
         <Card>
           <CardHeader>
-            <CardTitle>Device Breakdown</CardTitle>
+            <CardTitle>
+              {language === "ar" ? "توزيع الأجهزة" : "Device Breakdown"}
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={deviceData}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                  label={({ name, value }) => `${name}: ${value}%`}
-                >
-                  {deviceData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+            {analyticsData.deviceBreakdown.length > 0 ? (
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={analyticsData.deviceBreakdown}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                    label={({ name, value }) => `${name}: ${value}`}
+                  >
+                    {analyticsData.deviceBreakdown.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex items-center justify-center h-[300px] text-muted-foreground">
+                <div className="text-center">
+                  <Monitor className="w-8 h-8 mx-auto mb-2" />
+                  <p>
+                    {language === "ar"
+                      ? "لا توجد بيانات أجهزة متاحة"
+                      : "No device data available"}
+                  </p>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
 
-      {/* Traffic Sources & Top Pages */}
+      {/* Top Pages & Errors */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Traffic Sources */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Traffic Sources</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {trafficSources.map((source, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                    <span className="font-medium">{source.source}</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-bold">{source.visitors}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {source.percentage}%
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Top Pages */}
         <Card>
           <CardHeader>
-            <CardTitle>Top Pages</CardTitle>
+            <CardTitle>
+              {language === "ar" ? "أهم الصفحات" : "Top Pages"}
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {topPages.map((page, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <div>
-                    <div className="font-medium">{page.title}</div>
+            {analyticsData.topPages.length > 0 ? (
+              <div className="space-y-4">
+                {analyticsData.topPages.map((page, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
+                    <div>
+                      <div className="font-medium">{page.title}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {page.page}
+                      </div>
+                    </div>
+                    <div className="font-bold">{page.views}</div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-[200px] text-muted-foreground">
+                <div className="text-center">
+                  <Globe className="w-8 h-8 mx-auto mb-2" />
+                  <p>
+                    {language === "ar"
+                      ? "لا توجد بيانات صفحات متاحة"
+                      : "No page data available"}
+                  </p>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Recent Errors */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <AlertCircle className="w-4 h-4" />
+              {language === "ar" ? "الأخطاء الأخيرة" : "Recent Errors"}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {analyticsData.errors.length > 0 ? (
+              <div className="space-y-3">
+                {analyticsData.errors.slice(0, 5).map((error, index) => (
+                  <div key={index} className="text-sm">
+                    <div className="font-medium text-red-600">
+                      {error.error}
+                    </div>
                     <div className="text-xs text-muted-foreground">
-                      {page.page}
+                      {error.page} •{" "}
+                      {new Date(error.timestamp).toLocaleString()}
                     </div>
                   </div>
-                  <div className="font-bold">{page.views}</div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-[200px] text-muted-foreground">
+                <div className="text-center">
+                  <Activity className="w-8 h-8 mx-auto mb-2 text-green-500" />
+                  <p>
+                    {language === "ar"
+                      ? "لا توجد أخطاء - الموقع يعمل بشكل جيد!"
+                      : "No errors - site running smoothly!"}
+                  </p>
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
 
-      {/* Google Analytics Integration Note */}
+      {/* Data Collection Notice */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Globe className="w-5 h-5" />
-            Google Analytics Integration
+            <Clock className="w-5 h-5" />
+            {language === "ar" ? "حول هذه البيانات" : "About This Data"}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              This analytics dashboard shows real-time website visitor data. To
-              connect with Google Analytics:
+          <div className="space-y-3 text-sm text-muted-foreground">
+            <p>
+              {language === "ar"
+                ? "تُظهر هذه اللوحة بيانات حقيقية من استخدام موقعك. البيانات محدثة كل 30 ثانية."
+                : "This dashboard shows real data from your website usage. Data is updated every 30 seconds."}
             </p>
-            <ol className="list-decimal list-inside space-y-2 text-sm">
-              <li>Set up Google Analytics 4 property for your website</li>
-              <li>Add the Google Analytics tracking code to your website</li>
-              <li>Configure Google Analytics Reporting API access</li>
-              <li>Update environment variables with your GA4 credentials</li>
-            </ol>
-            <div className="mt-4">
-              <Badge variant="outline">Demo Mode</Badge>
-              <span className="ml-2 text-sm text-muted-foreground">
-                Currently showing mock data for demonstration
+            <div className="flex flex-wrap gap-4 text-xs">
+              <span>
+                {language === "ar" ? "آخر تحديث: " : "Last updated: "}
+                {new Date(analyticsData.lastUpdated).toLocaleString()}
+              </span>
+              <span>
+                {language === "ar" ? "الأخطاء: " : "Errors: "}
+                {analyticsData.summary.errors}
+              </span>
+              <span>
+                {language === "ar" ? "مشاهدات المنتجات: " : "Product views: "}
+                {analyticsData.summary.productViews}
               </span>
             </div>
           </div>
