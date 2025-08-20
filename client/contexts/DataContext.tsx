@@ -231,8 +231,16 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
       // Track customer creation analytics
       analyticsService.trackCustomerCreated(newCustomer.id);
+
+      // Log customer creation
+      addLog("info", "customer", `New customer registered: ${newCustomer.name}`, {
+        customerId: newCustomer.id,
+        customerName: newCustomer.name,
+        phone: newCustomer.phone,
+      });
     } catch (error) {
       console.error("Failed to add customer:", error);
+      addLog("error", "customer", "Failed to create customer", { error: error.message });
       throw error;
     }
   };
