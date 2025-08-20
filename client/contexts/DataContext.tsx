@@ -276,8 +276,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
     try {
       const newProduct = await productApi.create(productData);
       setProducts((prev) => [...prev, newProduct]);
+
+      // Log product creation
+      addLog("info", "product", `New product added: ${newProduct.name}`, {
+        productId: newProduct.id,
+        productName: newProduct.name,
+        price: newProduct.price,
+        variants: newProduct.variants?.length || 0,
+      });
     } catch (error) {
       console.error("Failed to add product:", error);
+      addLog("error", "product", "Failed to create product", { error: error.message });
       throw error;
     }
   };
