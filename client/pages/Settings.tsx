@@ -348,6 +348,29 @@ export default function Settings() {
     }
   };
 
+  const runDiagnostics = async () => {
+    setIsDiagnosing(true);
+    try {
+      const results = await diagnoseApiHealth();
+      const successCount = results.filter(r => r.success).length;
+      const totalCount = results.length;
+
+      showAlert({
+        title: "API Diagnostics Complete",
+        message: `${successCount}/${totalCount} endpoints working. Check console for details.`,
+        type: successCount === totalCount ? "success" : "warning",
+      });
+    } catch (error) {
+      showAlert({
+        title: "Diagnostics Failed",
+        message: "Failed to run API diagnostics",
+        type: "error",
+      });
+    } finally {
+      setIsDiagnosing(false);
+    }
+  };
+
   const tabs = [
     { id: "basic", label: t("settings.basicSettings"), icon: Store },
     { id: "delivery", label: t("settings.deliverySettings"), icon: Truck },
