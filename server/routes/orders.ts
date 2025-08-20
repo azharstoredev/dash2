@@ -15,13 +15,35 @@ export const getAllOrders: RequestHandler = async (req, res) => {
 export const createOrder: RequestHandler = async (req, res) => {
   try {
     console.log("Creating order with data:", req.body);
-    const { customerId, items, status, deliveryType, notes } = req.body;
+    const { customerId, items, status, deliveryType, notes, total } = req.body;
 
-    if (!customerId || !items || !Array.isArray(items) || items.length === 0) {
-      console.error("Invalid order data:", { customerId, items });
-      return res
-        .status(400)
-        .json({ error: "Customer ID and items are required" });
+    // Validate required fields
+    if (!customerId) {
+      console.error("Missing customerId:", req.body);
+      return res.status(400).json({ error: "Customer ID is required" });
+    }
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      console.error("Invalid items data:", { items });
+      return res.status(400).json({ error: "Order items are required and must be a non-empty array" });
+    }
+
+    // Validate each item
+    for (const item of items) {
+      if (!item.productId || !item.quantity || !item.price) {
+        console.error("Invalid item data:", item);
+        return res.status(400).json({ error: "Each item must have productId, quantity, and price" });
+      }
+
+      if (item.quantity <= 0) {
+        console.error("Invalid quantity:", item);
+        return res.status(400).json({ error: "Item quantity must be greater than 0" });
+      }
+
+      if (item.price < 0) {
+        console.error("Invalid price:", item);
+        return res.status(400).json({ error: "Item price cannot be negative" });
+      }
     }
 
     // Check stock availability before processing order
