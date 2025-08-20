@@ -59,6 +59,23 @@ async function apiCall<T>(url: string, options?: RequestInit, retryCount = 0): P
 
     return response.json();
   } catch (error) {
+    console.error(`API call failed (attempt ${retryCount + 1}):`, {
+      url: `${API_BASE}${url}`,
+      error: error instanceof Error ? error.message : String(error),
+    });
+
+    // Check if we should retry
+    if (retryCount < maxRetries &&
+        (error instanceof Error &&
+         (error.name === 'AbortError' ||
+          error.message.includes('Failed to fetch') ||
+          error.message.includes('Network error')))) {
+
+      console.log(`Retrying API call in ${retryDelay}ms...`);
+      await new Promise(resolve => setTimeout(resolve, retryDelay));
+      return apiCall<T>(url, options, retryCount + 1);
+    }
+
     if (error instanceof Error) {
       throw error;
     }
