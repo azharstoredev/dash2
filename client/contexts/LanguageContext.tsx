@@ -571,7 +571,7 @@ const translations = {
     "nav.revenue": "الإيرادات",
     "nav.analytics": "التحليلات",
     "nav.categories": "التصنيفات",
-    "nav.settings": "الإعدادات",
+    "nav.settings": "ا��إعدادات",
     "nav.logout": "تسجيل الخروج",
     "nav.adminPanel": "لوحة الإدارة",
 
@@ -623,8 +623,8 @@ const translations = {
     // Orders
     "orders.title": "الطلبات",
     "orders.subtitle": "إدارة طلبات العملاء والتوصيل",
-    "orders.addNew": "إض��فة طلب جديد",
-    "orders.search": "البحث في الطلبات...",
+    "orders.addNew": "إضافة طلب جديد",
+    "orders.search": "ا��بحث في الطلبات...",
     "orders.orderId": "رقم الطلب",
     "orders.customer": "العميل",
     "orders.total": "الإجمالي",
@@ -678,12 +678,12 @@ const translations = {
 
     // Customers
     "customers.title": "العملاء",
-    "customers.subtitle": "إدارة قاعدة بيانات العملاء",
+    "customers.subtitle": "إدارة قاعدة بيان��ت العملاء",
     "customers.addNew": "إضافة عميل جديد",
     "customers.search": "البحث في العملاء...",
     "customers.name": "الاسم",
     "customers.phone": "الهاتف",
-    "customers.address": "العنوان",
+    "customers.address": "ا��عنوان",
 
     "customers.edit": "تعديل",
     "customers.delete": "حذف",
@@ -707,7 +707,7 @@ const translations = {
     "revenue.avgOrderValue": "متوسط قيمة الطلب",
     "revenue.monthlyTrend": "اتجاه الإيرادات الشهرية",
     "revenue.dailyRevenue": "الإيرادات اليومية (هذا الشهر)",
-    "revenue.topProducts": "أفضل المنتجات من حيث الإيرادات",
+    "revenue.topProducts": "أفضل المنتجات من حيث الإيرا��ات",
     "revenue.deliveryAnalysis": "تحليل نوع التسليم",
     "revenue.revenueByStatus": "الإيرادات حسب حالة الطلب",
     "revenue.month": "الشهر",
@@ -812,7 +812,7 @@ const translations = {
     "checkout.deliveryFee": "رسوم التوصيل",
     "checkout.total": "المجموع الكلي",
     "checkout.orderTotal": "إجمالي الطلب",
-    "checkout.placeOrder": "إرسال الطلب",
+    "checkout.placeOrder": "إرس��ل الطلب",
     "checkout.orderSuccess": "تم تأكيد الطلب بنجاح!",
     "checkout.thankYou":
       "شكراً لك على طلبك! لقد استلمنا طلبك وسنقوم بمعالجته قريباً.",
@@ -895,7 +895,7 @@ const translations = {
     "analytics.tryAgain": "إعادة المحاولة",
     "analytics.noPageData": "لا توجد بيانات صفحات متاحة",
     "analytics.noDeviceData": "لا توجد بيانات أجهزة متاحة",
-    "analytics.noErrorsGood": "لا توجد أخطاء - الم��قع يعمل بشكل جيد!",
+    "analytics.noErrorsGood": "لا توجد أخطاء - الموقع يعمل بشكل جيد!",
     "analytics.desktop": "الكمبيوتر المكتبي",
     "analytics.mobile": "الهاتف المحمول",
     "analytics.tablet": "الجهاز اللوحي",
@@ -945,7 +945,7 @@ const translations = {
     "settings.save": "حفظ الإعدادات",
     "settings.reset": "إعادة تعيين",
     "settings.saveSuccess": "تم حفظ الإعدادات بنجاح!",
-    "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
+    "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاو��ة مرة أخرى.",
     "settings.resetConfirm":
       "هل أنت متأكد من إعادة تعيين جميع الإعدادات للقيم الافتراضية؟",
     "settings.unsavedChanges": "لديك تغييرات غير محفوظة. لا تنس الحفظ!",
@@ -966,7 +966,7 @@ const translations = {
     "settings.lowStockThreshold": "حد المخزون المنخفض",
     "settings.maxOrderQuantity": "الحد الأقصى لكمية الطلب",
     "settings.orderProcessingTime": "وقت معالجة الطلب",
-    "settings.performanceOptimization": "الأداء والتحسين",
+    "settings.performanceOptimization": "ا��أداء والتحسين",
     "settings.userExperience": "تجربة المستخدم",
     "settings.systemSettings": "إعدادات النظام",
 
@@ -1008,7 +1008,7 @@ const translations = {
     "settings.displayOptions": "خيارات العرض",
     "settings.paymentSettings": "إعدادات الدفع",
 
-    "settings.enablePerformanceMode": "��ضع الأداء",
+    "settings.enablePerformanceMode": "وضع الأداء",
     "settings.enableImageCompression": "ضغط الصور",
     "settings.maxImageSizeMB": "الحد الأقصى لحجم الصورة (ميجابايت)",
     "settings.enableAutoSave": "الحفظ التلقائي",
@@ -1024,7 +1024,7 @@ const translations = {
       "قم بتغيير كلمة المرور للوصول إلى لوحة التح��م",
 
     // Store Information
-    "settings.storeInformation": "معلوما�� المتجر",
+    "settings.storeInformation": "معلومات المتجر",
     "settings.storeName": "اسم المتجر",
     "settings.storeDescription": "وصف المتجر",
     "settings.currency": "العملة",
@@ -1053,7 +1053,7 @@ const translations = {
     // Shipping & Delivery
     "settings.shippingDelivery": "الشحن والتوصيل",
     "settings.enableDelivery": "تفعيل التوصيل",
-    "settings.enablePickup": "��فعيل الاستلام",
+    "settings.enablePickup": "تفعيل الاستلام",
     "settings.deliveryFee": "رسوم التوصيل",
     "settings.freeDeliveryThreshold": "حد التوصيل المجاني",
     "settings.estimatedDeliveryTime": "الوقت المتوقع للتوصيل",
