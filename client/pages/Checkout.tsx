@@ -281,74 +281,12 @@ export default function Checkout() {
 
           {/* Order Summary */}
           <div>
-            <Card className="sticky top-4">
-              <CardHeader>
-                <CardTitle>{t("checkout.orderSummary")}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Order Items */}
-                <div className="space-y-4">
-                  {items.map((item) => (
-                    <div
-                      key={`${item.productId}-${item.variantId}`}
-                      className="flex justify-between items-start gap-4 p-3 bg-gray-50 rounded-lg"
-                    >
-                      <div className="flex-1 space-y-1 text-start">
-                        <p className="font-medium text-base auto-text">
-                          {item.productName}
-                        </p>
-                        {item.variantName && (
-                          <p className="text-muted-foreground text-sm auto-text">
-                            {item.variantName}
-                          </p>
-                        )}
-                        <p className="text-muted-foreground text-sm auto-text">
-                          {t("store.quantity")}: {item.quantity}
-                        </p>
-                      </div>
-                      <div className="text-end flex-shrink-0">
-                        <p className="font-semibold text-lg text-primary ltr-text">
-                          BD {(item.price * item.quantity).toFixed(2)}
-                        </p>
-                        <p className="text-xs text-muted-foreground ltr-text">
-                          BD {item.price.toFixed(2)} each
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <Separator />
-
-                {/* Total */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center text-base">
-                    <span className="auto-text text-start">{t("checkout.subtotal")}:</span>
-                    <span className="text-primary ltr-text text-end">BD {totalPrice.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-base">
-                    <span className="auto-text text-start">{t("checkout.deliveryFee")}:</span>
-                    <span className="text-primary ltr-text text-end">{deliveryType === "delivery" ? "BD 1.50" : "BD 0.00"}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xl font-bold p-4 bg-primary/5 rounded-lg">
-                    <span className="auto-text text-start">{t("orders.orderTotal")}:</span>
-                    <span className="text-primary text-2xl ltr-text text-end">
-                      BD {(totalPrice + (deliveryType === "delivery" ? 1.5 : 0)).toFixed(2)}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Place Order Button */}
-                <Button
-                  onClick={handlePlaceOrder}
-                  disabled={!isFormValid() || isSubmitting}
-                  className="w-full"
-                  size="lg"
-                >
-                  {isSubmitting ? t("common.loading") : t("checkout.placeOrder")}
-                </Button>
-              </CardContent>
-            </Card>
+            <ImprovedOrderSummary
+              deliveryType={deliveryType}
+              onPlaceOrder={handlePlaceOrder}
+              isSubmitting={isSubmitting}
+              isFormValid={isFormValid()}
+            />
           </div>
         </div>
       </div>
