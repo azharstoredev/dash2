@@ -837,6 +837,50 @@ export default function Settings() {
               </CardContent>
             </Card>
 
+            {/* API Diagnostics */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Monitor className="w-5 h-5" />
+                  API Diagnostics
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <Info className="w-5 h-5 text-gray-600 mt-0.5" />
+                    <div>
+                      <h4 className="font-medium text-gray-900 mb-1">
+                        Network Connectivity Test
+                      </h4>
+                      <p className="text-sm text-gray-700">
+                        Test all API endpoints to diagnose network connectivity issues.
+                        Results will be logged to the browser console.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-medium">Run API Health Check</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Test connectivity to all backend services
+                    </p>
+                  </div>
+                  <Button
+                    onClick={runDiagnostics}
+                    disabled={isDiagnosing}
+                    variant="outline"
+                    className="flex items-center gap-2"
+                  >
+                    <Monitor className="w-4 h-4" />
+                    {isDiagnosing ? "Testing..." : "Run Diagnostics"}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* System Settings Component */}
             <SystemSettings />
           </div>
