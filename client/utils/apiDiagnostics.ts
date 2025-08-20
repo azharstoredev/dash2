@@ -10,11 +10,11 @@ export interface DiagnosticResult {
 
 export async function runApiDiagnostics(): Promise<DiagnosticResult[]> {
   const endpoints = [
-    '/api/ping',
-    '/api/customers',
-    '/api/products', 
-    '/api/orders',
-    '/api/categories'
+    "/api/ping",
+    "/api/customers",
+    "/api/products",
+    "/api/orders",
+    "/api/categories",
   ];
 
   const results: DiagnosticResult[] = [];
@@ -23,21 +23,21 @@ export async function runApiDiagnostics(): Promise<DiagnosticResult[]> {
     const startTime = Date.now();
     try {
       const response = await fetch(endpoint, {
-        method: 'GET',
-        cache: 'no-cache',
+        method: "GET",
+        cache: "no-cache",
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
 
       const responseTime = Date.now() - startTime;
-      
+
       if (response.ok) {
         results.push({
           endpoint,
           success: true,
           status: response.status,
-          responseTime
+          responseTime,
         });
       } else {
         results.push({
@@ -45,7 +45,7 @@ export async function runApiDiagnostics(): Promise<DiagnosticResult[]> {
           success: false,
           status: response.status,
           error: response.statusText,
-          responseTime
+          responseTime,
         });
       }
     } catch (error) {
@@ -53,8 +53,8 @@ export async function runApiDiagnostics(): Promise<DiagnosticResult[]> {
       results.push({
         endpoint,
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
-        responseTime
+        error: error instanceof Error ? error.message : "Unknown error",
+        responseTime,
       });
     }
   }
@@ -63,25 +63,28 @@ export async function runApiDiagnostics(): Promise<DiagnosticResult[]> {
 }
 
 export function logDiagnostics(results: DiagnosticResult[]) {
-  console.group('🔍 API Diagnostics');
-  
-  results.forEach(result => {
-    const icon = result.success ? '✅' : '❌';
+  console.group("🔍 API Diagnostics");
+
+  results.forEach((result) => {
+    const icon = result.success ? "✅" : "❌";
     const timing = `${result.responseTime}ms`;
-    
+
     if (result.success) {
       console.log(`${icon} ${result.endpoint} - ${result.status} (${timing})`);
     } else {
       console.error(`${icon} ${result.endpoint} - ${result.error} (${timing})`);
     }
   });
-  
-  const successCount = results.filter(r => r.success).length;
-  const avgResponseTime = results.reduce((sum, r) => sum + r.responseTime, 0) / results.length;
-  
-  console.log(`\n📊 Summary: ${successCount}/${results.length} endpoints working`);
+
+  const successCount = results.filter((r) => r.success).length;
+  const avgResponseTime =
+    results.reduce((sum, r) => sum + r.responseTime, 0) / results.length;
+
+  console.log(
+    `\n📊 Summary: ${successCount}/${results.length} endpoints working`,
+  );
   console.log(`⏱️ Average response time: ${avgResponseTime.toFixed(0)}ms`);
-  
+
   console.groupEnd();
 }
 

@@ -313,8 +313,8 @@ export default function Settings() {
   const fixCharacters = async () => {
     setIsFixingCharacters(true);
     try {
-      const response = await fetch('/api/system/fix-characters', {
-        method: 'POST',
+      const response = await fetch("/api/system/fix-characters", {
+        method: "POST",
       });
 
       const result = await response.json();
@@ -352,7 +352,7 @@ export default function Settings() {
     setIsDiagnosing(true);
     try {
       const results = await diagnoseApiHealth();
-      const successCount = results.filter(r => r.success).length;
+      const successCount = results.filter((r) => r.success).length;
       const totalCount = results.length;
 
       showAlert({
@@ -809,9 +809,10 @@ export default function Settings() {
                         Automatic Character Fix
                       </h4>
                       <p className="text-sm text-blue-800">
-                        This tool automatically detects and fixes corrupted UTF-8 characters
-                        (like "�") that appear in Arabic text throughout the application.
-                        Common issues include corrupted characters in translations and text content.
+                        This tool automatically detects and fixes corrupted
+                        UTF-8 characters (like "�") that appear in Arabic text
+                        throughout the application. Common issues include
+                        corrupted characters in translations and text content.
                       </p>
                     </div>
                   </div>
@@ -821,7 +822,8 @@ export default function Settings() {
                   <div>
                     <h4 className="font-medium">Fix Corrupted Characters</h4>
                     <p className="text-sm text-muted-foreground">
-                      Scan and fix all corrupted UTF-8 characters in the codebase
+                      Scan and fix all corrupted UTF-8 characters in the
+                      codebase
                     </p>
                   </div>
                   <Button
@@ -854,8 +856,8 @@ export default function Settings() {
                         Network Connectivity Test
                       </h4>
                       <p className="text-sm text-gray-700">
-                        Test all API endpoints to diagnose network connectivity issues.
-                        Results will be logged to the browser console.
+                        Test all API endpoints to diagnose network connectivity
+                        issues. Results will be logged to the browser console.
                       </p>
                     </div>
                   </div>

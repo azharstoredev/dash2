@@ -922,7 +922,6 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                       </div>
                     </div>
                   </div>
-
                 </CardContent>
               </Card>
             )}

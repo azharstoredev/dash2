@@ -11,9 +11,9 @@ export function NetworkStatus() {
   const checkServerConnection = async () => {
     setIsChecking(true);
     try {
-      const response = await fetch('/api/ping', {
-        method: 'GET',
-        cache: 'no-cache',
+      const response = await fetch("/api/ping", {
+        method: "GET",
+        cache: "no-cache",
       });
       setServerReachable(response.ok);
     } catch (error) {
@@ -28,21 +28,21 @@ export function NetworkStatus() {
       setIsOnline(true);
       checkServerConnection();
     };
-    
+
     const handleOffline = () => {
       setIsOnline(false);
       setServerReachable(false);
     };
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
     // Check server connection on mount
     checkServerConnection();
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, []);
 
@@ -55,10 +55,9 @@ export function NetworkStatus() {
       <WifiOff className="h-4 w-4" />
       <AlertDescription className="flex items-center justify-between">
         <span>
-          {!isOnline 
+          {!isOnline
             ? "No internet connection. Please check your network."
-            : "Server connection lost. Some features may not work."
-          }
+            : "Server connection lost. Some features may not work."}
         </span>
         <Button
           variant="outline"

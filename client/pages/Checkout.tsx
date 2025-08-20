@@ -334,7 +334,6 @@ export default function Checkout() {
                 </RadioGroup>
               </CardContent>
             </Card>
-
           </div>
 
           {/* Order Summary */}

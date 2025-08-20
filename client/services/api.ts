@@ -3,7 +3,11 @@ import { Customer, Product, Order, Category } from "@/contexts/DataContext";
 const API_BASE = "/api";
 
 // Helper function for API calls with retry logic
-async function apiCall<T>(url: string, options?: RequestInit, retryCount = 0): Promise<T> {
+async function apiCall<T>(
+  url: string,
+  options?: RequestInit,
+  retryCount = 0,
+): Promise<T> {
   const maxRetries = 2;
   const retryDelay = 1000 * (retryCount + 1); // 1s, 2s delay
 
@@ -65,14 +69,15 @@ async function apiCall<T>(url: string, options?: RequestInit, retryCount = 0): P
     });
 
     // Check if we should retry
-    if (retryCount < maxRetries &&
-        (error instanceof Error &&
-         (error.name === 'AbortError' ||
-          error.message.includes('Failed to fetch') ||
-          error.message.includes('Network error')))) {
-
+    if (
+      retryCount < maxRetries &&
+      error instanceof Error &&
+      (error.name === "AbortError" ||
+        error.message.includes("Failed to fetch") ||
+        error.message.includes("Network error"))
+    ) {
       console.log(`Retrying API call in ${retryDelay}ms...`);
-      await new Promise(resolve => setTimeout(resolve, retryDelay));
+      await new Promise((resolve) => setTimeout(resolve, retryDelay));
       return apiCall<T>(url, options, retryCount + 1);
     }
 

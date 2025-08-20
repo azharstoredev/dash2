@@ -163,7 +163,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
         setCategories(categoriesData);
       } catch (parallelError) {
         // If parallel loading fails, try loading individually
-        console.warn("Parallel loading failed, trying individual requests:", parallelError);
+        console.warn(
+          "Parallel loading failed, trying individual requests:",
+          parallelError,
+        );
 
         try {
           const customersData = await customerApi.getAll().catch(() => []);
@@ -204,7 +207,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Delay to allow server to start up in development
     // Longer delay in development to avoid fetch failures on server restart
-    const isDevelopment = process.env.NODE_ENV === 'development';
+    const isDevelopment = process.env.NODE_ENV === "development";
     const delay = isDevelopment ? 1000 : 100;
 
     const timer = setTimeout(() => {

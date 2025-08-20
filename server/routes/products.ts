@@ -37,7 +37,10 @@ export const createProduct: RequestHandler = async (req, res) => {
             (sum: number, variant: ProductVariant) => sum + variant.stock,
             0,
           )
-        : parseInt(req.body.total_stock) || parseInt(req.body.stock) || parseInt(req.body.totalStock) || 0;
+        : parseInt(req.body.total_stock) ||
+          parseInt(req.body.stock) ||
+          parseInt(req.body.totalStock) ||
+          0;
 
     const newProduct = {
       name,

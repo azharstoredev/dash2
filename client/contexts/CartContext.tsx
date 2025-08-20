@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 export interface CartItem {
   productId: string;
@@ -42,11 +48,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   // Migrate existing cart items with "default" variantId to "no-variant"
   useEffect(() => {
-    setItems(prev => prev.map(item =>
-      item.variantId === "default"
-        ? { ...item, variantId: "no-variant" }
-        : item
-    ));
+    setItems((prev) =>
+      prev.map((item) =>
+        item.variantId === "default"
+          ? { ...item, variantId: "no-variant" }
+          : item,
+      ),
+    );
   }, []);
 
   const addItem = (newItem: CartItem) => {
