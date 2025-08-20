@@ -513,7 +513,7 @@ const translations = {
   },
   ar: {
     // Navigation
-    "nav.dashboard": "لوحة التحكم",
+    "nav.dashboard": "لوحة ا��تحكم",
     "nav.products": "المنتجات",
     "nav.orders": "الطلبات",
     "nav.customers": "العملاء",
@@ -565,7 +565,7 @@ const translations = {
     // Added keys (AR)
     "products.category": "التصنيف",
     "products.selectCategory": "اختر التصنيف",
-    "products.variantImageOptional": "صورة الن��ع (اختياري)",
+    "products.variantImageOptional": "صورة النوع (اختياري)",
     "products.removeImage": "إزالة الصورة",
     "products.uploadImage": "رفع صورة",
 
@@ -949,10 +949,10 @@ const translations = {
     "settings.closed": "مغلق",
 
     // Shipping & Delivery
-    "settings.shippingDelivery": "الشحن والتوصيل",
+    "settings.shippingDelivery": "ال��حن والتوصيل",
     "settings.enableDelivery": "تفعيل التوصيل",
     "settings.enablePickup": "تفعيل الاستلام",
-    "settings.deliveryFee": "رسوم التوصيل",
+    "settings.deliveryFee": "رسوم التوص��ل",
     "settings.freeDeliveryThreshold": "حد التوصيل المجاني",
     "settings.estimatedDeliveryTime": "الوقت المتوقع للتوصيل",
 
