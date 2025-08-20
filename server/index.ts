@@ -43,6 +43,14 @@ import {
   getAnalytics,
   getRealTimeData,
 } from "./routes/analytics";
+import {
+  getLogs,
+  addLog,
+  clearLogs,
+  exportLogs,
+  getSystemHealth,
+  initializeLogs,
+} from "./routes/logs";
 
 export function createServer() {
   const app = express();
