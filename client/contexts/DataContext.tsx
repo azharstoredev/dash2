@@ -6,6 +6,7 @@ import {
   ReactNode,
 } from "react";
 import { customerApi, productApi, orderApi, categoryApi } from "@/services/api";
+import { analyticsService } from "@/services/analytics";
 
 export interface Customer {
   id: string;
