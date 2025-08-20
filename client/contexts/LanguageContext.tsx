@@ -569,7 +569,7 @@ const translations = {
     "nav.orders": "الطلبات",
     "nav.customers": "العملاء",
     "nav.revenue": "الإيرادات",
-    "nav.analytics": "التحليلات",
+    "nav.analytics": "الت��ليلات",
     "nav.categories": "التصنيفات",
     "nav.settings": "الإعدادات",
     "nav.logout": "تسجيل الخروج",
@@ -597,7 +597,7 @@ const translations = {
     "products.noProducts": "لا توجد منتجات",
     "products.addProduct": "إضافة منتج",
     "products.editProduct": "تعديل منتج",
-    "products.productName": "اسم المنتج",
+    "products.productName": "��سم المنتج",
     "products.productPrice": "سعر المنتج",
     "products.productDescription": "وصف المنتج",
     "products.productImages": "صور المنتج",
@@ -622,7 +622,7 @@ const translations = {
 
     // Orders
     "orders.title": "الطلبات",
-    "orders.subtitle": "إدارة طلبات العملاء والتوصيل",
+    "orders.subtitle": "إدارة طلبات العملاء والتوص��ل",
     "orders.addNew": "إضافة طلب جديد",
     "orders.search": "البحث في الطلبات...",
     "orders.orderId": "رقم الطلب",
@@ -678,7 +678,7 @@ const translations = {
 
     // Customers
     "customers.title": "العملاء",
-    "customers.subtitle": "إدارة قا��دة بيانات العملاء",
+    "customers.subtitle": "إدارة قاعدة بيانات العملاء",
     "customers.addNew": "إضافة عميل جديد",
     "customers.search": "البحث في العملاء...",
     "customers.name": "الاسم",
@@ -707,7 +707,7 @@ const translations = {
     "revenue.avgOrderValue": "متوسط قيمة الطلب",
     "revenue.monthlyTrend": "اتجاه الإيرادات الشهرية",
     "revenue.dailyRevenue": "الإيرادات اليومية (هذا الشهر)",
-    "revenue.topProducts": "أفضل المنتجات من حي�� الإيرادات",
+    "revenue.topProducts": "أفضل المنتجات من حيث الإيرادات",
     "revenue.deliveryAnalysis": "تحليل نوع التسليم",
     "revenue.revenueByStatus": "الإيرادات حسب حالة الطلب",
     "revenue.month": "الشهر",
@@ -853,8 +853,8 @@ const translations = {
     "categories.deleteSuccess": "تم حذف التصنيف بنجاح.",
     "categories.cannotDeleteTitle": "لا يمكن حذف التصنيف",
     "categories.cannotDeleteMessage":
-      "هذا التصنيف مستخدم في {count} منتج. يرجى إزالة التصنيف من جميع المنتجات قبل الحذف.",
-    "categories.nameRequired": "اسم التصنيف مطلو��.",
+      "هذا التصنيف مستخدم في {count} منتج. يرجى إزالة التصنيف من جميع المنتجات قبل ال��ذف.",
+    "categories.nameRequired": "اسم التصنيف مطلوب.",
 
     // Analytics
     "analytics.title": "تحليلات الموقع",
@@ -945,7 +945,7 @@ const translations = {
     "settings.save": "حفظ الإعدادات",
     "settings.reset": "إعادة تعيين",
     "settings.saveSuccess": "تم حفظ الإعدادات بنجاح!",
-    "settings.saveError": "فشل في حفظ الإعدادات. يرج�� المحاولة مرة أخرى.",
+    "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
     "settings.resetConfirm":
       "هل أنت متأكد من إعادة تعيين جميع الإعدادات للقيم الافتراضية؟",
     "settings.unsavedChanges": "لديك تغييرات غير محفوظة. لا تنس الحفظ!",
@@ -985,8 +985,8 @@ const translations = {
     "settings.pickupAddress": "عنوان الاستلام",
     "settings.pickupAddressEn": "عنوان الاستلام (إنجليزي)",
     "settings.pickupAddressAr": "عنوان الاستلام (عربي)",
-    "settings.deliveryAreas": "مناطق التوصيل",
-    "settings.addDeliveryArea": "إضافة منطقة ��وصيل",
+    "settings.deliveryAreas": "مناطق ��لتوصيل",
+    "settings.addDeliveryArea": "إضافة منطقة توصيل",
     "settings.removeDeliveryArea": "إزالة",
     "settings.operationalSettings": "الإعدادات التشغيلية",
     "settings.uiBehavior": "سلوك الواجهة",
@@ -1001,7 +1001,7 @@ const translations = {
     "settings.passwordChanged": "تم تغيير كلمة المرور بنجاح",
     "settings.exportSettings": "تصدير الإعدادات",
     "settings.importSettings": "استيراد الإعدادات",
-    "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياط��",
+    "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياطي",
     "settings.importDescription": "رفع ملف إعداد��ت مُصدّر مسبقاً",
     "settings.chooseFile": "اختر الملف",
     "settings.noFileChosen": "لم يتم اختيار ملف",
@@ -1052,7 +1052,7 @@ const translations = {
 
     // Shipping & Delivery
     "settings.shippingDelivery": "الشحن والتوصيل",
-    "settings.enableDelivery": "تفعيل التوصيل",
+    "settings.enableDelivery": "تفعيل التوص��ل",
     "settings.enablePickup": "تفعيل الاستلام",
     "settings.deliveryFee": "رسوم التوصيل",
     "settings.freeDeliveryThreshold": "حد التوصيل المجاني",
