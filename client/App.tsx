@@ -85,6 +85,7 @@ import Store from "@/pages/Store";
 import ProductDetail from "@/pages/ProductDetail";
 import NotFound from "@/pages/NotFound";
 import { analyticsService } from "@/services/analytics";
+import NetworkStatus from "@/components/NetworkStatus";
 
 // Component to track page views
 function PageTracker() {
