@@ -8,17 +8,19 @@ This setup is **tested and bulletproof** - it WILL work on Fly.io.
 ✅ **fly.toml**: Configured for port 8080 with health checks  
 ✅ **Health Check**: Uses `/api/ping` endpoint  
 ✅ **Package.json**: Has all required build scripts  
-✅ **Server**: Configured to use PORT environment variable  
+✅ **Server**: Configured to use PORT environment variable
 
 ## 🎯 Deploy Commands
 
 ### Option 1: Deploy from `code/` directory
+
 ```bash
 cd code
 fly deploy
 ```
 
-### Option 2: Deploy from `dash2/` directory  
+### Option 2: Deploy from `dash2/` directory
+
 ```bash
 cd dash2
 fly deploy
@@ -28,7 +30,7 @@ Both directories are identical and will work.
 
 ## 🔧 What Happens During Deployment
 
-1. **Build Stage**: 
+1. **Build Stage**:
    - Installs all dependencies
    - Runs `npm run build` (builds both client + server)
    - Removes dev dependencies
@@ -52,6 +54,7 @@ Both directories are identical and will work.
 ## 🚨 If Deployment Fails
 
 1. **Check Fly.io logs**:
+
    ```bash
    fly logs
    ```
