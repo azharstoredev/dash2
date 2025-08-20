@@ -572,7 +572,7 @@ const translations = {
     "nav.analytics": "التحليلات",
     "nav.categories": "التصنيفات",
     "nav.settings": "الإعدادات",
-    "nav.logout": "تس��يل الخروج",
+    "nav.logout": "تسجيل الخروج",
     "nav.adminPanel": "لوحة الإدارة",
 
     // Dashboard
@@ -599,7 +599,7 @@ const translations = {
     "products.editProduct": "تعديل منتج",
     "products.productName": "اسم المنتج",
     "products.productPrice": "سعر المنتج",
-    "products.productDescription": "وصف المنتج",
+    "products.productDescription": "وصف ا��منتج",
     "products.productImages": "صور المنتج",
     "products.addVariant": "إضافة نوع",
     "products.variantName": "اسم النوع",
@@ -685,7 +685,7 @@ const translations = {
     "customers.phone": "الهاتف",
     "customers.address": "العنوان",
 
-    "customers.edit": "ت��ديل",
+    "customers.edit": "تعديل",
     "customers.delete": "حذف",
     "customers.noCustomers": "لا يوجد عملاء",
     "customers.addCustomer": "إضافة عميل",
@@ -708,7 +708,7 @@ const translations = {
     "revenue.monthlyTrend": "اتجاه الإيرادات الشهرية",
     "revenue.dailyRevenue": "الإيرادات اليومية (هذا الشهر)",
     "revenue.topProducts": "أفضل المنتجات من حيث الإيرادات",
-    "revenue.deliveryAnalysis": "��حليل نوع التسليم",
+    "revenue.deliveryAnalysis": "تحليل نوع التسليم",
     "revenue.revenueByStatus": "الإيرادات حسب حالة الطلب",
     "revenue.month": "الشهر",
     "revenue.revenue": "الإيرادات",
@@ -739,7 +739,7 @@ const translations = {
     // Empty states
     "empty.noProductsFound": "لا توجد منتجات",
     "empty.noCustomersFound": "لا يوجد عملاء",
-    "empty.noOrdersFound": "لا توجد طلبات",
+    "empty.noOrdersFound": "لا توجد ط��بات",
     "empty.adjustSearch": "حاول تعديل مصطلحات البحث",
     "empty.addFirstProduct": "ابدأ بإضافة أول منتج لك",
     "empty.addFirstCustomer": "ابدأ بإضافة أول عميل لك",
@@ -760,7 +760,7 @@ const translations = {
     "message.customerUpdated": "تم تحديث العميل بنجاح",
     "message.customerDeleted": "تم حذف العميل بنجاح",
     "message.error": "حدث خطأ",
-    "message.success": "تمت العملية بنجاح",
+    "message.success": "ت��ت العملية بنجاح",
 
     "message.customerSaveError": "فشل في حفظ العميل. يرجى المحاولة مرة أخرى.",
     "message.productSaveError": "فشل في حفظ المنتج. يرجى المحاولة مرة أخرى.",
@@ -788,7 +788,7 @@ const translations = {
     "store.cartTotal": "إجمالي السلة",
     "store.checkout": "إتمام الطلب",
     "store.continueShopping": "متابعة التسوق",
-    "store.removeFromCart": "إزالة من السلة",
+    "store.removeFromCart": "إزالة من ��لسلة",
     "store.updateQuantity": "تحديث الكمية",
     "store.clearCart": "إفراغ السلة",
     "store.startShoppingAr": "ابدأ التسوق لإضافة منتجات إلى سلتك",
@@ -808,7 +808,7 @@ const translations = {
     "checkout.delivery": "توصيل",
     "checkout.pickup": "استلام",
     "checkout.orderSummary": "ملخص الطلب",
-    "checkout.subtotal": "المجموع الفر��ي",
+    "checkout.subtotal": "المجموع الفرعي",
     "checkout.deliveryFee": "رسوم الت��صيل",
     "checkout.total": "المجموع الكلي",
     "checkout.orderTotal": "إجمالي ��لطلب",
@@ -945,7 +945,7 @@ const translations = {
     "settings.save": "حفظ الإعدادات",
     "settings.reset": "إعادة تعيين",
     "settings.saveSuccess": "تم حفظ الإعدادات بنجاح!",
-    "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
+    "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاولة ��رة أخرى.",
     "settings.resetConfirm":
       "هل أنت متأكد من إعادة تعيين جميع الإعدادات للقيم الافتراضية؟",
     "settings.unsavedChanges": "لديك تغييرات غير محفوظة. لا تنس الحفظ!",
@@ -966,7 +966,7 @@ const translations = {
     "settings.lowStockThreshold": "حد المخزون المنخفض",
     "settings.maxOrderQuantity": "الحد الأقصى لكمية الطلب",
     "settings.orderProcessingTime": "وقت معالجة الطلب",
-    "settings.performanceOptimization": "الأداء ��التحسين",
+    "settings.performanceOptimization": "الأداء والتحسين",
     "settings.userExperience": "تجربة المستخدم",
     "settings.systemSettings": "إعدادات النظام",
 
@@ -1004,7 +1004,7 @@ const translations = {
     "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياط��",
     "settings.importDescription": "رفع ملف إعداد��ت مُصدّر مسبقاً",
     "settings.chooseFile": "اختر الملف",
-    "settings.noFileChosen": "لم يتم اخت��ار ملف",
+    "settings.noFileChosen": "لم يتم ��ختيار ملف",
     "settings.displayOptions": "خيارات العرض",
     "settings.paymentSettings": "إعدادات الدفع",
 
@@ -1025,7 +1025,7 @@ const translations = {
 
     // Store Information
     "settings.storeInformation": "معلومات المتجر",
-    "settings.storeName": "اسم ��لمتجر",
+    "settings.storeName": "اسم المتجر",
     "settings.storeDescription": "وصف المتجر",
     "settings.currency": "العملة",
     "settings.currencySymbol": "رمز العملة",
