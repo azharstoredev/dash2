@@ -678,7 +678,7 @@ const translations = {
 
     // Customers
     "customers.title": "العملاء",
-    "customers.subtitle": "إدارة قاعد�� بيانات العملاء",
+    "customers.subtitle": "إدارة قاعدة بيانات العملاء",
     "customers.addNew": "إضافة عميل جديد",
     "customers.search": "البحث في العملاء...",
     "customers.name": "الاسم",
@@ -756,7 +756,7 @@ const translations = {
     "message.orderAdded": "تم إضافة الطلب بنجاح",
     "message.orderUpdated": "تم تحديث الطلب بنجاح",
     "message.orderDeleted": "تم حذف الطلب بنجاح",
-    "message.customerAdded": "تم إضافة ال��ميل بنجاح",
+    "message.customerAdded": "تم إضافة العميل بنجاح",
     "message.customerUpdated": "تم تحديث ا��عميل بنجاح",
     "message.customerDeleted": "تم حذف العميل بنجاح",
     "message.error": "حدث خطأ",
@@ -832,7 +832,7 @@ const translations = {
       "فشل في استيراد الإعدادات. يرجى التحقق م�� تنسيق الملف.",
 
     // Additional store keys
-    "store.outOfStock": "نفد المخزو��",
+    "store.outOfStock": "نفد المخزون",
     "store.inStock": "متوفر",
     "store.viewDetails": "عرض التفاصيل",
     "store.productDetails": "تفاصيل المنتج",
@@ -854,7 +854,7 @@ const translations = {
     "categories.cannotDeleteTitle": "لا يمكن حذف التصنيف",
     "categories.cannotDeleteMessage":
       "هذا التصنيف مستخدم في {count} م��تج. يرجى إزال�� التصنيف من جميع المنتجات قبل الحذف.",
-    "categories.nameRequired": "اسم التصنيف مطلوب.",
+    "categories.nameRequired": "اس�� التصنيف مطلوب.",
 
     // Analytics
     "analytics.title": "تحليلات الموقع",
@@ -876,7 +876,7 @@ const translations = {
     "analytics.topPages": "أهم الصفحات",
     "analytics.recentErrors": "الأخطاء الأخيرة",
     "analytics.orderStatusDistribution": "توزيع حالات الطلبات",
-    "analytics.deliveryMethodBreakdown": "تفصي�� طرق التوصيل",
+    "analytics.deliveryMethodBreakdown": "تفصيل طرق ��لتوصيل",
     "analytics.orders": "الطلبات",
     "analytics.revenue": "الإيرادات (د.ب)",
     "analytics.visitors": "الزوار",
@@ -965,7 +965,7 @@ const translations = {
     "settings.autoOrderConfirmation": "تأكيد الطلب التلقائي",
     "settings.lowStockThreshold": "حد المخزون المنخفض",
     "settings.maxOrderQuantity": "الحد الأقصى لكمية الطلب",
-    "settings.orderProcessingTime": "وقت معالجة ا��طلب",
+    "settings.orderProcessingTime": "وقت معالجة الطلب",
     "settings.performanceOptimization": "الأداء والتحسين",
     "settings.userExperience": "تجربة المستخدم",
     "settings.systemSettings": "إعدادات النظام",
@@ -1003,7 +1003,7 @@ const translations = {
     "settings.importSettings": "استيراد الإعدادات",
     "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياط��",
     "settings.importDescription": "رفع ملف إعداد��ت مُصدّر مسبقاً",
-    "settings.chooseFile": "اختر الملف",
+    "settings.chooseFile": "اختر الم��ف",
     "settings.noFileChosen": "لم يتم اختيار ملف",
     "settings.displayOptions": "خيارات العرض",
     "settings.paymentSettings": "إعدادات الدفع",
