@@ -105,7 +105,17 @@ export const createOrder: RequestHandler = async (req, res) => {
     };
 
     console.log("Creating order with processed data:", orderData);
-    const newOrder = await orderDb.create(orderData);
+    let newOrder;
+    try {
+      newOrder = await orderDb.create(orderData);
+      console.log("Order created successfully:", newOrder.id);
+    } catch (createError) {
+      console.error("Failed to create order in database:", createError);
+      return res.status(500).json({
+        error: "Failed to create order in database",
+        details: createError instanceof Error ? createError.message : "Unknown database error"
+      });
+    }
 
     // Reduce stock after successful order creation
     for (const item of items) {
