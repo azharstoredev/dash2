@@ -572,7 +572,7 @@ const translations = {
     "nav.analytics": "التحليلات",
     "nav.categories": "التصنيفات",
     "nav.settings": "الإعدادات",
-    "nav.logout": "تسجيل الخروج",
+    "nav.logout": "تسجيل ال��روج",
     "nav.adminPanel": "لوحة الإدارة",
 
     // Dashboard
@@ -654,7 +654,7 @@ const translations = {
     "orders.delivered": "تم التسليم",
     "orders.pickedUp": "تم الاستلام",
     "orders.orderDetails": "تفاصيل الطلب",
-    "orders.items": "ال��ناصر",
+    "orders.items": "العناصر",
     "orders.orderTotal": "إجمالي الطلب",
     "orders.save": "حفظ",
     "orders.orderDetailsTitle": "تفاصيل الطلب",
@@ -679,7 +679,7 @@ const translations = {
     // Customers
     "customers.title": "العملاء",
     "customers.subtitle": "إدارة قاعدة بيانات العملاء",
-    "customers.addNew": "إضافة عميل جديد",
+    "customers.addNew": "إضا��ة عميل جديد",
     "customers.search": "البحث في العملاء...",
     "customers.name": "الاسم",
     "customers.phone": "الهاتف",
@@ -708,7 +708,7 @@ const translations = {
     "revenue.monthlyTrend": "اتجاه الإيرادات الشهرية",
     "revenue.dailyRevenue": "الإيرادات اليومية (هذا الشهر)",
     "revenue.topProducts": "أفضل المنتجات من حيث الإيرادات",
-    "revenue.deliveryAnalysis": "تحليل نوع التسليم",
+    "revenue.deliveryAnalysis": "تحليل ��وع التسليم",
     "revenue.revenueByStatus": "الإيرادات حسب حالة الطلب",
     "revenue.month": "الشهر",
     "revenue.revenue": "الإيرادات",
@@ -813,7 +813,7 @@ const translations = {
     "checkout.total": "المجموع الكلي",
     "checkout.orderTotal": "إجمالي الطلب",
     "checkout.placeOrder": "إرسال الطلب",
-    "checkout.orderSuccess": "تم تأكيد الطلب بنجاح!",
+    "checkout.orderSuccess": "تم ��أكيد الطلب بنجاح!",
     "checkout.thankYou":
       "شكراً لك على طلبك! لقد استلمنا طلبك وسنقوم بمعالجته قريباً.",
     "checkout.orderNumber": "رقم الطلب",
@@ -878,7 +878,7 @@ const translations = {
     "analytics.orderStatusDistribution": "توزيع حالات الطلبات",
     "analytics.deliveryMethodBreakdown": "تفصيل طرق التوصيل",
     "analytics.orders": "الطلبات",
-    "analytics.revenue": "الإيراد��ت (د.ب)",
+    "analytics.revenue": "ال��يرادات (د.ب)",
     "analytics.visitors": "الزوار",
     "analytics.last7days": "آخر 7 أيام",
     "analytics.last30days": "آخر 30 يوماً",
@@ -921,7 +921,7 @@ const translations = {
     "settings.production": "إنتاج",
     "settings.serverStatus": "حالة الخادم",
     "settings.running": "يعمل",
-    "settings.uptime": "وقت ال��شغيل",
+    "settings.uptime": "وقت التشغيل",
     "settings.connected": "متصل",
     "settings.systemHealth": "صحة النظام",
     "settings.databaseStatus": "حالة قاعدة البيانات",
@@ -947,7 +947,7 @@ const translations = {
     "settings.saveSuccess": "تم حفظ الإعدادات بنجاح!",
     "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
     "settings.resetConfirm":
-      "ه�� أنت متأكد من إعادة تعيين جميع الإعدادات للقيم الافتراضية؟",
+      "هل أنت متأكد من إعادة تعيين جميع الإعدادات للقيم الافتراضية؟",
     "settings.unsavedChanges": "لديك تغييرات غير محفوظة. لا تنس الحفظ!",
     "settings.advancedSettings": "الإعدادات المتقدمة",
     "settings.performanceMode": "وضع الأداء",
@@ -964,7 +964,7 @@ const translations = {
     "settings.autoScrollToSummary": "التمرير التلقائي للملخص",
     "settings.autoOrderConfirmation": "تأكيد الطلب التلقائي",
     "settings.lowStockThreshold": "حد المخزون المنخفض",
-    "settings.maxOrderQuantity": "الحد الأقصى لكم��ة الطلب",
+    "settings.maxOrderQuantity": "الحد الأقصى لكمية الطلب",
     "settings.orderProcessingTime": "وقت معالجة الطلب",
     "settings.performanceOptimization": "الأداء والتحسين",
     "settings.userExperience": "تجربة المستخدم",
@@ -1005,7 +1005,7 @@ const translations = {
     "settings.importDescription": "رفع ملف إعدادات مُصدّر مسبقاً",
     "settings.chooseFile": "اختر الملف",
     "settings.noFileChosen": "لم يتم اختيار ملف",
-    "settings.displayOptions": "خيارات العرض",
+    "settings.displayOptions": "خ��ارات العرض",
     "settings.paymentSettings": "إعدادات الدفع",
 
     "settings.enablePerformanceMode": "وضع الأداء",
@@ -1026,7 +1026,7 @@ const translations = {
     // Store Information
     "settings.storeInformation": "معلومات المتجر",
     "settings.storeName": "اسم المتجر",
-    "settings.storeDescription": "وصف المتجر",
+    "settings.storeDescription": "وصف ا��متجر",
     "settings.currency": "العملة",
     "settings.currencySymbol": "رمز العملة",
     "settings.bahrainiDinar": "الدينار البحريني",
@@ -1078,7 +1078,7 @@ const translations = {
     "common.itemAr": "منتج",
     "common.itemsAr": "منتجات",
     "common.language": "اللغة",
-    "common.languageAr": "العرب��ة",
+    "common.languageAr": "العربية",
 
     // Order success messages
     "orderSuccess.headline": "تم تأكيد الطلب!",
