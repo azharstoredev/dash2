@@ -593,7 +593,7 @@ const translations = {
 
     // Orders
     "orders.title": "الطلبات",
-    "orders.subtitle": "إدارة ط��بات العملاء والتوصيل",
+    "orders.subtitle": "إدارة طلبات العملاء والتوصيل",
     "orders.addNew": "إضافة طلب جديد",
     "orders.search": "البحث في الطلبات...",
     "orders.orderId": "رقم الطلب",
@@ -643,7 +643,7 @@ const translations = {
     "orders.close": "إغلاق",
     "orders.selectProduct": "اختر المنتج",
     "orders.selectVariant": "اختر النوع",
-    "orders.notesPlaceholder": "تعليمات خاصة أو ملاحظات...",
+    "orders.notesPlaceholder": "تعليمات خاصة أو م��احظات...",
     // Added key
     "orders.refresh": "تحديث",
 
@@ -672,11 +672,11 @@ const translations = {
 
     // Revenue
     "revenue.title": "تحليلات الإيرادات",
-    "revenue.overview": "نظرة عامة على الإيرادات",
+    "revenue.overview": "نظرة عامة على ا��إيرادات",
     "revenue.totalRevenue": "إجمالي الإيرادات",
     "revenue.ordersCount": "عدد الطلبات",
     "revenue.avgOrderValue": "متوسط قيمة الطلب",
-    "revenue.monthlyTrend": "اتج��ه ا��إيرادات الشهرية",
+    "revenue.monthlyTrend": "اتجاه ا��إ��رادات الشهرية",
     "revenue.dailyRevenue": "الإيرادات اليومية (هذا الشهر)",
     "revenue.topProducts": "أفضل المنتجات من حيث الإيرادات",
     "revenue.deliveryAnalysis": "تحليل نوع التسليم",
@@ -727,7 +727,7 @@ const translations = {
     "message.orderAdded": "تم إضافة الطلب بنجاح",
     "message.orderUpdated": "تم تحديث الطلب بنجاح",
     "message.orderDeleted": "تم حذف الطلب بنجاح",
-    "message.customerAdded": "تم إض��فة ال��ميل بنجاح",
+    "message.customerAdded": "تم إضافة ال���ميل بنجاح",
     "message.customerUpdated": "تم تحديث ا��عميل بنجاح",
     "message.customerDeleted": "تم حذف العميل بنجاح",
     "message.error": "حدث خطأ",
@@ -779,7 +779,7 @@ const translations = {
     "checkout.delivery": "توصيل",
     "checkout.pickup": "استلام",
     "checkout.orderSummary": "ملخص الطلب",
-    "checkout.subtotal": "المج��وع الفر��ي",
+    "checkout.subtotal": "المجموع الفر����ي",
     "checkout.deliveryFee": "رسوم التوصيل",
     "checkout.total": "المجموع الكلي",
     "checkout.orderTotal": "إجمالي ��لطلب",
@@ -884,7 +884,7 @@ const translations = {
     // Settings
     "settings.title": "الإعدادات",
     "settings.subtitle": "قم بتهيئة إعدادات المتجر والتفضيلات",
-    "settings.save": "حفظ ��لإعدادات",
+    "settings.save": "حفظ الإعدادات",
     "settings.reset": "إعادة تعيين",
     "settings.saveSuccess": "تم حفظ الإعدادات بنجاح!",
     "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
@@ -943,7 +943,7 @@ const translations = {
     "settings.passwordChanged": "تم تغيير كلمة المرور بنجاح",
     "settings.exportSettings": "تصدير الإعدادات",
     "settings.importSettings": "استيراد الإعدادات",
-    "settings.exportDescription": "تحميل إعداداتك الحالي�� كملف نسخ احتياط��",
+    "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياط��",
     "settings.importDescription": "رفع ملف إعداد��ت مُصدّر مسبقاً",
     "settings.chooseFile": "اختر الملف",
     "settings.noFileChosen": "لم يتم اختيار ملف",
@@ -1015,7 +1015,7 @@ const translations = {
     "common.currencyAr": "د.ب",
     "common.total": "المجموع",
     "common.totalAr": "المجموع",
-    "common.item": "��نتج",
+    "common.item": "منتج",
     "common.items": "منت��ات",
     "common.itemAr": "منتج",
     "common.itemsAr": "منتجات",
