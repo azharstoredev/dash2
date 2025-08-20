@@ -569,7 +569,7 @@ const translations = {
     "nav.orders": "الطلبات",
     "nav.customers": "العملاء",
     "nav.revenue": "الإيرادات",
-    "nav.analytics": "الت��ليلات",
+    "nav.analytics": "التحليلات",
     "nav.categories": "التصنيفات",
     "nav.settings": "الإعدادات",
     "nav.logout": "تسجيل الخروج",
@@ -597,7 +597,7 @@ const translations = {
     "products.noProducts": "لا توجد منتجات",
     "products.addProduct": "إضافة منتج",
     "products.editProduct": "تعديل منتج",
-    "products.productName": "��سم المنتج",
+    "products.productName": "اسم المنتج",
     "products.productPrice": "سعر المنتج",
     "products.productDescription": "وصف المنتج",
     "products.productImages": "صور المنتج",
@@ -622,8 +622,8 @@ const translations = {
 
     // Orders
     "orders.title": "الطلبات",
-    "orders.subtitle": "إدارة طلبات العملاء والتوص��ل",
-    "orders.addNew": "إضافة طلب جديد",
+    "orders.subtitle": "إدارة طلبات العملاء والتوصيل",
+    "orders.addNew": "إض��فة طلب جديد",
     "orders.search": "البحث في الطلبات...",
     "orders.orderId": "رقم الطلب",
     "orders.customer": "العميل",
@@ -853,7 +853,7 @@ const translations = {
     "categories.deleteSuccess": "تم حذف التصنيف بنجاح.",
     "categories.cannotDeleteTitle": "لا يمكن حذف التصنيف",
     "categories.cannotDeleteMessage":
-      "هذا التصنيف مستخدم في {count} منتج. يرجى إزالة التصنيف من جميع المنتجات قبل ال��ذف.",
+      "هذا التصنيف مستخدم في {count} منتج. يرجى إزالة التصنيف من جميع المنتجات قبل الحذف.",
     "categories.nameRequired": "اسم التصنيف مطلوب.",
 
     // Analytics
@@ -895,7 +895,7 @@ const translations = {
     "analytics.tryAgain": "إعادة المحاولة",
     "analytics.noPageData": "لا توجد بيانات صفحات متاحة",
     "analytics.noDeviceData": "لا توجد بيانات أجهزة متاحة",
-    "analytics.noErrorsGood": "لا توجد أخطاء - الموقع يعمل بشكل جيد!",
+    "analytics.noErrorsGood": "لا توجد أخطاء - الم��قع يعمل بشكل جيد!",
     "analytics.desktop": "الكمبيوتر المكتبي",
     "analytics.mobile": "الهاتف المحمول",
     "analytics.tablet": "الجهاز اللوحي",
@@ -985,7 +985,7 @@ const translations = {
     "settings.pickupAddress": "عنوان الاستلام",
     "settings.pickupAddressEn": "عنوان الاستلام (إنجليزي)",
     "settings.pickupAddressAr": "عنوان الاستلام (عربي)",
-    "settings.deliveryAreas": "مناطق ��لتوصيل",
+    "settings.deliveryAreas": "مناطق التوصيل",
     "settings.addDeliveryArea": "إضافة منطقة توصيل",
     "settings.removeDeliveryArea": "إزالة",
     "settings.operationalSettings": "الإعدادات التشغيلية",
@@ -1002,7 +1002,7 @@ const translations = {
     "settings.exportSettings": "تصدير الإعدادات",
     "settings.importSettings": "استيراد الإعدادات",
     "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياطي",
-    "settings.importDescription": "رفع ملف إعداد��ت مُصدّر مسبقاً",
+    "settings.importDescription": "رفع ملف إعدادات مُصدّر مسبقاً",
     "settings.chooseFile": "اختر الملف",
     "settings.noFileChosen": "لم يتم اختيار ملف",
     "settings.displayOptions": "خيارات العرض",
@@ -1024,7 +1024,7 @@ const translations = {
       "قم بتغيير كلمة المرور للوصول إلى لوحة التح��م",
 
     // Store Information
-    "settings.storeInformation": "معلومات المتجر",
+    "settings.storeInformation": "معلوما�� المتجر",
     "settings.storeName": "اسم المتجر",
     "settings.storeDescription": "وصف المتجر",
     "settings.currency": "العملة",
@@ -1052,8 +1052,8 @@ const translations = {
 
     // Shipping & Delivery
     "settings.shippingDelivery": "الشحن والتوصيل",
-    "settings.enableDelivery": "تفعيل التوص��ل",
-    "settings.enablePickup": "تفعيل الاستلام",
+    "settings.enableDelivery": "تفعيل التوصيل",
+    "settings.enablePickup": "��فعيل الاستلام",
     "settings.deliveryFee": "رسوم التوصيل",
     "settings.freeDeliveryThreshold": "حد التوصيل المجاني",
     "settings.estimatedDeliveryTime": "الوقت المتوقع للتوصيل",
