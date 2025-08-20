@@ -97,5 +97,10 @@ export function createServer() {
   app.put("/api/categories/:id", updateCategory);
   app.delete("/api/categories/:id", deleteCategory);
 
+  // Analytics routes
+  app.post("/api/analytics/track", trackEvent);
+  app.get("/api/analytics", getAnalytics);
+  app.get("/api/analytics/realtime", getRealTimeData);
+
   return app;
 }
