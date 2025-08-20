@@ -146,21 +146,6 @@ export default function ImprovedOrderSummary({
           </div>
         </div>
 
-        {/* Payment Method */}
-        <div className="bg-green-50 p-4 rounded-xl border border-green-100">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <h3 className="font-semibold text-green-900">
-              {t("checkout.paymentMethod")}
-            </h3>
-          </div>
-          <p className="text-sm text-green-700">
-            {t("checkout.cashOnDelivery")}
-          </p>
-          <p className="text-xs text-green-600 mt-1">
-            {t("checkout.noCreditCard")}
-          </p>
-        </div>
 
         {/* Place Order Button */}
         <Button

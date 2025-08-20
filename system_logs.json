@@ -64,5 +64,13 @@
       "recordsProcessed": 1250
     },
     "timestamp": "2025-08-20T14:36:33.234Z"
+  },
+  {
+    "level": "info",
+    "category": "system",
+    "message": "System logs exported (7 entries)",
+    "ip": "::ffff:127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+    "timestamp": "2025-08-20T14:42:37.250Z"
   }
 ]
