@@ -2,16 +2,25 @@ import { Customer, Product, Order, Category } from "@/contexts/DataContext";
 
 const API_BASE = "/api";
 
-// Helper function for API calls
-async function apiCall<T>(url: string, options?: RequestInit): Promise<T> {
+// Helper function for API calls with retry logic
+async function apiCall<T>(url: string, options?: RequestInit, retryCount = 0): Promise<T> {
+  const maxRetries = 2;
+  const retryDelay = 1000 * (retryCount + 1); // 1s, 2s delay
+
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
     const response = await fetch(`${API_BASE}${url}`, {
       headers: {
         "Content-Type": "application/json",
         ...options?.headers,
       },
+      signal: controller.signal,
       ...options,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       let errorMessage = `API Error: ${response.status}`;
