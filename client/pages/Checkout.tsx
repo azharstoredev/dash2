@@ -82,11 +82,15 @@ export default function Checkout() {
         price: item.price,
       }));
 
+      // Calculate final total including delivery fee
+      const deliveryFee = deliveryType === "delivery" ? 1.5 : 0;
+      const finalTotal = totalPrice + deliveryFee;
+
       // Create order
       const order = await createOrder({
         customerId: customer.id,
         items: orderItems,
-        total: totalPrice,
+        total: finalTotal,
         status: "processing",
         deliveryType,
         notes:
