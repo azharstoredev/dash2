@@ -571,7 +571,7 @@ const translations = {
     "nav.revenue": "الإيرادات",
     "nav.analytics": "التحليلات",
     "nav.categories": "التصنيفات",
-    "nav.settings": "ا��إعدادات",
+    "nav.settings": "الإعدادات",
     "nav.logout": "تسجيل الخروج",
     "nav.adminPanel": "لوحة الإدارة",
 
@@ -624,7 +624,7 @@ const translations = {
     "orders.title": "الطلبات",
     "orders.subtitle": "إدارة طلبات العملاء والتوصيل",
     "orders.addNew": "إضافة طلب جديد",
-    "orders.search": "ا��بحث في الطلبات...",
+    "orders.search": "البحث في الطلبات...",
     "orders.orderId": "رقم الطلب",
     "orders.customer": "العميل",
     "orders.total": "الإجمالي",
@@ -678,12 +678,12 @@ const translations = {
 
     // Customers
     "customers.title": "العملاء",
-    "customers.subtitle": "إدارة قاعدة بيان��ت العملاء",
+    "customers.subtitle": "إدارة قاعدة بيانات العملاء",
     "customers.addNew": "إضافة عميل جديد",
     "customers.search": "البحث في العملاء...",
     "customers.name": "الاسم",
-    "customers.phone": "الهاتف",
-    "customers.address": "ا��عنوان",
+    "customers.phone": "��لهاتف",
+    "customers.address": "العنوان",
 
     "customers.edit": "تعديل",
     "customers.delete": "حذف",
@@ -707,7 +707,7 @@ const translations = {
     "revenue.avgOrderValue": "متوسط قيمة الطلب",
     "revenue.monthlyTrend": "اتجاه الإيرادات الشهرية",
     "revenue.dailyRevenue": "الإيرادات اليومية (هذا الشهر)",
-    "revenue.topProducts": "أفضل المنتجات من حيث الإيرا��ات",
+    "revenue.topProducts": "أ��ضل المنتجات من حيث الإيرادات",
     "revenue.deliveryAnalysis": "تحليل نوع التسليم",
     "revenue.revenueByStatus": "الإيرادات حسب حالة الطلب",
     "revenue.month": "الشهر",
@@ -758,7 +758,7 @@ const translations = {
     "message.orderDeleted": "تم حذف الطلب بنجاح",
     "message.customerAdded": "تم إضافة العميل بنجاح",
     "message.customerUpdated": "تم تحديث العميل بنجاح",
-    "message.customerDeleted": "تم حذف العميل بنجاح",
+    "message.customerDeleted": "تم حذف العميل ب��جاح",
     "message.error": "حدث خطأ",
     "message.success": "تمت العملية بنجاح",
 
@@ -811,8 +811,8 @@ const translations = {
     "checkout.subtotal": "المجموع الفرعي",
     "checkout.deliveryFee": "رسوم التوصيل",
     "checkout.total": "المجموع الكلي",
-    "checkout.orderTotal": "إجمالي الطلب",
-    "checkout.placeOrder": "إرس��ل الطلب",
+    "checkout.orderTotal": "إجمالي ال��لب",
+    "checkout.placeOrder": "إرسال الطلب",
     "checkout.orderSuccess": "تم تأكيد الطلب بنجاح!",
     "checkout.thankYou":
       "شكراً لك على طلبك! لقد استلمنا طلبك وسنقوم بمعالجته قريباً.",
@@ -876,7 +876,7 @@ const translations = {
     "analytics.topPages": "أهم الصفحات",
     "analytics.recentErrors": "الأخطاء الأخيرة",
     "analytics.orderStatusDistribution": "توزيع حالات الطلبات",
-    "analytics.deliveryMethodBreakdown": "تفصيل طرق التوصيل",
+    "analytics.deliveryMethodBreakdown": "تفصيل ��رق التوصيل",
     "analytics.orders": "الطلبات",
     "analytics.revenue": "الإيرادات (د.ب)",
     "analytics.visitors": "الزوار",
@@ -945,7 +945,7 @@ const translations = {
     "settings.save": "حفظ الإعدادات",
     "settings.reset": "إعادة تعيين",
     "settings.saveSuccess": "تم حفظ الإعدادات بنجاح!",
-    "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاو��ة مرة أخرى.",
+    "settings.saveError": "فشل في ��فظ الإعدادات. يرجى المحاولة مرة أخرى.",
     "settings.resetConfirm":
       "هل أنت متأكد من إعادة تعيين جميع الإعدادات للقيم الافتراضية؟",
     "settings.unsavedChanges": "لديك تغييرات غير محفوظة. لا تنس الحفظ!",
@@ -966,7 +966,7 @@ const translations = {
     "settings.lowStockThreshold": "حد المخزون المنخفض",
     "settings.maxOrderQuantity": "الحد الأقصى لكمية الطلب",
     "settings.orderProcessingTime": "وقت معالجة الطلب",
-    "settings.performanceOptimization": "ا��أداء والتحسين",
+    "settings.performanceOptimization": "الأداء والتحسين",
     "settings.userExperience": "تجربة المستخدم",
     "settings.systemSettings": "إعدادات النظام",
 
@@ -1021,7 +1021,7 @@ const translations = {
     "settings.dialogScrollDesc": "تفعيل التمرير في حوارات الطلبات",
     "settings.autoScrollDesc": "التمرير التلقائي إلى قسم الملخص",
     "settings.adminPasswordHint":
-      "قم بتغيير كلمة المرور للوصول إلى لوحة التح��م",
+      "قم بتغيير كلمة المرور للوصول إلى لوحة التحكم",
 
     // Store Information
     "settings.storeInformation": "معلومات المتجر",
@@ -1078,7 +1078,7 @@ const translations = {
     "common.itemAr": "منتج",
     "common.itemsAr": "منتجات",
     "common.language": "اللغة",
-    "common.languageAr": "العرب��ة",
+    "common.languageAr": "ا��عرب��ة",
 
     // Order success messages
     "orderSuccess.headline": "تم تأكيد الطلب!",
