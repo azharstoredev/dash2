@@ -547,7 +547,7 @@ const translations = {
     "nav.adminPanel": "لوحة الإدارة",
 
     // Dashboard
-    "dashboard.title": "ل��حة التحكم",
+    "dashboard.title": "لوحة التحكم",
     "dashboard.totalRevenue": "إجمالي الإيرادات",
     "dashboard.totalOrders": "إجمالي الطلبات",
     "dashboard.recentOrders": "الطلبات الأخيرة",
@@ -729,7 +729,7 @@ const translations = {
     "message.orderDeleted": "تم حذف الطلب بنجاح",
     "message.customerAdded": "تم إضافة العميل بنجاح",
     "message.customerUpdated": "تم تحديث العميل بنجاح",
-    "message.customerDeleted": "تم حذف العميل ب��جاح",
+    "message.customerDeleted": "تم حذ�� العميل ب��جاح",
     "message.error": "حدث خطأ",
     "message.success": "تمت العملية بنجاح",
 
@@ -966,7 +966,7 @@ const translations = {
       "قم بتغيير كلمة المرور للوصول إلى لوحة التحكم",
 
     // Store Information
-    "settings.storeInformation": "معلومات المتجر",
+    "settings.storeInformation": "مع��ومات المتجر",
     "settings.storeName": "اسم المتجر",
     "settings.storeDescription": "وصف المتجر",
     "settings.currency": "العملة",
