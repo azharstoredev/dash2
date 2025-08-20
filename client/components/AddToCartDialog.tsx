@@ -74,7 +74,7 @@ export default function AddToCartDialog({
 
     addItem({
       productId: product.id,
-      variantId: selectedVariant?.id || "default",
+      variantId: selectedVariant?.id || "no-variant",
       quantity,
       price: product.price,
       productName: product.name,

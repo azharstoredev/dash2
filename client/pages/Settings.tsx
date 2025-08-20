@@ -43,8 +43,10 @@ import {
   Info,
   Download,
   Upload,
+  Wrench,
 } from "lucide-react";
 import SystemSettings from "@/components/SystemSettings";
+import { diagnoseApiHealth } from "@/utils/apiDiagnostics";
 
 interface StoreSettings {
   // Store Information
@@ -203,6 +205,8 @@ export default function Settings() {
   const [hasChanges, setHasChanges] = useState(false);
   const [activeTab, setActiveTab] = useState("basic");
   const [isSaving, setIsSaving] = useState(false);
+  const [isFixingCharacters, setIsFixingCharacters] = useState(false);
+  const [isDiagnosing, setIsDiagnosing] = useState(false);
 
   useEffect(() => {
     const savedSettings = localStorage.getItem("storeSettings");
@@ -303,6 +307,67 @@ export default function Settings() {
         }
       };
       reader.readAsText(file);
+    }
+  };
+
+  const fixCharacters = async () => {
+    setIsFixingCharacters(true);
+    try {
+      const response = await fetch("/api/system/fix-characters", {
+        method: "POST",
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        showAlert({
+          title: "Character Fix Complete",
+          message: `Successfully fixed ${result.totalFixes} corrupted characters across ${result.fixReport.length} files. The page will refresh to apply changes.`,
+          type: "success",
+        });
+
+        // Refresh the page after a short delay to see the fixes
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        showAlert({
+          title: "Character Fix Failed",
+          message: result.error || "Failed to fix characters",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      showAlert({
+        title: "Character Fix Error",
+        message: "Network error while trying to fix characters",
+        type: "error",
+      });
+    } finally {
+      setIsFixingCharacters(false);
+    }
+  };
+
+  const runDiagnostics = async () => {
+    setIsDiagnosing(true);
+    try {
+      const results = await diagnoseApiHealth();
+      const successCount = results.filter((r) => r.success).length;
+      const totalCount = results.length;
+
+      showAlert({
+        title: "API Diagnostics Complete",
+        message: `${successCount}/${totalCount} endpoints working. Check console for details.`,
+        type: successCount === totalCount ? "success" : "warning",
+      });
+    } catch (error) {
+      showAlert({
+        title: "Diagnostics Failed",
+        message: "Failed to run API diagnostics",
+        type: "error",
+      });
+    } finally {
+      setIsDiagnosing(false);
     }
   };
 
@@ -725,7 +790,103 @@ export default function Settings() {
         )}
 
         {/* System Settings */}
-        {activeTab === "system" && <SystemSettings />}
+        {activeTab === "system" && (
+          <div className="space-y-6">
+            {/* Character Fixing Tool */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Wrench className="w-5 h-5" />
+                  Character Corruption Fix
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <Info className="w-5 h-5 text-blue-600 mt-0.5" />
+                    <div>
+                      <h4 className="font-medium text-blue-900 mb-1">
+                        Automatic Character Fix
+                      </h4>
+                      <p className="text-sm text-blue-800">
+                        This tool automatically detects and fixes corrupted
+                        UTF-8 characters (like "�") that appear in Arabic text
+                        throughout the application. Common issues include
+                        corrupted characters in translations and text content.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-medium">Fix Corrupted Characters</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Scan and fix all corrupted UTF-8 characters in the
+                      codebase
+                    </p>
+                  </div>
+                  <Button
+                    onClick={fixCharacters}
+                    disabled={isFixingCharacters}
+                    variant="outline"
+                    className="flex items-center gap-2"
+                  >
+                    <Wrench className="w-4 h-4" />
+                    {isFixingCharacters ? "Fixing..." : "Fix Characters"}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* API Diagnostics */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Monitor className="w-5 h-5" />
+                  API Diagnostics
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <Info className="w-5 h-5 text-gray-600 mt-0.5" />
+                    <div>
+                      <h4 className="font-medium text-gray-900 mb-1">
+                        Network Connectivity Test
+                      </h4>
+                      <p className="text-sm text-gray-700">
+                        Test all API endpoints to diagnose network connectivity
+                        issues. Results will be logged to the browser console.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-medium">Run API Health Check</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Test connectivity to all backend services
+                    </p>
+                  </div>
+                  <Button
+                    onClick={runDiagnostics}
+                    disabled={isDiagnosing}
+                    variant="outline"
+                    className="flex items-center gap-2"
+                  >
+                    <Monitor className="w-4 h-4" />
+                    {isDiagnosing ? "Testing..." : "Run Diagnostics"}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* System Settings Component */}
+            <SystemSettings />
+          </div>
+        )}
       </div>
     </div>
   );

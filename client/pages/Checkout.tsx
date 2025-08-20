@@ -334,15 +334,6 @@ export default function Checkout() {
                 </RadioGroup>
               </CardContent>
             </Card>
-
-            {/* No Credit Card Notice */}
-            <Card className="border-green-200 bg-green-50">
-              <CardContent className="pt-6">
-                <p className="text-sm text-green-800 text-center">
-                  {t("checkout.noCreditCard")}
-                </p>
-              </CardContent>
-            </Card>
           </div>
 
           {/* Order Summary */}

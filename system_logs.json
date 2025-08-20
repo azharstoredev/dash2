@@ -86,5 +86,47 @@
     "ip": "::ffff:127.0.0.1",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
     "timestamp": "2025-08-20T14:49:07.744Z"
+  },
+  {
+    "level": "info",
+    "category": "product",
+    "message": "New product added: fdasf",
+    "details": {
+      "productId": "1755702180822w0qvw16db",
+      "productName": "fdasf",
+      "price": 2,
+      "variants": 0
+    },
+    "ip": "::ffff:127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+    "timestamp": "2025-08-20T15:03:00.958Z"
+  },
+  {
+    "level": "info",
+    "category": "product",
+    "message": "New product added: fdsaf",
+    "details": {
+      "productId": "1755702334900dps4ubqzd",
+      "productName": "fdsaf",
+      "price": 2,
+      "variants": 0
+    },
+    "ip": "::ffff:127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+    "timestamp": "2025-08-20T15:05:35.035Z"
+  },
+  {
+    "level": "info",
+    "category": "product",
+    "message": "New product added: حقيبة طعام",
+    "details": {
+      "productId": "1755702857709km6e9a7cx",
+      "productName": "حقيبة طعام",
+      "price": 0.9,
+      "variants": 0
+    },
+    "ip": "::ffff:127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+    "timestamp": "2025-08-20T15:14:17.844Z"
   }
 ]

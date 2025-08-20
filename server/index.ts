@@ -47,6 +47,7 @@ import {
   getSystemHealth,
   initializeLogs,
 } from "./routes/logs";
+import { handleFixCharacters } from "./routes/fix-characters";
 
 export function createServer() {
   const app = express();
@@ -112,6 +113,9 @@ export function createServer() {
   app.delete("/api/logs", clearLogs);
   app.get("/api/logs/export", exportLogs);
   app.get("/api/logs/health", getSystemHealth);
+
+  // System maintenance routes
+  app.post("/api/system/fix-characters", handleFixCharacters);
 
   // Initialize sample logs
   initializeLogs();

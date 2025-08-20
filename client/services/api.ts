@@ -2,16 +2,29 @@ import { Customer, Product, Order, Category } from "@/contexts/DataContext";
 
 const API_BASE = "/api";
 
-// Helper function for API calls
-async function apiCall<T>(url: string, options?: RequestInit): Promise<T> {
+// Helper function for API calls with retry logic
+async function apiCall<T>(
+  url: string,
+  options?: RequestInit,
+  retryCount = 0,
+): Promise<T> {
+  const maxRetries = 2;
+  const retryDelay = 1000 * (retryCount + 1); // 1s, 2s delay
+
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
     const response = await fetch(`${API_BASE}${url}`, {
       headers: {
         "Content-Type": "application/json",
         ...options?.headers,
       },
+      signal: controller.signal,
       ...options,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       let errorMessage = `API Error: ${response.status}`;
@@ -50,6 +63,24 @@ async function apiCall<T>(url: string, options?: RequestInit): Promise<T> {
 
     return response.json();
   } catch (error) {
+    console.error(`API call failed (attempt ${retryCount + 1}):`, {
+      url: `${API_BASE}${url}`,
+      error: error instanceof Error ? error.message : String(error),
+    });
+
+    // Check if we should retry
+    if (
+      retryCount < maxRetries &&
+      error instanceof Error &&
+      (error.name === "AbortError" ||
+        error.message.includes("Failed to fetch") ||
+        error.message.includes("Network error"))
+    ) {
+      console.log(`Retrying API call in ${retryDelay}ms...`);
+      await new Promise((resolve) => setTimeout(resolve, retryDelay));
+      return apiCall<T>(url, options, retryCount + 1);
+    }
+
     if (error instanceof Error) {
       throw error;
     }
