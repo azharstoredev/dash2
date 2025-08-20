@@ -923,52 +923,6 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                     </div>
                   </div>
 
-                  {/* Payment Method - Enhanced Design with Better Visibility */}
-                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border-2 border-green-300 shadow-lg overflow-hidden">
-                    <div className="bg-green-600 text-white p-4">
-                      <h3 className="font-bold text-xl auto-text flex items-center gap-3 [dir=rtl]:flex-row-reverse">
-                        <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                          <CreditCard className="w-6 h-6" />
-                        </div>
-                        {t("checkout.paymentMethod")}
-                      </h3>
-                    </div>
-
-                    <div className="p-6 space-y-4">
-                      <div className="bg-white rounded-xl p-4 border border-green-200 shadow-sm overflow-hidden">
-                        <div className="flex items-center gap-4 [dir=rtl]:flex-row-reverse">
-                          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <Check className="w-7 h-7 text-green-600" />
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="font-bold text-green-900 auto-text text-lg mb-1">
-                              {t("checkout.cashOnDelivery")}
-                            </h4>
-                            <p className="text-green-700 auto-text text-xs sm:text-sm leading-relaxed break-words whitespace-normal overflow-wrap-anywhere">
-                              {language === "ar"
-                                ? "ادفع نقداً عند استلام طلبك - لا حاجة لبطاقة ائتمان"
-                                : "Pay cash when you receive your order - No credit card needed"}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="bg-green-100 rounded-lg p-3 sm:p-4 border border-green-200 overflow-hidden">
-                        <div className="flex items-start gap-3 [dir=rtl]:flex-row-reverse">
-                          <div className="w-6 h-6 bg-green-200 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <Check className="w-4 h-4 text-green-700" />
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-green-800 auto-text text-xs sm:text-sm font-medium leading-relaxed break-words whitespace-normal overflow-wrap-anywhere">
-                              {language === "ar"
-                                ? "آمن ومضمون - ادفع فقط عند الاستلام الناجح لطلبك"
-                                : "Safe & Secure - Only pay when you successfully receive your order"}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </CardContent>
               </Card>
             )}
