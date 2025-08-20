@@ -454,11 +454,11 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                   {/* Order Totals */}
                   {orderMessages.toggles.displayTotals && (
                     <div className="space-y-3 pt-3 border-t">
-                      <div className="flex justify-between items-center text-sm [dir=rtl]:flex-row-reverse">
-                        <span className="auto-text">
+                      <div className="flex justify-between items-center text-sm [dir=rtl]:flex-row-reverse gap-2">
+                        <span className="auto-text flex-shrink-0">
                           {t("checkout.subtotal")}:
                         </span>
-                        <span className="text-primary ltr-text">
+                        <span className="text-primary ltr-text flex-shrink-0 text-right">
                           {currencySymbol}{" "}
                           {(
                             orderTotalPrice -
@@ -468,21 +468,21 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                           ).toFixed(2)}
                         </span>
                       </div>
-                      <div className="flex justify-between items-center text-sm [dir=rtl]:flex-row-reverse">
-                        <span className="auto-text">
+                      <div className="flex justify-between items-center text-sm [dir=rtl]:flex-row-reverse gap-2">
+                        <span className="auto-text flex-shrink-0">
                           {t("checkout.deliveryFee")}:
                         </span>
-                        <span className="text-primary ltr-text">
+                        <span className="text-primary ltr-text flex-shrink-0 text-right">
                           {deliveryType === "delivery"
                             ? `${currencySymbol} ${deliveryFeeSetting.toFixed(2)}`
                             : `${currencySymbol} 0.00`}
                         </span>
                       </div>
-                      <div className="flex justify-between items-center text-base font-bold pt-3 border-t [dir=rtl]:flex-row-reverse">
-                        <span className="auto-text">
+                      <div className="flex justify-between items-center text-base font-bold pt-3 border-t [dir=rtl]:flex-row-reverse gap-2">
+                        <span className="auto-text flex-shrink-0">
                           {t("orders.orderTotal")}:
                         </span>
-                        <span className="text-primary text-lg ltr-text">
+                        <span className="text-primary text-lg ltr-text flex-shrink-0 text-right">
                           {currencySymbol} {orderTotalPrice.toFixed(2)}
                         </span>
                       </div>
