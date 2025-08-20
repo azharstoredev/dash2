@@ -8,6 +8,26 @@ import {
 import { customerApi, productApi, orderApi, categoryApi } from "@/services/api";
 import { analyticsService } from "@/services/analytics";
 
+// Helper function to add logs
+async function addLog(level: "info" | "warning" | "error", category: string, message: string, details?: any) {
+  try {
+    await fetch("/api/logs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        level,
+        category,
+        message,
+        details,
+      }),
+    });
+  } catch (error) {
+    console.error("Failed to add log:", error);
+  }
+}
+
 export interface Customer {
   id: string;
   name: string;
