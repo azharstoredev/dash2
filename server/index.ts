@@ -114,6 +114,9 @@ export function createServer() {
   app.get("/api/logs/export", exportLogs);
   app.get("/api/logs/health", getSystemHealth);
 
+  // System maintenance routes
+  app.post("/api/system/fix-characters", handleFixCharacters);
+
   // Initialize sample logs
   initializeLogs();
 
