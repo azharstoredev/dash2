@@ -593,7 +593,7 @@ const translations = {
 
     // Orders
     "orders.title": "الطلبات",
-    "orders.subtitle": "إدارة طلبات العملاء والتوصيل",
+    "orders.subtitle": "إدارة ط��بات العملاء والتوصيل",
     "orders.addNew": "إضافة طلب جديد",
     "orders.search": "البحث في الطلبات...",
     "orders.orderId": "رقم الطلب",
@@ -728,8 +728,8 @@ const translations = {
     "message.orderUpdated": "تم تحديث الطلب بنجاح",
     "message.orderDeleted": "تم حذف الطلب بنجاح",
     "message.customerAdded": "تم إضافة ال��ميل بنجاح",
-    "message.customerUpdated": "تم تحديث العميل بنجاح",
-    "message.customerDeleted": "تم حذف العميل ب��جاح",
+    "message.customerUpdated": "تم تحديث ا��عميل بنجاح",
+    "message.customerDeleted": "تم حذف العميل بنجاح",
     "message.error": "حدث خطأ",
     "message.success": "تمت العملية بنجاح",
 
@@ -756,7 +756,7 @@ const translations = {
     "store.variant": "النوع",
     "store.selectVariant": "اختر النوع",
     "store.cartEmpty": "سلتك فارغة",
-    "store.cartTotal": "إجمالي السلة",
+    "store.cartTotal": "إجمالي ا��سلة",
     "store.checkout": "إتمام الطلب",
     "store.continueShopping": "متابعة التسوق",
     "store.removeFromCart": "إزالة من السلة",
@@ -800,7 +800,7 @@ const translations = {
     "checkout.contactPhone": "سيتم التواصل معك عبر الهاتف للتأكيد",
     "checkout.deliveryTime": "التوصيل خلال 1-3 أيام عمل",
     "checkout.importError":
-      "فشل في استيراد الإعدادات. يرجى التحقق من تنسيق الملف.",
+      "فشل في استيراد الإعدادات. يرجى التحقق م�� تنسيق الملف.",
 
     // Additional store keys
     "store.outOfStock": "نفد المخزون",
@@ -824,7 +824,7 @@ const translations = {
     "categories.deleteSuccess": "تم حذف التصنيف بنجاح.",
     "categories.cannotDeleteTitle": "لا يمكن حذف التصنيف",
     "categories.cannotDeleteMessage":
-      "هذا التصنيف مستخدم في {count} منتج. يرجى إزالة التصنيف من جميع المنتجات قبل الحذف.",
+      "هذا التصنيف مستخدم في {count} منتج. يرجى إزال�� التصنيف من جميع المنتجات قبل الحذف.",
     "categories.nameRequired": "اسم التصنيف مطلوب.",
 
     // Analytics
@@ -944,7 +944,7 @@ const translations = {
     "settings.exportSettings": "تصدير الإعدادات",
     "settings.importSettings": "استيراد الإعدادات",
     "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياط��",
-    "settings.importDescription": "رفع ملف إعدادات مُصدّر مسبقاً",
+    "settings.importDescription": "رفع ملف إعداد��ت مُصدّر مسبقاً",
     "settings.chooseFile": "اختر الملف",
     "settings.noFileChosen": "لم يتم اختيار ملف",
     "settings.displayOptions": "خيارات العرض",
@@ -963,7 +963,7 @@ const translations = {
     "settings.dialogScrollDesc": "تفعيل التمرير في حوارات الطلبات",
     "settings.autoScrollDesc": "التمرير التلقائي إلى قسم الملخص",
     "settings.adminPasswordHint":
-      "قم بتغيير كلمة المرور للوصول إلى لوحة التحكم",
+      "قم بتغيير كلمة المرور للوصول إلى لوحة التح��م",
 
     // Store Information
     "settings.storeInformation": "معلومات المتجر",
