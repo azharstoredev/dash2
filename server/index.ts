@@ -38,6 +38,11 @@ import {
   deleteImage,
   getStorageInfo,
 } from "./routes/upload";
+import {
+  trackEvent,
+  getAnalytics,
+  getRealTimeData,
+} from "./routes/analytics";
 
 export function createServer() {
   const app = express();
