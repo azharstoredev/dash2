@@ -572,7 +572,7 @@ const translations = {
     "nav.analytics": "التحليلات",
     "nav.categories": "التصنيفات",
     "nav.settings": "الإعدادات",
-    "nav.logout": "تسجيل ال��روج",
+    "nav.logout": "تسجيل الروج",
     "nav.adminPanel": "لوحة الإدارة",
 
     // Dashboard
@@ -679,7 +679,7 @@ const translations = {
     // Customers
     "customers.title": "العملاء",
     "customers.subtitle": "إدارة قاعدة بيانات العملاء",
-    "customers.addNew": "إضا��ة عميل جديد",
+    "customers.addNew": "إضاة عميل جديد",
     "customers.search": "البحث في العملاء...",
     "customers.name": "الاسم",
     "customers.phone": "الهاتف",
@@ -708,7 +708,7 @@ const translations = {
     "revenue.monthlyTrend": "اتجاه الإيرادات الشهرية",
     "revenue.dailyRevenue": "الإيرادات اليومية (هذا الشهر)",
     "revenue.topProducts": "أفضل المنتجات من حيث الإيرادات",
-    "revenue.deliveryAnalysis": "تحليل ��وع التسليم",
+    "revenue.deliveryAnalysis": "تحليل وع التسليم",
     "revenue.revenueByStatus": "الإيرادات حسب حالة الطلب",
     "revenue.month": "الشهر",
     "revenue.revenue": "الإيرادات",
@@ -813,7 +813,7 @@ const translations = {
     "checkout.total": "المجموع الكلي",
     "checkout.orderTotal": "إجمالي الطلب",
     "checkout.placeOrder": "إرسال الطلب",
-    "checkout.orderSuccess": "تم ��أكيد الطلب بنجاح!",
+    "checkout.orderSuccess": "تم أكيد الطلب بنجاح!",
     "checkout.thankYou":
       "شكراً لك على طلبك! لقد استلمنا طلبك وسنقوم بمعالجته قريباً.",
     "checkout.orderNumber": "رقم الطلب",
@@ -878,7 +878,7 @@ const translations = {
     "analytics.orderStatusDistribution": "توزيع حالات الطلبات",
     "analytics.deliveryMethodBreakdown": "تفصيل طرق التوصيل",
     "analytics.orders": "الطلبات",
-    "analytics.revenue": "ال��يرادات (د.ب)",
+    "analytics.revenue": "اليرادات (د.ب)",
     "analytics.visitors": "الزوار",
     "analytics.last7days": "آخر 7 أيام",
     "analytics.last30days": "آخر 30 يوماً",
@@ -1005,7 +1005,7 @@ const translations = {
     "settings.importDescription": "رفع ملف إعدادات مُصدّر مسبقاً",
     "settings.chooseFile": "اختر الملف",
     "settings.noFileChosen": "لم يتم اختيار ملف",
-    "settings.displayOptions": "خ��ارات العرض",
+    "settings.displayOptions": "خارات العرض",
     "settings.paymentSettings": "إعدادات الدفع",
 
     "settings.enablePerformanceMode": "وضع الأداء",
@@ -1026,7 +1026,7 @@ const translations = {
     // Store Information
     "settings.storeInformation": "معلومات المتجر",
     "settings.storeName": "اسم المتجر",
-    "settings.storeDescription": "وصف ا��متجر",
+    "settings.storeDescription": "وصف امتجر",
     "settings.currency": "العملة",
     "settings.currencySymbol": "رمز العملة",
     "settings.bahrainiDinar": "الدينار البحريني",
