@@ -100,5 +100,19 @@
     "ip": "::ffff:127.0.0.1",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
     "timestamp": "2025-08-20T15:03:00.958Z"
+  },
+  {
+    "level": "info",
+    "category": "product",
+    "message": "New product added: fdsaf",
+    "details": {
+      "productId": "1755702334900dps4ubqzd",
+      "productName": "fdsaf",
+      "price": 2,
+      "variants": 0
+    },
+    "ip": "::ffff:127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+    "timestamp": "2025-08-20T15:05:35.035Z"
   }
 ]
