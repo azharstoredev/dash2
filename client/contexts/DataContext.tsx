@@ -305,8 +305,18 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
       // Track order placement analytics
       analyticsService.trackOrderPlaced(newOrder.id, newOrder.total);
+
+      // Log order creation
+      addLog("info", "order", `New order created: #${newOrder.id}`, {
+        orderId: newOrder.id,
+        total: newOrder.total,
+        customerId: newOrder.customerId,
+        itemCount: newOrder.items.length,
+        deliveryType: newOrder.deliveryType,
+      });
     } catch (error) {
       console.error("Failed to add order:", error);
+      addLog("error", "order", "Failed to create order", { error: error.message });
       throw error;
     }
   };
