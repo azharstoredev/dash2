@@ -40,6 +40,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  // Migrate existing cart items with "default" variantId to "no-variant"
+  useEffect(() => {
+    setItems(prev => prev.map(item =>
+      item.variantId === "default"
+        ? { ...item, variantId: "no-variant" }
+        : item
+    ));
+  }, []);
+
   const addItem = (newItem: CartItem) => {
     setItems((prev) => {
       const existingIndex = prev.findIndex(
