@@ -621,7 +621,7 @@ const translations = {
     "products.uploadImage": "رفع صورة",
 
     // Orders
-    "orders.title": "الطلبات",
+    "orders.title": "الطلب��ت",
     "orders.subtitle": "إدارة طلبات العملاء والتوصيل",
     "orders.addNew": "إضافة طلب جديد",
     "orders.search": "البحث في الطلبات...",
@@ -734,7 +734,7 @@ const translations = {
     "common.back": "السابق",
     "common.next": "التالي",
     "common.success": "نجح",
-    "common.added": "تمت الإضافة",
+    "common.added": "تمت ا��إضافة",
 
     // Empty states
     "empty.noProductsFound": "لا توجد منتجات",
@@ -811,7 +811,7 @@ const translations = {
     "checkout.subtotal": "المجموع الفرعي",
     "checkout.deliveryFee": "رسوم التوصيل",
     "checkout.total": "المجموع الكلي",
-    "checkout.orderTotal": "��جمالي الطلب",
+    "checkout.orderTotal": "إجمالي الطلب",
     "checkout.placeOrder": "إرسال الطلب",
     "checkout.orderSuccess": "تم تأكيد الطلب بنجاح!",
     "checkout.thankYou":
@@ -853,7 +853,7 @@ const translations = {
     "categories.deleteSuccess": "تم حذف التصنيف بنجاح.",
     "categories.cannotDeleteTitle": "لا يمكن حذف التصنيف",
     "categories.cannotDeleteMessage":
-      "هذا التصنيف مستخدم في {count} م��تج. يرجى إزال�� التصنيف من جميع المنتجات قبل الحذف.",
+      "هذا التصنيف مستخدم في {count} م��تج. يرجى إزالة التصنيف من جميع المنتجات قبل الحذف.",
     "categories.nameRequired": "اسم التصنيف مطلوب.",
 
     // Analytics
@@ -918,7 +918,7 @@ const translations = {
     "settings.systemInformation": "معلومات النظام",
     "settings.environment": "البيئة",
     "settings.development": "تطوير",
-    "settings.production": "إن��اج",
+    "settings.production": "إنتاج",
     "settings.serverStatus": "حالة الخادم",
     "settings.running": "يعمل",
     "settings.uptime": "وقت التشغيل",
@@ -961,11 +961,11 @@ const translations = {
     "settings.autoBackup": "النسخ الاحتياطي التلقائي",
     "settings.debugMode": "وضع التصحيح",
     "settings.dialogScroll": "تمرير الحوار",
-    "settings.autoScrollToSummary": "التمرير التلقائي للملخص",
-    "settings.autoOrderConfirmation": "تأكيد الطلب التلقائ��",
+    "settings.autoScrollToSummary": "التمرير التل��ائي للملخص",
+    "settings.autoOrderConfirmation": "تأكيد الطلب التلقائي",
     "settings.lowStockThreshold": "حد المخزون المنخفض",
     "settings.maxOrderQuantity": "الحد الأقصى لكمية الطلب",
-    "settings.orderProcessingTime": "��قت معالجة الطلب",
+    "settings.orderProcessingTime": "وقت معالجة الطلب",
     "settings.performanceOptimization": "الأداء والتحسين",
     "settings.userExperience": "تجربة المستخدم",
     "settings.systemSettings": "إعدادات النظام",
