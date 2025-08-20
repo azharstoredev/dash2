@@ -279,6 +279,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
     try {
       const newOrder = await orderApi.create(orderData);
       setOrders((prev) => [...prev, newOrder]);
+
+      // Track order placement analytics
+      analyticsService.trackOrderPlaced(newOrder.id, newOrder.total);
     } catch (error) {
       console.error("Failed to add order:", error);
       throw error;
