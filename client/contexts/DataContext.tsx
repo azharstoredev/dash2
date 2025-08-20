@@ -208,6 +208,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
     try {
       const newCustomer = await customerApi.create(customerData);
       setCustomers((prev) => [...prev, newCustomer]);
+
+      // Track customer creation analytics
+      analyticsService.trackCustomerCreated(newCustomer.id);
     } catch (error) {
       console.error("Failed to add customer:", error);
       throw error;
