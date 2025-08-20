@@ -765,7 +765,57 @@ export default function Settings() {
         )}
 
         {/* System Settings */}
-        {activeTab === "system" && <SystemSettings />}
+        {activeTab === "system" && (
+          <div className="space-y-6">
+            {/* Character Fixing Tool */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Wrench className="w-5 h-5" />
+                  Character Corruption Fix
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <Info className="w-5 h-5 text-blue-600 mt-0.5" />
+                    <div>
+                      <h4 className="font-medium text-blue-900 mb-1">
+                        Automatic Character Fix
+                      </h4>
+                      <p className="text-sm text-blue-800">
+                        This tool automatically detects and fixes corrupted UTF-8 characters
+                        (like "�") that appear in Arabic text throughout the application.
+                        Common issues include corrupted characters in translations and text content.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-medium">Fix Corrupted Characters</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Scan and fix all corrupted UTF-8 characters in the codebase
+                    </p>
+                  </div>
+                  <Button
+                    onClick={fixCharacters}
+                    disabled={isFixingCharacters}
+                    variant="outline"
+                    className="flex items-center gap-2"
+                  >
+                    <Wrench className="w-4 h-4" />
+                    {isFixingCharacters ? "Fixing..." : "Fix Characters"}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* System Settings Component */}
+            <SystemSettings />
+          </div>
+        )}
       </div>
     </div>
   );
