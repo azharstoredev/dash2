@@ -15,7 +15,8 @@ import {
 import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group";
 import { Separator } from "../components/ui/separator";
 import { Badge } from "../components/ui/badge";
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, Check, Truck, MapPin } from "lucide-react";
+import ImprovedOrderSummary from "../components/ImprovedOrderSummary";
 
 export default function Checkout() {
   const { t } = useLanguage();
