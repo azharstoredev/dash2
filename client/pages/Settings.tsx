@@ -687,47 +687,6 @@ export default function Settings() {
               </CardContent>
             </Card>
 
-            {/* Pickup Address */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MapPin className="w-5 h-5" />
-                  {t("settings.pickupAddress")}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="pickupAddressEn" className="auto-text">
-                    {t("settings.pickupAddressEn")}
-                  </Label>
-                  <Textarea
-                    id="pickupAddressEn"
-                    value={settings.pickupAddressEn || ""}
-                    onChange={(e) =>
-                      handleInputChange("pickupAddressEn", e.target.value)
-                    }
-                    placeholder="Home 1348, Road 416, Block 604, Sitra Alqarya"
-                    className="auto-text"
-                    rows={3}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="pickupAddressAr" className="auto-text">
-                    {t("settings.pickupAddressAr")}
-                  </Label>
-                  <Textarea
-                    id="pickupAddressAr"
-                    value={settings.pickupAddressAr || ""}
-                    onChange={(e) =>
-                      handleInputChange("pickupAddressAr", e.target.value)
-                    }
-                    placeholder="منزل 1348، طريق 416، مجمع 604، سترة القرية"
-                    className="auto-text"
-                    rows={3}
-                  />
-                </div>
-              </CardContent>
-            </Card>
           </div>
         )}
 
