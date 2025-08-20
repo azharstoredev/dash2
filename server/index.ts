@@ -110,5 +110,15 @@ export function createServer() {
   app.get("/api/analytics", getAnalytics);
   app.get("/api/analytics/realtime", getRealTimeData);
 
+  // Logs routes
+  app.get("/api/logs", getLogs);
+  app.post("/api/logs", addLog);
+  app.delete("/api/logs", clearLogs);
+  app.get("/api/logs/export", exportLogs);
+  app.get("/api/logs/health", getSystemHealth);
+
+  // Initialize sample logs
+  initializeLogs();
+
   return app;
 }
