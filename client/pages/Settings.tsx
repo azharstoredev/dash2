@@ -46,6 +46,7 @@ import {
   Wrench,
 } from "lucide-react";
 import SystemSettings from "@/components/SystemSettings";
+import { diagnoseApiHealth } from "@/utils/apiDiagnostics";
 
 interface StoreSettings {
   // Store Information
