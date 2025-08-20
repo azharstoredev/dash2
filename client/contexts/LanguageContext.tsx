@@ -572,7 +572,7 @@ const translations = {
     "nav.analytics": "التحليلات",
     "nav.categories": "التصنيفات",
     "nav.settings": "الإعدادات",
-    "nav.logout": "تسجيل الخروج",
+    "nav.logout": "تسجي�� الخروج",
     "nav.adminPanel": "لوحة الإدارة",
 
     // Dashboard
@@ -621,7 +621,7 @@ const translations = {
     "products.uploadImage": "رفع صورة",
 
     // Orders
-    "orders.title": "الطلب��ت",
+    "orders.title": "الطلبات",
     "orders.subtitle": "إدارة طلبات العملاء والتوصيل",
     "orders.addNew": "إضافة طلب جديد",
     "orders.search": "البحث في الطلبات...",
@@ -685,7 +685,7 @@ const translations = {
     "customers.phone": "الهاتف",
     "customers.address": "العنوان",
 
-    "customers.edit": "تعديل",
+    "customers.edit": "تعد��ل",
     "customers.delete": "حذف",
     "customers.noCustomers": "لا يوجد عملاء",
     "customers.addCustomer": "إضافة عميل",
@@ -708,7 +708,7 @@ const translations = {
     "revenue.monthlyTrend": "اتجاه الإيرادات الشهرية",
     "revenue.dailyRevenue": "الإيرادات اليومية (هذا الشهر)",
     "revenue.topProducts": "أفضل المنتجات من حيث الإيرادات",
-    "revenue.deliveryAnalysis": "تحليل نوع التسليم",
+    "revenue.deliveryAnalysis": "تح��يل نوع التسليم",
     "revenue.revenueByStatus": "الإيرادات حسب حالة الطلب",
     "revenue.month": "الشهر",
     "revenue.revenue": "الإيرادات",
@@ -734,7 +734,7 @@ const translations = {
     "common.back": "السابق",
     "common.next": "التالي",
     "common.success": "نجح",
-    "common.added": "تمت ا��إضافة",
+    "common.added": "تمت الإضافة",
 
     // Empty states
     "empty.noProductsFound": "لا توجد منتجات",
@@ -853,7 +853,7 @@ const translations = {
     "categories.deleteSuccess": "تم حذف التصنيف بنجاح.",
     "categories.cannotDeleteTitle": "لا يمكن حذف التصنيف",
     "categories.cannotDeleteMessage":
-      "هذا التصنيف مستخدم في {count} م��تج. يرجى إزالة التصنيف من جميع المنتجات قبل الحذف.",
+      "هذا التصنيف مستخدم في {count} منتج. يرجى إزالة التصنيف من جميع المنتجات قبل الحذف.",
     "categories.nameRequired": "اسم التصنيف مطلوب.",
 
     // Analytics
@@ -880,7 +880,7 @@ const translations = {
     "analytics.orders": "الطلبات",
     "analytics.revenue": "الإيرادات (د.ب)",
     "analytics.visitors": "الزوار",
-    "analytics.last7days": "آخر 7 أ��ام",
+    "analytics.last7days": "آخر 7 أيام",
     "analytics.last30days": "آخر 30 يوماً",
     "analytics.last90days": "آخر 90 يوماً",
     "analytics.refresh": "تحديث",
@@ -961,7 +961,7 @@ const translations = {
     "settings.autoBackup": "النسخ الاحتياطي التلقائي",
     "settings.debugMode": "وضع التصحيح",
     "settings.dialogScroll": "تمرير الحوار",
-    "settings.autoScrollToSummary": "التمرير التل��ائي للملخص",
+    "settings.autoScrollToSummary": "التمرير التلقائي للملخص",
     "settings.autoOrderConfirmation": "تأكيد الطلب التلقائي",
     "settings.lowStockThreshold": "حد المخزون المنخفض",
     "settings.maxOrderQuantity": "الحد الأقصى لكمية الطلب",
@@ -987,7 +987,7 @@ const translations = {
     "settings.pickupAddressAr": "عنوان الاستلام (عربي)",
     "settings.deliveryAreas": "مناطق التوصيل",
     "settings.addDeliveryArea": "إضافة منطقة توصيل",
-    "settings.removeDeliveryArea": "إزالة",
+    "settings.removeDeliveryArea": "إزال��",
     "settings.operationalSettings": "الإعدادات التشغيلية",
     "settings.uiBehavior": "سلوك الواجهة",
     "settings.adminSettings": "إعدادات الإدارة",
