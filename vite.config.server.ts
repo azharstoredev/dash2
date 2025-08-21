@@ -9,7 +9,7 @@ export default defineConfig({
     target: "node22",
     rollupOptions: {
       external: [
-        // Node.js built-ins only
+        // Node.js built-ins
         "fs",
         "path",
         "url",
@@ -23,6 +23,13 @@ export default defineConfig({
         "buffer",
         "querystring",
         "child_process",
+        // Production dependencies
+        "cors",
+        "express",
+        "dotenv",
+        "multer",
+        "@supabase/supabase-js",
+        "zod",
       ],
       output: {
         format: "es",
