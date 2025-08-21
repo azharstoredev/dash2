@@ -440,6 +440,9 @@ export default function Products() {
                                       parseInt(e.target.value) || 0,
                                     )
                                   }
+                                  onFocus={(e) => {
+                                    e.target.select();
+                                  }}
                                   placeholder="0"
                                   required
                                 />
