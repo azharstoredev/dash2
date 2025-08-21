@@ -588,13 +588,13 @@ export default function Settings() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Package className="w-5 h-5" />
-                  Pickup Messages
+                  {t("settings.pickupMessages")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
                   <Label htmlFor="pickupMessageEn" className="auto-text">
-                    Pickup Message (English)
+                    {t("settings.pickupMessageEn")}
                   </Label>
                   <Textarea
                     id="pickupMessageEn"
@@ -609,7 +609,7 @@ export default function Settings() {
                 </div>
                 <div>
                   <Label htmlFor="pickupMessageAr" className="auto-text">
-                    Pickup Message (Arabic)
+                    {t("settings.pickupMessageAr")}
                   </Label>
                   <Textarea
                     id="pickupMessageAr"
@@ -630,13 +630,13 @@ export default function Settings() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Truck className="w-5 h-5" />
-                  Delivery Messages
+                  {t("settings.deliveryMessages")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
                   <Label htmlFor="deliveryMessageEn" className="auto-text">
-                    Delivery Message (English)
+                    {t("settings.deliveryMessageEn")}
                   </Label>
                   <Textarea
                     id="deliveryMessageEn"
@@ -651,7 +651,7 @@ export default function Settings() {
                 </div>
                 <div>
                   <Label htmlFor="deliveryMessageAr" className="auto-text">
-                    Delivery Message (Arabic)
+                    {t("settings.deliveryMessageAr")}
                   </Label>
                   <Textarea
                     id="deliveryMessageAr"
