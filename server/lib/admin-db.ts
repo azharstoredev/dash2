@@ -123,6 +123,37 @@ export function ensureAdminInitialized() {
   return initializationPromise;
 }
 
+// Internal function to get admin user without triggering initialization
+async function getAdminUserInternal(): Promise<AdminUser | null> {
+  if (!supabase) {
+    return fallbackAdminUser;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("admin_users")
+      .select("*")
+      .limit(1)
+      .single();
+
+    if (error) {
+      if (error.code === "PGRST116") {
+        return null; // No admin user found
+      }
+      console.warn(
+        "Supabase error, falling back to in-memory storage:",
+        error.message,
+      );
+      return fallbackAdminUser;
+    }
+
+    return data;
+  } catch (error) {
+    console.warn("Supabase connection failed, using in-memory storage");
+    return fallbackAdminUser;
+  }
+}
+
 // Admin database operations
 export const adminDb = {
   // Get admin user (there should be only one)
