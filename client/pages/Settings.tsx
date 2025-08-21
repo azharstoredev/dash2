@@ -127,6 +127,10 @@ interface StoreSettings {
   enableAccessibility?: boolean;
   enablePerformanceMode?: boolean;
   enableDebugMode?: boolean;
+
+  // Delivery Settings
+  deliveryFee?: number;
+  freeDeliveryMinimum?: number;
 }
 
 export default function Settings() {
