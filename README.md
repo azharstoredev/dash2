@@ -5,17 +5,19 @@ A production-ready full-stack React application with Express backend.
 ## Quick Deploy to Heroku
 
 1. **Clone and prepare**:
+
    ```bash
    git clone <your-repo>
    cd <your-project>
    ```
 
 2. **Deploy to Heroku**:
+
    ```bash
    # Install Heroku CLI if not installed
    # Create Heroku app
    heroku create your-app-name
-   
+
    # Deploy
    git push heroku main
    ```
@@ -48,8 +50,9 @@ npm start
 ## Deployment
 
 The app is configured to deploy easily to:
+
 - ✅ **Heroku** (recommended)
-- ✅ **Netlify** 
+- ✅ **Netlify**
 - ✅ **Vercel**
 
 ### Build Process
@@ -58,6 +61,7 @@ The app is configured to deploy easily to:
 - `npm start` - Runs the production server serving static files and API
 
 The production server (`production-server.js`) is optimized for Heroku and handles:
+
 - Static file serving from `dist/spa/`
 - API endpoints under `/api/*`
 - Client-side routing (SPA)

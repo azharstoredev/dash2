@@ -1,5 +1,5 @@
 import "dotenv/config";
-import express, { Express } from 'express';
+import express, { Express } from "express";
 import cors from "cors";
 import path from "path";
 import { handleDemo } from "./routes/demo";
@@ -58,14 +58,16 @@ export function createServer(): Express {
 // Export setupRoutes function for node-build.ts
 export function setupRoutes(app: Express) {
   // Apply CORS middleware
-  app.use(cors({
-    origin: true,
-    credentials: true
-  }));
+  app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    }),
+  );
 
   // Parse JSON bodies
-  app.use(express.json({ limit: '50mb' }));
-  app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+  app.use(express.json({ limit: "50mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
   // Serve uploaded files statically
   app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
@@ -147,10 +149,12 @@ export function setupRoutes(app: Express) {
 if (process.env.NODE_ENV === "production") {
   const app = createServer();
   const port = Number(process.env.PORT) || 8080;
-  
+
   app.listen(port, "0.0.0.0", () => {
     console.log(`🚀 Server running at http://0.0.0.0:${port}`);
-    console.log(`📁 Serving static files from: ${path.join(process.cwd(), "dist/spa")}`);
-    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(
+      `📁 Serving static files from: ${path.join(process.cwd(), "dist/spa")}`,
+    );
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
   });
 }
