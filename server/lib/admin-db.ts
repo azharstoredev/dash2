@@ -2,10 +2,20 @@ import { supabase } from "./supabase";
 
 // Dynamic import for bcrypt to handle environments where it might not be available
 let bcrypt: any = null;
-try {
-  bcrypt = await import("bcrypt");
-} catch (error) {
-  console.warn("bcrypt not available, password hashing will be disabled");
+let bcryptLoaded = false;
+
+async function loadBcrypt() {
+  if (bcryptLoaded) return bcrypt;
+
+  try {
+    bcrypt = await import("bcrypt");
+    bcryptLoaded = true;
+    return bcrypt;
+  } catch (error) {
+    console.warn("bcrypt not available, password hashing will be disabled");
+    bcryptLoaded = true;
+    return null;
+  }
 }
 
 // Admin user interface
