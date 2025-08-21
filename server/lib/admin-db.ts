@@ -1,5 +1,12 @@
 import { supabase } from "./supabase";
-import bcrypt from "bcrypt";
+
+// Dynamic import for bcrypt to handle environments where it might not be available
+let bcrypt: any = null;
+try {
+  bcrypt = require("bcrypt");
+} catch (error) {
+  console.warn("bcrypt not available, password hashing will be disabled");
+}
 
 // Admin user interface
 export interface AdminUser {
