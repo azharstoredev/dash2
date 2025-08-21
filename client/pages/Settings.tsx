@@ -226,6 +226,13 @@ export default function Settings() {
     }
   }, []);
 
+  useEffect(() => {
+    // Load admin email from context
+    if (adminInfo?.email) {
+      setSettings((prev) => ({ ...prev, adminEmail: adminInfo.email }));
+    }
+  }, [adminInfo]);
+
   const handleInputChange = (field: string, value: any) => {
     setSettings((prev) => ({ ...prev, [field]: value }));
     setHasChanges(true);
