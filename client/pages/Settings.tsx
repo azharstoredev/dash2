@@ -531,6 +531,58 @@ export default function Settings() {
         {/* Delivery Settings */}
         {activeTab === "delivery" && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Delivery Pricing */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <DollarSign className="w-5 h-5" />
+                  {t("settings.deliveryPricing")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="deliveryFee" className="auto-text">
+                    {t("settings.deliveryFee")}
+                  </Label>
+                  <Input
+                    id="deliveryFee"
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    value={settings.deliveryFee || 0}
+                    onChange={(e) =>
+                      handleInputChange("deliveryFee", parseFloat(e.target.value) || 0)
+                    }
+                    className="ltr-text"
+                    placeholder="1.5"
+                  />
+                  <p className="text-sm text-muted-foreground auto-text mt-1">
+                    {t("settings.deliveryFeeHint")}
+                  </p>
+                </div>
+                <div>
+                  <Label htmlFor="freeDeliveryMinimum" className="auto-text">
+                    {t("settings.freeDeliveryMinimum")}
+                  </Label>
+                  <Input
+                    id="freeDeliveryMinimum"
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    value={settings.freeDeliveryMinimum || 0}
+                    onChange={(e) =>
+                      handleInputChange("freeDeliveryMinimum", parseFloat(e.target.value) || 0)
+                    }
+                    className="ltr-text"
+                    placeholder="20"
+                  />
+                  <p className="text-sm text-muted-foreground auto-text mt-1">
+                    {t("settings.freeDeliveryMinimumHint")}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Pickup Messages */}
             <Card>
               <CardHeader>
