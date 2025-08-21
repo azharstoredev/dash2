@@ -222,8 +222,10 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
         price: item.price,
       }));
 
-      // Calculate total including delivery fees
-      const deliveryFee = deliveryType === "delivery" ? deliveryFeeSetting : 0;
+      // Calculate total including delivery fees with free delivery threshold
+      const deliveryFee = deliveryType === "delivery"
+        ? (totalPrice >= freeDeliveryMinimum ? 0 : deliveryFeeSetting)
+        : 0;
       const orderTotal = totalPrice + deliveryFee;
 
       // Create order
