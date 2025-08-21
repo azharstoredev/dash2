@@ -69,6 +69,8 @@ export function setupRoutes(app: Express) {
   // Serve uploaded files statically
   app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
+  // Serve static files from React build (for production)
+  app.use(express.static(path.join(process.cwd(), "dist/spa")));
 
   // Example API routes
   app.get("/api/demo", handleDemo);
@@ -128,5 +130,10 @@ export function setupRoutes(app: Express) {
   // Health check endpoint
   app.get("/api/ping", (_req, res) => {
     res.json({ message: "ping", timestamp: new Date().toISOString() });
+  });
+
+  // Catch-all handler: send back React's index.html file for any non-API routes
+  app.get("*", (_req, res) => {
+    res.sendFile(path.join(process.cwd(), "dist/spa/index.html"));
   });
 }
