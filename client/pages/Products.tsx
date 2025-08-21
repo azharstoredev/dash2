@@ -354,6 +354,9 @@ export default function Products() {
                               total_stock: parseInt(e.target.value) || 0,
                             }))
                           }
+                          onFocus={(e) => {
+                            e.target.select();
+                          }}
                           placeholder="0"
                           required
                         />
