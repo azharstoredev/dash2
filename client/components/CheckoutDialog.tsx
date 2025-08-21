@@ -72,7 +72,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
         subtext:
           language === "ar"
             ? settings.successSubtextAr ||
-              "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+              "سنقو�� بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
             : settings.successSubtextEn ||
               "We'll share updates by phone as your order progresses.",
         toggles: {
@@ -773,7 +773,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                     </span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6 sm:space-y-8">
+                <CardContent id="checkout-summary-bottom" className="space-y-6 sm:space-y-8">
                   {/* Customer Info Review */}
                   <div className="p-4 sm:p-5 bg-gray-50 rounded-lg space-y-4">
                     <h4 className="font-medium auto-text border-b border-gray-200 pb-3 text-base sm:text-lg">
