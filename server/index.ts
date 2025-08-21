@@ -145,16 +145,5 @@ export function setupRoutes(app: Express) {
   }
 }
 
-// Start server directly if this file is run directly
-if (process.env.NODE_ENV === "production") {
-  const app = createServer();
-  const port = Number(process.env.PORT) || 8080;
-
-  app.listen(port, "0.0.0.0", () => {
-    console.log(`🚀 Server running at http://0.0.0.0:${port}`);
-    console.log(
-      `📁 Serving static files from: ${path.join(process.cwd(), "dist/spa")}`,
-    );
-    console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
-  });
-}
+// Note: Server startup is handled by production-server.js in production
+// and by Vite dev server in development
