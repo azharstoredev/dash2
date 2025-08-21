@@ -144,6 +144,9 @@ export const adminDb = {
   // Verify admin password
   async verifyPassword(password: string): Promise<boolean> {
     try {
+      // Ensure initialization is complete
+      await ensureAdminInitialized();
+
       if (!bcrypt) {
         console.error("bcrypt not available, cannot verify password");
         return false;
