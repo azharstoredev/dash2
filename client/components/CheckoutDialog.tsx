@@ -72,7 +72,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
         subtext:
           language === "ar"
             ? settings.successSubtextAr ||
-              "سنقو�� بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+              "سنقو�� بإبلاغك بالتحديثات عبر الهاتف ح��ب تقدم طلبك."
             : settings.successSubtextEn ||
               "We'll share updates by phone as your order progresses.",
         toggles: {
@@ -101,7 +101,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
           : t("orderSuccess.headline"),
       subtext:
         language === "ar"
-          ? "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+          ? "سنقوم بإبلاغك ��التحديثات عبر الهاتف حسب تقدم طلبك."
           : "We'll share updates by phone as your order progresses.",
       toggles: {
         displayOrderNumber: true,
@@ -321,7 +321,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
             {/* Scrollable Content */}
             <ScrollArea className="flex-1 p-6">
-              <div className="space-y-6">
+              <div id="checkout-success-bottom" className="space-y-6">
                 {/* Success Message - First Priority */}
                 <div className="text-center space-y-4">
                   <div className="bg-green-50 p-4 rounded-lg border border-green-200">
