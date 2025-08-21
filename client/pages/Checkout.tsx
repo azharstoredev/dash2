@@ -19,6 +19,7 @@ import { ArrowLeft, Check, Truck, MapPin } from "lucide-react";
 import ImprovedOrderSummary from "../components/ImprovedOrderSummary";
 
 export default function Checkout() {
+  const { language } = useLanguage();
   const { t } = useLanguage();
   const { items, getTotalPrice, clearCart } = useCart();
   const navigate = useNavigate();

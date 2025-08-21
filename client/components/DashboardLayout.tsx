@@ -110,7 +110,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
           <button
             onClick={handleCloseSidebar}
-            onTouchEnd={handleCloseSidebar}
+            onTouchEnd={(e) => handleCloseSidebar(e as any)}
             className="lg:hidden text-gray-400 hover:text-gray-600 touch-manipulation z-10 p-2 -m-2 relative"
             type="button"
             aria-label={t("common.close")}
