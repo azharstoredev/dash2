@@ -150,7 +150,7 @@ export default function ImprovedOrderSummary({
             <span className="ltr-text font-semibold text-gray-900">
               {deliveryFee === 0
                 ? language === "ar"
-                  ? "مجان��"
+                  ? "مجان"
                   : "Free"
                 : `${language === "ar" ? "د.ب" : "BD"} ${deliveryFee.toFixed(2)}`}
             </span>

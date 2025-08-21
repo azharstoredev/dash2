@@ -90,7 +90,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
     return {
       successMessage:
         language === "ar"
-          ? "شكر��ً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
+          ? "شكرً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
           : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
       instructions:
         language === "ar"
