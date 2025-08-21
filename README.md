@@ -27,6 +27,7 @@ A production-ready full-stack React application with Express backend.
 ## Development
 
 1. **Install dependencies**:
+
    ```bash
    npm install
    ```
@@ -74,6 +75,7 @@ The app is configured to deploy easily to:
 ### Fly.io Deployment
 
 1. **Set up Supabase environment variables**:
+
    ```bash
    # Set Supabase credentials as Fly secrets (required for database persistence)
    flyctl secrets set SUPABASE_URL=https://your-project-ref.supabase.co
