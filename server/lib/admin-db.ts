@@ -161,33 +161,7 @@ export const adminDb = {
     // Ensure initialization is complete
     await ensureAdminInitialized();
 
-    if (!supabase) {
-      return fallbackAdminUser;
-    }
-
-    try {
-      const { data, error } = await supabase
-        .from("admin_users")
-        .select("*")
-        .limit(1)
-        .single();
-
-      if (error) {
-        if (error.code === "PGRST116") {
-          return null; // No admin user found
-        }
-        console.warn(
-          "Supabase error, falling back to in-memory storage:",
-          error.message,
-        );
-        return fallbackAdminUser;
-      }
-
-      return data;
-    } catch (error) {
-      console.warn("Supabase connection failed, using in-memory storage");
-      return fallbackAdminUser;
-    }
+    return await getAdminUserInternal();
   },
 
   // Verify admin password
