@@ -51,7 +51,11 @@ import { handleFixCharacters } from "./routes/fix-characters";
 
 export function createServer(): Express {
   const app = express();
+  const port = process.env.PORT || 5000;
   setupRoutes(app);
+  app.listen(port, "0.0.0.0", () => {
+    console.log(`🚀 Server running at http://0.0.0.0:${port}`);
+  });
   return app;
 }
 
