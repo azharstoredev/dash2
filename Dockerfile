@@ -41,7 +41,6 @@ WORKDIR /app
 COPY --from=0 /app/dist /app/dist
 COPY --from=0 /app/node_modules /app/node_modules
 COPY --from=0 /app/package.json /app/package.json
-COPY --from=0 /app/production-server.js /app/production-server.js
 
 # Create nodejs user
 RUN addgroup --system --gid 1001 nodejs
