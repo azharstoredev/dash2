@@ -26,10 +26,26 @@ A production-ready full-stack React application with Express backend.
 
 ## Development
 
-```bash
-npm install
-npm run dev
-```
+1. **Install dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+2. **Set up Supabase (optional)**:
+   - Create a Supabase project at [supabase.com](https://supabase.com)
+   - Copy your project URL and service role key from Settings → API
+   - Update `.env` file:
+     ```env
+     SUPABASE_URL=https://your-project-ref.supabase.co
+     SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
+     ```
+   - **Note**: Without Supabase, the app uses in-memory storage (data resets on restart)
+
+3. **Start development server**:
+   ```bash
+   npm run dev
+   ```
 
 The app runs on `http://localhost:8080`
 
@@ -54,6 +70,24 @@ The app is configured to deploy easily to:
 - ✅ **Heroku** (recommended)
 - ✅ **Netlify**
 - ✅ **Vercel**
+- ✅ **Fly.io**
+
+### Fly.io Deployment
+
+1. **Set up Supabase environment variables**:
+
+   ```bash
+   # Set Supabase credentials as Fly secrets (required for database persistence)
+   flyctl secrets set SUPABASE_URL=https://your-project-ref.supabase.co
+   flyctl secrets set SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
+   ```
+
+2. **Deploy**:
+   ```bash
+   flyctl deploy
+   ```
+
+**Important**: The variable names must be exactly `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` for Fly.io to recognize them.
 
 ### Build Process
 
