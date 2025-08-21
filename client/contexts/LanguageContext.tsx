@@ -475,7 +475,8 @@ const translations = {
     "settings.deliveryPricing": "Delivery Pricing",
     "settings.freeDeliveryMinimum": "Minimum Amount for Free Delivery",
     "settings.deliveryFeeHint": "Cost charged for delivery service",
-    "settings.freeDeliveryMinimumHint": "Orders above this amount get free delivery",
+    "settings.freeDeliveryMinimumHint":
+      "Orders above this amount get free delivery",
     "settings.pickupMessages": "Pickup Messages",
     "settings.pickupMessageEn": "Pickup Message (English)",
     "settings.pickupMessageAr": "Pickup Message (Arabic)",
@@ -1032,8 +1033,7 @@ const translations = {
     "settings.enableDebugMode": "وضع التصحيح",
     "settings.dialogScrollDesc": "تفعيل التمرير في حوارات الطلبات",
     "settings.autoScrollDesc": "التمرير التلقائي إلى قسم الملخص",
-    "settings.adminPasswordHint":
-      "قم بتغيير لمة المرور للوصول إلى لوحة التحكم",
+    "settings.adminPasswordHint": "قم بتغيير لمة المرور للوصول إلى لوحة التحكم",
 
     // Store Information
     "settings.storeInformation": "معلومات المتجر",
@@ -1072,7 +1072,8 @@ const translations = {
     "settings.deliveryPricing": "أسعار التوصيل",
     "settings.freeDeliveryMinimum": "الحد الأدنى للتوصيل المجاني",
     "settings.deliveryFeeHint": "التكلفة المحملة لخدمة التوصيل",
-    "settings.freeDeliveryMinimumHint": "الطلبات فوق هذا المبلغ تحصل على توصيل مجاني",
+    "settings.freeDeliveryMinimumHint":
+      "الطلبات فوق هذا المبلغ تحصل على توصيل مجاني",
     "settings.pickupMessages": "رسائل الاستلام",
     "settings.pickupMessageEn": "رسالة الاستلام (إنجليزي)",
     "settings.pickupMessageAr": "رسالة الاستلام (عربي)",

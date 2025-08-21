@@ -257,7 +257,11 @@ export default function Settings() {
   };
 
   const handlePasswordChange = async () => {
-    if (!settings.currentPassword || !settings.newPassword || !settings.confirmPassword) {
+    if (
+      !settings.currentPassword ||
+      !settings.newPassword ||
+      !settings.confirmPassword
+    ) {
       showAlert({
         title: t("message.error"),
         message: "All password fields are required",
@@ -286,7 +290,10 @@ export default function Settings() {
 
     setIsChangingPassword(true);
     try {
-      const success = await changePassword(settings.currentPassword, settings.newPassword);
+      const success = await changePassword(
+        settings.currentPassword,
+        settings.newPassword,
+      );
 
       if (success) {
         showAlert({
@@ -305,7 +312,8 @@ export default function Settings() {
       } else {
         showAlert({
           title: t("message.error"),
-          message: "Failed to change password. Please check your current password.",
+          message:
+            "Failed to change password. Please check your current password.",
           type: "error",
         });
       }
@@ -327,7 +335,11 @@ export default function Settings() {
       localStorage.setItem("storeSettings", JSON.stringify(settings));
 
       // Handle admin email update if it changed
-      if (adminInfo?.email && settings.adminEmail && adminInfo.email !== settings.adminEmail) {
+      if (
+        adminInfo?.email &&
+        settings.adminEmail &&
+        adminInfo.email !== settings.adminEmail
+      ) {
         const emailUpdateSuccess = await updateEmail(settings.adminEmail);
         if (!emailUpdateSuccess) {
           showAlert({
@@ -649,7 +661,10 @@ export default function Settings() {
                     min="0"
                     value={settings.deliveryFee || 0}
                     onChange={(e) =>
-                      handleInputChange("deliveryFee", parseFloat(e.target.value) || 0)
+                      handleInputChange(
+                        "deliveryFee",
+                        parseFloat(e.target.value) || 0,
+                      )
                     }
                     className="ltr-text"
                     placeholder="1.5"
@@ -669,7 +684,10 @@ export default function Settings() {
                     min="0"
                     value={settings.freeDeliveryMinimum || 0}
                     onChange={(e) =>
-                      handleInputChange("freeDeliveryMinimum", parseFloat(e.target.value) || 0)
+                      handleInputChange(
+                        "freeDeliveryMinimum",
+                        parseFloat(e.target.value) || 0,
+                      )
                     }
                     className="ltr-text"
                     placeholder="20"
@@ -851,17 +869,27 @@ export default function Settings() {
                     className="ltr-text"
                   />
                 </div>
-                {settings.newPassword && settings.confirmPassword && settings.newPassword !== settings.confirmPassword && (
-                  <p className="text-sm text-red-600 auto-text">
-                    {t("settings.passwordsDoNotMatch")}
-                  </p>
-                )}
+                {settings.newPassword &&
+                  settings.confirmPassword &&
+                  settings.newPassword !== settings.confirmPassword && (
+                    <p className="text-sm text-red-600 auto-text">
+                      {t("settings.passwordsDoNotMatch")}
+                    </p>
+                  )}
                 <Button
                   onClick={handlePasswordChange}
-                  disabled={!settings.currentPassword || !settings.newPassword || !settings.confirmPassword || settings.newPassword !== settings.confirmPassword || isChangingPassword}
+                  disabled={
+                    !settings.currentPassword ||
+                    !settings.newPassword ||
+                    !settings.confirmPassword ||
+                    settings.newPassword !== settings.confirmPassword ||
+                    isChangingPassword
+                  }
                   className="w-full"
                 >
-                  {isChangingPassword ? t("common.loading") : t("settings.changePassword")}
+                  {isChangingPassword
+                    ? t("common.loading")
+                    : t("settings.changePassword")}
                 </Button>
               </CardContent>
             </Card>

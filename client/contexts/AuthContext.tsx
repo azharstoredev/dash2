@@ -10,7 +10,10 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (password: string) => Promise<boolean>;
   logout: () => void;
-  changePassword: (currentPassword: string, newPassword: string) => Promise<boolean>;
+  changePassword: (
+    currentPassword: string,
+    newPassword: string,
+  ) => Promise<boolean>;
   updateEmail: (email: string) => Promise<boolean>;
   adminInfo: { id: string; email: string } | null;
   fetchAdminInfo: () => Promise<void>;
@@ -20,7 +23,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [adminInfo, setAdminInfo] = useState<{ id: string; email: string } | null>(null);
+  const [adminInfo, setAdminInfo] = useState<{
+    id: string;
+    email: string;
+  } | null>(null);
 
   useEffect(() => {
     const authStatus = localStorage.getItem("adminAuth");
@@ -72,7 +78,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const changePassword = async (currentPassword: string, newPassword: string): Promise<boolean> => {
+  const changePassword = async (
+    currentPassword: string,
+    newPassword: string,
+  ): Promise<boolean> => {
     try {
       const response = await fetch("/api/admin/change-password", {
         method: "POST",
@@ -120,15 +129,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{
-      isAuthenticated,
-      login,
-      logout,
-      changePassword,
-      updateEmail,
-      adminInfo,
-      fetchAdminInfo
-    }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        login,
+        logout,
+        changePassword,
+        updateEmail,
+        adminInfo,
+        fetchAdminInfo,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

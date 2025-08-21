@@ -24,14 +24,19 @@ export default function ImprovedOrderSummary({
   const totalPrice = getTotalPrice();
 
   // Get delivery settings from localStorage
-  const savedSettings = JSON.parse(localStorage.getItem("storeSettings") || "{}");
+  const savedSettings = JSON.parse(
+    localStorage.getItem("storeSettings") || "{}",
+  );
   const deliveryFeeSetting = Number(savedSettings?.deliveryFee ?? 1.5);
   const freeDeliveryMinimum = Number(savedSettings?.freeDeliveryMinimum ?? 20);
 
   // Calculate delivery fee with free delivery threshold
-  const deliveryFee = deliveryType === "delivery"
-    ? (totalPrice >= freeDeliveryMinimum ? 0 : deliveryFeeSetting)
-    : 0;
+  const deliveryFee =
+    deliveryType === "delivery"
+      ? totalPrice >= freeDeliveryMinimum
+        ? 0
+        : deliveryFeeSetting
+      : 0;
   const finalTotal = totalPrice + deliveryFee;
 
   return (
@@ -161,9 +166,12 @@ export default function ImprovedOrderSummary({
             <div className="text-center mb-2">
               {deliveryFee === 0 && totalPrice >= freeDeliveryMinimum ? (
                 <p className="text-sm text-green-600 font-medium auto-text">
-                  {language === "ar" ? "🎉 تأهلت للتوصيل المجاني!" : "🎉 You qualified for free delivery!"}
+                  {language === "ar"
+                    ? "🎉 تأهلت للتوصيل المجاني!"
+                    : "🎉 You qualified for free delivery!"}
                 </p>
-              ) : deliveryType === "delivery" && totalPrice < freeDeliveryMinimum ? (
+              ) : deliveryType === "delivery" &&
+                totalPrice < freeDeliveryMinimum ? (
                 <p className="text-sm text-gray-500 auto-text">
                   {language === "ar"
                     ? `أضف ${language === "ar" ? "د.ب" : "BD"} ${(freeDeliveryMinimum - totalPrice).toFixed(2)} للحصول على توصيل مجاني`

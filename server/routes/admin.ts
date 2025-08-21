@@ -36,7 +36,7 @@ export const handleAdminLogin: RequestHandler = async (req, res) => {
     }
   } catch (error) {
     console.error("Admin login error:", error);
-    
+
     if (error instanceof z.ZodError) {
       return res.status(400).json({
         success: false,
@@ -55,10 +55,13 @@ export const handleAdminLogin: RequestHandler = async (req, res) => {
 // Change admin password
 export const handleChangePassword: RequestHandler = async (req, res) => {
   try {
-    const { currentPassword, newPassword } = changePasswordSchema.parse(req.body);
+    const { currentPassword, newPassword } = changePasswordSchema.parse(
+      req.body,
+    );
 
     // Verify current password
-    const isCurrentPasswordValid = await adminDb.verifyPassword(currentPassword);
+    const isCurrentPasswordValid =
+      await adminDb.verifyPassword(currentPassword);
     if (!isCurrentPasswordValid) {
       return res.status(401).json({
         success: false,
@@ -82,7 +85,7 @@ export const handleChangePassword: RequestHandler = async (req, res) => {
     }
   } catch (error) {
     console.error("Change password error:", error);
-    
+
     if (error instanceof z.ZodError) {
       return res.status(400).json({
         success: false,
@@ -118,7 +121,7 @@ export const handleUpdateEmail: RequestHandler = async (req, res) => {
     }
   } catch (error) {
     console.error("Update email error:", error);
-    
+
     if (error instanceof z.ZodError) {
       return res.status(400).json({
         success: false,

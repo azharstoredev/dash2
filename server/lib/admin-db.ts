@@ -29,18 +29,18 @@ async function initializeDefaultAdmin() {
     const existingAdmin = await getAdminUser();
     if (!existingAdmin) {
       console.log("No admin user found, creating default admin...");
-      
+
       // Default admin credentials
       const defaultPassword = "azhar2311";
       const defaultEmail = "admin@azharstore.com";
-      
+
       if (!bcrypt) {
         console.error("bcrypt not available, cannot create admin user");
         return null;
       }
 
       const hashedPassword = await bcrypt.hash(defaultPassword, 10);
-      
+
       const newAdmin: AdminUser = {
         id: generateId(),
         email: defaultEmail,
@@ -62,7 +62,10 @@ async function initializeDefaultAdmin() {
         .single();
 
       if (error) {
-        console.warn("Could not create admin user in Supabase, using fallback:", error.message);
+        console.warn(
+          "Could not create admin user in Supabase, using fallback:",
+          error.message,
+        );
         fallbackAdminUser = newAdmin;
         return newAdmin;
       }
@@ -81,7 +84,7 @@ async function initializeDefaultAdmin() {
     }
 
     const hashedPassword = await bcrypt.hash(defaultPassword, 10);
-    
+
     fallbackAdminUser = {
       id: generateId(),
       email: "admin@azharstore.com",
@@ -114,7 +117,10 @@ export const adminDb = {
         if (error.code === "PGRST116") {
           return null; // No admin user found
         }
-        console.warn("Supabase error, falling back to in-memory storage:", error.message);
+        console.warn(
+          "Supabase error, falling back to in-memory storage:",
+          error.message,
+        );
         return fallbackAdminUser;
       }
 
@@ -178,7 +184,10 @@ export const adminDb = {
         .eq("id", admin.id);
 
       if (error) {
-        console.warn("Supabase error, falling back to in-memory storage:", error.message);
+        console.warn(
+          "Supabase error, falling back to in-memory storage:",
+          error.message,
+        );
         if (fallbackAdminUser) {
           fallbackAdminUser = { ...fallbackAdminUser, ...updates };
           return true;
@@ -220,7 +229,10 @@ export const adminDb = {
         .eq("id", admin.id);
 
       if (error) {
-        console.warn("Supabase error, falling back to in-memory storage:", error.message);
+        console.warn(
+          "Supabase error, falling back to in-memory storage:",
+          error.message,
+        );
         if (fallbackAdminUser) {
           fallbackAdminUser = { ...fallbackAdminUser, ...updates };
           return true;
