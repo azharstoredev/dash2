@@ -72,7 +72,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
         subtext:
           language === "ar"
             ? settings.successSubtextAr ||
-              "سنقو���� بإبلاغك بالتحديثات عبر الهاتف ح��ب تقدم طلبك."
+              "سنقو��� بإبلاغك بالتحديثات عبر الهاتف ح��ب تقدم طلبك."
             : settings.successSubtextEn ||
               "We'll share updates by phone as your order progresses.",
         toggles: {
@@ -323,7 +323,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
             <ScrollArea className="flex-1 p-6">
               <div id="checkout-success-bottom" className="flex items-center justify-center min-h-full py-8">
                 {/* Single Success Message */}
-                <div className="text-center">
+                <div className="text-center max-w-md mx-auto">
                   <div className="bg-green-50 p-8 rounded-lg border border-green-200">
                     <p className="text-gray-800 auto-text text-lg leading-relaxed">
                       {orderMessages.successMessage}
