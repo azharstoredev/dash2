@@ -159,7 +159,8 @@ export const adminDb = {
       // Ensure initialization is complete
       await ensureAdminInitialized();
 
-      if (!bcrypt) {
+      const bcryptModule = await loadBcrypt();
+      if (!bcryptModule) {
         console.error("bcrypt not available, cannot verify password");
         return false;
       }
