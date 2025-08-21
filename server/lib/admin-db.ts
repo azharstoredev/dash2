@@ -148,6 +148,11 @@ export const adminDb = {
   // Update admin password
   async updatePassword(newPassword: string): Promise<boolean> {
     try {
+      if (!bcrypt) {
+        console.error("bcrypt not available, cannot update password");
+        return false;
+      }
+
       const admin = await this.getAdminUser();
       if (!admin) {
         return false;
