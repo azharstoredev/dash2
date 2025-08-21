@@ -199,6 +199,8 @@ export default function Settings() {
     enableAccessibility: true,
     enablePerformanceMode: false,
     enableDebugMode: false,
+    deliveryFee: 1.5,
+    freeDeliveryMinimum: 20,
   });
 
   const [hasChanges, setHasChanges] = useState(false);
