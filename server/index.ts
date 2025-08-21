@@ -129,6 +129,19 @@ export function setupRoutes(app: Express) {
   // System maintenance routes
   app.post("/api/system/fix-characters", handleFixCharacters);
 
+  // Admin routes
+  const {
+    handleAdminLogin,
+    handleChangePassword,
+    handleUpdateEmail,
+    handleGetAdminInfo,
+  } = await import("./routes/admin");
+
+  app.post("/api/admin/login", handleAdminLogin);
+  app.post("/api/admin/change-password", handleChangePassword);
+  app.put("/api/admin/email", handleUpdateEmail);
+  app.get("/api/admin/info", handleGetAdminInfo);
+
   // Initialize sample logs
   initializeLogs();
 
