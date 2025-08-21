@@ -72,7 +72,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
         subtext:
           language === "ar"
             ? settings.successSubtextAr ||
-              "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+              "سنقو بإبلاغك بالتحديثات عبر الهاتف حب تقدم طلبك."
             : settings.successSubtextEn ||
               "We'll share updates by phone as your order progresses.",
         toggles: {
@@ -93,7 +93,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
           : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
       instructions:
         language === "ar"
-          ? "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل معنا."
+          ? "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل عنا."
           : "For any changes or questions about your order, please contact us.",
       headline:
         language === "ar"
@@ -101,7 +101,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
           : t("orderSuccess.headline"),
       subtext:
         language === "ar"
-          ? "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+          ? "سنقوم بإبلاغك التحديثات عبر الهاتف حسب تقدم طلبك."
           : "We'll share updates by phone as your order progresses.",
       toggles: {
         displayOrderNumber: true,
@@ -321,173 +321,17 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
             {/* Scrollable Content */}
             <ScrollArea className="flex-1 p-6">
-              <div className="space-y-6">
-                {/* Success Message - First Priority */}
-                <div className="text-center space-y-4">
-                  <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-                    <p className="text-gray-800 auto-text text-sm leading-relaxed">
+              <div
+                id="checkout-success-bottom"
+                className="flex items-center justify-center min-h-full py-8"
+              >
+                {/* Single Success Message */}
+                <div className="text-center max-w-md mx-auto">
+                  <div className="bg-green-50 p-8 rounded-lg border border-green-200">
+                    <p className="text-gray-800 auto-text text-lg leading-relaxed">
                       {orderMessages.successMessage}
                     </p>
                   </div>
-                  <p className="text-gray-600 auto-text text-xs">
-                    {orderMessages.instructions}
-                  </p>
-                </div>
-
-                {/* Next Steps - Second Priority */}
-                {orderMessages.toggles.displayNextSteps && (
-                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                    <h3 className="font-medium text-blue-900 auto-text text-sm mb-3 flex items-center gap-2 [dir=rtl]:flex-row-reverse">
-                      <Clock className="w-4 h-4" />
-                      {t("checkout.whatsNext")}
-                    </h3>
-                    <ul className="space-y-3 text-xs text-blue-800 auto-text">
-                      <li className="flex items-start gap-3 [dir=rtl]:flex-row-reverse">
-                        <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0 [dir=rtl]:order-2" />
-                        <span className="auto-text [dir=rtl]:order-1">
-                          {language === "ar"
-                            ? t("orderSuccess.prepareOrderAr")
-                            : t("orderSuccess.prepareOrder")}
-                        </span>
-                      </li>
-                      <li className="flex items-start gap-3 [dir=rtl]:flex-row-reverse">
-                        <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0 [dir=rtl]:order-2" />
-                        <span className="auto-text [dir=rtl]:order-1">
-                          {language === "ar"
-                            ? t("orderSuccess.contactPhoneAr")
-                            : t("orderSuccess.contactPhone")}
-                        </span>
-                      </li>
-                      <li className="flex items-start gap-3 [dir=rtl]:flex-row-reverse">
-                        <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0 [dir=rtl]:order-2" />
-                        <span className="auto-text [dir=rtl]:order-1">
-                          {language === "ar"
-                            ? t("orderSuccess.deliveryTimeAr")
-                            : t("orderSuccess.deliveryTime")}
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                )}
-
-                {/* Contact Information - Third Priority */}
-                {orderMessages.toggles.displayContact && (
-                  <div className="bg-gray-50 p-4 rounded-lg border">
-                    <h3 className="font-medium text-gray-900 auto-text text-sm mb-3 flex items-center gap-2 [dir=rtl]:flex-row-reverse">
-                      <Phone className="w-4 h-4" />
-                      {t("checkout.needHelp")}
-                    </h3>
-                    <div className="space-y-3 text-xs text-gray-700">
-                      <div className="flex items-center gap-3 [dir=rtl]:flex-row-reverse">
-                        <Phone className="w-4 h-4 text-gray-500 [dir=rtl]:order-2" />
-                        <span className="ltr-text font-medium [dir=rtl]:order-1">
-                          {contactPhone}
-                        </span>
-                      </div>
-                      <div className="flex items-start gap-3 [dir=rtl]:flex-row-reverse">
-                        <MapPin className="w-4 h-4 text-gray-500 mt-0.5 flex-shrink-0 [dir=rtl]:order-2" />
-                        <span className="auto-text leading-relaxed [dir=rtl]:order-1">
-                          {pickupAddress}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Order Information - Last Priority */}
-                <div className="space-y-4 border-t pt-4">
-                  {/* Order Number */}
-                  {orderMessages.toggles.displayOrderNumber && (
-                    <div className="text-center">
-                      <p className="text-sm font-medium text-gray-700 auto-text mb-3">
-                        {t("checkout.orderNumber")}:
-                      </p>
-                      <Badge
-                        variant="outline"
-                        className="text-lg px-6 py-3 ltr-text font-mono bg-gray-50 border-2"
-                      >
-                        #{orderNumber}
-                      </Badge>
-                    </div>
-                  )}
-
-                  {/* Order Items */}
-                  {orderMessages.toggles.displayOrderItems && (
-                    <div className="space-y-3">
-                      <h3 className="font-medium text-gray-900 auto-text text-sm">
-                        {t("checkout.orderItems")}:
-                      </h3>
-                      <div className="space-y-2 max-h-40 overflow-y-auto">
-                        {items.map((item) => (
-                          <div
-                            key={`${item.productId}-${item.variantId}`}
-                            className="flex justify-between items-start gap-3 p-3 bg-gray-50 rounded-lg text-xs [dir=rtl]:flex-row-reverse"
-                          >
-                            <div className="flex-1 min-w-0">
-                              <p className="font-medium auto-text truncate">
-                                {item.productName}
-                              </p>
-                              {item.variantName && (
-                                <p className="text-gray-600 auto-text truncate">
-                                  {item.variantName}
-                                </p>
-                              )}
-                              <p className="text-gray-500 auto-text">
-                                {t("store.quantity")}:{" "}
-                                <span className="ltr-text font-medium">
-                                  {item.quantity}
-                                </span>
-                              </p>
-                            </div>
-                            <div className="text-end flex-shrink-0">
-                              <p className="font-semibold text-primary ltr-text">
-                                {currencySymbol}{" "}
-                                {(item.price * item.quantity).toFixed(2)}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Order Totals */}
-                  {orderMessages.toggles.displayTotals && (
-                    <div className="space-y-3 pt-3 border-t">
-                      <div className="flex justify-between items-center text-sm [dir=rtl]:flex-row-reverse gap-2">
-                        <span className="auto-text flex-shrink-0">
-                          {t("checkout.subtotal")}:
-                        </span>
-                        <span className="text-primary ltr-text flex-shrink-0 text-right">
-                          {currencySymbol}{" "}
-                          {(
-                            orderTotalPrice -
-                            (deliveryType === "delivery"
-                              ? deliveryFeeSetting
-                              : 0)
-                          ).toFixed(2)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center text-sm [dir=rtl]:flex-row-reverse gap-2">
-                        <span className="auto-text flex-shrink-0">
-                          {t("checkout.deliveryFee")}:
-                        </span>
-                        <span className="text-primary ltr-text flex-shrink-0 text-right">
-                          {deliveryType === "delivery"
-                            ? `${currencySymbol} ${deliveryFeeSetting.toFixed(2)}`
-                            : `${currencySymbol} 0.00`}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center text-base font-bold pt-3 border-t [dir=rtl]:flex-row-reverse gap-2">
-                        <span className="auto-text flex-shrink-0">
-                          {t("orders.orderTotal")}:
-                        </span>
-                        <span className="text-primary text-lg ltr-text flex-shrink-0 text-right">
-                          {currencySymbol} {orderTotalPrice.toFixed(2)}
-                        </span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             </ScrollArea>
@@ -509,7 +353,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="w-[95vw] sm:max-w-lg max-h-[95vh] p-0 rounded-xl border-0 flex flex-col dialog-content-scroll mx-auto">
+      <DialogContent className="w-[95vw] sm:max-w-lg max-h-[90vh] sm:max-h-[95vh] p-0 rounded-xl border-0 flex flex-col dialog-content-scroll mx-auto">
         {/* Header */}
         <DialogHeader className="px-4 sm:px-6 py-4 sm:py-6 border-b flex-shrink-0 bg-white">
           <DialogTitle className="text-xl sm:text-2xl font-bold text-center auto-text leading-tight">
@@ -545,9 +389,9 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
         {/* Scrollable Content Area */}
         <ScrollArea
-          className={`flex-1 min-h-0 ${enableDialogScroll ? "max-h-[70vh]" : ""}`}
+          className={`flex-1 min-h-0 ${enableDialogScroll ? "max-h-[80vh]" : ""}`}
         >
-          <div className="p-4 sm:p-6 pb-6 sm:pb-8 auto-text">
+          <div className="p-4 sm:p-6 pb-32 sm:pb-36 auto-text">
             {/* Step 1: Customer Information */}
             {step === 1 && (
               <Card className="border-2 shadow-sm">
@@ -561,7 +405,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                     </span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4 sm:space-y-6">
+                <CardContent className="space-y-6 sm:space-y-6">
                   <div className="grid grid-cols-1 gap-4 sm:gap-6">
                     <div className="space-y-2">
                       <Label
@@ -608,7 +452,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                       {t("checkout.customerAddress")}
                     </Label>
                     <div className="grid grid-cols-1 gap-4">
-                      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                      <div className="grid grid-cols-2 gap-4 sm:gap-4">
                         <div className="space-y-2">
                           <Label
                             htmlFor="home"
@@ -644,7 +488,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                           />
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                      <div className="grid grid-cols-2 gap-4 sm:gap-4">
                         <div className="space-y-2">
                           <Label
                             htmlFor="block"
@@ -773,7 +617,10 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                     </span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6 sm:space-y-8">
+                <CardContent
+                  id="checkout-summary-bottom"
+                  className="space-y-6 sm:space-y-8"
+                >
                   {/* Customer Info Review */}
                   <div className="p-4 sm:p-5 bg-gray-50 rounded-lg space-y-4">
                     <h4 className="font-medium auto-text border-b border-gray-200 pb-3 text-base sm:text-lg">

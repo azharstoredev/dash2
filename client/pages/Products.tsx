@@ -297,17 +297,23 @@ export default function Products() {
                         type="number"
                         step="0.01"
                         min="0"
-                        value={formData.price === 0 ? "" : formData.price}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            price: parseFloat(e.target.value) || 0,
-                          }))
-                        }
-                        onFocus={(e) => {
-                          if (e.target.value === "0") {
-                            e.target.value = "";
+                        value={formData.price}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === "" || value === ".") {
+                            setFormData((prev) => ({
+                              ...prev,
+                              price: value === "." ? "0." : 0,
+                            }));
+                          } else {
+                            setFormData((prev) => ({
+                              ...prev,
+                              price: parseFloat(value) || 0,
+                            }));
                           }
+                        }}
+                        onFocus={(e) => {
+                          e.target.select();
                         }}
                         placeholder="0.00"
                         required
@@ -341,11 +347,7 @@ export default function Products() {
                           id="stock"
                           type="number"
                           min="0"
-                          value={
-                            formData.total_stock === 0
-                              ? ""
-                              : formData.total_stock
-                          }
+                          value={formData.total_stock}
                           onChange={(e) =>
                             setFormData((prev) => ({
                               ...prev,
@@ -353,9 +355,7 @@ export default function Products() {
                             }))
                           }
                           onFocus={(e) => {
-                            if (e.target.value === "0") {
-                              e.target.value = "";
-                            }
+                            e.target.select();
                           }}
                           placeholder="0"
                           required
@@ -432,9 +432,7 @@ export default function Products() {
                                   id={`variant-stock-${index}`}
                                   type="number"
                                   min="0"
-                                  value={
-                                    variant.stock === 0 ? "" : variant.stock
-                                  }
+                                  value={variant.stock}
                                   onChange={(e) =>
                                     updateVariant(
                                       index,
@@ -443,9 +441,7 @@ export default function Products() {
                                     )
                                   }
                                   onFocus={(e) => {
-                                    if (e.target.value === "0") {
-                                      e.target.value = "";
-                                    }
+                                    e.target.select();
                                   }}
                                   placeholder="0"
                                   required
