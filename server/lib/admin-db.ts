@@ -34,6 +34,11 @@ async function initializeDefaultAdmin() {
       const defaultPassword = "azhar2311";
       const defaultEmail = "admin@azharstore.com";
       
+      if (!bcrypt) {
+        console.error("bcrypt not available, cannot create admin user");
+        return null;
+      }
+
       const hashedPassword = await bcrypt.hash(defaultPassword, 10);
       
       const newAdmin: AdminUser = {
