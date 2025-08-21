@@ -90,7 +90,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
     return {
       successMessage:
         language === "ar"
-          ? "شكراً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
+          ? "شكر��ً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
           : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
       instructions:
         language === "ar"
@@ -747,7 +747,9 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                         </span>
                         <span className="ltr-text font-semibold text-lg text-gray-900">
                           {deliveryType === "delivery"
-                            ? `${currencySymbol} ${deliveryFeeSetting.toFixed(2)}`
+                            ? (totalPrice >= freeDeliveryMinimum
+                                ? (language === "ar" ? "مجاني" : "Free")
+                                : `${currencySymbol} ${deliveryFeeSetting.toFixed(2)}`)
                             : `${currencySymbol} 0.00`}
                         </span>
                       </div>
