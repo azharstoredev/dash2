@@ -83,8 +83,15 @@ export default function Checkout() {
         price: item.price,
       }));
 
-      // Calculate final total including delivery fee
-      const deliveryFee = deliveryType === "delivery" ? 1.5 : 0;
+      // Get delivery settings from localStorage
+      const savedSettings = JSON.parse(localStorage.getItem("storeSettings") || "{}");
+      const deliveryFeeSetting = Number(savedSettings?.deliveryFee ?? 1.5);
+      const freeDeliveryMinimum = Number(savedSettings?.freeDeliveryMinimum ?? 20);
+
+      // Calculate final total including delivery fee with free delivery threshold
+      const deliveryFee = deliveryType === "delivery"
+        ? (totalPrice >= freeDeliveryMinimum ? 0 : deliveryFeeSetting)
+        : 0;
       const finalTotal = totalPrice + deliveryFee;
 
       // Create order
