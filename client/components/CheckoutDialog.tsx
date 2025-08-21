@@ -547,7 +547,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
         <ScrollArea
           className={`flex-1 min-h-0 ${enableDialogScroll ? "max-h-[80vh]" : ""}`}
         >
-          <div className="p-4 sm:p-6 pb-6 sm:pb-8 auto-text">
+          <div className="p-4 sm:p-6 pb-20 sm:pb-24 auto-text">
             {/* Step 1: Customer Information */}
             {step === 1 && (
               <Card className="border-2 shadow-sm">
