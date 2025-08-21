@@ -312,6 +312,9 @@ export default function Products() {
                             }));
                           }
                         }}
+                        onFocus={(e) => {
+                          e.target.select();
+                        }}
                         placeholder="0.00"
                         required
                       />
