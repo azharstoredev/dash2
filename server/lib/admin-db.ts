@@ -128,6 +128,11 @@ export const adminDb = {
   // Verify admin password
   async verifyPassword(password: string): Promise<boolean> {
     try {
+      if (!bcrypt) {
+        console.error("bcrypt not available, cannot verify password");
+        return false;
+      }
+
       const admin = await this.getAdminUser();
       if (!admin) {
         return false;
