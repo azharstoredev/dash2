@@ -150,11 +150,28 @@ export default function ImprovedOrderSummary({
             <span className="ltr-text font-semibold text-gray-900">
               {deliveryFee === 0
                 ? language === "ar"
-                  ? "مجاني"
+                  ? "مجان��"
                   : "Free"
                 : `${language === "ar" ? "د.ب" : "BD"} ${deliveryFee.toFixed(2)}`}
             </span>
           </div>
+
+          {/* Free delivery hint */}
+          {deliveryType === "delivery" && (
+            <div className="text-center mb-2">
+              {deliveryFee === 0 && totalPrice >= freeDeliveryMinimum ? (
+                <p className="text-sm text-green-600 font-medium auto-text">
+                  {language === "ar" ? "🎉 تأهلت للتوصيل المجاني!" : "🎉 You qualified for free delivery!"}
+                </p>
+              ) : deliveryType === "delivery" && totalPrice < freeDeliveryMinimum ? (
+                <p className="text-sm text-gray-500 auto-text">
+                  {language === "ar"
+                    ? `أضف ${language === "ar" ? "د.ب" : "BD"} ${(freeDeliveryMinimum - totalPrice).toFixed(2)} للحصول على توصيل مجاني`
+                    : `Add ${language === "ar" ? "د.ب" : "BD"} ${(freeDeliveryMinimum - totalPrice).toFixed(2)} more for free delivery`}
+                </p>
+              ) : null}
+            </div>
+          )}
 
           <Separator />
 
