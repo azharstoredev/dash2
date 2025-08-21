@@ -27,7 +27,7 @@ RUN npm ci --include=dev --legacy-peer-deps
 COPY . .
 
 # Build application
-RUN npm run build
+RUN npm run build:full
 
 # Final stage for app image
 FROM node:${NODE_VERSION}-slim
