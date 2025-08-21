@@ -12,12 +12,12 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:client",
+    "build": "npm run build:full",
     "build:client": "vite build",
     "build:server": "vite build --config vite.config.server.ts",
     "build:full": "npm run build:client && npm run build:server",
     "start": "NODE_ENV=production node production-server.js",
-    "heroku-postbuild": "npm run build:client",
+    "heroku-postbuild": "npm run build:full",
     "test": "vitest --run",
     "format.fix": "prettier --write .",
     "typecheck": "tsc"
