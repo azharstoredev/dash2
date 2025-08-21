@@ -9,7 +9,7 @@ export default defineConfig({
     target: "node22",
     rollupOptions: {
       external: [
-        // Node.js built-ins
+        // Node.js built-ins only
         "fs",
         "path",
         "url",
@@ -23,9 +23,6 @@ export default defineConfig({
         "buffer",
         "querystring",
         "child_process",
-        // External dependencies that should not be bundled
-        "express",
-        "cors",
       ],
       output: {
         format: "es",
