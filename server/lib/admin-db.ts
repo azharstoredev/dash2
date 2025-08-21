@@ -195,7 +195,7 @@ export const adminDb = {
         return false;
       }
 
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      const hashedPassword = await bcryptModule.hash(newPassword, 10);
       const updates = {
         password_hash: hashedPassword,
         updated_at: new Date().toISOString(),
