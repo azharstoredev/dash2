@@ -3,7 +3,7 @@ import { supabase } from "./supabase";
 // Dynamic import for bcrypt to handle environments where it might not be available
 let bcrypt: any = null;
 try {
-  bcrypt = require("bcrypt");
+  bcrypt = await import("bcrypt");
 } catch (error) {
   console.warn("bcrypt not available, password hashing will be disabled");
 }
