@@ -40,6 +40,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const savedSettings = savedSettingsRaw ? JSON.parse(savedSettingsRaw) : {};
   const currencySymbol: string = savedSettings?.currencySymbol || "BD";
   const deliveryFeeSetting: number = Number(savedSettings?.deliveryFee ?? 1.5);
+  const freeDeliveryMinimum: number = Number(savedSettings?.freeDeliveryMinimum ?? 20);
   const pickupAddress: string =
     language === "ar"
       ? savedSettings?.pickupAddressAr ||
