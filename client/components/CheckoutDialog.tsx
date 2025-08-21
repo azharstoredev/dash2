@@ -322,16 +322,13 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
             {/* Scrollable Content */}
             <ScrollArea className="flex-1 p-6">
               <div id="checkout-success-bottom" className="space-y-6">
-                {/* Success Message - First Priority */}
-                <div className="text-center space-y-4">
-                  <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-                    <p className="text-gray-800 auto-text text-sm leading-relaxed">
+                {/* Single Success Message */}
+                <div className="text-center">
+                  <div className="bg-green-50 p-8 rounded-lg border border-green-200">
+                    <p className="text-gray-800 auto-text text-lg leading-relaxed">
                       {orderMessages.successMessage}
                     </p>
                   </div>
-                  <p className="text-gray-600 auto-text text-xs">
-                    {orderMessages.instructions}
-                  </p>
                 </div>
 
                 {/* Next Steps - Second Priority */}
