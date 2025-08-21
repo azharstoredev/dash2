@@ -671,34 +671,100 @@ export default function Settings() {
 
         {/* Admin Settings */}
         {activeTab === "admin" && (
-          <div className="max-w-xl mx-auto">
-            {/* Admin Access */}
+          <div className="max-w-xl mx-auto space-y-6">
+            {/* Admin Information */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Shield className="w-5 h-5" />
-                  {t("settings.adminSettings")}
+                  <User className="w-5 h-5" />
+                  {t("settings.adminInformation")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="adminPassword" className="auto-text">
-                    {t("settings.adminPassword")}
+                  <Label htmlFor="adminEmail" className="auto-text">
+                    {t("settings.adminEmail")}
                   </Label>
                   <Input
-                    id="adminPassword"
-                    type="password"
-                    value={settings.adminPassword}
+                    id="adminEmail"
+                    type="email"
+                    value={settings.adminEmail}
                     onChange={(e) =>
-                      handleInputChange("adminPassword", e.target.value)
+                      handleInputChange("adminEmail", e.target.value)
+                    }
+                    placeholder="admin@example.com"
+                    className="ltr-text"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Password Change */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="w-5 h-5" />
+                  {t("settings.changePassword")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="currentPassword" className="auto-text">
+                    {t("settings.currentPassword")}
+                  </Label>
+                  <Input
+                    id="currentPassword"
+                    type="password"
+                    value={settings.currentPassword || ""}
+                    onChange={(e) =>
+                      handleInputChange("currentPassword", e.target.value)
                     }
                     placeholder="••••••••"
                     className="ltr-text"
                   />
-                  <p className="text-sm text-muted-foreground auto-text mt-1">
-                    {t("settings.adminPasswordHint")}
-                  </p>
                 </div>
+                <div>
+                  <Label htmlFor="newPassword" className="auto-text">
+                    {t("settings.newPassword")}
+                  </Label>
+                  <Input
+                    id="newPassword"
+                    type="password"
+                    value={settings.newPassword || ""}
+                    onChange={(e) =>
+                      handleInputChange("newPassword", e.target.value)
+                    }
+                    placeholder="••••••••"
+                    className="ltr-text"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="confirmPassword" className="auto-text">
+                    {t("settings.confirmPassword")}
+                  </Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    value={settings.confirmPassword || ""}
+                    onChange={(e) =>
+                      handleInputChange("confirmPassword", e.target.value)
+                    }
+                    placeholder="••••••••"
+                    className="ltr-text"
+                  />
+                </div>
+                {settings.newPassword && settings.confirmPassword && settings.newPassword !== settings.confirmPassword && (
+                  <p className="text-sm text-red-600 auto-text">
+                    {t("settings.passwordsDoNotMatch")}
+                  </p>
+                )}
+                <Button
+                  onClick={handlePasswordChange}
+                  disabled={!settings.currentPassword || !settings.newPassword || !settings.confirmPassword || settings.newPassword !== settings.confirmPassword || isChangingPassword}
+                  className="w-full"
+                >
+                  {isChangingPassword ? t("common.loading") : t("settings.changePassword")}
+                </Button>
               </CardContent>
             </Card>
           </div>
