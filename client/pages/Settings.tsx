@@ -216,6 +216,7 @@ export default function Settings() {
   const [isSaving, setIsSaving] = useState(false);
   const [isFixingCharacters, setIsFixingCharacters] = useState(false);
   const [isDiagnosing, setIsDiagnosing] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
 
   useEffect(() => {
     const savedSettings = localStorage.getItem("storeSettings");
