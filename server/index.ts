@@ -1,5 +1,5 @@
 import "dotenv/config";
-import express from "express";
+import express, { Express } from 'express';
 import cors from "cors";
 import path from "path";
 import { handleDemo } from "./routes/demo";
@@ -49,23 +49,28 @@ import {
 } from "./routes/logs";
 import { handleFixCharacters } from "./routes/fix-characters";
 
-export function createServer() {
+export function createServer(): Express {
   const app = express();
+  setupRoutes(app);
+  return app;
+}
 
-  // Middleware
-  app.use(cors());
+// Export setupRoutes function for node-build.ts
+export function setupRoutes(app: Express) {
+  // Apply CORS middleware
+  app.use(cors({
+    origin: true,
+    credentials: true
+  }));
+
+  // Parse JSON bodies
   app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
 
   // Serve uploaded files statically
   app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-  // Example API routes
-  app.get("/api/ping", (_req, res) => {
-    const ping = process.env.PING_MESSAGE ?? "ping";
-    res.json({ message: ping });
-  });
 
+  // Example API routes
   app.get("/api/demo", handleDemo);
 
   // Upload routes
@@ -120,5 +125,8 @@ export function createServer() {
   // Initialize sample logs
   initializeLogs();
 
-  return app;
+  // Health check endpoint
+  app.get("/api/ping", (_req, res) => {
+    res.json({ message: "ping", timestamp: new Date().toISOString() });
+  });
 }
