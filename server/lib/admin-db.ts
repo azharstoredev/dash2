@@ -109,6 +109,9 @@ export function ensureAdminInitialized() {
 export const adminDb = {
   // Get admin user (there should be only one)
   async getAdminUser(): Promise<AdminUser | null> {
+    // Ensure initialization is complete
+    await ensureAdminInitialized();
+
     if (!supabase) {
       return fallbackAdminUser;
     }
