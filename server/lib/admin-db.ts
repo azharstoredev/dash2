@@ -26,7 +26,7 @@ const generateId = () =>
 // Initialize default admin user if none exists
 async function initializeDefaultAdmin() {
   try {
-    const existingAdmin = await getAdminUser();
+    const existingAdmin = await adminDb.getAdminUser();
     if (!existingAdmin) {
       console.log("No admin user found, creating default admin...");
 
