@@ -152,7 +152,7 @@ export default function Settings() {
     orderSuccessMessageEn:
       "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
     orderSuccessMessageAr:
-      "شكراً لك على طلب��! سنقوم بمعالجته خلال 2-4 ساعات والتوصيل خلال 1-3 أيام عمل.",
+      "شكراً لك على طلبك! سنقوم بمعالجته خلال 2-4 ساعات والتوصيل خل��ل 1-3 أيام عمل.",
     orderInstructionsEn:
       "For any changes or questions about your order, please contact us.",
     orderInstructionsAr: "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل معنا.",
@@ -193,6 +193,9 @@ export default function Settings() {
     autoScrollToSummary: true,
     adminPassword: "",
     adminEmail: "",
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
     enableNotifications: true,
     enableAnalytics: true,
     enableBackup: true,
