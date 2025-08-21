@@ -22,7 +22,16 @@ export default function ImprovedOrderSummary({
   const { t, language } = useLanguage();
   const { items, getTotalPrice } = useCart();
   const totalPrice = getTotalPrice();
-  const deliveryFee = deliveryType === "delivery" ? 1.5 : 0;
+
+  // Get delivery settings from localStorage
+  const savedSettings = JSON.parse(localStorage.getItem("storeSettings") || "{}");
+  const deliveryFeeSetting = Number(savedSettings?.deliveryFee ?? 1.5);
+  const freeDeliveryMinimum = Number(savedSettings?.freeDeliveryMinimum ?? 20);
+
+  // Calculate delivery fee with free delivery threshold
+  const deliveryFee = deliveryType === "delivery"
+    ? (totalPrice >= freeDeliveryMinimum ? 0 : deliveryFeeSetting)
+    : 0;
   const finalTotal = totalPrice + deliveryFee;
 
   return (
