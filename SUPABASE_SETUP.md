@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS public.products (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
 
--- 3. Customers table  
+-- 3. Customers table
 CREATE TABLE IF NOT EXISTS public.customers (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
@@ -58,9 +58,9 @@ CREATE TABLE IF NOT EXISTS public.orders (
 );
 
 -- 5. Insert default categories
-INSERT INTO categories (id, name, created_at) VALUES 
+INSERT INTO categories (id, name, created_at) VALUES
     ('1', 'Electronics', NOW()),
-    ('2', 'Accessories', NOW()), 
+    ('2', 'Accessories', NOW()),
     ('3', 'Home & Office', NOW())
 ON CONFLICT (id) DO NOTHING;
 
@@ -86,7 +86,7 @@ ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "Enable all operations for all users" ON categories;
 CREATE POLICY "Enable all operations for all users" ON categories FOR ALL USING (true) WITH CHECK (true);
 
--- Products policies  
+-- Products policies
 DROP POLICY IF EXISTS "Enable all operations for all users" ON products;
 CREATE POLICY "Enable all operations for all users" ON products FOR ALL USING (true) WITH CHECK (true);
 
@@ -103,7 +103,7 @@ GRANT ALL ON ALL TABLES IN SCHEMA public TO postgres, anon, authenticated, servi
 GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO postgres, anon, authenticated, service_role;
 
 -- 10. Optional: Insert sample data for testing
-INSERT INTO customers (id, name, phone, address, home, road, block, town, created_at, updated_at) VALUES 
+INSERT INTO customers (id, name, phone, address, home, road, block, town, created_at, updated_at) VALUES
     ('1', 'Alice Johnson', '+1 (555) 123-4567', 'House 123, Road 15, Block 304, Springfield', '123', '15', '304', 'Springfield', NOW(), NOW()),
     ('2', 'Bob Smith', '+1 (555) 234-5678', 'House 456, Road 22, Block 205, Manama', '456', '22', '205', 'Manama', NOW(), NOW()),
     ('3', 'Carol Davis', '+1 (555) 345-6789', 'House 789, Road 33, Block 102, Riffa', '789', '33', '102', 'Riffa', NOW(), NOW())
@@ -118,6 +118,7 @@ SELECT 'Database setup completed successfully! All tables, indexes, and policies
 Set these **exact environment variable names** in your fly.io deployment:
 
 ### Required Variables:
+
 ```bash
 # Copy these variable names exactly:
 SUPABASE_URL
@@ -125,6 +126,7 @@ SUPABASE_SERVICE_ROLE_KEY
 ```
 
 ### How to set them in fly.io:
+
 ```bash
 # Method 1: Using fly CLI
 flyctl secrets set SUPABASE_URL="https://your-project-ref.supabase.co"
@@ -152,12 +154,14 @@ flyctl secrets set SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 5. **Expected result:** 5/5 API endpoints working
 
 ## 🚨 Security Note:
+
 The policies created are permissive (allow all operations). In production, you should implement proper Row Level Security policies based on your authentication needs.
 
 ## 📊 Expected Database Structure:
+
 - ✅ `categories` - Product categories
 - ✅ `products` - Product catalog with variants
-- ✅ `customers` - Customer information  
+- ✅ `customers` - Customer information
 - ✅ `orders` - Order management
 - ✅ Performance indexes
 - ✅ Row Level Security enabled
