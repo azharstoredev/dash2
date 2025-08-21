@@ -766,7 +766,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                             {(
                               totalPrice +
                               (deliveryType === "delivery"
-                                ? deliveryFeeSetting
+                                ? (totalPrice >= freeDeliveryMinimum ? 0 : deliveryFeeSetting)
                                 : 0)
                             ).toFixed(2)}
                           </span>
