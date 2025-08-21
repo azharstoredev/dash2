@@ -69,8 +69,10 @@ export function setupRoutes(app: Express) {
   // Serve uploaded files statically
   app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-  // Serve static files from React build (for production)
-  app.use(express.static(path.join(process.cwd(), "dist/spa")));
+  // Serve static files from React build (only in production)
+  if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(process.cwd(), "dist/spa")));
+  }
 
   // Example API routes
   app.get("/api/demo", handleDemo);
@@ -132,8 +134,10 @@ export function setupRoutes(app: Express) {
     res.json({ message: "ping", timestamp: new Date().toISOString() });
   });
 
-  // Catch-all handler: send back React's index.html file for any non-API routes
-  app.get("*", (_req, res) => {
-    res.sendFile(path.join(process.cwd(), "dist/spa/index.html"));
-  });
+  // Catch-all handler: send back React's index.html file for any non-API routes (production only)
+  if (process.env.NODE_ENV === "production") {
+    app.get("*", (_req, res) => {
+      res.sendFile(path.join(process.cwd(), "dist/spa/index.html"));
+    });
+  }
 }
