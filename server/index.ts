@@ -51,11 +51,7 @@ import { handleFixCharacters } from "./routes/fix-characters";
 
 export function createServer(): Express {
   const app = express();
-  const port = process.env.PORT || 5000;
   setupRoutes(app);
-  app.listen(port, "0.0.0.0", () => {
-    console.log(`🚀 Server running at http://0.0.0.0:${port}`);
-  });
   return app;
 }
 
@@ -68,7 +64,8 @@ export function setupRoutes(app: Express) {
   }));
 
   // Parse JSON bodies
-  app.use(express.json());
+  app.use(express.json({ limit: '50mb' }));
+  app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
   // Serve uploaded files statically
   app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
@@ -144,4 +141,16 @@ export function setupRoutes(app: Express) {
       res.sendFile(path.join(process.cwd(), "dist/spa/index.html"));
     });
   }
+}
+
+// Start server directly if this file is run directly
+if (process.env.NODE_ENV === "production") {
+  const app = createServer();
+  const port = process.env.PORT || 8080;
+  
+  app.listen(port, "0.0.0.0", () => {
+    console.log(`🚀 Server running at http://0.0.0.0:${port}`);
+    console.log(`📁 Serving static files from: ${path.join(process.cwd(), "dist/spa")}`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  });
 }
