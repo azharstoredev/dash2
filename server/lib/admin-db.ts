@@ -89,12 +89,13 @@ async function initializeDefaultAdmin() {
     // Create fallback admin user
     const defaultPassword = "azhar2311";
 
-    if (!bcrypt) {
+    const bcryptModule = await loadBcrypt();
+    if (!bcryptModule) {
       console.error("bcrypt not available, cannot create fallback admin user");
       return;
     }
 
-    const hashedPassword = await bcrypt.hash(defaultPassword, 10);
+    const hashedPassword = await bcryptModule.hash(defaultPassword, 10);
 
     fallbackAdminUser = {
       id: generateId(),
