@@ -172,7 +172,7 @@ export const adminDb = {
         return false;
       }
 
-      const result = await bcrypt.compare(password, admin.password_hash);
+      const result = await bcryptModule.compare(password, admin.password_hash);
       console.log("Password comparison result:", result);
       return result;
     } catch (error) {
