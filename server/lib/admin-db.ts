@@ -96,7 +96,14 @@ async function initializeDefaultAdmin() {
 }
 
 // Initialize admin user on module load
-initializeDefaultAdmin();
+let initializationPromise: Promise<any> | null = null;
+
+export function ensureAdminInitialized() {
+  if (!initializationPromise) {
+    initializationPromise = initializeDefaultAdmin();
+  }
+  return initializationPromise;
+}
 
 // Admin database operations
 export const adminDb = {
