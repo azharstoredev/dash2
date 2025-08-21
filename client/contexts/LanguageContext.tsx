@@ -472,6 +472,17 @@ const translations = {
     "settings.deliveryFee": "Delivery Fee",
     "settings.freeDeliveryThreshold": "Free Delivery Threshold",
     "settings.estimatedDeliveryTime": "Estimated Delivery Time",
+    "settings.deliveryPricing": "Delivery Pricing",
+    "settings.freeDeliveryMinimum": "Minimum Amount for Free Delivery",
+    "settings.deliveryFeeHint": "Cost charged for delivery service",
+    "settings.freeDeliveryMinimumHint":
+      "Orders above this amount get free delivery",
+    "settings.pickupMessages": "Pickup Messages",
+    "settings.pickupMessageEn": "Pickup Message (English)",
+    "settings.pickupMessageAr": "Pickup Message (Arabic)",
+    "settings.deliveryMessages": "Delivery Messages",
+    "settings.deliveryMessageEn": "Delivery Message (English)",
+    "settings.deliveryMessageAr": "Delivery Message (Arabic)",
 
     // Payment Settings
     "settings.paymentSettings": "Payment Settings",
@@ -510,6 +521,7 @@ const translations = {
     "settings.operationalSettings": "Operational Settings",
     "settings.uiBehavior": "UI Behavior",
     "settings.adminSettings": "Admin Settings",
+    "settings.adminInformation": "Admin Information",
     "settings.adminPassword": "Admin Password",
     "settings.adminPasswordHint": "Change password to access admin dashboard",
     "settings.adminEmail": "Admin Email",
@@ -550,7 +562,7 @@ const translations = {
     "common.itemAr": "منتج",
     "common.itemsAr": "منتجات",
     "common.language": "Language",
-    "common.languageAr": "العربية",
+    "common.languageAr": "العرب��ة",
 
     // Order success messages
     "orderSuccess.headline": "Order Confirmed!",
@@ -829,7 +841,7 @@ const translations = {
     "checkout.contactPhone": "سيتم التواصل معك عبر الهاتف للتأكيد",
     "checkout.deliveryTime": "التوصيل خلال 1-3 أيام عمل",
     "checkout.importError":
-      "فشل في استيراد الإعدادات. يرجى التحقق من تنسيق الملف.",
+      "فشل في ستيراد الإعدادات. يرجى التحقق من تنسيق الملف.",
 
     // Additional store keys
     "store.outOfStock": "نفد المخزون",
@@ -860,7 +872,7 @@ const translations = {
     "analytics.title": "تحليلات الموقع",
     "analytics.overview": "إحصائيات حقيقية لأداء موقعك والزوار",
     "analytics.totalOrders": "إجمالي الطلبات",
-    "analytics.totalRevenue": "إجمالي الإيرادات",
+    "analytics.totalRevenue": "إج��الي الإيرادات",
     "analytics.totalCustomers": "إجمالي العملاء",
     "analytics.totalProducts": "إجمالي المنتجات",
     "analytics.pageViews": "مشاهدات الصفحات",
@@ -882,7 +894,7 @@ const translations = {
     "analytics.visitors": "الزوار",
     "analytics.last7days": "آخر 7 أيام",
     "analytics.last30days": "آخر 30 يوماً",
-    "analytics.last90days": "آخر 90 يوماً",
+    "analytics.last90days": "آخ�� 90 يوماً",
     "analytics.refresh": "تحديث",
     "analytics.realTimeTracking": "تتبع مباشر نشط",
     "analytics.lastUpdated": "آخر تحديث",
@@ -945,10 +957,10 @@ const translations = {
     "settings.save": "حفظ الإعدادات",
     "settings.reset": "إعادة تعيين",
     "settings.saveSuccess": "تم حفظ الإعدادات بنجاح!",
-    "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
+    "settings.saveError": "فشل في حفظ الإعدادات. يرجى المناولة مرة أخرى.",
     "settings.resetConfirm":
       "هل أنت متأكد من إعادة تعيين جميع الإعدادات للقيم الافتراضية؟",
-    "settings.unsavedChanges": "لديك تغييرات غير محفوظة. لا تنس الحفظ!",
+    "settings.unsavedChanges": "لديك تغييرات غير محفوظة. لا تنس ال��فظ!",
     "settings.advancedSettings": "الإعدادات المتقدمة",
     "settings.performanceMode": "وضع الأداء",
     "settings.imageCompression": "ضغط الصور",
@@ -963,7 +975,7 @@ const translations = {
     "settings.dialogScroll": "تمرير الحوار",
     "settings.autoScrollToSummary": "التمرير التلقائي للملخص",
     "settings.autoOrderConfirmation": "تأكيد الطلب التلقائي",
-    "settings.lowStockThreshold": "حد المخزون المنخفض",
+    "settings.lowStockThreshold": "حد المخزون المنخض",
     "settings.maxOrderQuantity": "الحد الأقصى لكمية الطلب",
     "settings.orderProcessingTime": "وقت معالجة الطلب",
     "settings.performanceOptimization": "الأداء والتحسين",
@@ -991,6 +1003,7 @@ const translations = {
     "settings.operationalSettings": "الإعدادات التشغيلية",
     "settings.uiBehavior": "سلوك الواجهة",
     "settings.adminSettings": "إعدادات الإدارة",
+    "settings.adminInformation": "معلومات الإدارة",
     "settings.adminPassword": "كلمة مرور الإدارة",
     "settings.adminEmail": "بريد الإدارة الإلكتروني",
     "settings.changePassword": "تغيير كلمة المرور",
@@ -1001,7 +1014,7 @@ const translations = {
     "settings.passwordChanged": "تم تغيير كلمة المرور بنجاح",
     "settings.exportSettings": "تصدير الإعدادات",
     "settings.importSettings": "استيراد الإعدادات",
-    "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياطي",
+    "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياي",
     "settings.importDescription": "رفع ملف إعدادات مُصدّر مسبقاً",
     "settings.chooseFile": "اختر الملف",
     "settings.noFileChosen": "لم يتم اختيار ملف",
@@ -1020,8 +1033,7 @@ const translations = {
     "settings.enableDebugMode": "وضع التصحيح",
     "settings.dialogScrollDesc": "تفعيل التمرير في حوارات الطلبات",
     "settings.autoScrollDesc": "التمرير التلقائي إلى قسم الملخص",
-    "settings.adminPasswordHint":
-      "قم بتغيير كلمة المرور للوصول إلى لوحة التحكم",
+    "settings.adminPasswordHint": "قم بتغيير لمة المرور للوصول إلى لوحة التحكم",
 
     // Store Information
     "settings.storeInformation": "معلومات المتجر",
@@ -1057,6 +1069,17 @@ const translations = {
     "settings.deliveryFee": "رسوم التوصيل",
     "settings.freeDeliveryThreshold": "حد التوصيل المجاني",
     "settings.estimatedDeliveryTime": "الوقت المتوقع للتوصيل",
+    "settings.deliveryPricing": "أسعار التوصيل",
+    "settings.freeDeliveryMinimum": "الحد الأدنى للتوصيل المجاني",
+    "settings.deliveryFeeHint": "التكلفة المحملة لخدمة التوصيل",
+    "settings.freeDeliveryMinimumHint":
+      "الطلبات فوق هذا المبلغ تحصل على توصيل مجاني",
+    "settings.pickupMessages": "رسائل الاستلام",
+    "settings.pickupMessageEn": "رسالة الاستلام (إنجليزي)",
+    "settings.pickupMessageAr": "رسالة الاستلام (عربي)",
+    "settings.deliveryMessages": "رسائل التوصيل",
+    "settings.deliveryMessageEn": "رسالة التوصيل (إنجليزي)",
+    "settings.deliveryMessageAr": "رسالة التوصيل (عربي)",
 
     // Order Messages
     "settings.orderMessages": "رسائل الطلبات",
@@ -1084,7 +1107,7 @@ const translations = {
     "orderSuccess.headline": "تم تأكيد الطلب!",
     "orderSuccess.headlineAr": "تم تأكيد الطلب!",
     "orderSuccess.prepareOrder": "سنقوم بتجهيز طلبك خلال 2-4 ساعات",
-    "orderSuccess.prepareOrderAr": "سنقوم بتجهيز طلبك خلال 2-4 ساعات",
+    "orderSuccess.prepareOrderAr": "سنقوم بتجهيز طبك خلال 2-4 ساعات",
     "orderSuccess.contactPhone": "سيتم التواصل معك عبر الهاتف للتأكيد",
     "orderSuccess.contactPhoneAr": "سيتم التواصل معك عبر الهاتف للتأكيد",
     "orderSuccess.deliveryTime": "التوصيل خلال 1-3 أيام عمل",

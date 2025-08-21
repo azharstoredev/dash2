@@ -23,10 +23,17 @@ export default function LoginPage() {
     setLanguage(language === "en" ? "ar" : "en");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = login(password);
-    if (!success) {
+    setError("");
+
+    try {
+      const success = await login(password);
+      if (!success) {
+        setError(t("login.invalidPassword"));
+        setPassword("");
+      }
+    } catch (error) {
       setError(t("login.invalidPassword"));
       setPassword("");
     }

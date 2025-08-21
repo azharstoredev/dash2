@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useDialog } from "@/contexts/DialogContext";
 import { useData } from "@/contexts/DataContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -115,6 +116,9 @@ interface StoreSettings {
   // Admin Settings
   adminPassword?: string;
   adminEmail?: string;
+  currentPassword?: string;
+  newPassword?: string;
+  confirmPassword?: string;
 
   // New Advanced Settings
   enableNotifications?: boolean;
@@ -127,12 +131,17 @@ interface StoreSettings {
   enableAccessibility?: boolean;
   enablePerformanceMode?: boolean;
   enableDebugMode?: boolean;
+
+  // Delivery Settings
+  deliveryFee?: number;
+  freeDeliveryMinimum?: number;
 }
 
 export default function Settings() {
   const { t, language } = useLanguage();
   const { showConfirm, showAlert } = useDialog();
   const { products, orders, customers, refetchData } = useData();
+  const { changePassword, updateEmail, adminInfo, fetchAdminInfo } = useAuth();
   const [settings, setSettings] = useState<StoreSettings>({
     storeName: "",
     storeDescription: "",
@@ -159,7 +168,7 @@ export default function Settings() {
     },
     pickupMessageEn:
       "Please collect your order from our location during business hours.",
-    pickupMessageAr: "يرجى استلام طلبك من موقعنا خلال ساعات العمل.",
+    pickupMessageAr: "يرجى ��ستلام طلبك من موقعنا خلال ساعات العمل.",
     deliveryMessageEn:
       "Your order will be delivered to your address within 1-3 business days.",
     deliveryMessageAr: "سيتم توصيل طلبك إلى عنوانك خلال 1-3 أيام عمل.",
@@ -185,6 +194,9 @@ export default function Settings() {
     autoScrollToSummary: true,
     adminPassword: "",
     adminEmail: "",
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
     enableNotifications: true,
     enableAnalytics: true,
     enableBackup: true,
@@ -195,6 +207,8 @@ export default function Settings() {
     enableAccessibility: true,
     enablePerformanceMode: false,
     enableDebugMode: false,
+    deliveryFee: 1.5,
+    freeDeliveryMinimum: 20,
   });
 
   const [hasChanges, setHasChanges] = useState(false);
@@ -202,6 +216,7 @@ export default function Settings() {
   const [isSaving, setIsSaving] = useState(false);
   const [isFixingCharacters, setIsFixingCharacters] = useState(false);
   const [isDiagnosing, setIsDiagnosing] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
 
   useEffect(() => {
     const savedSettings = localStorage.getItem("storeSettings");
@@ -210,6 +225,13 @@ export default function Settings() {
       setSettings((prev) => ({ ...prev, ...parsed }));
     }
   }, []);
+
+  useEffect(() => {
+    // Load admin email from context
+    if (adminInfo?.email) {
+      setSettings((prev) => ({ ...prev, adminEmail: adminInfo.email }));
+    }
+  }, [adminInfo]);
 
   const handleInputChange = (field: string, value: any) => {
     setSettings((prev) => ({ ...prev, [field]: value }));
@@ -234,10 +256,104 @@ export default function Settings() {
     setHasChanges(true);
   };
 
+  const handlePasswordChange = async () => {
+    if (
+      !settings.currentPassword ||
+      !settings.newPassword ||
+      !settings.confirmPassword
+    ) {
+      showAlert({
+        title: t("message.error"),
+        message: "All password fields are required",
+        type: "error",
+      });
+      return;
+    }
+
+    if (settings.newPassword !== settings.confirmPassword) {
+      showAlert({
+        title: t("message.error"),
+        message: t("settings.passwordsDoNotMatch"),
+        type: "error",
+      });
+      return;
+    }
+
+    if (settings.newPassword.length < 6) {
+      showAlert({
+        title: t("message.error"),
+        message: "Password must be at least 6 characters long",
+        type: "error",
+      });
+      return;
+    }
+
+    setIsChangingPassword(true);
+    try {
+      const success = await changePassword(
+        settings.currentPassword,
+        settings.newPassword,
+      );
+
+      if (success) {
+        showAlert({
+          title: t("common.success"),
+          message: t("settings.passwordChanged"),
+          type: "success",
+        });
+
+        // Clear password fields
+        setSettings((prev) => ({
+          ...prev,
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        }));
+      } else {
+        showAlert({
+          title: t("message.error"),
+          message:
+            "Failed to change password. Please check your current password.",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      showAlert({
+        title: t("message.error"),
+        message: "An error occurred while changing password",
+        type: "error",
+      });
+    } finally {
+      setIsChangingPassword(false);
+    }
+  };
+
   const saveSettings = async () => {
     setIsSaving(true);
     try {
+      // Save regular settings to localStorage
       localStorage.setItem("storeSettings", JSON.stringify(settings));
+
+      // Handle admin email update if it changed
+      if (
+        adminInfo?.email &&
+        settings.adminEmail &&
+        adminInfo.email !== settings.adminEmail
+      ) {
+        const emailUpdateSuccess = await updateEmail(settings.adminEmail);
+        if (!emailUpdateSuccess) {
+          showAlert({
+            title: t("message.error"),
+            message: "Failed to update admin email",
+            type: "error",
+          });
+          setIsSaving(false);
+          return;
+        }
+        // Refresh admin info
+        await fetchAdminInfo();
+      }
+
       setHasChanges(false);
       showAlert({
         title: t("settings.saveSuccess"),
@@ -525,18 +641,76 @@ export default function Settings() {
         {/* Delivery Settings */}
         {activeTab === "delivery" && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Delivery Pricing */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <DollarSign className="w-5 h-5" />
+                  {t("settings.deliveryPricing")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="deliveryFee" className="auto-text">
+                    {t("settings.deliveryFee")}
+                  </Label>
+                  <Input
+                    id="deliveryFee"
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    value={settings.deliveryFee || 0}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "deliveryFee",
+                        parseFloat(e.target.value) || 0,
+                      )
+                    }
+                    className="ltr-text"
+                    placeholder="1.5"
+                  />
+                  <p className="text-sm text-muted-foreground auto-text mt-1">
+                    {t("settings.deliveryFeeHint")}
+                  </p>
+                </div>
+                <div>
+                  <Label htmlFor="freeDeliveryMinimum" className="auto-text">
+                    {t("settings.freeDeliveryMinimum")}
+                  </Label>
+                  <Input
+                    id="freeDeliveryMinimum"
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    value={settings.freeDeliveryMinimum || 0}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "freeDeliveryMinimum",
+                        parseFloat(e.target.value) || 0,
+                      )
+                    }
+                    className="ltr-text"
+                    placeholder="20"
+                  />
+                  <p className="text-sm text-muted-foreground auto-text mt-1">
+                    {t("settings.freeDeliveryMinimumHint")}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Pickup Messages */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Package className="w-5 h-5" />
-                  Pickup Messages
+                  {t("settings.pickupMessages")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
                   <Label htmlFor="pickupMessageEn" className="auto-text">
-                    Pickup Message (English)
+                    {t("settings.pickupMessageEn")}
                   </Label>
                   <Textarea
                     id="pickupMessageEn"
@@ -551,7 +725,7 @@ export default function Settings() {
                 </div>
                 <div>
                   <Label htmlFor="pickupMessageAr" className="auto-text">
-                    Pickup Message (Arabic)
+                    {t("settings.pickupMessageAr")}
                   </Label>
                   <Textarea
                     id="pickupMessageAr"
@@ -572,13 +746,13 @@ export default function Settings() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Truck className="w-5 h-5" />
-                  Delivery Messages
+                  {t("settings.deliveryMessages")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
                   <Label htmlFor="deliveryMessageEn" className="auto-text">
-                    Delivery Message (English)
+                    {t("settings.deliveryMessageEn")}
                   </Label>
                   <Textarea
                     id="deliveryMessageEn"
@@ -593,7 +767,7 @@ export default function Settings() {
                 </div>
                 <div>
                   <Label htmlFor="deliveryMessageAr" className="auto-text">
-                    Delivery Message (Arabic)
+                    {t("settings.deliveryMessageAr")}
                   </Label>
                   <Textarea
                     id="deliveryMessageAr"
@@ -613,34 +787,110 @@ export default function Settings() {
 
         {/* Admin Settings */}
         {activeTab === "admin" && (
-          <div className="max-w-xl mx-auto">
-            {/* Admin Access */}
+          <div className="max-w-xl mx-auto space-y-6">
+            {/* Admin Information */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Shield className="w-5 h-5" />
-                  {t("settings.adminSettings")}
+                  <User className="w-5 h-5" />
+                  {t("settings.adminInformation")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="adminPassword" className="auto-text">
-                    {t("settings.adminPassword")}
+                  <Label htmlFor="adminEmail" className="auto-text">
+                    {t("settings.adminEmail")}
                   </Label>
                   <Input
-                    id="adminPassword"
-                    type="password"
-                    value={settings.adminPassword}
+                    id="adminEmail"
+                    type="email"
+                    value={settings.adminEmail}
                     onChange={(e) =>
-                      handleInputChange("adminPassword", e.target.value)
+                      handleInputChange("adminEmail", e.target.value)
+                    }
+                    placeholder="admin@example.com"
+                    className="ltr-text"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Password Change */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="w-5 h-5" />
+                  {t("settings.changePassword")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="currentPassword" className="auto-text">
+                    {t("settings.currentPassword")}
+                  </Label>
+                  <Input
+                    id="currentPassword"
+                    type="password"
+                    value={settings.currentPassword || ""}
+                    onChange={(e) =>
+                      handleInputChange("currentPassword", e.target.value)
                     }
                     placeholder="••••••••"
                     className="ltr-text"
                   />
-                  <p className="text-sm text-muted-foreground auto-text mt-1">
-                    {t("settings.adminPasswordHint")}
-                  </p>
                 </div>
+                <div>
+                  <Label htmlFor="newPassword" className="auto-text">
+                    {t("settings.newPassword")}
+                  </Label>
+                  <Input
+                    id="newPassword"
+                    type="password"
+                    value={settings.newPassword || ""}
+                    onChange={(e) =>
+                      handleInputChange("newPassword", e.target.value)
+                    }
+                    placeholder="••••••••"
+                    className="ltr-text"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="confirmPassword" className="auto-text">
+                    {t("settings.confirmPassword")}
+                  </Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    value={settings.confirmPassword || ""}
+                    onChange={(e) =>
+                      handleInputChange("confirmPassword", e.target.value)
+                    }
+                    placeholder="••••••••"
+                    className="ltr-text"
+                  />
+                </div>
+                {settings.newPassword &&
+                  settings.confirmPassword &&
+                  settings.newPassword !== settings.confirmPassword && (
+                    <p className="text-sm text-red-600 auto-text">
+                      {t("settings.passwordsDoNotMatch")}
+                    </p>
+                  )}
+                <Button
+                  onClick={handlePasswordChange}
+                  disabled={
+                    !settings.currentPassword ||
+                    !settings.newPassword ||
+                    !settings.confirmPassword ||
+                    settings.newPassword !== settings.confirmPassword ||
+                    isChangingPassword
+                  }
+                  className="w-full"
+                >
+                  {isChangingPassword
+                    ? t("common.loading")
+                    : t("settings.changePassword")}
+                </Button>
               </CardContent>
             </Card>
           </div>

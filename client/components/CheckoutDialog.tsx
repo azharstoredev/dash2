@@ -40,6 +40,9 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const savedSettings = savedSettingsRaw ? JSON.parse(savedSettingsRaw) : {};
   const currencySymbol: string = savedSettings?.currencySymbol || "BD";
   const deliveryFeeSetting: number = Number(savedSettings?.deliveryFee ?? 1.5);
+  const freeDeliveryMinimum: number = Number(
+    savedSettings?.freeDeliveryMinimum ?? 20,
+  );
   const pickupAddress: string =
     language === "ar"
       ? savedSettings?.pickupAddressAr ||
@@ -89,7 +92,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
     return {
       successMessage:
         language === "ar"
-          ? "شكراً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
+          ? "شكرً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
           : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
       instructions:
         language === "ar"
@@ -221,8 +224,13 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
         price: item.price,
       }));
 
-      // Calculate total including delivery fees
-      const deliveryFee = deliveryType === "delivery" ? deliveryFeeSetting : 0;
+      // Calculate total including delivery fees with free delivery threshold
+      const deliveryFee =
+        deliveryType === "delivery"
+          ? totalPrice >= freeDeliveryMinimum
+            ? 0
+            : deliveryFeeSetting
+          : 0;
       const orderTotal = totalPrice + deliveryFee;
 
       // Create order
@@ -744,10 +752,33 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                         </span>
                         <span className="ltr-text font-semibold text-lg text-gray-900">
                           {deliveryType === "delivery"
-                            ? `${currencySymbol} ${deliveryFeeSetting.toFixed(2)}`
+                            ? totalPrice >= freeDeliveryMinimum
+                              ? language === "ar"
+                                ? "مجاني"
+                                : "Free"
+                              : `${currencySymbol} ${deliveryFeeSetting.toFixed(2)}`
                             : `${currencySymbol} 0.00`}
                         </span>
                       </div>
+
+                      {/* Free delivery hint */}
+                      {deliveryType === "delivery" && (
+                        <div className="text-center mb-2">
+                          {totalPrice >= freeDeliveryMinimum ? (
+                            <p className="text-sm text-green-600 font-medium auto-text">
+                              {language === "ar"
+                                ? "🎉 تأهلت للتوصيل المجاني!"
+                                : "🎉 You qualified for free delivery!"}
+                            </p>
+                          ) : (
+                            <p className="text-sm text-gray-500 auto-text">
+                              {language === "ar"
+                                ? `أضف ${currencySymbol} ${(freeDeliveryMinimum - totalPrice).toFixed(2)} للحصول على توصيل مجاني`
+                                : `Add ${currencySymbol} ${(freeDeliveryMinimum - totalPrice).toFixed(2)} more for free delivery`}
+                            </p>
+                          )}
+                        </div>
+                      )}
 
                       <Separator className="my-3" />
 
@@ -761,7 +792,9 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                             {(
                               totalPrice +
                               (deliveryType === "delivery"
-                                ? deliveryFeeSetting
+                                ? totalPrice >= freeDeliveryMinimum
+                                  ? 0
+                                  : deliveryFeeSetting
                                 : 0)
                             ).toFixed(2)}
                           </span>
