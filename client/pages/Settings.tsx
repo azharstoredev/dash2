@@ -256,6 +256,70 @@ export default function Settings() {
     setHasChanges(true);
   };
 
+  const handlePasswordChange = async () => {
+    if (!settings.currentPassword || !settings.newPassword || !settings.confirmPassword) {
+      showAlert({
+        title: t("message.error"),
+        message: "All password fields are required",
+        type: "error",
+      });
+      return;
+    }
+
+    if (settings.newPassword !== settings.confirmPassword) {
+      showAlert({
+        title: t("message.error"),
+        message: t("settings.passwordsDoNotMatch"),
+        type: "error",
+      });
+      return;
+    }
+
+    if (settings.newPassword.length < 6) {
+      showAlert({
+        title: t("message.error"),
+        message: "Password must be at least 6 characters long",
+        type: "error",
+      });
+      return;
+    }
+
+    setIsChangingPassword(true);
+    try {
+      const success = await changePassword(settings.currentPassword, settings.newPassword);
+
+      if (success) {
+        showAlert({
+          title: t("common.success"),
+          message: t("settings.passwordChanged"),
+          type: "success",
+        });
+
+        // Clear password fields
+        setSettings((prev) => ({
+          ...prev,
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        }));
+      } else {
+        showAlert({
+          title: t("message.error"),
+          message: "Failed to change password. Please check your current password.",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      showAlert({
+        title: t("message.error"),
+        message: "An error occurred while changing password",
+        type: "error",
+      });
+    } finally {
+      setIsChangingPassword(false);
+    }
+  };
+
   const saveSettings = async () => {
     setIsSaving(true);
     try {
