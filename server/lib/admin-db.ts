@@ -2,10 +2,20 @@ import { supabase } from "./supabase";
 
 // Dynamic import for bcrypt to handle environments where it might not be available
 let bcrypt: any = null;
-try {
-  bcrypt = require("bcrypt");
-} catch (error) {
-  console.warn("bcrypt not available, password hashing will be disabled");
+let bcryptLoaded = false;
+
+async function loadBcrypt() {
+  if (bcryptLoaded) return bcrypt;
+
+  try {
+    bcrypt = await import("bcrypt");
+    bcryptLoaded = true;
+    return bcrypt;
+  } catch (error) {
+    console.warn("bcrypt not available, password hashing will be disabled");
+    bcryptLoaded = true;
+    return null;
+  }
 }
 
 // Admin user interface
@@ -26,7 +36,8 @@ const generateId = () =>
 // Initialize default admin user if none exists
 async function initializeDefaultAdmin() {
   try {
-    const existingAdmin = await getAdminUser();
+    // Check directly without going through ensureAdminInitialized to avoid circular dependency
+    const existingAdmin = await getAdminUserInternal();
     if (!existingAdmin) {
       console.log("No admin user found, creating default admin...");
 
@@ -34,12 +45,13 @@ async function initializeDefaultAdmin() {
       const defaultPassword = "azhar2311";
       const defaultEmail = "admin@azharstore.com";
 
-      if (!bcrypt) {
+      const bcryptModule = await loadBcrypt();
+      if (!bcryptModule) {
         console.error("bcrypt not available, cannot create admin user");
         return null;
       }
 
-      const hashedPassword = await bcrypt.hash(defaultPassword, 10);
+      const hashedPassword = await bcryptModule.hash(defaultPassword, 10);
 
       const newAdmin: AdminUser = {
         id: generateId(),
@@ -52,6 +64,8 @@ async function initializeDefaultAdmin() {
       if (!supabase) {
         fallbackAdminUser = newAdmin;
         console.log("✅ Default admin user created in memory");
+        console.log("Admin email:", newAdmin.email);
+        console.log("Admin password:", defaultPassword);
         return newAdmin;
       }
 
@@ -78,12 +92,13 @@ async function initializeDefaultAdmin() {
     // Create fallback admin user
     const defaultPassword = "azhar2311";
 
-    if (!bcrypt) {
+    const bcryptModule = await loadBcrypt();
+    if (!bcryptModule) {
       console.error("bcrypt not available, cannot create fallback admin user");
       return;
     }
 
-    const hashedPassword = await bcrypt.hash(defaultPassword, 10);
+    const hashedPassword = await bcryptModule.hash(defaultPassword, 10);
 
     fallbackAdminUser = {
       id: generateId(),
@@ -92,49 +107,71 @@ async function initializeDefaultAdmin() {
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
+    console.log("✅ Fallback admin user created");
+    console.log("Admin email: admin@azharstore.com");
+    console.log("Admin password: azhar2311");
   }
 }
 
 // Initialize admin user on module load
-initializeDefaultAdmin();
+let initializationPromise: Promise<any> | null = null;
+
+export function ensureAdminInitialized() {
+  if (!initializationPromise) {
+    initializationPromise = initializeDefaultAdmin();
+  }
+  return initializationPromise;
+}
+
+// Internal function to get admin user without triggering initialization
+async function getAdminUserInternal(): Promise<AdminUser | null> {
+  if (!supabase) {
+    return fallbackAdminUser;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("admin_users")
+      .select("*")
+      .limit(1)
+      .single();
+
+    if (error) {
+      if (error.code === "PGRST116") {
+        return null; // No admin user found
+      }
+      console.warn(
+        "Supabase error, falling back to in-memory storage:",
+        error.message,
+      );
+      return fallbackAdminUser;
+    }
+
+    return data;
+  } catch (error) {
+    console.warn("Supabase connection failed, using in-memory storage");
+    return fallbackAdminUser;
+  }
+}
 
 // Admin database operations
 export const adminDb = {
   // Get admin user (there should be only one)
   async getAdminUser(): Promise<AdminUser | null> {
-    if (!supabase) {
-      return fallbackAdminUser;
-    }
+    // Ensure initialization is complete
+    await ensureAdminInitialized();
 
-    try {
-      const { data, error } = await supabase
-        .from("admin_users")
-        .select("*")
-        .limit(1)
-        .single();
-
-      if (error) {
-        if (error.code === "PGRST116") {
-          return null; // No admin user found
-        }
-        console.warn(
-          "Supabase error, falling back to in-memory storage:",
-          error.message,
-        );
-        return fallbackAdminUser;
-      }
-
-      return data;
-    } catch (error) {
-      console.warn("Supabase connection failed, using in-memory storage");
-      return fallbackAdminUser;
-    }
+    return await getAdminUserInternal();
   },
 
   // Verify admin password
   async verifyPassword(password: string): Promise<boolean> {
     try {
-      if (!bcrypt) {
+      // Ensure initialization is complete
+      await ensureAdminInitialized();
+
+      const bcryptModule = await loadBcrypt();
+      if (!bcryptModule) {
         console.error("bcrypt not available, cannot verify password");
         return false;
       }
@@ -144,7 +181,7 @@ export const adminDb = {
         return false;
       }
 
-      return await bcrypt.compare(password, admin.password_hash);
+      return await bcryptModule.compare(password, admin.password_hash);
     } catch (error) {
       console.error("Error verifying password:", error);
       return false;
@@ -154,7 +191,8 @@ export const adminDb = {
   // Update admin password
   async updatePassword(newPassword: string): Promise<boolean> {
     try {
-      if (!bcrypt) {
+      const bcryptModule = await loadBcrypt();
+      if (!bcryptModule) {
         console.error("bcrypt not available, cannot update password");
         return false;
       }
@@ -164,7 +202,7 @@ export const adminDb = {
         return false;
       }
 
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      const hashedPassword = await bcryptModule.hash(newPassword, 10);
       const updates = {
         password_hash: hashedPassword,
         updated_at: new Date().toISOString(),

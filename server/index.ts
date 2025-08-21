@@ -49,14 +49,14 @@ import {
 } from "./routes/logs";
 import { handleFixCharacters } from "./routes/fix-characters";
 
-export function createServer(): Express {
+export async function createServer(): Promise<Express> {
   const app = express();
-  setupRoutes(app);
+  await setupRoutes(app);
   return app;
 }
 
 // Export setupRoutes function for node-build.ts
-export function setupRoutes(app: Express) {
+export async function setupRoutes(app: Express) {
   // Apply CORS middleware
   app.use(
     cors({
