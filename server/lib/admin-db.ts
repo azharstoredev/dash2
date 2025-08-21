@@ -106,6 +106,9 @@ async function initializeDefaultAdmin() {
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
+    console.log("✅ Fallback admin user created");
+    console.log("Admin email: admin@azharstore.com");
+    console.log("Admin password: azhar2311");
   }
 }
 
