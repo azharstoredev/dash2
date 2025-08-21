@@ -29,7 +29,7 @@ export default defineConfig({
         "dotenv",
         "multer",
         "@supabase/supabase-js",
-        "zod"
+        "zod",
       ],
       output: {
         format: "es",

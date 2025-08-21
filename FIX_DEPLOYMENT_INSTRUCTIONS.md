@@ -3,10 +3,12 @@
 ## Issues Fixed
 
 ✅ **Problem 1**: Missing production dependencies (`cors` package)
+
 - Moved `cors` from `devDependencies` to `dependencies` in `package.json`
 - Updated Vite server config to properly externalize production dependencies
 
 ✅ **Problem 2**: Wrong Docker entry point
+
 - Fixed Dockerfile to use the correct built server file: `dist/server/node-build.mjs`
 
 🔄 **Problem 3**: Missing Supabase environment variables (YOU NEED TO DO THIS)
@@ -57,6 +59,7 @@ flyctl logs -a dash2
 ```
 
 You should see:
+
 - ✅ `Supabase client initialized successfully`
 - ✅ `Server running on http://0.0.0.0:8080`
 - ❌ No more "Cannot find package 'cors'" errors
@@ -64,6 +67,7 @@ You should see:
 ## Testing Supabase Connection
 
 Once deployed, your app should connect to Supabase properly. You can test by:
+
 1. Creating products/categories in the admin panel
 2. Checking if data persists after page refresh
 3. No more fallback storage warnings in logs
