@@ -2491,12 +2491,19 @@
       "page": "/admin",
       "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15",
       "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "timestamp": "2025-08-21T19:08:37.251Z",
+      "type": "page_view",
+      "page": "/admin",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15",
+      "ip": "::ffff:127.0.0.1"
     }
   ],
   "sessionData": {
     "totalSessions": 0,
     "uniqueVisitors": 0,
-    "pageViews": 356,
-    "lastUpdated": "2025-08-21T19:08:25.259Z"
+    "pageViews": 357,
+    "lastUpdated": "2025-08-21T19:08:37.251Z"
   }
 }
