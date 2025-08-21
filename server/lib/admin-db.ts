@@ -63,6 +63,8 @@ async function initializeDefaultAdmin() {
       if (!supabase) {
         fallbackAdminUser = newAdmin;
         console.log("✅ Default admin user created in memory");
+        console.log("Admin email:", newAdmin.email);
+        console.log("Admin password:", defaultPassword);
         return newAdmin;
       }
 
