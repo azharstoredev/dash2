@@ -321,7 +321,10 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
             {/* Scrollable Content */}
             <ScrollArea className="flex-1 p-6">
-              <div id="checkout-success-bottom" className="flex items-center justify-center min-h-full py-8">
+              <div
+                id="checkout-success-bottom"
+                className="flex items-center justify-center min-h-full py-8"
+              >
                 {/* Single Success Message */}
                 <div className="text-center max-w-md mx-auto">
                   <div className="bg-green-50 p-8 rounded-lg border border-green-200">
@@ -330,7 +333,6 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                     </p>
                   </div>
                 </div>
-
               </div>
             </ScrollArea>
 
@@ -615,7 +617,10 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                     </span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent id="checkout-summary-bottom" className="space-y-6 sm:space-y-8">
+                <CardContent
+                  id="checkout-summary-bottom"
+                  className="space-y-6 sm:space-y-8"
+                >
                   {/* Customer Info Review */}
                   <div className="p-4 sm:p-5 bg-gray-50 rounded-lg space-y-4">
                     <h4 className="font-medium auto-text border-b border-gray-200 pb-3 text-base sm:text-lg">

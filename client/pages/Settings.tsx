@@ -157,9 +157,11 @@ export default function Settings() {
       saturday: { open: "09:00", close: "18:00", isOpen: true },
       sunday: { open: "09:00", close: "18:00", isOpen: true },
     },
-    pickupMessageEn: "Please collect your order from our location during business hours.",
+    pickupMessageEn:
+      "Please collect your order from our location during business hours.",
     pickupMessageAr: "يرجى استلام طلبك من موقعنا خلال ساعات العمل.",
-    deliveryMessageEn: "Your order will be delivered to your address within 1-3 business days.",
+    deliveryMessageEn:
+      "Your order will be delivered to your address within 1-3 business days.",
     deliveryMessageAr: "سيتم توصيل طلبك إلى عنوانك خلال 1-3 أيام عمل.",
     cashOnDeliveryEnabled: true,
     bankTransferEnabled: false,
