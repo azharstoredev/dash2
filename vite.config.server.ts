@@ -1,51 +1,37 @@
 import { defineConfig } from "vite";
 import path from "path";
 
-// Server build configuration
 export default defineConfig({
   build: {
-    ssr: path.resolve(__dirname, "server/node-build.ts"),
     outDir: "dist/server",
-    target: "node22",
+    lib: {
+      entry: path.resolve(__dirname, "server/index.ts"),
+      formats: ["es"],
+      fileName: "index",
+    },
     rollupOptions: {
       external: [
-        // Node.js built-ins
-        "fs",
-        "path",
-        "url",
-        "http",
-        "https",
-        "os",
-        "crypto",
-        "stream",
-        "util",
-        "events",
-        "buffer",
-        "querystring",
-        "child_process",
-        // Production dependencies
-        "cors",
         "express",
+        "cors",
         "dotenv",
         "multer",
         "@supabase/supabase-js",
         "zod",
+        "path",
+        "fs",
+        "crypto",
+        /^node:/,
       ],
       output: {
         format: "es",
-        entryFileNames: "node-build.mjs",
       },
     },
-    minify: false, // Keep readable for debugging
-    sourcemap: true,
+    target: "node18",
+    ssr: true,
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./client"),
       "@shared": path.resolve(__dirname, "./shared"),
     },
-  },
-  define: {
-    "process.env.NODE_ENV": '"production"',
   },
 });
