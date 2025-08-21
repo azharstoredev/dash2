@@ -754,6 +754,23 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                         </span>
                       </div>
 
+                      {/* Free delivery hint */}
+                      {deliveryType === "delivery" && (
+                        <div className="text-center mb-2">
+                          {totalPrice >= freeDeliveryMinimum ? (
+                            <p className="text-sm text-green-600 font-medium auto-text">
+                              {language === "ar" ? "🎉 تأهلت للتوصيل المجاني!" : "🎉 You qualified for free delivery!"}
+                            </p>
+                          ) : (
+                            <p className="text-sm text-gray-500 auto-text">
+                              {language === "ar"
+                                ? `أضف ${currencySymbol} ${(freeDeliveryMinimum - totalPrice).toFixed(2)} للحصول على توصيل مجاني`
+                                : `Add ${currencySymbol} ${(freeDeliveryMinimum - totalPrice).toFixed(2)} more for free delivery`}
+                            </p>
+                          )}
+                        </div>
+                      )}
+
                       <Separator className="my-3" />
 
                       <div className="bg-primary/10 rounded-xl p-4">
