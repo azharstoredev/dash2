@@ -93,7 +93,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
           : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
       instructions:
         language === "ar"
-          ? "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل معنا."
+          ? "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل ��عنا."
           : "For any changes or questions about your order, please contact us.",
       headline:
         language === "ar"
@@ -545,7 +545,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
         {/* Scrollable Content Area */}
         <ScrollArea
-          className={`flex-1 min-h-0 ${enableDialogScroll ? "max-h-[70vh]" : ""}`}
+          className={`flex-1 min-h-0 ${enableDialogScroll ? "max-h-[80vh]" : ""}`}
         >
           <div className="p-4 sm:p-6 pb-6 sm:pb-8 auto-text">
             {/* Step 1: Customer Information */}
