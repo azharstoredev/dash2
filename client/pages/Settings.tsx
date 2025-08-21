@@ -21,6 +21,7 @@ import {
   Store,
   CreditCard,
   Truck,
+  Package,
   Phone,
   Mail,
   MapPin,
@@ -178,7 +179,7 @@ export default function Settings() {
     deliveryConcerns: 1.5,
     pickupOrderConfig: 0,
     successHeadlineEn: "Order Confirmed!",
-    successHeadlineAr: "تم تأكيد الطلب!",
+    successHeadlineAr: "تم تأكي�� الطلب!",
     successSubtextEn: "We'll share updates by phone as your order progresses.",
     successSubtextAr: "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك.",
     displayOrderNumber: true,
@@ -566,7 +567,7 @@ export default function Settings() {
                     }
                     className="auto-text"
                     rows={4}
-                    placeholder="أدخل تعليمات الاستلام بالعربية..."
+                    placeholder="أدخل تعل��مات الاستلام بالعربية..."
                   />
                 </div>
               </CardContent>
