@@ -78,15 +78,11 @@ interface StoreSettings {
     sunday: { open: string; close: string; isOpen: boolean };
   };
 
-  // Shipping & Delivery
-  deliveryEnabled: boolean;
-  pickupEnabled: boolean;
-  deliveryFee: number;
-  freeDeliveryThreshold: number;
-  deliveryAreas: string[];
-  estimatedDeliveryTime: string;
-  pickupAddressEn?: string;
-  pickupAddressAr?: string;
+  // Delivery & Pickup Messages
+  pickupMessageEn?: string;
+  pickupMessageAr?: string;
+  deliveryMessageEn?: string;
+  deliveryMessageAr?: string;
 
   // Payment Settings
   cashOnDeliveryEnabled: boolean;
