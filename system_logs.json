@@ -64,5 +64,19 @@
       "recordsProcessed": 1250
     },
     "timestamp": "2025-08-21T10:57:04.265Z"
+  },
+  {
+    "level": "info",
+    "category": "product",
+    "message": "New product added: I",
+    "details": {
+      "productId": "1755791007379tanpejwjs",
+      "productName": "I",
+      "price": 0.9,
+      "variants": 0
+    },
+    "ip": "::ffff:127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15",
+    "timestamp": "2025-08-21T15:43:27.590Z"
   }
 ]
