@@ -530,223 +530,85 @@ export default function Settings() {
         {/* Delivery Settings */}
         {activeTab === "delivery" && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Delivery Options */}
+            {/* Pickup Messages */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Package className="w-5 h-5" />
+                  Pickup Messages
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="pickupMessageEn" className="auto-text">
+                    Pickup Message (English)
+                  </Label>
+                  <Textarea
+                    id="pickupMessageEn"
+                    value={settings.pickupMessageEn || ""}
+                    onChange={(e) =>
+                      handleInputChange("pickupMessageEn", e.target.value)
+                    }
+                    className="auto-text"
+                    rows={4}
+                    placeholder="Enter pickup instructions in English..."
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="pickupMessageAr" className="auto-text">
+                    Pickup Message (Arabic)
+                  </Label>
+                  <Textarea
+                    id="pickupMessageAr"
+                    value={settings.pickupMessageAr || ""}
+                    onChange={(e) =>
+                      handleInputChange("pickupMessageAr", e.target.value)
+                    }
+                    className="auto-text"
+                    rows={4}
+                    placeholder="أدخل تعليمات الاستلام بالعربية..."
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Delivery Messages */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Truck className="w-5 h-5" />
-                  {t("settings.shippingDelivery")}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="deliveryEnabled" className="auto-text">
-                    {t("settings.enableDelivery")}
-                  </Label>
-                  <Switch
-                    id="deliveryEnabled"
-                    checked={settings.deliveryEnabled}
-                    onCheckedChange={(checked) =>
-                      handleInputChange("deliveryEnabled", checked)
-                    }
-                  />
-                </div>
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="pickupEnabled" className="auto-text">
-                    {t("settings.enablePickup")}
-                  </Label>
-                  <Switch
-                    id="pickupEnabled"
-                    checked={settings.pickupEnabled}
-                    onCheckedChange={(checked) =>
-                      handleInputChange("pickupEnabled", checked)
-                    }
-                  />
-                </div>
-                {settings.deliveryEnabled && (
-                  <>
-                    <div>
-                      <Label htmlFor="deliveryFee" className="auto-text">
-                        {t("settings.deliveryFee")}
-                      </Label>
-                      <Input
-                        id="deliveryFee"
-                        type="number"
-                        step="0.01"
-                        value={settings.deliveryFee}
-                        onChange={(e) =>
-                          handleInputChange(
-                            "deliveryFee",
-                            parseFloat(e.target.value),
-                          )
-                        }
-                        className="ltr-text"
-                      />
-                    </div>
-                    <div>
-                      <Label
-                        htmlFor="freeDeliveryThreshold"
-                        className="auto-text"
-                      >
-                        {t("settings.freeDeliveryThreshold")}
-                      </Label>
-                      <Input
-                        id="freeDeliveryThreshold"
-                        type="number"
-                        step="0.01"
-                        value={settings.freeDeliveryThreshold}
-                        onChange={(e) =>
-                          handleInputChange(
-                            "freeDeliveryThreshold",
-                            parseFloat(e.target.value),
-                          )
-                        }
-                        className="ltr-text"
-                      />
-                    </div>
-                  </>
-                )}
-                {settings.pickupEnabled && (
-                  <>
-                    <div>
-                      <Label htmlFor="pickupAddressEn" className="auto-text">
-                        {t("settings.pickupAddressEn")}
-                      </Label>
-                      <Textarea
-                        id="pickupAddressEn"
-                        value={settings.pickupAddressEn}
-                        onChange={(e) =>
-                          handleInputChange("pickupAddressEn", e.target.value)
-                        }
-                        className="auto-text"
-                        rows={3}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="pickupAddressAr" className="auto-text">
-                        {t("settings.pickupAddressAr")}
-                      </Label>
-                      <Textarea
-                        id="pickupAddressAr"
-                        value={settings.pickupAddressAr}
-                        onChange={(e) =>
-                          handleInputChange("pickupAddressAr", e.target.value)
-                        }
-                        className="auto-text"
-                        rows={3}
-                      />
-                    </div>
-                  </>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Operational Settings */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5" />
-                  {t("settings.operationalSettings")}
+                  Delivery Messages
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="lowStockThreshold" className="auto-text">
-                    {t("settings.lowStockThreshold")}
-                  </Label>
-                  <Input
-                    id="lowStockThreshold"
-                    type="number"
-                    value={settings.lowStockThreshold}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "lowStockThreshold",
-                        parseInt(e.target.value),
-                      )
-                    }
-                    className="ltr-text"
-                    placeholder="5"
-                  />
-                  <p className="text-sm text-gray-600 auto-text mt-1">
-                    Show low stock warning when quantity falls below this number
-                  </p>
-                </div>
-                <div>
-                  <Label htmlFor="maxOrderQuantity" className="auto-text">
-                    {t("settings.maxOrderQuantity")}
-                  </Label>
-                  <Input
-                    id="maxOrderQuantity"
-                    type="number"
-                    value={settings.maxOrderQuantity}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "maxOrderQuantity",
-                        parseInt(e.target.value),
-                      )
-                    }
-                    className="ltr-text"
-                    placeholder="10"
-                  />
-                  <p className="text-sm text-gray-600 auto-text mt-1">
-                    Maximum quantity a customer can order per item
-                  </p>
-                </div>
-                <div>
-                  <Label htmlFor="orderProcessingTime" className="auto-text">
-                    {t("settings.orderProcessingTime")}
-                  </Label>
-                  <Input
-                    id="orderProcessingTime"
-                    value={settings.orderProcessingTime}
-                    onChange={(e) =>
-                      handleInputChange("orderProcessingTime", e.target.value)
-                    }
-                    className="auto-text"
-                    placeholder="2-4 hours"
-                  />
-                  <p className="text-sm text-gray-600 auto-text mt-1">
-                    Estimated time to process orders
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Order Success Messages */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5" />
-                  {t("settings.orderSuccessMessage")}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="orderSuccessMessageEn" className="auto-text">
-                    {t("common.language")}
+                  <Label htmlFor="deliveryMessageEn" className="auto-text">
+                    Delivery Message (English)
                   </Label>
                   <Textarea
-                    id="orderSuccessMessageEn"
-                    value={settings.orderSuccessMessageEn}
+                    id="deliveryMessageEn"
+                    value={settings.deliveryMessageEn || ""}
                     onChange={(e) =>
-                      handleInputChange("orderSuccessMessageEn", e.target.value)
+                      handleInputChange("deliveryMessageEn", e.target.value)
                     }
                     className="auto-text"
                     rows={4}
+                    placeholder="Enter delivery instructions in English..."
                   />
                 </div>
                 <div>
-                  <Label htmlFor="orderSuccessMessageAr" className="auto-text">
-                    {t("common.languageAr")}
+                  <Label htmlFor="deliveryMessageAr" className="auto-text">
+                    Delivery Message (Arabic)
                   </Label>
                   <Textarea
-                    id="orderSuccessMessageAr"
-                    value={settings.orderSuccessMessageAr}
+                    id="deliveryMessageAr"
+                    value={settings.deliveryMessageAr || ""}
                     onChange={(e) =>
-                      handleInputChange("orderSuccessMessageAr", e.target.value)
+                      handleInputChange("deliveryMessageAr", e.target.value)
                     }
                     className="auto-text"
                     rows={4}
+                    placeholder="أدخل تعليمات التوصيل بالعربية..."
                   />
                 </div>
               </CardContent>
