@@ -168,7 +168,7 @@ export default function Settings() {
     },
     pickupMessageEn:
       "Please collect your order from our location during business hours.",
-    pickupMessageAr: "يرجى استلام طلبك من موقعنا خلال ساعات العمل.",
+    pickupMessageAr: "يرجى ��ستلام طلبك من موقعنا خلال ساعات العمل.",
     deliveryMessageEn:
       "Your order will be delivered to your address within 1-3 business days.",
     deliveryMessageAr: "سيتم توصيل طلبك إلى عنوانك خلال 1-3 أيام عمل.",
@@ -323,7 +323,25 @@ export default function Settings() {
   const saveSettings = async () => {
     setIsSaving(true);
     try {
+      // Save regular settings to localStorage
       localStorage.setItem("storeSettings", JSON.stringify(settings));
+
+      // Handle admin email update if it changed
+      if (adminInfo?.email && settings.adminEmail && adminInfo.email !== settings.adminEmail) {
+        const emailUpdateSuccess = await updateEmail(settings.adminEmail);
+        if (!emailUpdateSuccess) {
+          showAlert({
+            title: t("message.error"),
+            message: "Failed to update admin email",
+            type: "error",
+          });
+          setIsSaving(false);
+          return;
+        }
+        // Refresh admin info
+        await fetchAdminInfo();
+      }
+
       setHasChanges(false);
       showAlert({
         title: t("settings.saveSuccess"),
