@@ -21,7 +21,11 @@ export const handleAdminLogin: RequestHandler = async (req, res) => {
   try {
     const { password } = loginSchema.parse(req.body);
 
+    console.log("Admin login attempt with password length:", password.length);
+
     const isValid = await adminDb.verifyPassword(password);
+
+    console.log("Password verification result:", isValid);
 
     if (isValid) {
       res.json({
