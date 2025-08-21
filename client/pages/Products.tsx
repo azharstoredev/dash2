@@ -344,22 +344,13 @@ export default function Products() {
                           id="stock"
                           type="number"
                           min="0"
-                          value={
-                            formData.total_stock === 0
-                              ? ""
-                              : formData.total_stock
-                          }
+                          value={formData.total_stock}
                           onChange={(e) =>
                             setFormData((prev) => ({
                               ...prev,
                               total_stock: parseInt(e.target.value) || 0,
                             }))
                           }
-                          onFocus={(e) => {
-                            if (e.target.value === "0") {
-                              e.target.value = "";
-                            }
-                          }}
                           placeholder="0"
                           required
                         />
