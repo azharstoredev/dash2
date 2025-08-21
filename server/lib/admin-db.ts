@@ -153,11 +153,15 @@ export const adminDb = {
       }
 
       const admin = await this.getAdminUser();
+      console.log("Admin found for verification:", admin ? "Yes" : "No");
       if (!admin) {
+        console.log("No admin user found for password verification");
         return false;
       }
 
-      return await bcrypt.compare(password, admin.password_hash);
+      const result = await bcrypt.compare(password, admin.password_hash);
+      console.log("Password comparison result:", result);
+      return result;
     } catch (error) {
       console.error("Error verifying password:", error);
       return false;
