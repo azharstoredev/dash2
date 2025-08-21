@@ -472,6 +472,16 @@ const translations = {
     "settings.deliveryFee": "Delivery Fee",
     "settings.freeDeliveryThreshold": "Free Delivery Threshold",
     "settings.estimatedDeliveryTime": "Estimated Delivery Time",
+    "settings.deliveryPricing": "Delivery Pricing",
+    "settings.freeDeliveryMinimum": "Minimum Amount for Free Delivery",
+    "settings.deliveryFeeHint": "Cost charged for delivery service",
+    "settings.freeDeliveryMinimumHint": "Orders above this amount get free delivery",
+    "settings.pickupMessages": "Pickup Messages",
+    "settings.pickupMessageEn": "Pickup Message (English)",
+    "settings.pickupMessageAr": "Pickup Message (Arabic)",
+    "settings.deliveryMessages": "Delivery Messages",
+    "settings.deliveryMessageEn": "Delivery Message (English)",
+    "settings.deliveryMessageAr": "Delivery Message (Arabic)",
 
     // Payment Settings
     "settings.paymentSettings": "Payment Settings",
@@ -756,7 +766,7 @@ const translations = {
     "message.orderAdded": "تم إضافة الطلب بنجاح",
     "message.orderUpdated": "تم تحديث الطلب بنجاح",
     "message.orderDeleted": "تم حذف الطلب بنجاح",
-    "message.customerAdded": "تم إضافة العميل بنجاح",
+    "message.customerAdded": "تم إضافة ال��ميل بنجاح",
     "message.customerUpdated": "تم تحديث العميل بنجاح",
     "message.customerDeleted": "تم حذف العميل بنجاح",
     "message.error": "حدث خطأ",
@@ -829,7 +839,7 @@ const translations = {
     "checkout.contactPhone": "سيتم التواصل معك عبر الهاتف للتأكيد",
     "checkout.deliveryTime": "التوصيل خلال 1-3 أيام عمل",
     "checkout.importError":
-      "فشل في استيراد الإعدادات. يرجى التحقق من تنسيق الملف.",
+      "فشل في ��ستيراد الإعدادات. يرجى التحقق من تنسيق الملف.",
 
     // Additional store keys
     "store.outOfStock": "نفد المخزون",
@@ -945,7 +955,7 @@ const translations = {
     "settings.save": "حفظ الإعدادات",
     "settings.reset": "إعادة تعيين",
     "settings.saveSuccess": "تم حفظ الإعدادات بنجاح!",
-    "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
+    "settings.saveError": "فشل في حفظ الإعدادات. يرجى الم��اولة مرة أخرى.",
     "settings.resetConfirm":
       "هل أنت متأكد من إعادة تعيين جميع الإعدادات للقيم الافتراضية؟",
     "settings.unsavedChanges": "لديك تغييرات غير محفوظة. لا تنس الحفظ!",
@@ -963,7 +973,7 @@ const translations = {
     "settings.dialogScroll": "تمرير الحوار",
     "settings.autoScrollToSummary": "التمرير التلقائي للملخص",
     "settings.autoOrderConfirmation": "تأكيد الطلب التلقائي",
-    "settings.lowStockThreshold": "حد المخزون المنخفض",
+    "settings.lowStockThreshold": "حد المخزون المنخ��ض",
     "settings.maxOrderQuantity": "الحد الأقصى لكمية الطلب",
     "settings.orderProcessingTime": "وقت معالجة الطلب",
     "settings.performanceOptimization": "الأداء والتحسين",
@@ -1001,7 +1011,7 @@ const translations = {
     "settings.passwordChanged": "تم تغيير كلمة المرور بنجاح",
     "settings.exportSettings": "تصدير الإعدادات",
     "settings.importSettings": "استيراد الإعدادات",
-    "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياطي",
+    "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتيا��ي",
     "settings.importDescription": "رفع ملف إعدادات مُصدّر مسبقاً",
     "settings.chooseFile": "اختر الملف",
     "settings.noFileChosen": "لم يتم اختيار ملف",
@@ -1021,7 +1031,7 @@ const translations = {
     "settings.dialogScrollDesc": "تفعيل التمرير في حوارات الطلبات",
     "settings.autoScrollDesc": "التمرير التلقائي إلى قسم الملخص",
     "settings.adminPasswordHint":
-      "قم بتغيير كلمة المرور للوصول إلى لوحة التحكم",
+      "قم بتغيير ��لمة المرور للوصول إلى لوحة التحكم",
 
     // Store Information
     "settings.storeInformation": "معلومات المتجر",
@@ -1057,6 +1067,16 @@ const translations = {
     "settings.deliveryFee": "رسوم التوصيل",
     "settings.freeDeliveryThreshold": "حد التوصيل المجاني",
     "settings.estimatedDeliveryTime": "الوقت المتوقع للتوصيل",
+    "settings.deliveryPricing": "أسعار التوصيل",
+    "settings.freeDeliveryMinimum": "الحد الأدنى للتوصيل المجاني",
+    "settings.deliveryFeeHint": "التكلفة المحملة لخدمة التوصيل",
+    "settings.freeDeliveryMinimumHint": "الطلبات فوق هذا المبلغ تحصل على توصيل مجاني",
+    "settings.pickupMessages": "رسائل الاستلام",
+    "settings.pickupMessageEn": "رسالة الاستلام (إنجليزي)",
+    "settings.pickupMessageAr": "رسالة الاستلام (عربي)",
+    "settings.deliveryMessages": "رسائل التوصيل",
+    "settings.deliveryMessageEn": "رسالة التوصيل (إنجليزي)",
+    "settings.deliveryMessageAr": "رسالة التوصيل (عربي)",
 
     // Order Messages
     "settings.orderMessages": "رسائل الطلبات",
@@ -1084,7 +1104,7 @@ const translations = {
     "orderSuccess.headline": "تم تأكيد الطلب!",
     "orderSuccess.headlineAr": "تم تأكيد الطلب!",
     "orderSuccess.prepareOrder": "سنقوم بتجهيز طلبك خلال 2-4 ساعات",
-    "orderSuccess.prepareOrderAr": "سنقوم بتجهيز طلبك خلال 2-4 ساعات",
+    "orderSuccess.prepareOrderAr": "سنقوم بتجهيز ط��بك خلال 2-4 ساعات",
     "orderSuccess.contactPhone": "سيتم التواصل معك عبر الهاتف للتأكيد",
     "orderSuccess.contactPhoneAr": "سيتم التواصل معك عبر الهاتف للتأكيد",
     "orderSuccess.deliveryTime": "التوصيل خلال 1-3 أيام عمل",
