@@ -162,11 +162,28 @@ export default function Checkout() {
               <Check className="h-8 w-8 text-green-600" />
             </div>
             <h2 className="text-xl font-semibold auto-text">
-              {t("checkout.orderSuccess") || "Order Placed Successfully!"}
+              {(() => {
+                const savedSettings = localStorage.getItem("storeSettings");
+                if (savedSettings) {
+                  const settings = JSON.parse(savedSettings);
+                  return language === "ar"
+                    ? settings.successHeadlineAr || t("orderSuccess.headlineAr")
+                    : settings.successHeadlineEn || t("orderSuccess.headline");
+                }
+                return t("checkout.orderSuccess") || "Order Placed Successfully!";
+              })()}
             </h2>
             <p className="text-muted-foreground auto-text leading-relaxed">
-              {t("checkout.thankYou") ||
-                "Thank you for your order! We have received your order and will process it shortly."}
+              {(() => {
+                const savedSettings = localStorage.getItem("storeSettings");
+                if (savedSettings) {
+                  const settings = JSON.parse(savedSettings);
+                  return language === "ar"
+                    ? settings.orderSuccessMessageAr || "شكراً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
+                    : settings.orderSuccessMessageEn || "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.";
+                }
+                return t("checkout.thankYou") || "Thank you for your order! We have received your order and will process it shortly.";
+              })()}
             </p>
             <div className="space-y-2">
               <p className="text-sm font-medium auto-text">
