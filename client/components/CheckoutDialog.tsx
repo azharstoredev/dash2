@@ -44,6 +44,9 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const freeDeliveryMinimum: number = Number(
     savedSettings?.freeDeliveryMinimum ?? 20,
   );
+  const deliveryAreaSitra: number = Number(savedSettings?.deliveryAreaSitra ?? 1.0);
+  const deliveryAreaMuharraq: number = Number(savedSettings?.deliveryAreaMuharraq ?? 1.5);
+  const deliveryAreaOther: number = Number(savedSettings?.deliveryAreaOther ?? 2.0);
   const pickupAddress: string =
     language === "ar"
       ? savedSettings?.pickupAddressAr ||
@@ -131,6 +134,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">(
     "delivery",
   );
+  const [deliveryArea, setDeliveryArea] = useState<"sitra" | "muharraq" | "other">("sitra");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [orderNumber, setOrderNumber] = useState("");
@@ -226,12 +230,22 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
       }));
 
       // Calculate total including delivery fees with free delivery threshold
-      const deliveryFee =
-        deliveryType === "delivery"
-          ? totalPrice >= freeDeliveryMinimum
-            ? 0
-            : deliveryFeeSetting
-          : 0;
+      const getDeliveryFeeForArea = () => {
+        if (deliveryType !== "delivery") return 0;
+        if (totalPrice >= freeDeliveryMinimum) return 0;
+
+        switch (deliveryArea) {
+          case "sitra":
+            return deliveryAreaSitra;
+          case "muharraq":
+            return deliveryAreaMuharraq;
+          case "other":
+            return deliveryAreaOther;
+          default:
+            return deliveryFeeSetting;
+        }
+      };
+      const deliveryFee = getDeliveryFeeForArea();
       const orderTotal = totalPrice + deliveryFee;
 
       // Create order
@@ -241,6 +255,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
         total: orderTotal,
         status: "processing",
         deliveryType: deliveryType,
+        deliveryArea: deliveryArea,
         notes: "",
       });
 
