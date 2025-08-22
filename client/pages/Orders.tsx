@@ -825,34 +825,34 @@ export default function Orders() {
                   return customer ? (
                     <div className="space-y-4">
                       <div className="bg-white p-4 rounded-lg border border-blue-200">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="font-bold text-gray-700 text-base">
+                        <div className="flex items-center gap-2 mb-2 [dir=rtl]:flex-row-reverse">
+                          <span className="font-bold text-gray-700 text-base auto-text">
                             {t("orders.customerName")}:
                           </span>
-                          <span className="text-gray-900 text-base font-medium">
+                          <span className="text-gray-900 text-base font-medium auto-text">
                             {customer.name}
                           </span>
                         </div>
                       </div>
                       <div className="bg-white p-4 rounded-lg border border-blue-200">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 [dir=rtl]:flex-row-reverse">
                           <Phone className="w-5 h-5 text-blue-600" />
-                          <span className="font-bold text-gray-700 text-base">
+                          <span className="font-bold text-gray-700 text-base auto-text">
                             {t("orders.customerPhone")}:
                           </span>
-                          <span className="text-gray-900 text-base font-medium">
+                          <span className="text-gray-900 text-base font-medium ltr-text" dir="ltr">
                             {customer.phone}
                           </span>
                         </div>
                       </div>
                       <div className="bg-white p-4 rounded-lg border border-blue-200">
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-start gap-3 [dir=rtl]:flex-row-reverse">
                           <MapPin className="w-5 h-5 text-blue-600 mt-1" />
-                          <div>
-                            <span className="font-bold text-gray-700 text-base block mb-2">
+                          <div className="flex-1">
+                            <span className="font-bold text-gray-700 text-base block mb-2 auto-text">
                               {t("orders.deliveryAddress")}:
                             </span>
-                            <p className="text-gray-900 text-base leading-relaxed">
+                            <p className="text-gray-900 text-base leading-relaxed auto-text">
                               {customer.address}
                             </p>
                           </div>
@@ -1005,17 +1005,17 @@ export default function Orders() {
                   </div>
                   {viewingOrder.notes && (
                     <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                      <span className="font-bold text-yellow-800 text-base block mb-2">
+                      <span className="font-bold text-yellow-800 text-base block mb-2 auto-text">
                         {t("orders.notes")}:
                       </span>
-                      <p className="text-yellow-900 font-medium text-base leading-relaxed">
+                      <p className="text-yellow-900 font-medium text-base leading-relaxed auto-text">
                         {viewingOrder.notes}
                       </p>
                     </div>
                   )}
                   <div className="bg-dashboard-primary p-5 rounded-lg border-2 border-dashboard-primary">
-                    <div className="flex justify-between items-center">
-                      <span className="text-xl font-bold text-white">
+                    <div className="flex justify-between items-center [dir=rtl]:flex-row-reverse">
+                      <span className="text-xl font-bold text-white auto-text">
                         {t("orders.total")}:
                       </span>
                       <span
