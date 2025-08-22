@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useCart } from "../contexts/CartContext";
+import { formatPrice } from "@/lib/formatters";
 import {
   Dialog,
   DialogContent,
@@ -123,8 +124,8 @@ export default function AddToCartDialog({
             </p>
 
             {/* Price */}
-            <div className="text-lg font-bold text-primary">
-              BD {product.price.toFixed(2)}
+            <div className="text-lg font-bold text-primary ltr-text" dir="ltr">
+              {formatPrice(product.price, language)}
             </div>
 
             {/* Variant Selection */}
@@ -205,7 +206,7 @@ export default function AddToCartDialog({
               <div className="border-t pt-4">
                 <div className="flex justify-between items-center font-semibold">
                   <span>{t("orders.subtotal")}:</span>
-                  <span>BD {(product.price * quantity).toFixed(2)}</span>
+                  <span className="ltr-text" dir="ltr">{formatPrice(product.price * quantity, language)}</span>
                 </div>
               </div>
             )}
