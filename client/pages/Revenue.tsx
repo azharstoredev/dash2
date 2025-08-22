@@ -187,7 +187,7 @@ export default function Revenue() {
     },
   ];
 
-  const formatCurrency = (amount: number) => `BD ${amount.toFixed(2)}`;
+  const formatCurrency = (amount: number) => formatPrice(amount, language);
 
   return (
     <div className="space-y-6">
