@@ -15,7 +15,7 @@ export const getAllOrders: RequestHandler = async (req, res) => {
 export const createOrder: RequestHandler = async (req, res) => {
   try {
     console.log("Creating order with data:", req.body);
-    const { customerId, items, status, deliveryType, notes, total } = req.body;
+    const { customerId, items, status, deliveryType, deliveryArea, notes, total } = req.body;
 
     // Validate required fields
     if (!customerId) {
@@ -111,6 +111,7 @@ export const createOrder: RequestHandler = async (req, res) => {
       total: finalTotal,
       status: status || "processing",
       deliveryType: deliveryType || "delivery",
+      deliveryArea: deliveryArea || "sitra",
       notes: notes || "",
     };
 
