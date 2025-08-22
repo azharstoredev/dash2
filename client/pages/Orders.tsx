@@ -362,7 +362,7 @@ export default function Orders() {
 
                         return (
                           <div
-                            key={index}
+                            key={`form-${item.productId}-${item.variantId || "no-variant"}-${index}`}
                             className="flex flex-col sm:flex-row gap-3 sm:gap-2 sm:items-end p-4 border rounded-lg"
                           >
                             <div className="flex-1">
@@ -696,7 +696,7 @@ export default function Orders() {
                             : null;
                         return (
                           <div
-                            key={index}
+                            key={`preview-${order.id}-${item.productId}-${item.variantId || "no-variant"}-${index}`}
                             className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0 p-3 sm:p-2 bg-gray-50 rounded-lg"
                           >
                             <div className="flex items-center gap-3 flex-1">
@@ -882,7 +882,7 @@ export default function Orders() {
                         : null;
                     return (
                       <div
-                        key={index}
+                        key={`view-${viewingOrder.id}-${item.productId}-${item.variantId || "no-variant"}-${index}`}
                         className="bg-white p-5 border rounded-xl hover:shadow-md transition-all duration-200 border-gray-200"
                       >
                         <div className="flex justify-between items-start gap-6">
