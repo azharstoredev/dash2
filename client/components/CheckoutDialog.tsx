@@ -904,7 +904,11 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                               (deliveryType === "delivery"
                                 ? totalPrice >= freeDeliveryMinimum
                                   ? 0
-                                  : deliveryFeeSetting
+                                  : deliveryArea === "sitra"
+                                  ? deliveryAreaSitra
+                                  : deliveryArea === "muharraq"
+                                  ? deliveryAreaMuharraq
+                                  : deliveryAreaOther
                                 : 0),
                               currencySymbol,
                               language
