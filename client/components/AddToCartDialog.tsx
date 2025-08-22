@@ -46,7 +46,7 @@ export default function AddToCartDialog({
   open,
   onClose,
 }: AddToCartDialogProps) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { addItem } = useCart();
   const [selectedVariantId, setSelectedVariantId] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
