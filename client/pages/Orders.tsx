@@ -62,7 +62,7 @@ export default function Orders() {
     refetchData,
   } = useData();
   const { showConfirm, showAlert } = useDialog();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
