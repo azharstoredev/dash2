@@ -106,7 +106,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
         subtext:
           language === "ar"
             ? settings.successSubtextAr ||
-              "سنقو بإبلاغك بالتحديثات عبر الهاتف حب تقدم طلبك."
+              "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
             : settings.successSubtextEn ||
               "We'll share updates by phone as your order progresses.",
         toggles: {
