@@ -47,6 +47,26 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const deliveryAreaSitra: number = Number(savedSettings?.deliveryAreaSitra ?? 1.0);
   const deliveryAreaMuharraq: number = Number(savedSettings?.deliveryAreaMuharraq ?? 1.5);
   const deliveryAreaOther: number = Number(savedSettings?.deliveryAreaOther ?? 2.0);
+
+  // Get delivery area names
+  const getDeliveryAreaName = (area: "sitra" | "muharraq" | "other") => {
+    switch (area) {
+      case "sitra":
+        return language === "ar"
+          ? savedSettings?.deliveryAreaSitraNameAr || "سترة"
+          : savedSettings?.deliveryAreaSitraNameEn || "Sitra";
+      case "muharraq":
+        return language === "ar"
+          ? savedSettings?.deliveryAreaMuharraqNameAr || "المحرق، عسكر، جو"
+          : savedSettings?.deliveryAreaMuharraqlNameEn || "Muharraq, Askar, Jao";
+      case "other":
+        return language === "ar"
+          ? savedSettings?.deliveryAreaOtherNameAr || "مدن أخرى"
+          : savedSettings?.deliveryAreaOtherNameEn || "Other Cities";
+      default:
+        return area;
+    }
+  };
   const pickupAddress: string =
     language === "ar"
       ? savedSettings?.pickupAddressAr ||
