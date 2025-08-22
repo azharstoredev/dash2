@@ -64,6 +64,8 @@ const transformFromDb = (dbOrder: any): Order => ({
   status: dbOrder.status,
   deliveryType: dbOrder.delivery_type,
   delivery_type: dbOrder.delivery_type,
+  deliveryArea: dbOrder.delivery_area,
+  delivery_area: dbOrder.delivery_area,
   createdAt: dbOrder.created_at,
   updatedAt: dbOrder.updated_at,
   created_at: dbOrder.created_at,
