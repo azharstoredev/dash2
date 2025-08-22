@@ -3,6 +3,7 @@ import { useLanguage } from "../contexts/LanguageContext";
 import { useData } from "../contexts/DataContext";
 import { useCart } from "../contexts/CartContext";
 import { createCustomer, createOrder } from "../services/api";
+import { formatPrice, formatPriceWithSymbol } from "@/lib/formatters";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -716,9 +717,8 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                               </p>
                             </div>
                             <div className="text-end auto-text min-w-0">
-                              <p className="font-medium ltr-text text-sm sm:text-lg">
-                                {currencySymbol}{" "}
-                                {(item.price * item.quantity).toFixed(2)}
+                              <p className="font-medium ltr-text text-sm sm:text-lg" dir="ltr">
+                                {formatPriceWithSymbol(item.price * item.quantity, currencySymbol, language)}
                               </p>
                             </div>
                           </div>
@@ -741,8 +741,8 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                         <span className="auto-text text-gray-700 text-base font-medium">
                           {t("checkout.subtotal")}:
                         </span>
-                        <span className="ltr-text font-semibold text-lg text-gray-900">
-                          {currencySymbol} {totalPrice.toFixed(2)}
+                        <span className="ltr-text font-semibold text-lg text-gray-900" dir="ltr">
+                          {formatPriceWithSymbol(totalPrice, currencySymbol, language)}
                         </span>
                       </div>
 
@@ -756,8 +756,8 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                               ? language === "ar"
                                 ? "مجاني"
                                 : "Free"
-                              : `${currencySymbol} ${deliveryFeeSetting.toFixed(2)}`
-                            : `${currencySymbol} 0.00`}
+                              : formatPriceWithSymbol(deliveryFeeSetting, currencySymbol, language)
+                            : formatPriceWithSymbol(0, currencySymbol, language)}
                         </span>
                       </div>
 
@@ -773,8 +773,8 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                           ) : (
                             <p className="text-sm text-gray-500 auto-text">
                               {language === "ar"
-                                ? `أضف ${currencySymbol} ${(freeDeliveryMinimum - totalPrice).toFixed(2)} للحصول على توصيل مجاني`
-                                : `Add ${currencySymbol} ${(freeDeliveryMinimum - totalPrice).toFixed(2)} more for free delivery`}
+                                ? `أضف ${formatPriceWithSymbol(freeDeliveryMinimum - totalPrice, currencySymbol, language)} للحصول على توصيل مجاني`
+                                : `Add ${formatPriceWithSymbol(freeDeliveryMinimum - totalPrice, currencySymbol, language)} more for free delivery`}
                             </p>
                           )}
                         </div>
@@ -787,16 +787,17 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                           <span className="text-xl font-bold auto-text text-gray-900">
                             {t("checkout.total")}:
                           </span>
-                          <span className="text-3xl font-bold text-primary ltr-text">
-                            {currencySymbol}{" "}
-                            {(
+                          <span className="text-3xl font-bold text-primary ltr-text" dir="ltr">
+                            {formatPriceWithSymbol(
                               totalPrice +
                               (deliveryType === "delivery"
                                 ? totalPrice >= freeDeliveryMinimum
                                   ? 0
                                   : deliveryFeeSetting
-                                : 0)
-                            ).toFixed(2)}
+                                : 0),
+                              currencySymbol,
+                              language
+                            )}
                           </span>
                         </div>
                       </div>
