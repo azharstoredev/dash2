@@ -4,6 +4,7 @@ import { useLanguage } from "../contexts/LanguageContext";
 import { useCart } from "../contexts/CartContext";
 import { useData } from "../contexts/DataContext";
 import { getProducts } from "../services/api";
+import { formatPrice } from "@/lib/formatters";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { LoadingScreen } from "../components/ui/loading";
@@ -334,8 +335,8 @@ export default function Store() {
                   <div className="flex items-center justify-between [dir=rtl]:flex-row-reverse gap-2">
                     <div className="min-w-0 flex-1 flex flex-col justify-center">
                       <div className="flex items-center gap-2 [dir=rtl]:flex-row-reverse">
-                        <span className="text-sm sm:text-base lg:text-lg font-bold text-primary ltr-text">
-                          BD {product.price.toFixed(2)}
+                        <span className="text-sm sm:text-base lg:text-lg font-bold text-primary ltr-text" dir="ltr">
+                          {formatPrice(product.price, language)}
                         </span>
                         {(product.total_stock || 0) > 0 && (
                           <span className="text-xs text-muted-foreground auto-text">
