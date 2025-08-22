@@ -677,7 +677,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                               htmlFor="sitra"
                               className="text-sm sm:text-base font-medium cursor-pointer auto-text"
                             >
-                              {language === "ar" ? "سترة" : "Sitra"}
+                              {getDeliveryAreaName("sitra")}
                             </Label>
                           </div>
                           <span className="text-sm font-medium text-primary ltr-text" dir="ltr">
@@ -701,7 +701,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                               htmlFor="muharraq"
                               className="text-sm sm:text-base font-medium cursor-pointer auto-text"
                             >
-                              {language === "ar" ? "المحرق، عسكر، جو" : "Muharraq, Askar, Jao"}
+                              {getDeliveryAreaName("muharraq")}
                             </Label>
                           </div>
                           <span className="text-sm font-medium text-primary ltr-text" dir="ltr">
@@ -725,7 +725,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                               htmlFor="other"
                               className="text-sm sm:text-base font-medium cursor-pointer auto-text"
                             >
-                              {language === "ar" ? "مدن أخرى" : "Other Cities"}
+                              {getDeliveryAreaName("other")}
                             </Label>
                           </div>
                           <span className="text-sm font-medium text-primary ltr-text" dir="ltr">
