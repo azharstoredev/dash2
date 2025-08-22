@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useData, Order, OrderItem } from "@/contexts/DataContext";
 import { useDialog } from "@/contexts/DialogContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { formatPrice } from "@/lib/formatters";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -383,7 +384,8 @@ export default function Orders() {
                                       key={product.id}
                                       value={product.id}
                                     >
-                                      {product.name} - ${product.price}
+                                      <span className="auto-text inline-block" dir="auto">{product.name}</span>
+                                      <span className="ltr-text ml-2" dir="ltr"> - {formatPrice(product.price, language)}</span>
                                     </SelectItem>
                                   ))}
                                 </SelectContent>
