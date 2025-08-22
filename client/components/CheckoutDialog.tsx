@@ -315,6 +315,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
       town: "",
     });
     setDeliveryType("delivery");
+    setDeliveryArea("sitra");
     setOrderSuccess(false);
     setOrderNumber("");
     setOrderItems([]);
