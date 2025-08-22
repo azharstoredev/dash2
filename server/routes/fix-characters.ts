@@ -119,6 +119,12 @@ export const handleFixCharacters: RequestHandler = async (req, res) => {
       "client/pages/Checkout.tsx",
       "client/components/CheckoutDialog.tsx",
       "client/components/ImprovedOrderSummary.tsx",
+      "client/pages/Settings.tsx",
+      "client/pages/Orders.tsx",
+      "client/pages/Products.tsx",
+      "client/pages/Store.tsx",
+      "client/components/AddToCartDialog.tsx",
+      "client/components/CartSidebar.tsx",
     ];
 
     let totalFixes = 0;
