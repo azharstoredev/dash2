@@ -181,7 +181,7 @@ export default function Settings() {
     },
     pickupMessageEn:
       "Please collect your order from our location during business hours.",
-    pickupMessageAr: "يرجى ��ستلام طلبك من موقعنا خلا�� ساعات العمل.",
+    pickupMessageAr: "يرجى ��ستلام طلبك من موقعنا خلال ساعات العمل.",
     deliveryMessageEn:
       "Your order will be delivered to your address within 1-3 business days.",
     deliveryMessageAr: "سيتم توصيل طلبك إلى عنوانك خلال 1-3 أيام عمل.",
@@ -785,30 +785,60 @@ export default function Settings() {
                     />
                   </div>
                 </div>
-                <div>
-                  <Label htmlFor="deliveryAreaMuharraq" className="auto-text">
-                    {language === "ar" ? "المحرق، عسكر، جو" : "Muharraq, Askar, Jao"}
-                  </Label>
-                  <Input
-                    id="deliveryAreaMuharraq"
-                    type="number"
-                    step="0.1"
-                    min="0"
-                    value={settings.deliveryAreaMuharraq || 0}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "deliveryAreaMuharraq",
-                        parseFloat(e.target.value) || 0,
-                      )
-                    }
-                    className="ltr-text"
-                    placeholder="1.5"
-                  />
-                  <p className="text-sm text-muted-foreground auto-text mt-1">
-                    {language === "ar"
-                      ? "رسوم التوصيل لمناطق المحرق، عسكر، وجو"
-                      : "Delivery fee for Muharraq, Askar, and Jao areas"}
-                  </p>
+                <div className="space-y-4 p-4 border rounded-lg">
+                  <h4 className="font-medium auto-text">
+                    {language === "ar" ? "المنطقة الثانية" : "Area 2"}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="deliveryAreaMuharraqlNameEn" className="auto-text">
+                        {language === "ar" ? "الاسم ��الإنجليزية" : "Name (English)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaMuharraqlNameEn"
+                        value={settings.deliveryAreaMuharraqlNameEn || ""}
+                        onChange={(e) =>
+                          handleInputChange("deliveryAreaMuharraqlNameEn", e.target.value)
+                        }
+                        placeholder="Muharraq, Askar, Jao"
+                        className="auto-text"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="deliveryAreaMuharraqNameAr" className="auto-text">
+                        {language === "ar" ? "الاسم بالعربية" : "Name (Arabic)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaMuharraqNameAr"
+                        value={settings.deliveryAreaMuharraqNameAr || ""}
+                        onChange={(e) =>
+                          handleInputChange("deliveryAreaMuharraqNameAr", e.target.value)
+                        }
+                        placeholder="المحرق، عسكر، جو"
+                        className="auto-text"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="deliveryAreaMuharraq" className="auto-text">
+                      {language === "ar" ? "رسوم التوصيل" : "Delivery Fee"}
+                    </Label>
+                    <Input
+                      id="deliveryAreaMuharraq"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      value={settings.deliveryAreaMuharraq || 0}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "deliveryAreaMuharraq",
+                          parseFloat(e.target.value) || 0,
+                        )
+                      }
+                      className="ltr-text"
+                      placeholder="1.5"
+                    />
+                  </div>
                 </div>
                 <div>
                   <Label htmlFor="deliveryAreaOther" className="auto-text">
