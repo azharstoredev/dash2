@@ -260,11 +260,8 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                       <span className="auto-text text-gray-600 font-medium text-lg">
                         {t("store.cartTotal")}:
                       </span>
-                      <span className="text-2xl font-bold text-primary ltr-text">
-                        {language === "ar"
-                          ? t("common.currencyAr")
-                          : t("common.currency")}{" "}
-                        {totalPrice.toFixed(2)}
+                      <span className="text-2xl font-bold text-primary ltr-text" dir="ltr">
+                        {formatPrice(totalPrice, language)}
                       </span>
                     </div>
                     <div className="text-center">
