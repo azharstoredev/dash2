@@ -840,30 +840,60 @@ export default function Settings() {
                     />
                   </div>
                 </div>
-                <div>
-                  <Label htmlFor="deliveryAreaOther" className="auto-text">
-                    {language === "ar" ? "مدن أخرى" : "Other Cities"}
-                  </Label>
-                  <Input
-                    id="deliveryAreaOther"
-                    type="number"
-                    step="0.1"
-                    min="0"
-                    value={settings.deliveryAreaOther || 0}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "deliveryAreaOther",
-                        parseFloat(e.target.value) || 0,
-                      )
-                    }
-                    className="ltr-text"
-                    placeholder="2.0"
-                  />
-                  <p className="text-sm text-muted-foreground auto-text mt-1">
-                    {language === "ar"
-                      ? "رسوم التوصيل للمدن الأخرى"
-                      : "Delivery fee for other cities"}
-                  </p>
+                <div className="space-y-4 p-4 border rounded-lg">
+                  <h4 className="font-medium auto-text">
+                    {language === "ar" ? "المنطقة الثالثة" : "Area 3"}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="deliveryAreaOtherNameEn" className="auto-text">
+                        {language === "ar" ? "الاسم بالإنجليزية" : "Name (English)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaOtherNameEn"
+                        value={settings.deliveryAreaOtherNameEn || ""}
+                        onChange={(e) =>
+                          handleInputChange("deliveryAreaOtherNameEn", e.target.value)
+                        }
+                        placeholder="Other Cities"
+                        className="auto-text"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="deliveryAreaOtherNameAr" className="auto-text">
+                        {language === "ar" ? "الاسم بالعربية" : "Name (Arabic)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaOtherNameAr"
+                        value={settings.deliveryAreaOtherNameAr || ""}
+                        onChange={(e) =>
+                          handleInputChange("deliveryAreaOtherNameAr", e.target.value)
+                        }
+                        placeholder="مدن أخرى"
+                        className="auto-text"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="deliveryAreaOther" className="auto-text">
+                      {language === "ar" ? "رسوم التوصيل" : "Delivery Fee"}
+                    </Label>
+                    <Input
+                      id="deliveryAreaOther"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      value={settings.deliveryAreaOther || 0}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "deliveryAreaOther",
+                          parseFloat(e.target.value) || 0,
+                        )
+                      }
+                      className="ltr-text"
+                      placeholder="2.0"
+                    />
+                  </div>
                 </div>
               </CardContent>
             </Card>
