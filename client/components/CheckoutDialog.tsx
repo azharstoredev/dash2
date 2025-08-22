@@ -106,7 +106,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
         subtext:
           language === "ar"
             ? settings.successSubtextAr ||
-              "سنقو بإبلاغك بالتحديثات عبر الهاتف حب تقدم طلبك."
+              "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
             : settings.successSubtextEn ||
               "We'll share updates by phone as your order progresses.",
         toggles: {
@@ -123,11 +123,11 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
     return {
       successMessage:
         language === "ar"
-          ? "شرً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
+          ? "شكراً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
           : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
       instructions:
         language === "ar"
-          ? "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل عنا."
+          ? "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل معنا."
           : "For any changes or questions about your order, please contact us.",
       headline:
         language === "ar"
@@ -135,7 +135,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
           : t("orderSuccess.headline"),
       subtext:
         language === "ar"
-          ? "سنقوم بإبلاغك التحديثات عبر الهاتف حسب تقدم طلبك."
+          ? "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
           : "We'll share updates by phone as your order progresses.",
       toggles: {
         displayOrderNumber: true,

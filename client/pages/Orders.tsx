@@ -62,7 +62,7 @@ export default function Orders() {
     refetchData,
   } = useData();
   const { showConfirm, showAlert } = useDialog();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
@@ -362,7 +362,7 @@ export default function Orders() {
 
                         return (
                           <div
-                            key={index}
+                            key={`form-${item.productId}-${item.variantId || "no-variant"}-${index}`}
                             className="flex flex-col sm:flex-row gap-3 sm:gap-2 sm:items-end p-4 border rounded-lg"
                           >
                             <div className="flex-1">
@@ -696,7 +696,7 @@ export default function Orders() {
                             : null;
                         return (
                           <div
-                            key={index}
+                            key={`preview-${order.id}-${item.productId}-${item.variantId || "no-variant"}-${index}`}
                             className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0 p-3 sm:p-2 bg-gray-50 rounded-lg"
                           >
                             <div className="flex items-center gap-3 flex-1">
@@ -825,34 +825,37 @@ export default function Orders() {
                   return customer ? (
                     <div className="space-y-4">
                       <div className="bg-white p-4 rounded-lg border border-blue-200">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="font-bold text-gray-700 text-base">
+                        <div className="flex items-center gap-2 mb-2 [dir=rtl]:flex-row-reverse">
+                          <span className="font-bold text-gray-700 text-base auto-text">
                             {t("orders.customerName")}:
                           </span>
-                          <span className="text-gray-900 text-base font-medium">
+                          <span className="text-gray-900 text-base font-medium auto-text">
                             {customer.name}
                           </span>
                         </div>
                       </div>
                       <div className="bg-white p-4 rounded-lg border border-blue-200">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 [dir=rtl]:flex-row-reverse">
                           <Phone className="w-5 h-5 text-blue-600" />
-                          <span className="font-bold text-gray-700 text-base">
+                          <span className="font-bold text-gray-700 text-base auto-text">
                             {t("orders.customerPhone")}:
                           </span>
-                          <span className="text-gray-900 text-base font-medium">
+                          <span
+                            className="text-gray-900 text-base font-medium ltr-text"
+                            dir="ltr"
+                          >
                             {customer.phone}
                           </span>
                         </div>
                       </div>
                       <div className="bg-white p-4 rounded-lg border border-blue-200">
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-start gap-3 [dir=rtl]:flex-row-reverse">
                           <MapPin className="w-5 h-5 text-blue-600 mt-1" />
-                          <div>
-                            <span className="font-bold text-gray-700 text-base block mb-2">
+                          <div className="flex-1">
+                            <span className="font-bold text-gray-700 text-base block mb-2 auto-text">
                               {t("orders.deliveryAddress")}:
                             </span>
-                            <p className="text-gray-900 text-base leading-relaxed">
+                            <p className="text-gray-900 text-base leading-relaxed auto-text">
                               {customer.address}
                             </p>
                           </div>
@@ -882,11 +885,11 @@ export default function Orders() {
                         : null;
                     return (
                       <div
-                        key={index}
+                        key={`view-${viewingOrder.id}-${item.productId}-${item.variantId || "no-variant"}-${index}`}
                         className="bg-white p-5 border rounded-xl hover:shadow-md transition-all duration-200 border-gray-200"
                       >
-                        <div className="flex justify-between items-start gap-6">
-                          <div className="flex items-start gap-4 flex-1">
+                        <div className="flex justify-between items-start gap-6 [dir=rtl]:flex-row-reverse">
+                          <div className="flex items-start gap-4 flex-1 [dir=rtl]:flex-row-reverse">
                             {product?.images?.[0] && (
                               <img
                                 src={product.images[0]}
@@ -910,14 +913,14 @@ export default function Orders() {
                               </button>
                               {variant && (
                                 <div className="bg-gray-100 px-3 py-1 rounded-lg inline-block">
-                                  <span className="text-sm font-medium text-gray-700">
-                                    Variant: {variant.name}
+                                  <span className="text-sm font-medium text-gray-700 auto-text">
+                                    {t("store.variant")}: {variant.name}
                                   </span>
                                 </div>
                               )}
                               {product && (
-                                <div className="text-base text-gray-600 font-medium">
-                                  Unit Price:{" "}
+                                <div className="text-base text-gray-600 font-medium auto-text">
+                                  {t("products.price")}:{" "}
                                   <span
                                     className="text-dashboard-primary font-bold ltr-text"
                                     dir="ltr"
@@ -928,7 +931,7 @@ export default function Orders() {
                               )}
                             </div>
                           </div>
-                          <div className="text-right space-y-2 min-w-[120px]">
+                          <div className="text-end space-y-2 min-w-[120px] [dir=rtl]:text-start">
                             <div
                               className="text-base text-gray-600 font-medium ltr-text"
                               dir="ltr"
@@ -955,13 +958,13 @@ export default function Orders() {
 
               {/* Order Summary */}
               <div className="bg-green-50 p-6 rounded-xl border border-green-100">
-                <h3 className="font-bold text-green-900 mb-5 text-lg">
-                  Order Summary
+                <h3 className="font-bold text-green-900 mb-5 text-lg auto-text">
+                  {t("orders.orderSummary")}
                 </h3>
                 <div className="space-y-4">
                   <div className="bg-white p-4 rounded-lg border border-green-200">
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-gray-700 text-base">
+                    <div className="flex justify-between items-center [dir=rtl]:flex-row-reverse">
+                      <span className="font-bold text-gray-700 text-base auto-text">
                         {t("orders.status")}:
                       </span>
                       <Badge
@@ -972,11 +975,11 @@ export default function Orders() {
                     </div>
                   </div>
                   <div className="bg-white p-4 rounded-lg border border-green-200">
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-gray-700 text-base">
+                    <div className="flex justify-between items-center [dir=rtl]:flex-row-reverse">
+                      <span className="font-bold text-gray-700 text-base auto-text">
                         {t("orders.deliveryType")}:
                       </span>
-                      <span className="capitalize font-bold text-dashboard-primary text-base">
+                      <span className="capitalize font-bold text-dashboard-primary text-base auto-text">
                         {viewingOrder.deliveryType === "delivery"
                           ? t("orders.delivery")
                           : t("orders.pickup")}
@@ -984,8 +987,8 @@ export default function Orders() {
                     </div>
                   </div>
                   <div className="bg-white p-4 rounded-lg border border-green-200">
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-gray-700 text-base">
+                    <div className="flex justify-between items-center [dir=rtl]:flex-row-reverse">
+                      <span className="font-bold text-gray-700 text-base auto-text">
                         {t("orders.created")}:
                       </span>
                       <span className="font-medium text-gray-900 text-base">
@@ -994,8 +997,8 @@ export default function Orders() {
                     </div>
                   </div>
                   <div className="bg-white p-4 rounded-lg border border-green-200">
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-gray-700 text-base">
+                    <div className="flex justify-between items-center [dir=rtl]:flex-row-reverse">
+                      <span className="font-bold text-gray-700 text-base auto-text">
                         {t("orders.lastUpdated")}:
                       </span>
                       <span className="font-medium text-gray-900 text-base">
@@ -1005,17 +1008,17 @@ export default function Orders() {
                   </div>
                   {viewingOrder.notes && (
                     <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                      <span className="font-bold text-yellow-800 text-base block mb-2">
+                      <span className="font-bold text-yellow-800 text-base block mb-2 auto-text">
                         {t("orders.notes")}:
                       </span>
-                      <p className="text-yellow-900 font-medium text-base leading-relaxed">
+                      <p className="text-yellow-900 font-medium text-base leading-relaxed auto-text">
                         {viewingOrder.notes}
                       </p>
                     </div>
                   )}
                   <div className="bg-dashboard-primary p-5 rounded-lg border-2 border-dashboard-primary">
-                    <div className="flex justify-between items-center">
-                      <span className="text-xl font-bold text-white">
+                    <div className="flex justify-between items-center [dir=rtl]:flex-row-reverse">
+                      <span className="text-xl font-bold text-white auto-text">
                         {t("orders.total")}:
                       </span>
                       <span
