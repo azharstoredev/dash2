@@ -916,8 +916,8 @@ export default function Orders() {
                                 </div>
                               )}
                               {product && (
-                                <div className="text-base text-gray-600 font-medium">
-                                  Unit Price:{" "}
+                                <div className="text-base text-gray-600 font-medium auto-text">
+                                  {t("products.price")}:{" "}
                                   <span
                                     className="text-dashboard-primary font-bold ltr-text"
                                     dir="ltr"
