@@ -135,6 +135,11 @@ interface StoreSettings {
   // Delivery Settings
   deliveryFee?: number;
   freeDeliveryMinimum?: number;
+
+  // Delivery Area Pricing
+  deliveryAreaSitra?: number;
+  deliveryAreaMuharraq?: number;
+  deliveryAreaOther?: number;
 }
 
 export default function Settings() {
@@ -209,6 +214,9 @@ export default function Settings() {
     enableDebugMode: false,
     deliveryFee: 1.5,
     freeDeliveryMinimum: 20,
+    deliveryAreaSitra: 1.0,
+    deliveryAreaMuharraq: 1.5,
+    deliveryAreaOther: 2.0,
   });
 
   const [hasChanges, setHasChanges] = useState(false);
