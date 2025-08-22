@@ -1,5 +1,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useCart } from "@/contexts/CartContext";
+import { formatPrice } from "@/lib/formatters";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -82,16 +83,14 @@ export default function ImprovedOrderSummary({
                         {t("store.quantity")}: {item.quantity}
                       </span>
                       <span className="ltr-text">
-                        {language === "ar" ? "د.ب" : "BD"}{" "}
-                        {item.price.toFixed(2)}{" "}
+                        {formatPrice(item.price, language)}{" "}
                         {language === "ar" ? "للقطعة" : "each"}
                       </span>
                     </div>
                   </div>
                   <div className="text-end">
                     <div className="text-lg font-bold text-primary ltr-text">
-                      {language === "ar" ? "د.ب" : "BD"}{" "}
-                      {(item.price * item.quantity).toFixed(2)}
+                      {formatPrice(item.price * item.quantity, language)}
                     </div>
                   </div>
                 </div>
@@ -144,7 +143,7 @@ export default function ImprovedOrderSummary({
               {t("checkout.subtotal")}:
             </span>
             <span className="ltr-text font-semibold text-gray-900">
-              {language === "ar" ? "د.ب" : "BD"} {totalPrice.toFixed(2)}
+              {formatPrice(totalPrice, language)}
             </span>
           </div>
 
@@ -157,7 +156,7 @@ export default function ImprovedOrderSummary({
                 ? language === "ar"
                   ? "مجان"
                   : "Free"
-                : `${language === "ar" ? "د.ب" : "BD"} ${deliveryFee.toFixed(2)}`}
+                : formatPrice(deliveryFee, language)}
             </span>
           </div>
 
@@ -174,8 +173,8 @@ export default function ImprovedOrderSummary({
                 totalPrice < freeDeliveryMinimum ? (
                 <p className="text-sm text-gray-500 auto-text">
                   {language === "ar"
-                    ? `أضف ${language === "ar" ? "د.ب" : "BD"} ${(freeDeliveryMinimum - totalPrice).toFixed(2)} للحصول على توصيل مجاني`
-                    : `Add ${language === "ar" ? "د.ب" : "BD"} ${(freeDeliveryMinimum - totalPrice).toFixed(2)} more for free delivery`}
+                    ? `أضف ${formatPrice(freeDeliveryMinimum - totalPrice, language)} للحصول على توصيل مجاني`
+                    : `Add ${formatPrice(freeDeliveryMinimum - totalPrice, language)} more for free delivery`}
                 </p>
               ) : null}
             </div>
@@ -188,7 +187,7 @@ export default function ImprovedOrderSummary({
               {t("checkout.total")}:
             </span>
             <span className="ltr-text text-2xl font-bold text-primary">
-              {language === "ar" ? "د.ب" : "BD"} {finalTotal.toFixed(2)}
+              {formatPrice(finalTotal, language)}
             </span>
           </div>
         </div>
@@ -208,8 +207,7 @@ export default function ImprovedOrderSummary({
           ) : (
             <>
               <ShoppingCart className="w-5 h-5 mr-2" />
-              {t("checkout.placeOrder")} • {language === "ar" ? "د.ب" : "BD"}{" "}
-              {finalTotal.toFixed(2)}
+              {t("checkout.placeOrder")} • {formatPrice(finalTotal, language)}
             </>
           )}
         </Button>
