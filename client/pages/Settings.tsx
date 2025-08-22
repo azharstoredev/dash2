@@ -135,6 +135,19 @@ interface StoreSettings {
   // Delivery Settings
   deliveryFee?: number;
   freeDeliveryMinimum?: number;
+
+  // Delivery Area Pricing
+  deliveryAreaSitra?: number;
+  deliveryAreaMuharraq?: number;
+  deliveryAreaOther?: number;
+
+  // Delivery Area Names
+  deliveryAreaSitraNameEn?: string;
+  deliveryAreaSitraNameAr?: string;
+  deliveryAreaMuharraqlNameEn?: string;
+  deliveryAreaMuharraqNameAr?: string;
+  deliveryAreaOtherNameEn?: string;
+  deliveryAreaOtherNameAr?: string;
 }
 
 export default function Settings() {
@@ -209,6 +222,15 @@ export default function Settings() {
     enableDebugMode: false,
     deliveryFee: 1.5,
     freeDeliveryMinimum: 20,
+    deliveryAreaSitra: 1.0,
+    deliveryAreaMuharraq: 1.5,
+    deliveryAreaOther: 2.0,
+    deliveryAreaSitraNameEn: "Sitra",
+    deliveryAreaSitraNameAr: "سترة",
+    deliveryAreaMuharraqlNameEn: "Muharraq, Askar, Jao",
+    deliveryAreaMuharraqNameAr: "المحرق، عسكر، جو",
+    deliveryAreaOtherNameEn: "Other Cities",
+    deliveryAreaOtherNameAr: "مدن أخرى",
   });
 
   const [hasChanges, setHasChanges] = useState(false);
@@ -695,6 +717,227 @@ export default function Settings() {
                   <p className="text-sm text-muted-foreground auto-text mt-1">
                     {t("settings.freeDeliveryMinimumHint")}
                   </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Delivery Area Pricing */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <MapPin className="w-5 h-5" />
+                  {language === "ar"
+                    ? "أسعار التوصيل حسب المنطقة"
+                    : "Delivery Area Pricing"}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-4 p-4 border rounded-lg">
+                  <h4 className="font-medium auto-text">
+                    {language === "ar" ? "المنطقة الأولى" : "Area 1"}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label
+                        htmlFor="deliveryAreaSitraNameEn"
+                        className="auto-text"
+                      >
+                        {language === "ar"
+                          ? "الاسم بالإنجليزية"
+                          : "Name (English)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaSitraNameEn"
+                        value={settings.deliveryAreaSitraNameEn || ""}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "deliveryAreaSitraNameEn",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="Sitra"
+                        className="auto-text"
+                      />
+                    </div>
+                    <div>
+                      <Label
+                        htmlFor="deliveryAreaSitraNameAr"
+                        className="auto-text"
+                      >
+                        {language === "ar" ? "الاسم بالعربية" : "Name (Arabic)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaSitraNameAr"
+                        value={settings.deliveryAreaSitraNameAr || ""}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "deliveryAreaSitraNameAr",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="سترة"
+                        className="auto-text"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="deliveryAreaSitra" className="auto-text">
+                      {language === "ar" ? "رسوم التوصيل" : "Delivery Fee"}
+                    </Label>
+                    <Input
+                      id="deliveryAreaSitra"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      value={settings.deliveryAreaSitra || 0}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "deliveryAreaSitra",
+                          parseFloat(e.target.value) || 0,
+                        )
+                      }
+                      className="ltr-text"
+                      placeholder="1.0"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-4 p-4 border rounded-lg">
+                  <h4 className="font-medium auto-text">
+                    {language === "ar" ? "المنطقة الثانية" : "Area 2"}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label
+                        htmlFor="deliveryAreaMuharraqlNameEn"
+                        className="auto-text"
+                      >
+                        {language === "ar"
+                          ? "الاسم ��الإنجليزية"
+                          : "Name (English)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaMuharraqlNameEn"
+                        value={settings.deliveryAreaMuharraqlNameEn || ""}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "deliveryAreaMuharraqlNameEn",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="Muharraq, Askar, Jao"
+                        className="auto-text"
+                      />
+                    </div>
+                    <div>
+                      <Label
+                        htmlFor="deliveryAreaMuharraqNameAr"
+                        className="auto-text"
+                      >
+                        {language === "ar" ? "الاسم بالعربية" : "Name (Arabic)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaMuharraqNameAr"
+                        value={settings.deliveryAreaMuharraqNameAr || ""}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "deliveryAreaMuharraqNameAr",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="المحرق، عسكر، جو"
+                        className="auto-text"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="deliveryAreaMuharraq" className="auto-text">
+                      {language === "ar" ? "رسوم التوصيل" : "Delivery Fee"}
+                    </Label>
+                    <Input
+                      id="deliveryAreaMuharraq"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      value={settings.deliveryAreaMuharraq || 0}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "deliveryAreaMuharraq",
+                          parseFloat(e.target.value) || 0,
+                        )
+                      }
+                      className="ltr-text"
+                      placeholder="1.5"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-4 p-4 border rounded-lg">
+                  <h4 className="font-medium auto-text">
+                    {language === "ar" ? "المنطقة الثالثة" : "Area 3"}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label
+                        htmlFor="deliveryAreaOtherNameEn"
+                        className="auto-text"
+                      >
+                        {language === "ar"
+                          ? "الاسم بالإنجليزية"
+                          : "Name (English)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaOtherNameEn"
+                        value={settings.deliveryAreaOtherNameEn || ""}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "deliveryAreaOtherNameEn",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="Other Cities"
+                        className="auto-text"
+                      />
+                    </div>
+                    <div>
+                      <Label
+                        htmlFor="deliveryAreaOtherNameAr"
+                        className="auto-text"
+                      >
+                        {language === "ar" ? "الاسم بالعربية" : "Name (Arabic)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaOtherNameAr"
+                        value={settings.deliveryAreaOtherNameAr || ""}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "deliveryAreaOtherNameAr",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="مدن أخرى"
+                        className="auto-text"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="deliveryAreaOther" className="auto-text">
+                      {language === "ar" ? "رسوم التوصيل" : "Delivery Fee"}
+                    </Label>
+                    <Input
+                      id="deliveryAreaOther"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      value={settings.deliveryAreaOther || 0}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "deliveryAreaOther",
+                          parseFloat(e.target.value) || 0,
+                        )
+                      }
+                      className="ltr-text"
+                      placeholder="2.0"
+                    />
+                  </div>
                 </div>
               </CardContent>
             </Card>

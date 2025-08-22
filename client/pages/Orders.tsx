@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useData, Order, OrderItem } from "@/contexts/DataContext";
 import { useDialog } from "@/contexts/DialogContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { formatPrice } from "@/lib/formatters";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -383,7 +384,16 @@ export default function Orders() {
                                       key={product.id}
                                       value={product.id}
                                     >
-                                      {product.name} - ${product.price}
+                                      <span
+                                        className="auto-text inline-block"
+                                        dir="auto"
+                                      >
+                                        {product.name}
+                                      </span>
+                                      <span className="ltr-text ml-2" dir="ltr">
+                                        {" "}
+                                        - {formatPrice(product.price, language)}
+                                      </span>
                                     </SelectItem>
                                   ))}
                                 </SelectContent>
@@ -566,8 +576,11 @@ export default function Orders() {
 
                   <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
                     <span className="font-medium">Total:</span>
-                    <span className="text-xl font-bold text-dashboard-primary">
-                      BD {calculateTotal().toFixed(2)}
+                    <span
+                      className="text-xl font-bold text-dashboard-primary ltr-text"
+                      dir="ltr"
+                    >
+                      {formatPrice(calculateTotal(), language)}
                     </span>
                   </div>
                 </div>
@@ -611,7 +624,10 @@ export default function Orders() {
         {filteredOrders.map((order) => {
           const customer = getCustomerById(order.customerId);
           return (
-            <Card key={order.id} className="hover:shadow-lg transition-shadow border-l-4 border-dashboard-primary">
+            <Card
+              key={order.id}
+              className="hover:shadow-lg transition-shadow border-l-4 border-dashboard-primary"
+            >
               <CardHeader className="pb-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4 [dir=rtl]:sm:flex-row-reverse">
                   <div className="flex items-start gap-3 flex-1 [dir=rtl]:flex-row-reverse">
@@ -629,8 +645,11 @@ export default function Orders() {
                     </div>
                   </div>
                   <div className="flex flex-col sm:items-end gap-3 sm:gap-2 mt-2 sm:mt-0">
-                    <div className="text-2xl sm:text-xl font-bold text-dashboard-primary">
-                      BD {order.total.toFixed(2)}
+                    <div
+                      className="text-2xl sm:text-xl font-bold text-dashboard-primary ltr-text"
+                      dir="ltr"
+                    >
+                      {formatPrice(order.total, language)}
                     </div>
                     <div className="w-full sm:w-auto min-w-[140px]">
                       <Select
@@ -689,7 +708,10 @@ export default function Orders() {
                                 />
                               )}
                               <div className="flex-1">
-                                <div className="font-medium text-gray-900">
+                                <div
+                                  className="font-medium text-gray-900 auto-text"
+                                  dir="auto"
+                                >
                                   {product?.name || t("products.title")}
                                 </div>
                                 {variant && (
@@ -699,9 +721,20 @@ export default function Orders() {
                                 )}
                               </div>
                             </div>
-                            <div className="text-sm sm:text-right text-gray-600 font-medium">
-                              <div>{item.quantity}x BD {item.price.toFixed(2)}</div>
-                              <div className="font-bold text-dashboard-primary">BD {(item.quantity * item.price).toFixed(2)}</div>
+                            <div
+                              className="text-sm sm:text-right text-gray-600 font-medium ltr-text"
+                              dir="ltr"
+                            >
+                              <div>
+                                {item.quantity}x{" "}
+                                {formatPrice(item.price, language)}
+                              </div>
+                              <div className="font-bold text-dashboard-primary">
+                                {formatPrice(
+                                  item.quantity * item.price,
+                                  language,
+                                )}
+                              </div>
                             </div>
                           </div>
                         );
@@ -870,7 +903,8 @@ export default function Orders() {
                                     "_blank",
                                   );
                                 }}
-                                className="font-bold text-dashboard-primary hover:text-dashboard-primary-light hover:underline transition-colors text-left text-lg leading-snug"
+                                className="font-bold text-dashboard-primary hover:text-dashboard-primary-light hover:underline transition-colors text-start text-lg leading-snug auto-text"
+                                dir="auto"
                               >
                                 {product?.name || t("orders.unknownProduct")}
                               </button>
@@ -884,20 +918,32 @@ export default function Orders() {
                               {product && (
                                 <div className="text-base text-gray-600 font-medium">
                                   Unit Price:{" "}
-                                  <span className="text-dashboard-primary font-bold">
-                                    BD {product.price.toFixed(2)}
+                                  <span
+                                    className="text-dashboard-primary font-bold ltr-text"
+                                    dir="ltr"
+                                  >
+                                    {formatPrice(product.price, language)}
                                   </span>
                                 </div>
                               )}
                             </div>
                           </div>
                           <div className="text-right space-y-2 min-w-[120px]">
-                            <div className="text-base text-gray-600 font-medium">
+                            <div
+                              className="text-base text-gray-600 font-medium ltr-text"
+                              dir="ltr"
+                            >
                               <span className="font-bold">{item.quantity}</span>{" "}
-                              × BD {item.price.toFixed(2)}
+                              × {formatPrice(item.price, language)}
                             </div>
-                            <div className="font-bold text-xl text-dashboard-primary">
-                              BD {(item.quantity * item.price).toFixed(2)}
+                            <div
+                              className="font-bold text-xl text-dashboard-primary ltr-text"
+                              dir="ltr"
+                            >
+                              {formatPrice(
+                                item.quantity * item.price,
+                                language,
+                              )}
                             </div>
                           </div>
                         </div>
@@ -972,8 +1018,11 @@ export default function Orders() {
                       <span className="text-xl font-bold text-white">
                         {t("orders.total")}:
                       </span>
-                      <span className="text-3xl font-bold text-white">
-                        BD {viewingOrder.total.toFixed(2)}
+                      <span
+                        className="text-3xl font-bold text-white ltr-text"
+                        dir="ltr"
+                      >
+                        {formatPrice(viewingOrder.total, language)}
                       </span>
                     </div>
                   </div>

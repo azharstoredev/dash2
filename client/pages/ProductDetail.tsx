@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useCart } from "../contexts/CartContext";
 import { getProducts } from "../services/api";
+import { formatPrice } from "@/lib/formatters";
 import { Button } from "../components/ui/button";
 import { LoadingScreen } from "../components/ui/loading";
 import { Badge } from "../components/ui/badge";
@@ -296,8 +297,11 @@ export default function ProductDetail() {
                 {product.description}
               </p>
 
-              <div className="text-3xl font-bold text-primary mb-4">
-                BD {product.price.toFixed(2)}
+              <div
+                className="text-3xl font-bold text-primary mb-4 ltr-text"
+                dir="ltr"
+              >
+                {formatPrice(product.price, language)}
               </div>
 
               {product.total_stock > 0 ? (

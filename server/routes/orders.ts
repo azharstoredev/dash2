@@ -15,7 +15,15 @@ export const getAllOrders: RequestHandler = async (req, res) => {
 export const createOrder: RequestHandler = async (req, res) => {
   try {
     console.log("Creating order with data:", req.body);
-    const { customerId, items, status, deliveryType, notes, total } = req.body;
+    const {
+      customerId,
+      items,
+      status,
+      deliveryType,
+      deliveryArea,
+      notes,
+      total,
+    } = req.body;
 
     // Validate required fields
     if (!customerId) {
@@ -25,22 +33,18 @@ export const createOrder: RequestHandler = async (req, res) => {
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       console.error("Invalid items data:", { items });
-      return res
-        .status(400)
-        .json({
-          error: "Order items are required and must be a non-empty array",
-        });
+      return res.status(400).json({
+        error: "Order items are required and must be a non-empty array",
+      });
     }
 
     // Validate each item
     for (const item of items) {
       if (!item.productId || !item.quantity || !item.price) {
         console.error("Invalid item data:", item);
-        return res
-          .status(400)
-          .json({
-            error: "Each item must have productId, quantity, and price",
-          });
+        return res.status(400).json({
+          error: "Each item must have productId, quantity, and price",
+        });
       }
 
       if (item.quantity <= 0) {
@@ -111,6 +115,7 @@ export const createOrder: RequestHandler = async (req, res) => {
       total: finalTotal,
       status: status || "processing",
       deliveryType: deliveryType || "delivery",
+      deliveryArea: deliveryArea || "sitra",
       notes: notes || "",
     };
 

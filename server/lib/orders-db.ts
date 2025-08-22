@@ -16,6 +16,8 @@ export interface Order {
   status: "processing" | "ready" | "delivered" | "picked-up";
   deliveryType: "delivery" | "pickup";
   delivery_type?: "delivery" | "pickup";
+  deliveryArea?: "sitra" | "muharraq" | "other";
+  delivery_area?: "sitra" | "muharraq" | "other";
   createdAt?: string;
   updatedAt?: string;
   created_at?: string;
@@ -32,6 +34,7 @@ let fallbackOrders: Order[] = [
     total: 35.0,
     status: "delivered",
     deliveryType: "delivery",
+    deliveryArea: "sitra",
     createdAt: "2024-01-15T10:00:00Z",
     updatedAt: "2024-01-15T15:30:00Z",
   },
@@ -42,6 +45,7 @@ let fallbackOrders: Order[] = [
     total: 17.5,
     status: "processing",
     deliveryType: "pickup",
+    deliveryArea: "sitra",
     createdAt: "2024-01-15T11:00:00Z",
     updatedAt: "2024-01-15T11:00:00Z",
   },
@@ -60,6 +64,8 @@ const transformFromDb = (dbOrder: any): Order => ({
   status: dbOrder.status,
   deliveryType: dbOrder.delivery_type,
   delivery_type: dbOrder.delivery_type,
+  deliveryArea: dbOrder.delivery_area,
+  delivery_area: dbOrder.delivery_area,
   createdAt: dbOrder.created_at,
   updatedAt: dbOrder.updated_at,
   created_at: dbOrder.created_at,
@@ -88,7 +94,7 @@ export const orderDb = {
             block,
             town
           )
-        `
+        `,
         )
         .order("created_at", { ascending: false });
 
@@ -102,7 +108,10 @@ export const orderDb = {
 
   /** Create a new order */
   async create(
-    order: Omit<Order, "id" | "created_at" | "updated_at" | "createdAt" | "updatedAt">
+    order: Omit<
+      Order,
+      "id" | "created_at" | "updated_at" | "createdAt" | "updatedAt"
+    >,
   ): Promise<Order> {
     const newOrderPayload = {
       id: generateId(), // remove if DB auto-generates
@@ -111,6 +120,7 @@ export const orderDb = {
       total: order.total,
       status: order.status || "processing",
       delivery_type: order.deliveryType || "delivery",
+      delivery_area: order.deliveryArea || "sitra",
       notes: order.notes || null,
     };
 
@@ -237,7 +247,7 @@ export const orderDb = {
             block,
             town
           )
-        `
+        `,
         )
         .eq("id", id)
         .single();
