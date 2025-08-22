@@ -624,6 +624,95 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                       </div>
                     </div>
                   </RadioGroup>
+
+                  {/* Delivery Area Selection - Only show when delivery is selected */}
+                  {deliveryType === "delivery" && (
+                    <div className="mt-6 pt-6 border-t border-gray-200">
+                      <h4 className="text-base sm:text-lg font-medium auto-text mb-4 flex items-center gap-2">
+                        <MapPin className="w-5 h-5 text-primary" />
+                        {language === "ar" ? "اختر منطقة التوصيل" : "Select Delivery Area"}
+                      </h4>
+                      <RadioGroup
+                        value={deliveryArea}
+                        onValueChange={(value) =>
+                          setDeliveryArea(value as "sitra" | "muharraq" | "other")
+                        }
+                        className="grid grid-cols-1 gap-3"
+                      >
+                        <div
+                          className={`flex items-center justify-between space-x-4 [dir=rtl]:space-x-reverse p-4 border-2 rounded-xl cursor-pointer transition-all touch-manipulation hover:shadow-md ${
+                            deliveryArea === "sitra"
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "hover:bg-gray-50"
+                          }`}
+                          onClick={() => setDeliveryArea("sitra")}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <div className="flex items-center space-x-3 [dir=rtl]:space-x-reverse">
+                            <RadioGroupItem value="sitra" id="sitra" />
+                            <Label
+                              htmlFor="sitra"
+                              className="text-sm sm:text-base font-medium cursor-pointer auto-text"
+                            >
+                              {language === "ar" ? "سترة" : "Sitra"}
+                            </Label>
+                          </div>
+                          <span className="text-sm font-medium text-primary ltr-text" dir="ltr">
+                            {formatPriceWithSymbol(deliveryAreaSitra, currencySymbol, language)}
+                          </span>
+                        </div>
+
+                        <div
+                          className={`flex items-center justify-between space-x-4 [dir=rtl]:space-x-reverse p-4 border-2 rounded-xl cursor-pointer transition-all touch-manipulation hover:shadow-md ${
+                            deliveryArea === "muharraq"
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "hover:bg-gray-50"
+                          }`}
+                          onClick={() => setDeliveryArea("muharraq")}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <div className="flex items-center space-x-3 [dir=rtl]:space-x-reverse">
+                            <RadioGroupItem value="muharraq" id="muharraq" />
+                            <Label
+                              htmlFor="muharraq"
+                              className="text-sm sm:text-base font-medium cursor-pointer auto-text"
+                            >
+                              {language === "ar" ? "المحرق، عسكر، جو" : "Muharraq, Askar, Jao"}
+                            </Label>
+                          </div>
+                          <span className="text-sm font-medium text-primary ltr-text" dir="ltr">
+                            {formatPriceWithSymbol(deliveryAreaMuharraq, currencySymbol, language)}
+                          </span>
+                        </div>
+
+                        <div
+                          className={`flex items-center justify-between space-x-4 [dir=rtl]:space-x-reverse p-4 border-2 rounded-xl cursor-pointer transition-all touch-manipulation hover:shadow-md ${
+                            deliveryArea === "other"
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "hover:bg-gray-50"
+                          }`}
+                          onClick={() => setDeliveryArea("other")}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <div className="flex items-center space-x-3 [dir=rtl]:space-x-reverse">
+                            <RadioGroupItem value="other" id="other" />
+                            <Label
+                              htmlFor="other"
+                              className="text-sm sm:text-base font-medium cursor-pointer auto-text"
+                            >
+                              {language === "ar" ? "مدن أخرى" : "Other Cities"}
+                            </Label>
+                          </div>
+                          <span className="text-sm font-medium text-primary ltr-text" dir="ltr">
+                            {formatPriceWithSymbol(deliveryAreaOther, currencySymbol, language)}
+                          </span>
+                        </div>
+                      </RadioGroup>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             )}
