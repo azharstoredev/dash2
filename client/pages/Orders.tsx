@@ -840,7 +840,10 @@ export default function Orders() {
                           <span className="font-bold text-gray-700 text-base auto-text">
                             {t("orders.customerPhone")}:
                           </span>
-                          <span className="text-gray-900 text-base font-medium ltr-text" dir="ltr">
+                          <span
+                            className="text-gray-900 text-base font-medium ltr-text"
+                            dir="ltr"
+                          >
                             {customer.phone}
                           </span>
                         </div>
