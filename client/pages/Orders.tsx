@@ -955,8 +955,8 @@ export default function Orders() {
 
               {/* Order Summary */}
               <div className="bg-green-50 p-6 rounded-xl border border-green-100">
-                <h3 className="font-bold text-green-900 mb-5 text-lg">
-                  Order Summary
+                <h3 className="font-bold text-green-900 mb-5 text-lg auto-text">
+                  {t("orders.orderSummary")}
                 </h3>
                 <div className="space-y-4">
                   <div className="bg-white p-4 rounded-lg border border-green-200">
