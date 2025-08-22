@@ -960,8 +960,8 @@ export default function Orders() {
                 </h3>
                 <div className="space-y-4">
                   <div className="bg-white p-4 rounded-lg border border-green-200">
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-gray-700 text-base">
+                    <div className="flex justify-between items-center [dir=rtl]:flex-row-reverse">
+                      <span className="font-bold text-gray-700 text-base auto-text">
                         {t("orders.status")}:
                       </span>
                       <Badge
@@ -972,11 +972,11 @@ export default function Orders() {
                     </div>
                   </div>
                   <div className="bg-white p-4 rounded-lg border border-green-200">
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-gray-700 text-base">
+                    <div className="flex justify-between items-center [dir=rtl]:flex-row-reverse">
+                      <span className="font-bold text-gray-700 text-base auto-text">
                         {t("orders.deliveryType")}:
                       </span>
-                      <span className="capitalize font-bold text-dashboard-primary text-base">
+                      <span className="capitalize font-bold text-dashboard-primary text-base auto-text">
                         {viewingOrder.deliveryType === "delivery"
                           ? t("orders.delivery")
                           : t("orders.pickup")}
@@ -984,8 +984,8 @@ export default function Orders() {
                     </div>
                   </div>
                   <div className="bg-white p-4 rounded-lg border border-green-200">
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-gray-700 text-base">
+                    <div className="flex justify-between items-center [dir=rtl]:flex-row-reverse">
+                      <span className="font-bold text-gray-700 text-base auto-text">
                         {t("orders.created")}:
                       </span>
                       <span className="font-medium text-gray-900 text-base">
@@ -994,8 +994,8 @@ export default function Orders() {
                     </div>
                   </div>
                   <div className="bg-white p-4 rounded-lg border border-green-200">
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-gray-700 text-base">
+                    <div className="flex justify-between items-center [dir=rtl]:flex-row-reverse">
+                      <span className="font-bold text-gray-700 text-base auto-text">
                         {t("orders.lastUpdated")}:
                       </span>
                       <span className="font-medium text-gray-900 text-base">
