@@ -96,7 +96,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
     return {
       successMessage:
         language === "ar"
-          ? "شكرً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
+          ? "ش��رً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
           : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
       instructions:
         language === "ar"
@@ -860,7 +860,14 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                               ? language === "ar"
                                 ? "مجاني"
                                 : "Free"
-                              : formatPriceWithSymbol(deliveryFeeSetting, currencySymbol, language)
+                              : (() => {
+                                  const areaFee = deliveryArea === "sitra"
+                                    ? deliveryAreaSitra
+                                    : deliveryArea === "muharraq"
+                                    ? deliveryAreaMuharraq
+                                    : deliveryAreaOther;
+                                  return formatPriceWithSymbol(areaFee, currencySymbol, language);
+                                })()
                             : formatPriceWithSymbol(0, currencySymbol, language)}
                         </span>
                       </div>
