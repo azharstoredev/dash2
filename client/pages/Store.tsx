@@ -335,7 +335,10 @@ export default function Store() {
                   <div className="flex items-center justify-between [dir=rtl]:flex-row-reverse gap-2">
                     <div className="min-w-0 flex-1 flex flex-col justify-center">
                       <div className="flex items-center gap-2 [dir=rtl]:flex-row-reverse">
-                        <span className="text-sm sm:text-base lg:text-lg font-bold text-primary ltr-text" dir="ltr">
+                        <span
+                          className="text-sm sm:text-base lg:text-lg font-bold text-primary ltr-text"
+                          dir="ltr"
+                        >
                           {formatPrice(product.price, language)}
                         </span>
                         {(product.total_stock || 0) > 0 && (

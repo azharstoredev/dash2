@@ -164,7 +164,10 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                             <span className="text-sm font-medium text-gray-700 auto-text">
                               {t("store.unitPrice")}:
                             </span>
-                            <span className="text-lg font-bold text-primary ltr-text" dir="ltr">
+                            <span
+                              className="text-lg font-bold text-primary ltr-text"
+                              dir="ltr"
+                            >
                               {formatPrice(item.price, language)}
                             </span>
                           </div>
@@ -236,8 +239,14 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                                 : t("common.total")}
                               :
                             </span>
-                            <span className="text-xl font-bold text-primary ltr-text" dir="ltr">
-                              {formatPrice(item.price * item.quantity, language)}
+                            <span
+                              className="text-xl font-bold text-primary ltr-text"
+                              dir="ltr"
+                            >
+                              {formatPrice(
+                                item.price * item.quantity,
+                                language,
+                              )}
                             </span>
                           </div>
                         </div>
@@ -260,7 +269,10 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                       <span className="auto-text text-gray-600 font-medium text-lg">
                         {t("store.cartTotal")}:
                       </span>
-                      <span className="text-2xl font-bold text-primary ltr-text" dir="ltr">
+                      <span
+                        className="text-2xl font-bold text-primary ltr-text"
+                        dir="ltr"
+                      >
                         {formatPrice(totalPrice, language)}
                       </span>
                     </div>

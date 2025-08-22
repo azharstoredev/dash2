@@ -17,13 +17,9 @@ interface CurrencyFormatOptions {
  */
 export function formatBHD(
   amount: number,
-  options: CurrencyFormatOptions = {}
+  options: CurrencyFormatOptions = {},
 ): string {
-  const {
-    showSymbol = true,
-    spaceBetween = false,
-    locale = "en-BH",
-  } = options;
+  const { showSymbol = true, spaceBetween = false, locale = "en-BH" } = options;
 
   // Format to 3 decimal places for BHD
   const formattedAmount = Number(amount).toFixed(3);
@@ -33,7 +29,7 @@ export function formatBHD(
   }
 
   const separator = spaceBetween ? " " : "";
-  
+
   // For Arabic locale, show symbol after amount
   if (locale === "ar-BH" || locale === "ar") {
     return `${formattedAmount}${separator}د.ب`;
@@ -80,14 +76,14 @@ export function getCurrencySettings(): {
  */
 export function formatPrice(amount: number, language?: string): string {
   const settings = getCurrencySettings();
-  
+
   // Always use 3 decimal places for BHD
   const formattedAmount = Number(amount).toFixed(3);
-  
+
   if (language === "ar") {
     return `${formattedAmount} د.ب`;
   }
-  
+
   return `${formattedAmount}BD`;
 }
 
@@ -101,15 +97,15 @@ export function formatPrice(amount: number, language?: string): string {
 export function formatPriceWithSymbol(
   amount: number,
   currencySymbol: string,
-  language?: string
+  language?: string,
 ): string {
   const formattedAmount = Number(amount).toFixed(3);
-  
+
   if (language === "ar") {
     // Use Arabic currency symbol if available, otherwise use provided symbol
     const arabicSymbol = currencySymbol === "BD" ? "د.ب" : currencySymbol;
     return `${formattedAmount} ${arabicSymbol}`;
   }
-  
+
   return `${formattedAmount}${currencySymbol}`;
 }

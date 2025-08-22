@@ -44,9 +44,15 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const freeDeliveryMinimum: number = Number(
     savedSettings?.freeDeliveryMinimum ?? 20,
   );
-  const deliveryAreaSitra: number = Number(savedSettings?.deliveryAreaSitra ?? 1.0);
-  const deliveryAreaMuharraq: number = Number(savedSettings?.deliveryAreaMuharraq ?? 1.5);
-  const deliveryAreaOther: number = Number(savedSettings?.deliveryAreaOther ?? 2.0);
+  const deliveryAreaSitra: number = Number(
+    savedSettings?.deliveryAreaSitra ?? 1.0,
+  );
+  const deliveryAreaMuharraq: number = Number(
+    savedSettings?.deliveryAreaMuharraq ?? 1.5,
+  );
+  const deliveryAreaOther: number = Number(
+    savedSettings?.deliveryAreaOther ?? 2.0,
+  );
 
   // Get delivery area names
   const getDeliveryAreaName = (area: "sitra" | "muharraq" | "other") => {
@@ -58,7 +64,8 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
       case "muharraq":
         return language === "ar"
           ? savedSettings?.deliveryAreaMuharraqNameAr || "المحرق، عسكر، جو"
-          : savedSettings?.deliveryAreaMuharraqlNameEn || "Muharraq, Askar, Jao";
+          : savedSettings?.deliveryAreaMuharraqlNameEn ||
+              "Muharraq, Askar, Jao";
       case "other":
         return language === "ar"
           ? savedSettings?.deliveryAreaOtherNameAr || "مدن أخرى"
@@ -116,7 +123,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
     return {
       successMessage:
         language === "ar"
-          ? "ش��رً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
+          ? "شرً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
           : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
       instructions:
         language === "ar"
@@ -154,7 +161,9 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">(
     "delivery",
   );
-  const [deliveryArea, setDeliveryArea] = useState<"sitra" | "muharraq" | "other">("sitra");
+  const [deliveryArea, setDeliveryArea] = useState<
+    "sitra" | "muharraq" | "other"
+  >("sitra");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [orderNumber, setOrderNumber] = useState("");
@@ -652,12 +661,16 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                     <div className="mt-6 pt-6 border-t border-gray-200">
                       <h4 className="text-base sm:text-lg font-medium auto-text mb-4 flex items-center gap-2">
                         <MapPin className="w-5 h-5 text-primary" />
-                        {language === "ar" ? "اختر منطقة التوصيل" : "Select Delivery Area"}
+                        {language === "ar"
+                          ? "اختر منطقة التوصيل"
+                          : "Select Delivery Area"}
                       </h4>
                       <RadioGroup
                         value={deliveryArea}
                         onValueChange={(value) =>
-                          setDeliveryArea(value as "sitra" | "muharraq" | "other")
+                          setDeliveryArea(
+                            value as "sitra" | "muharraq" | "other",
+                          )
                         }
                         className="grid grid-cols-1 gap-3"
                       >
@@ -680,8 +693,15 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                               {getDeliveryAreaName("sitra")}
                             </Label>
                           </div>
-                          <span className="text-sm font-medium text-primary ltr-text" dir="ltr">
-                            {formatPriceWithSymbol(deliveryAreaSitra, currencySymbol, language)}
+                          <span
+                            className="text-sm font-medium text-primary ltr-text"
+                            dir="ltr"
+                          >
+                            {formatPriceWithSymbol(
+                              deliveryAreaSitra,
+                              currencySymbol,
+                              language,
+                            )}
                           </span>
                         </div>
 
@@ -704,8 +724,15 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                               {getDeliveryAreaName("muharraq")}
                             </Label>
                           </div>
-                          <span className="text-sm font-medium text-primary ltr-text" dir="ltr">
-                            {formatPriceWithSymbol(deliveryAreaMuharraq, currencySymbol, language)}
+                          <span
+                            className="text-sm font-medium text-primary ltr-text"
+                            dir="ltr"
+                          >
+                            {formatPriceWithSymbol(
+                              deliveryAreaMuharraq,
+                              currencySymbol,
+                              language,
+                            )}
                           </span>
                         </div>
 
@@ -728,8 +755,15 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                               {getDeliveryAreaName("other")}
                             </Label>
                           </div>
-                          <span className="text-sm font-medium text-primary ltr-text" dir="ltr">
-                            {formatPriceWithSymbol(deliveryAreaOther, currencySymbol, language)}
+                          <span
+                            className="text-sm font-medium text-primary ltr-text"
+                            dir="ltr"
+                          >
+                            {formatPriceWithSymbol(
+                              deliveryAreaOther,
+                              currencySymbol,
+                              language,
+                            )}
                           </span>
                         </div>
                       </RadioGroup>
@@ -843,8 +877,15 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                               </p>
                             </div>
                             <div className="text-end auto-text min-w-0">
-                              <p className="font-medium ltr-text text-sm sm:text-lg" dir="ltr">
-                                {formatPriceWithSymbol(item.price * item.quantity, currencySymbol, language)}
+                              <p
+                                className="font-medium ltr-text text-sm sm:text-lg"
+                                dir="ltr"
+                              >
+                                {formatPriceWithSymbol(
+                                  item.price * item.quantity,
+                                  currencySymbol,
+                                  language,
+                                )}
                               </p>
                             </div>
                           </div>
@@ -867,8 +908,15 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                         <span className="auto-text text-gray-700 text-base font-medium">
                           {t("checkout.subtotal")}:
                         </span>
-                        <span className="ltr-text font-semibold text-lg text-gray-900" dir="ltr">
-                          {formatPriceWithSymbol(totalPrice, currencySymbol, language)}
+                        <span
+                          className="ltr-text font-semibold text-lg text-gray-900"
+                          dir="ltr"
+                        >
+                          {formatPriceWithSymbol(
+                            totalPrice,
+                            currencySymbol,
+                            language,
+                          )}
                         </span>
                       </div>
 
@@ -883,14 +931,23 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                                 ? "مجاني"
                                 : "Free"
                               : (() => {
-                                  const areaFee = deliveryArea === "sitra"
-                                    ? deliveryAreaSitra
-                                    : deliveryArea === "muharraq"
-                                    ? deliveryAreaMuharraq
-                                    : deliveryAreaOther;
-                                  return formatPriceWithSymbol(areaFee, currencySymbol, language);
+                                  const areaFee =
+                                    deliveryArea === "sitra"
+                                      ? deliveryAreaSitra
+                                      : deliveryArea === "muharraq"
+                                        ? deliveryAreaMuharraq
+                                        : deliveryAreaOther;
+                                  return formatPriceWithSymbol(
+                                    areaFee,
+                                    currencySymbol,
+                                    language,
+                                  );
                                 })()
-                            : formatPriceWithSymbol(0, currencySymbol, language)}
+                            : formatPriceWithSymbol(
+                                0,
+                                currencySymbol,
+                                language,
+                              )}
                         </span>
                       </div>
 
@@ -920,20 +977,23 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                           <span className="text-xl font-bold auto-text text-gray-900">
                             {t("checkout.total")}:
                           </span>
-                          <span className="text-3xl font-bold text-primary ltr-text" dir="ltr">
+                          <span
+                            className="text-3xl font-bold text-primary ltr-text"
+                            dir="ltr"
+                          >
                             {formatPriceWithSymbol(
                               totalPrice +
-                              (deliveryType === "delivery"
-                                ? totalPrice >= freeDeliveryMinimum
-                                  ? 0
-                                  : deliveryArea === "sitra"
-                                  ? deliveryAreaSitra
-                                  : deliveryArea === "muharraq"
-                                  ? deliveryAreaMuharraq
-                                  : deliveryAreaOther
-                                : 0),
+                                (deliveryType === "delivery"
+                                  ? totalPrice >= freeDeliveryMinimum
+                                    ? 0
+                                    : deliveryArea === "sitra"
+                                      ? deliveryAreaSitra
+                                      : deliveryArea === "muharraq"
+                                        ? deliveryAreaMuharraq
+                                        : deliveryAreaOther
+                                  : 0),
                               currencySymbol,
-                              language
+                              language,
                             )}
                           </span>
                         </div>

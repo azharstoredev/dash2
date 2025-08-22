@@ -726,7 +726,9 @@ export default function Settings() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <MapPin className="w-5 h-5" />
-                  {language === "ar" ? "أسعار التوصيل حسب المنطقة" : "Delivery Area Pricing"}
+                  {language === "ar"
+                    ? "أسعار التوصيل حسب المنطقة"
+                    : "Delivery Area Pricing"}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -736,28 +738,42 @@ export default function Settings() {
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="deliveryAreaSitraNameEn" className="auto-text">
-                        {language === "ar" ? "الاسم بالإنجليزية" : "Name (English)"}
+                      <Label
+                        htmlFor="deliveryAreaSitraNameEn"
+                        className="auto-text"
+                      >
+                        {language === "ar"
+                          ? "الاسم بالإنجليزية"
+                          : "Name (English)"}
                       </Label>
                       <Input
                         id="deliveryAreaSitraNameEn"
                         value={settings.deliveryAreaSitraNameEn || ""}
                         onChange={(e) =>
-                          handleInputChange("deliveryAreaSitraNameEn", e.target.value)
+                          handleInputChange(
+                            "deliveryAreaSitraNameEn",
+                            e.target.value,
+                          )
                         }
                         placeholder="Sitra"
                         className="auto-text"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="deliveryAreaSitraNameAr" className="auto-text">
+                      <Label
+                        htmlFor="deliveryAreaSitraNameAr"
+                        className="auto-text"
+                      >
                         {language === "ar" ? "الاسم بالعربية" : "Name (Arabic)"}
                       </Label>
                       <Input
                         id="deliveryAreaSitraNameAr"
                         value={settings.deliveryAreaSitraNameAr || ""}
                         onChange={(e) =>
-                          handleInputChange("deliveryAreaSitraNameAr", e.target.value)
+                          handleInputChange(
+                            "deliveryAreaSitraNameAr",
+                            e.target.value,
+                          )
                         }
                         placeholder="سترة"
                         className="auto-text"
@@ -791,28 +807,42 @@ export default function Settings() {
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="deliveryAreaMuharraqlNameEn" className="auto-text">
-                        {language === "ar" ? "الاسم ��الإنجليزية" : "Name (English)"}
+                      <Label
+                        htmlFor="deliveryAreaMuharraqlNameEn"
+                        className="auto-text"
+                      >
+                        {language === "ar"
+                          ? "الاسم ��الإنجليزية"
+                          : "Name (English)"}
                       </Label>
                       <Input
                         id="deliveryAreaMuharraqlNameEn"
                         value={settings.deliveryAreaMuharraqlNameEn || ""}
                         onChange={(e) =>
-                          handleInputChange("deliveryAreaMuharraqlNameEn", e.target.value)
+                          handleInputChange(
+                            "deliveryAreaMuharraqlNameEn",
+                            e.target.value,
+                          )
                         }
                         placeholder="Muharraq, Askar, Jao"
                         className="auto-text"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="deliveryAreaMuharraqNameAr" className="auto-text">
+                      <Label
+                        htmlFor="deliveryAreaMuharraqNameAr"
+                        className="auto-text"
+                      >
                         {language === "ar" ? "الاسم بالعربية" : "Name (Arabic)"}
                       </Label>
                       <Input
                         id="deliveryAreaMuharraqNameAr"
                         value={settings.deliveryAreaMuharraqNameAr || ""}
                         onChange={(e) =>
-                          handleInputChange("deliveryAreaMuharraqNameAr", e.target.value)
+                          handleInputChange(
+                            "deliveryAreaMuharraqNameAr",
+                            e.target.value,
+                          )
                         }
                         placeholder="المحرق، عسكر، جو"
                         className="auto-text"
@@ -846,28 +876,42 @@ export default function Settings() {
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="deliveryAreaOtherNameEn" className="auto-text">
-                        {language === "ar" ? "الاسم بالإنجليزية" : "Name (English)"}
+                      <Label
+                        htmlFor="deliveryAreaOtherNameEn"
+                        className="auto-text"
+                      >
+                        {language === "ar"
+                          ? "الاسم بالإنجليزية"
+                          : "Name (English)"}
                       </Label>
                       <Input
                         id="deliveryAreaOtherNameEn"
                         value={settings.deliveryAreaOtherNameEn || ""}
                         onChange={(e) =>
-                          handleInputChange("deliveryAreaOtherNameEn", e.target.value)
+                          handleInputChange(
+                            "deliveryAreaOtherNameEn",
+                            e.target.value,
+                          )
                         }
                         placeholder="Other Cities"
                         className="auto-text"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="deliveryAreaOtherNameAr" className="auto-text">
+                      <Label
+                        htmlFor="deliveryAreaOtherNameAr"
+                        className="auto-text"
+                      >
                         {language === "ar" ? "الاسم بالعربية" : "Name (Arabic)"}
                       </Label>
                       <Input
                         id="deliveryAreaOtherNameAr"
                         value={settings.deliveryAreaOtherNameAr || ""}
                         onChange={(e) =>
-                          handleInputChange("deliveryAreaOtherNameAr", e.target.value)
+                          handleInputChange(
+                            "deliveryAreaOtherNameAr",
+                            e.target.value,
+                          )
                         }
                         placeholder="مدن أخرى"
                         className="auto-text"

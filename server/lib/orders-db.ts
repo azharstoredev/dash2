@@ -94,7 +94,7 @@ export const orderDb = {
             block,
             town
           )
-        `
+        `,
         )
         .order("created_at", { ascending: false });
 
@@ -108,7 +108,10 @@ export const orderDb = {
 
   /** Create a new order */
   async create(
-    order: Omit<Order, "id" | "created_at" | "updated_at" | "createdAt" | "updatedAt">
+    order: Omit<
+      Order,
+      "id" | "created_at" | "updated_at" | "createdAt" | "updatedAt"
+    >,
   ): Promise<Order> {
     const newOrderPayload = {
       id: generateId(), // remove if DB auto-generates
@@ -244,7 +247,7 @@ export const orderDb = {
             block,
             town
           )
-        `
+        `,
         )
         .eq("id", id)
         .single();

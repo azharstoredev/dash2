@@ -206,7 +206,9 @@ export default function AddToCartDialog({
               <div className="border-t pt-4">
                 <div className="flex justify-between items-center font-semibold">
                   <span>{t("orders.subtotal")}:</span>
-                  <span className="ltr-text" dir="ltr">{formatPrice(product.price * quantity, language)}</span>
+                  <span className="ltr-text" dir="ltr">
+                    {formatPrice(product.price * quantity, language)}
+                  </span>
                 </div>
               </div>
             )}

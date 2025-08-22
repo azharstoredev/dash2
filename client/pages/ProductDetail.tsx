@@ -297,7 +297,10 @@ export default function ProductDetail() {
                 {product.description}
               </p>
 
-              <div className="text-3xl font-bold text-primary mb-4 ltr-text" dir="ltr">
+              <div
+                className="text-3xl font-bold text-primary mb-4 ltr-text"
+                dir="ltr"
+              >
                 {formatPrice(product.price, language)}
               </div>
 
