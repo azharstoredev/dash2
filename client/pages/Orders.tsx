@@ -910,8 +910,8 @@ export default function Orders() {
                               </button>
                               {variant && (
                                 <div className="bg-gray-100 px-3 py-1 rounded-lg inline-block">
-                                  <span className="text-sm font-medium text-gray-700">
-                                    Variant: {variant.name}
+                                  <span className="text-sm font-medium text-gray-700 auto-text">
+                                    {t("store.variant")}: {variant.name}
                                   </span>
                                 </div>
                               )}
