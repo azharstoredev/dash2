@@ -885,8 +885,8 @@ export default function Orders() {
                         key={`view-${viewingOrder.id}-${item.productId}-${item.variantId || "no-variant"}-${index}`}
                         className="bg-white p-5 border rounded-xl hover:shadow-md transition-all duration-200 border-gray-200"
                       >
-                        <div className="flex justify-between items-start gap-6">
-                          <div className="flex items-start gap-4 flex-1">
+                        <div className="flex justify-between items-start gap-6 [dir=rtl]:flex-row-reverse">
+                          <div className="flex items-start gap-4 flex-1 [dir=rtl]:flex-row-reverse">
                             {product?.images?.[0] && (
                               <img
                                 src={product.images[0]}
@@ -928,7 +928,7 @@ export default function Orders() {
                               )}
                             </div>
                           </div>
-                          <div className="text-right space-y-2 min-w-[120px]">
+                          <div className="text-end space-y-2 min-w-[120px] [dir=rtl]:text-start">
                             <div
                               className="text-base text-gray-600 font-medium ltr-text"
                               dir="ltr"
