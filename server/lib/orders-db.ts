@@ -115,6 +115,7 @@ export const orderDb = {
       total: order.total,
       status: order.status || "processing",
       delivery_type: order.deliveryType || "delivery",
+      delivery_area: order.deliveryArea || "sitra",
       notes: order.notes || null,
     };
 
