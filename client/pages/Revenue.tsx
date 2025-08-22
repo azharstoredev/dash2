@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useData } from "@/contexts/DataContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { formatPrice } from "@/lib/formatters";
 import {
   Card,
   CardContent,
