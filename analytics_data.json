@@ -3688,12 +3688,19 @@
       "page": "/admin/orders",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
       "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "timestamp": "2025-08-22T15:20:16.339Z",
+      "type": "page_view",
+      "page": "/admin/orders",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "ip": "::ffff:127.0.0.1"
     }
   ],
   "sessionData": {
     "totalSessions": 0,
     "uniqueVisitors": 0,
-    "pageViews": 527,
-    "lastUpdated": "2025-08-22T15:19:53.322Z"
+    "pageViews": 528,
+    "lastUpdated": "2025-08-22T15:20:16.339Z"
   }
 }
