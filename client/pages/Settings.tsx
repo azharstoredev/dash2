@@ -176,7 +176,7 @@ export default function Settings() {
     pickupMessageAr: "يرجى ��ستلام طلبك من موقعنا خلال ساعات العمل.",
     deliveryMessageEn:
       "Your order will be delivered to your address within 1-3 business days.",
-    deliveryMessageAr: "سيتم توصيل طلبك إلى عنوانك خلال 1-3 أيام عمل.",
+    deliveryMessageAr: "سيتم توصيل ��لبك إلى عنوانك خلال 1-3 أيام عمل.",
     cashOnDeliveryEnabled: true,
     bankTransferEnabled: false,
     bankAccountInfo: "",
@@ -702,6 +702,93 @@ export default function Settings() {
                   />
                   <p className="text-sm text-muted-foreground auto-text mt-1">
                     {t("settings.freeDeliveryMinimumHint")}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Delivery Area Pricing */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <MapPin className="w-5 h-5" />
+                  {language === "ar" ? "أسعار التوصيل حسب المنطقة" : "Delivery Area Pricing"}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="deliveryAreaSitra" className="auto-text">
+                    {language === "ar" ? "سترة" : "Sitra"}
+                  </Label>
+                  <Input
+                    id="deliveryAreaSitra"
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    value={settings.deliveryAreaSitra || 0}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "deliveryAreaSitra",
+                        parseFloat(e.target.value) || 0,
+                      )
+                    }
+                    className="ltr-text"
+                    placeholder="1.0"
+                  />
+                  <p className="text-sm text-muted-foreground auto-text mt-1">
+                    {language === "ar"
+                      ? "رسوم التوصيل لمنطقة سترة"
+                      : "Delivery fee for Sitra area"}
+                  </p>
+                </div>
+                <div>
+                  <Label htmlFor="deliveryAreaMuharraq" className="auto-text">
+                    {language === "ar" ? "المحرق، عسكر، جو" : "Muharraq, Askar, Jao"}
+                  </Label>
+                  <Input
+                    id="deliveryAreaMuharraq"
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    value={settings.deliveryAreaMuharraq || 0}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "deliveryAreaMuharraq",
+                        parseFloat(e.target.value) || 0,
+                      )
+                    }
+                    className="ltr-text"
+                    placeholder="1.5"
+                  />
+                  <p className="text-sm text-muted-foreground auto-text mt-1">
+                    {language === "ar"
+                      ? "رسوم التوصيل لمناطق المحرق، عسكر، وجو"
+                      : "Delivery fee for Muharraq, Askar, and Jao areas"}
+                  </p>
+                </div>
+                <div>
+                  <Label htmlFor="deliveryAreaOther" className="auto-text">
+                    {language === "ar" ? "مدن أخرى" : "Other Cities"}
+                  </Label>
+                  <Input
+                    id="deliveryAreaOther"
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    value={settings.deliveryAreaOther || 0}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "deliveryAreaOther",
+                        parseFloat(e.target.value) || 0,
+                      )
+                    }
+                    className="ltr-text"
+                    placeholder="2.0"
+                  />
+                  <p className="text-sm text-muted-foreground auto-text mt-1">
+                    {language === "ar"
+                      ? "رسوم التوصيل للمدن الأخرى"
+                      : "Delivery fee for other cities"}
                   </p>
                 </div>
               </CardContent>
