@@ -16,6 +16,8 @@ export interface Order {
   status: "processing" | "ready" | "delivered" | "picked-up";
   deliveryType: "delivery" | "pickup";
   delivery_type?: "delivery" | "pickup";
+  deliveryArea?: "sitra" | "muharraq" | "other";
+  delivery_area?: "sitra" | "muharraq" | "other";
   createdAt?: string;
   updatedAt?: string;
   created_at?: string;
@@ -32,6 +34,7 @@ let fallbackOrders: Order[] = [
     total: 35.0,
     status: "delivered",
     deliveryType: "delivery",
+    deliveryArea: "sitra",
     createdAt: "2024-01-15T10:00:00Z",
     updatedAt: "2024-01-15T15:30:00Z",
   },
@@ -42,6 +45,7 @@ let fallbackOrders: Order[] = [
     total: 17.5,
     status: "processing",
     deliveryType: "pickup",
+    deliveryArea: "sitra",
     createdAt: "2024-01-15T11:00:00Z",
     updatedAt: "2024-01-15T11:00:00Z",
   },
