@@ -140,6 +140,14 @@ interface StoreSettings {
   deliveryAreaSitra?: number;
   deliveryAreaMuharraq?: number;
   deliveryAreaOther?: number;
+
+  // Delivery Area Names
+  deliveryAreaSitraNameEn?: string;
+  deliveryAreaSitraNameAr?: string;
+  deliveryAreaMuharraqlNameEn?: string;
+  deliveryAreaMuharraqNameAr?: string;
+  deliveryAreaOtherNameEn?: string;
+  deliveryAreaOtherNameAr?: string;
 }
 
 export default function Settings() {
@@ -176,7 +184,7 @@ export default function Settings() {
     pickupMessageAr: "يرجى ��ستلام طلبك من موقعنا خلال ساعات العمل.",
     deliveryMessageEn:
       "Your order will be delivered to your address within 1-3 business days.",
-    deliveryMessageAr: "سيتم توصيل ��لبك إلى عنوانك خلال 1-3 أيام عمل.",
+    deliveryMessageAr: "سيتم توصيل طلبك إلى عنوانك خلال 1-3 أيام عمل.",
     cashOnDeliveryEnabled: true,
     bankTransferEnabled: false,
     bankAccountInfo: "",
@@ -217,6 +225,12 @@ export default function Settings() {
     deliveryAreaSitra: 1.0,
     deliveryAreaMuharraq: 1.5,
     deliveryAreaOther: 2.0,
+    deliveryAreaSitraNameEn: "Sitra",
+    deliveryAreaSitraNameAr: "سترة",
+    deliveryAreaMuharraqlNameEn: "Muharraq, Askar, Jao",
+    deliveryAreaMuharraqNameAr: "المحرق، عسكر، جو",
+    deliveryAreaOtherNameEn: "Other Cities",
+    deliveryAreaOtherNameAr: "مدن أخرى",
   });
 
   const [hasChanges, setHasChanges] = useState(false);
