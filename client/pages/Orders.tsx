@@ -810,7 +810,7 @@ export default function Orders() {
 
       {/* View Order Details Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="w-[95vw] sm:max-w-3xl max-h-[95vh] overflow-y-auto rounded-xl border-0 shadow-2xl">
+        <DialogContent className="w-[90vw] sm:max-w-3xl max-h-[85vh] overflow-y-auto rounded-2xl border-0 shadow-2xl bg-gray-50">
           <DialogHeader className="pb-6 border-b border-gray-100">
             <DialogTitle className="text-2xl font-bold text-gray-900">
               {t("orders.orderDetailsTitle")} #
