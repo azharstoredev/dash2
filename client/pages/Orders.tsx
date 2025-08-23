@@ -977,7 +977,7 @@ export default function Orders() {
               </div>
 
               {/* Order Summary */}
-              <div className="bg-green-50 p-6 rounded-xl border border-green-100">
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl border-2 border-green-200 shadow-lg">
                 <h3 className="font-bold text-green-900 mb-5 text-lg auto-text">
                   {t("orders.orderSummary")}
                 </h3>
