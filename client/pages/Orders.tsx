@@ -454,6 +454,13 @@ export default function Orders() {
                                   if (e.target.value === "0") {
                                     e.target.value = "";
                                   }
+                                  // Scroll into view on mobile
+                                  setTimeout(() => {
+                                    e.target.scrollIntoView({
+                                      behavior: "smooth",
+                                      block: "center",
+                                    });
+                                  }, 100);
                                 }}
                               />
                             </div>
@@ -474,6 +481,13 @@ export default function Orders() {
                                   if (e.target.value === "0") {
                                     e.target.value = "";
                                   }
+                                  // Scroll into view on mobile
+                                  setTimeout(() => {
+                                    e.target.scrollIntoView({
+                                      behavior: "smooth",
+                                      block: "center",
+                                    });
+                                  }, 100);
                                 }}
                               />
                             </div>
@@ -802,7 +816,7 @@ export default function Orders() {
 
       {/* View Order Details Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="w-[95vw] sm:max-w-3xl max-h-[95vh] overflow-y-auto rounded-xl border-0 shadow-2xl">
+        <DialogContent className="w-[90vw] sm:max-w-3xl max-h-[85vh] overflow-y-auto rounded-2xl border-0 shadow-2xl bg-gray-50">
           <DialogHeader className="pb-6 border-b border-gray-100">
             <DialogTitle className="text-2xl font-bold text-gray-900">
               {t("orders.orderDetailsTitle")} #
@@ -815,7 +829,7 @@ export default function Orders() {
           {viewingOrder && (
             <div className="space-y-8 py-6">
               {/* Customer Information */}
-              <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
+              <div className="bg-white p-6 rounded-2xl border-2 border-blue-200 shadow-lg">
                 <h3 className="font-bold text-blue-900 mb-5 flex items-center gap-3 text-lg">
                   <User className="w-6 h-6" />
                   {t("orders.customerInfo")}
@@ -823,41 +837,59 @@ export default function Orders() {
                 {(() => {
                   const customer = getCustomerById(viewingOrder.customerId);
                   return customer ? (
-                    <div className="space-y-4">
-                      <div className="bg-white p-4 rounded-lg border border-blue-200">
-                        <div className="flex items-center gap-2 mb-2 [dir=rtl]:flex-row-reverse">
-                          <span className="font-bold text-gray-700 text-base auto-text">
-                            {t("orders.customerName")}:
+                    <div className="space-y-3">
+                      <div className="bg-blue-50 p-5 rounded-xl border-2 border-blue-300 shadow-sm">
+                        <div className="flex items-center gap-3 mb-2 [dir=rtl]:flex-row-reverse">
+                          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                            <span className="text-white font-bold text-sm">
+                              👤
+                            </span>
+                          </div>
+                          <span className="font-bold text-blue-800 text-lg auto-text">
+                            {t("orders.customerName")}
                           </span>
-                          <span className="text-gray-900 text-base font-medium auto-text">
+                        </div>
+                        <div className="ml-11 [dir=rtl]:mr-11 [dir=rtl]:ml-0">
+                          <span className="text-blue-900 text-xl font-bold auto-text">
                             {customer.name}
                           </span>
                         </div>
                       </div>
-                      <div className="bg-white p-4 rounded-lg border border-blue-200">
-                        <div className="flex items-center gap-3 [dir=rtl]:flex-row-reverse">
-                          <Phone className="w-5 h-5 text-blue-600" />
-                          <span className="font-bold text-gray-700 text-base auto-text">
-                            {t("orders.customerPhone")}:
+
+                      <div className="bg-green-50 p-5 rounded-xl border-2 border-green-300 shadow-sm">
+                        <div className="flex items-center gap-3 mb-2 [dir=rtl]:flex-row-reverse">
+                          <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                            <Phone className="w-4 h-4 text-white" />
+                          </div>
+                          <span className="font-bold text-green-800 text-lg auto-text">
+                            {t("orders.customerPhone")}
                           </span>
-                          <span
-                            className="text-gray-900 text-base font-medium ltr-text"
+                        </div>
+                        <div className="ml-11 [dir=rtl]:mr-11 [dir=rtl]:ml-0">
+                          <a
+                            href={`tel:${customer.phone}`}
+                            className="text-green-900 text-xl font-bold ltr-text hover:underline"
                             dir="ltr"
                           >
                             {customer.phone}
-                          </span>
+                          </a>
                         </div>
                       </div>
-                      <div className="bg-white p-4 rounded-lg border border-blue-200">
+
+                      <div className="bg-orange-50 p-5 rounded-xl border-2 border-orange-300 shadow-sm">
                         <div className="flex items-start gap-3 [dir=rtl]:flex-row-reverse">
-                          <MapPin className="w-5 h-5 text-blue-600 mt-1" />
+                          <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center mt-1">
+                            <MapPin className="w-4 h-4 text-white" />
+                          </div>
                           <div className="flex-1">
-                            <span className="font-bold text-gray-700 text-base block mb-2 auto-text">
-                              {t("orders.deliveryAddress")}:
+                            <span className="font-bold text-orange-800 text-lg block mb-3 auto-text">
+                              {t("orders.deliveryAddress")}
                             </span>
-                            <p className="text-gray-900 text-base leading-relaxed auto-text">
-                              {customer.address}
-                            </p>
+                            <div className="ml-0">
+                              <p className="text-orange-900 text-lg font-semibold leading-relaxed auto-text bg-white p-3 rounded-lg border border-orange-200">
+                                {customer.address}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -871,7 +903,7 @@ export default function Orders() {
               </div>
 
               {/* Order Items */}
-              <div className="bg-gray-50 p-6 rounded-xl border">
+              <div className="bg-white p-6 rounded-2xl border-2 border-purple-200 shadow-lg">
                 <h3 className="font-bold text-gray-900 mb-5 flex items-center gap-3 text-lg">
                   <Package className="w-6 h-6" />
                   {t("orders.orderItems")}
@@ -957,7 +989,7 @@ export default function Orders() {
               </div>
 
               {/* Order Summary */}
-              <div className="bg-green-50 p-6 rounded-xl border border-green-100">
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl border-2 border-green-200 shadow-lg">
                 <h3 className="font-bold text-green-900 mb-5 text-lg auto-text">
                   {t("orders.orderSummary")}
                 </h3>

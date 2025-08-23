@@ -166,7 +166,7 @@ export default function Settings() {
     orderSuccessMessageEn:
       "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
     orderSuccessMessageAr:
-      "شكراً لك على طلبك! سنقوم بمعالجته خلال 2-4 ساعات والتوصيل خلال 1-3 أيام عمل.",
+      "شكراً لك على طلبك! سنقوم بمعالجته خلال 2-4 ساعات والتوصيل خلال 1-3 أيام عم��.",
     orderInstructionsEn:
       "For any changes or questions about your order, please contact us.",
     orderInstructionsAr: "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل معنا.",
@@ -181,7 +181,7 @@ export default function Settings() {
     },
     pickupMessageEn:
       "Please collect your order from our location during business hours.",
-    pickupMessageAr: "يرجى ��ستلام طلبك من موقعنا خلال ساعات العمل.",
+    pickupMessageAr: "يرجى استلام طلبك من موقعنا خلال ساعات العمل.",
     deliveryMessageEn:
       "Your order will be delivered to your address within 1-3 business days.",
     deliveryMessageAr: "سيتم توصيل طلبك إلى عنوانك خلال 1-3 أيام عمل.",
@@ -195,7 +195,7 @@ export default function Settings() {
     deliveryConcerns: 1.5,
     pickupOrderConfig: 0,
     successHeadlineEn: "Order Confirmed!",
-    successHeadlineAr: "تم تأكي�� الطلب!",
+    successHeadlineAr: "تم تأكيد الطلب!",
     successSubtextEn: "We'll share updates by phone as your order progresses.",
     successSubtextAr: "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك.",
     displayOrderNumber: true,
@@ -673,29 +673,6 @@ export default function Settings() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="deliveryFee" className="auto-text">
-                    {t("settings.deliveryFee")}
-                  </Label>
-                  <Input
-                    id="deliveryFee"
-                    type="number"
-                    step="0.1"
-                    min="0"
-                    value={settings.deliveryFee || 0}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "deliveryFee",
-                        parseFloat(e.target.value) || 0,
-                      )
-                    }
-                    className="ltr-text"
-                    placeholder="1.5"
-                  />
-                  <p className="text-sm text-muted-foreground auto-text mt-1">
-                    {t("settings.deliveryFeeHint")}
-                  </p>
-                </div>
-                <div>
                   <Label htmlFor="freeDeliveryMinimum" className="auto-text">
                     {t("settings.freeDeliveryMinimum")}
                   </Label>
@@ -711,6 +688,18 @@ export default function Settings() {
                         parseFloat(e.target.value) || 0,
                       )
                     }
+                    onFocus={(e) => {
+                      if (e.target.value === "0") {
+                        e.target.value = "";
+                      }
+                      // Scroll into view on mobile
+                      setTimeout(() => {
+                        e.target.scrollIntoView({
+                          behavior: "smooth",
+                          block: "center",
+                        });
+                      }, 100);
+                    }}
                     className="ltr-text"
                     placeholder="20"
                   />
@@ -796,6 +785,18 @@ export default function Settings() {
                           parseFloat(e.target.value) || 0,
                         )
                       }
+                      onFocus={(e) => {
+                        if (e.target.value === "0") {
+                          e.target.value = "";
+                        }
+                        // Scroll into view on mobile
+                        setTimeout(() => {
+                          e.target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          });
+                        }, 100);
+                      }}
                       className="ltr-text"
                       placeholder="1.0"
                     />
@@ -812,7 +813,7 @@ export default function Settings() {
                         className="auto-text"
                       >
                         {language === "ar"
-                          ? "الاسم ��الإنجليزية"
+                          ? "الاسم بالإنجليزية"
                           : "Name (English)"}
                       </Label>
                       <Input
@@ -865,6 +866,18 @@ export default function Settings() {
                           parseFloat(e.target.value) || 0,
                         )
                       }
+                      onFocus={(e) => {
+                        if (e.target.value === "0") {
+                          e.target.value = "";
+                        }
+                        // Scroll into view on mobile
+                        setTimeout(() => {
+                          e.target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          });
+                        }, 100);
+                      }}
                       className="ltr-text"
                       placeholder="1.5"
                     />
@@ -913,7 +926,7 @@ export default function Settings() {
                             e.target.value,
                           )
                         }
-                        placeholder="مدن أخرى"
+                        placeholder="م��ن أخرى"
                         className="auto-text"
                       />
                     </div>
@@ -934,6 +947,18 @@ export default function Settings() {
                           parseFloat(e.target.value) || 0,
                         )
                       }
+                      onFocus={(e) => {
+                        if (e.target.value === "0") {
+                          e.target.value = "";
+                        }
+                        // Scroll into view on mobile
+                        setTimeout(() => {
+                          e.target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          });
+                        }, 100);
+                      }}
                       className="ltr-text"
                       placeholder="2.0"
                     />
@@ -978,7 +1003,7 @@ export default function Settings() {
                     }
                     className="auto-text"
                     rows={4}
-                    placeholder="أدخل تعل��مات الاستلام بالعربية..."
+                    placeholder="أدخل ت��ليمات الاستلام بالعربية..."
                   />
                 </div>
               </CardContent>
@@ -1078,7 +1103,7 @@ export default function Settings() {
                     onChange={(e) =>
                       handleInputChange("currentPassword", e.target.value)
                     }
-                    placeholder="••••••••"
+                    placeholder="••���•••••"
                     className="ltr-text"
                   />
                 </div>

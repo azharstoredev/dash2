@@ -110,6 +110,76 @@ const CHARACTER_FIXES: CharacterFix[] = [
     fixed: "العربية",
     description: "Arabic word 'Arabic'",
   },
+  {
+    corrupted: "Order is confirmed",
+    fixed: "Order Confirmed!",
+    description: "Order confirmation message",
+  },
+  {
+    corrupted: "تم تأكي�� الطلب",
+    fixed: "تم تأكيد الطلب!",
+    description: "Arabic order confirmation message",
+  },
+  {
+    corrupted: "تم تأكي��",
+    fixed: "تم تأكيد",
+    description: "Arabic confirmation text",
+  },
+  {
+    corrupted: "تعل��مات",
+    fixed: "تعليمات",
+    description: "Arabic word 'instructions'",
+  },
+  {
+    corrupted: "��ستلام",
+    fixed: "استلام",
+    description: "Arabic word 'pickup/receive'",
+  },
+  {
+    corrupted: "الإنجل��زية",
+    fixed: "الإنجليزية",
+    description: "Arabic word 'English'",
+  },
+  {
+    corrupted: "بالإنجل��زية",
+    fixed: "بالإنجليزية",
+    description: "Arabic phrase 'in English'",
+  },
+  {
+    corrupted: "مدن أ��رى",
+    fixed: "مدن أخرى",
+    description: "Arabic phrase 'other cities'",
+  },
+  {
+    corrupted: "أ��رى",
+    fixed: "أخرى",
+    description: "Arabic word 'other'",
+  },
+  {
+    corrupted: "تعل��مات",
+    fixed: "تعليمات",
+    description: "Arabic word 'instructions'",
+  },
+  {
+    corrupted: "ساع��",
+    fixed: "ساعة",
+    description: "Arabic word 'hour'",
+  },
+  {
+    corrupted: "��ر",
+    fixed: "خر",
+    description: "Arabic letter combination",
+  },
+  {
+    corrupted: "��ي",
+    fixed: "كي",
+    description: "Arabic letter combination",
+  },
+  {
+    corrupted: "��ل",
+    fixed: "كل",
+    description: "Arabic letter combination",
+  },
 ];
 
 export const handleFixCharacters: RequestHandler = async (req, res) => {

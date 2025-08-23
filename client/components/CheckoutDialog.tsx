@@ -85,67 +85,111 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const autoScrollToSummary: boolean =
     savedSettings?.autoScrollToSummary ?? true;
 
-  // Get custom order messages from settings
-  const getOrderMessages = () => {
-    const savedSettings = localStorage.getItem("storeSettings");
-    if (savedSettings) {
-      const settings = JSON.parse(savedSettings);
+  // Get custom order messages from settings with reactive updates
+  const [orderMessages, setOrderMessages] = useState(() => {
+    const getOrderMessages = () => {
+      const savedSettings = localStorage.getItem("storeSettings");
+      if (savedSettings) {
+        const settings = JSON.parse(savedSettings);
+        return {
+          successMessage:
+            language === "ar"
+              ? settings.orderSuccessMessageAr
+              : settings.orderSuccessMessageEn,
+          instructions:
+            language === "ar"
+              ? settings.orderInstructionsAr
+              : settings.orderInstructionsEn,
+          headline:
+            language === "ar"
+              ? settings.successHeadlineAr || t("orderSuccess.headlineAr")
+              : settings.successHeadlineEn || t("orderSuccess.headline"),
+          subtext:
+            language === "ar"
+              ? settings.successSubtextAr ||
+                "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+              : settings.successSubtextEn ||
+                "We'll share updates by phone as your order progresses.",
+          toggles: {
+            displayOrderNumber: settings.displayOrderNumber ?? true,
+            displayOrderItems: settings.displayOrderItems ?? true,
+            displayTotals: settings.displayTotals ?? true,
+            displayNextSteps: settings.displayNextSteps ?? true,
+            displayContact: settings.displayContact ?? true,
+          },
+        };
+      }
+
+      // Default messages if no custom settings
       return {
         successMessage:
           language === "ar"
-            ? settings.orderSuccessMessageAr
-            : settings.orderSuccessMessageEn,
+            ? "شكراً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
+            : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
         instructions:
           language === "ar"
-            ? settings.orderInstructionsAr
-            : settings.orderInstructionsEn,
+            ? "لأي تغييرات أو أسئلة حول طلبك، يرجى ا��تواصل معنا."
+            : "For any changes or questions about your order, please contact us.",
         headline:
           language === "ar"
-            ? settings.successHeadlineAr || t("orderSuccess.headlineAr")
-            : settings.successHeadlineEn || t("orderSuccess.headline"),
+            ? t("orderSuccess.headlineAr")
+            : t("orderSuccess.headline"),
         subtext:
           language === "ar"
-            ? settings.successSubtextAr ||
-              "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
-            : settings.successSubtextEn ||
-              "We'll share updates by phone as your order progresses.",
+            ? "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+            : "We'll share updates by phone as your order progresses.",
         toggles: {
-          displayOrderNumber: settings.displayOrderNumber ?? true,
-          displayOrderItems: settings.displayOrderItems ?? true,
-          displayTotals: settings.displayTotals ?? true,
-          displayNextSteps: settings.displayNextSteps ?? true,
-          displayContact: settings.displayContact ?? true,
+          displayOrderNumber: true,
+          displayOrderItems: true,
+          displayTotals: true,
+          displayNextSteps: true,
+          displayContact: true,
         },
       };
-    }
-
-    // Default messages if no custom settings
-    return {
-      successMessage:
-        language === "ar"
-          ? "شكراً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
-          : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
-      instructions:
-        language === "ar"
-          ? "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل معنا."
-          : "For any changes or questions about your order, please contact us.",
-      headline:
-        language === "ar"
-          ? t("orderSuccess.headlineAr")
-          : t("orderSuccess.headline"),
-      subtext:
-        language === "ar"
-          ? "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
-          : "We'll share updates by phone as your order progresses.",
-      toggles: {
-        displayOrderNumber: true,
-        displayOrderItems: true,
-        displayTotals: true,
-        displayNextSteps: true,
-        displayContact: true,
-      },
     };
-  };
+    return getOrderMessages();
+  });
+
+  // Update order messages when dialog opens or language changes
+  useEffect(() => {
+    const updateOrderMessages = () => {
+      const savedSettings = localStorage.getItem("storeSettings");
+      if (savedSettings) {
+        const settings = JSON.parse(savedSettings);
+        setOrderMessages({
+          successMessage:
+            language === "ar"
+              ? settings.orderSuccessMessageAr
+              : settings.orderSuccessMessageEn,
+          instructions:
+            language === "ar"
+              ? settings.orderInstructionsAr
+              : settings.orderInstructionsEn,
+          headline:
+            language === "ar"
+              ? settings.successHeadlineAr || t("orderSuccess.headlineAr")
+              : settings.successHeadlineEn || t("orderSuccess.headline"),
+          subtext:
+            language === "ar"
+              ? settings.successSubtextAr ||
+                "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+              : settings.successSubtextEn ||
+                "We'll share updates by phone as your order progresses.",
+          toggles: {
+            displayOrderNumber: settings.displayOrderNumber ?? true,
+            displayOrderItems: settings.displayOrderItems ?? true,
+            displayTotals: settings.displayTotals ?? true,
+            displayNextSteps: settings.displayNextSteps ?? true,
+            displayContact: settings.displayContact ?? true,
+          },
+        });
+      }
+    };
+
+    if (open) {
+      updateOrderMessages();
+    }
+  }, [open, language, t]);
 
   const [step, setStep] = useState(1);
   const [customerInfo, setCustomerInfo] = useState({
@@ -171,6 +215,25 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const [orderTotalPrice, setOrderTotalPrice] = useState(0);
 
   const totalPrice = getTotalPrice();
+
+  // Reset checkout state when dialog opens
+  useEffect(() => {
+    if (open && !orderSuccess) {
+      setStep(1);
+      setCustomerInfo({
+        name: "",
+        phone: "",
+        address: "",
+        home: "",
+        road: "",
+        block: "",
+        town: "",
+      });
+      setDeliveryType("delivery");
+      setDeliveryArea("sitra");
+      setIsSubmitting(false);
+    }
+  }, [open, orderSuccess]);
 
   // Auto-scroll helpers
   useEffect(() => {
@@ -353,11 +416,9 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
   // Order Success Screen - Completely Revamped
   if (orderSuccess) {
-    const orderMessages = getOrderMessages();
-
     return (
       <Dialog open={open} onOpenChange={onClose}>
-        <DialogContent className="max-w-lg w-[95vw] mx-auto p-0 bg-white rounded-2xl border-0 shadow-2xl max-h-[95vh] overflow-hidden">
+        <DialogContent className="max-w-lg w-[90vw] mx-auto p-0 bg-white rounded-2xl border-0 shadow-2xl max-h-[85vh] overflow-hidden">
           <div className="flex flex-col h-full">
             {/* Header with Success Animation */}
             <DialogHeader className="p-6 pb-4 border-b bg-gradient-to-br from-green-50 to-emerald-50">
@@ -408,7 +469,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="w-[95vw] sm:max-w-lg max-h-[90vh] sm:max-h-[95vh] p-0 rounded-xl border-0 flex flex-col dialog-content-scroll mx-auto">
+      <DialogContent className="w-[90vw] sm:max-w-lg max-h-[85vh] sm:max-h-[90vh] p-0 rounded-2xl border-0 flex flex-col dialog-content-scroll mx-auto shadow-2xl">
         {/* Header */}
         <DialogHeader className="px-4 sm:px-6 py-4 sm:py-6 border-b flex-shrink-0 bg-white">
           <DialogTitle className="text-xl sm:text-2xl font-bold text-center auto-text leading-tight">

@@ -177,6 +177,10 @@ export default function AddToCartDialog({
                     min={1}
                     max={maxQuantity}
                     className="w-24 h-12 text-center text-lg font-semibold"
+                    autoComplete="off"
+                    inputMode="none"
+                    readOnly
+                    onFocus={(e) => e.target.blur()}
                   />
 
                   <Button

@@ -313,7 +313,19 @@ export default function Products() {
                           }
                         }}
                         onFocus={(e) => {
-                          e.target.select();
+                          if (
+                            e.target.value === "0" ||
+                            e.target.value === "0.00"
+                          ) {
+                            e.target.value = "";
+                          }
+                          // Scroll into view on mobile
+                          setTimeout(() => {
+                            e.target.scrollIntoView({
+                              behavior: "smooth",
+                              block: "center",
+                            });
+                          }, 100);
                         }}
                         placeholder="0.00"
                         required
@@ -355,7 +367,16 @@ export default function Products() {
                             }))
                           }
                           onFocus={(e) => {
-                            e.target.select();
+                            if (e.target.value === "0") {
+                              e.target.value = "";
+                            }
+                            // Scroll into view on mobile
+                            setTimeout(() => {
+                              e.target.scrollIntoView({
+                                behavior: "smooth",
+                                block: "center",
+                              });
+                            }, 100);
                           }}
                           placeholder="0"
                           required
@@ -441,7 +462,16 @@ export default function Products() {
                                     )
                                   }
                                   onFocus={(e) => {
-                                    e.target.select();
+                                    if (e.target.value === "0") {
+                                      e.target.value = "";
+                                    }
+                                    // Scroll into view on mobile
+                                    setTimeout(() => {
+                                      e.target.scrollIntoView({
+                                        behavior: "smooth",
+                                        block: "center",
+                                      });
+                                    }, 100);
                                   }}
                                   placeholder="0"
                                   required
