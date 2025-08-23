@@ -823,7 +823,7 @@ export default function Orders() {
           {viewingOrder && (
             <div className="space-y-8 py-6">
               {/* Customer Information */}
-              <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
+              <div className="bg-white p-6 rounded-2xl border-2 border-blue-200 shadow-lg">
                 <h3 className="font-bold text-blue-900 mb-5 flex items-center gap-3 text-lg">
                   <User className="w-6 h-6" />
                   {t("orders.customerInfo")}
