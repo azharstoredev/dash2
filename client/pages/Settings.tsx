@@ -166,7 +166,7 @@ export default function Settings() {
     orderSuccessMessageEn:
       "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
     orderSuccessMessageAr:
-      "شكراً لك على طلبك! سنقوم بمعالجته خلال 2-4 ساعات والتوصيل خلال 1-3 أيام عمل.",
+      "شكراً لك على طلبك! سنقوم بمعالجته خلال 2-4 ساعات والتوصيل خلال 1-3 أيام عم��.",
     orderInstructionsEn:
       "For any changes or questions about your order, please contact us.",
     orderInstructionsAr: "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل معنا.",
@@ -782,6 +782,15 @@ export default function Settings() {
                           parseFloat(e.target.value) || 0,
                         )
                       }
+                      onFocus={(e) => {
+                        if (e.target.value === "0") {
+                          e.target.value = "";
+                        }
+                        // Scroll into view on mobile
+                        setTimeout(() => {
+                          e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }, 100);
+                      }}
                       className="ltr-text"
                       placeholder="1.0"
                     />
@@ -851,6 +860,15 @@ export default function Settings() {
                           parseFloat(e.target.value) || 0,
                         )
                       }
+                      onFocus={(e) => {
+                        if (e.target.value === "0") {
+                          e.target.value = "";
+                        }
+                        // Scroll into view on mobile
+                        setTimeout(() => {
+                          e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }, 100);
+                      }}
                       className="ltr-text"
                       placeholder="1.5"
                     />
@@ -920,6 +938,15 @@ export default function Settings() {
                           parseFloat(e.target.value) || 0,
                         )
                       }
+                      onFocus={(e) => {
+                        if (e.target.value === "0") {
+                          e.target.value = "";
+                        }
+                        // Scroll into view on mobile
+                        setTimeout(() => {
+                          e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }, 100);
+                      }}
                       className="ltr-text"
                       placeholder="2.0"
                     />
@@ -1064,7 +1091,7 @@ export default function Settings() {
                     onChange={(e) =>
                       handleInputChange("currentPassword", e.target.value)
                     }
-                    placeholder="••••••••"
+                    placeholder="••���•••••"
                     className="ltr-text"
                   />
                 </div>
