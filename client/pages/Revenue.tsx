@@ -50,7 +50,7 @@ const COLORS = [
 
 export default function Revenue() {
   const { orders, products, getProductById } = useData();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   // Calculate revenue metrics
   const revenueMetrics = useMemo(() => {
