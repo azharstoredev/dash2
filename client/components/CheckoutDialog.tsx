@@ -128,7 +128,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
             : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
         instructions:
           language === "ar"
-            ? "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل معنا."
+            ? "لأي تغييرات أو أسئلة حول طلبك، يرجى ا��تواصل معنا."
             : "For any changes or questions about your order, please contact us.",
         headline:
           language === "ar"
@@ -470,7 +470,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="w-[95vw] sm:max-w-lg max-h-[90vh] sm:max-h-[95vh] p-0 rounded-xl border-0 flex flex-col dialog-content-scroll mx-auto">
+      <DialogContent className="w-[90vw] sm:max-w-lg max-h-[85vh] sm:max-h-[90vh] p-0 rounded-2xl border-0 flex flex-col dialog-content-scroll mx-auto shadow-2xl">
         {/* Header */}
         <DialogHeader className="px-4 sm:px-6 py-4 sm:py-6 border-b flex-shrink-0 bg-white">
           <DialogTitle className="text-xl sm:text-2xl font-bold text-center auto-text leading-tight">
