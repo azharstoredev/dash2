@@ -181,7 +181,7 @@ export default function Settings() {
     },
     pickupMessageEn:
       "Please collect your order from our location during business hours.",
-    pickupMessageAr: "يرجى ��ستلام طلبك من موقعنا خلال ساعات العمل.",
+    pickupMessageAr: "يرجى استلام طلبك من موقعنا خلال ساعات العمل.",
     deliveryMessageEn:
       "Your order will be delivered to your address within 1-3 business days.",
     deliveryMessageAr: "سيتم توصيل طلبك إلى عنوانك خلال 1-3 أيام عمل.",
@@ -195,7 +195,7 @@ export default function Settings() {
     deliveryConcerns: 1.5,
     pickupOrderConfig: 0,
     successHeadlineEn: "Order Confirmed!",
-    successHeadlineAr: "تم تأكي�� الطلب!",
+    successHeadlineAr: "تم تأكيد الطلب!",
     successSubtextEn: "We'll share updates by phone as your order progresses.",
     successSubtextAr: "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك.",
     displayOrderNumber: true,
@@ -789,7 +789,7 @@ export default function Settings() {
                         className="auto-text"
                       >
                         {language === "ar"
-                          ? "الاسم ��الإنجليزية"
+                          ? "الاسم بالإنجليزية"
                           : "Name (English)"}
                       </Label>
                       <Input
@@ -890,7 +890,7 @@ export default function Settings() {
                             e.target.value,
                           )
                         }
-                        placeholder="مدن أخرى"
+                        placeholder="م��ن أخرى"
                         className="auto-text"
                       />
                     </div>
@@ -955,7 +955,7 @@ export default function Settings() {
                     }
                     className="auto-text"
                     rows={4}
-                    placeholder="أدخل تعل��مات الاستلام بالعربية..."
+                    placeholder="أدخل ت��ليمات الاستلام بالعربية..."
                   />
                 </div>
               </CardContent>
