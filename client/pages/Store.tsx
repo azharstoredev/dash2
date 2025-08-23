@@ -196,7 +196,7 @@ export default function Store() {
               {cartItemsCount > 0 && (
                 <Badge
                   variant="destructive"
-                  className="absolute -top-2 -right-2 [dir=rtl]:-left-2 [dir=rtl]:right-auto h-5 w-5 flex items-center justify-center p-0 text-xs animate-pulse"
+                  className="absolute -top-2 -right-1 [dir=rtl]:-left-1 [dir=rtl]:right-auto h-5 w-5 flex items-center justify-center p-0 text-xs animate-pulse"
                 >
                   {cartItemsCount}
                 </Badge>
