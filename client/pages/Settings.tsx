@@ -694,7 +694,10 @@ export default function Settings() {
                       }
                       // Scroll into view on mobile
                       setTimeout(() => {
-                        e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+                        e.target.scrollIntoView({
+                          behavior: "smooth",
+                          block: "center",
+                        });
                       }, 100);
                     }}
                     className="ltr-text"
@@ -788,7 +791,10 @@ export default function Settings() {
                         }
                         // Scroll into view on mobile
                         setTimeout(() => {
-                          e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+                          e.target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          });
                         }, 100);
                       }}
                       className="ltr-text"
@@ -866,7 +872,10 @@ export default function Settings() {
                         }
                         // Scroll into view on mobile
                         setTimeout(() => {
-                          e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+                          e.target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          });
                         }, 100);
                       }}
                       className="ltr-text"
@@ -944,7 +953,10 @@ export default function Settings() {
                         }
                         // Scroll into view on mobile
                         setTimeout(() => {
-                          e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+                          e.target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          });
                         }, 100);
                       }}
                       className="ltr-text"

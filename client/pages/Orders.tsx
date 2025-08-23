@@ -456,7 +456,10 @@ export default function Orders() {
                                   }
                                   // Scroll into view on mobile
                                   setTimeout(() => {
-                                    e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+                                    e.target.scrollIntoView({
+                                      behavior: "smooth",
+                                      block: "center",
+                                    });
                                   }, 100);
                                 }}
                               />
@@ -480,7 +483,10 @@ export default function Orders() {
                                   }
                                   // Scroll into view on mobile
                                   setTimeout(() => {
-                                    e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+                                    e.target.scrollIntoView({
+                                      behavior: "smooth",
+                                      block: "center",
+                                    });
                                   }, 100);
                                 }}
                               />
@@ -835,7 +841,9 @@ export default function Orders() {
                       <div className="bg-blue-50 p-5 rounded-xl border-2 border-blue-300 shadow-sm">
                         <div className="flex items-center gap-3 mb-2 [dir=rtl]:flex-row-reverse">
                           <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                            <span className="text-white font-bold text-sm">👤</span>
+                            <span className="text-white font-bold text-sm">
+                              👤
+                            </span>
                           </div>
                           <span className="font-bold text-blue-800 text-lg auto-text">
                             {t("orders.customerName")}
@@ -858,7 +866,11 @@ export default function Orders() {
                           </span>
                         </div>
                         <div className="ml-11 [dir=rtl]:mr-11 [dir=rtl]:ml-0">
-                          <a href={`tel:${customer.phone}`} className="text-green-900 text-xl font-bold ltr-text hover:underline" dir="ltr">
+                          <a
+                            href={`tel:${customer.phone}`}
+                            className="text-green-900 text-xl font-bold ltr-text hover:underline"
+                            dir="ltr"
+                          >
                             {customer.phone}
                           </a>
                         </div>

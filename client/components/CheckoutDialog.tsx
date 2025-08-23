@@ -416,7 +416,6 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
   // Order Success Screen - Completely Revamped
   if (orderSuccess) {
-
     return (
       <Dialog open={open} onOpenChange={onClose}>
         <DialogContent className="max-w-lg w-[90vw] mx-auto p-0 bg-white rounded-2xl border-0 shadow-2xl max-h-[85vh] overflow-hidden">
