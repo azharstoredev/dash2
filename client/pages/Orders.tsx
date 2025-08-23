@@ -891,7 +891,7 @@ export default function Orders() {
               </div>
 
               {/* Order Items */}
-              <div className="bg-gray-50 p-6 rounded-xl border">
+              <div className="bg-white p-6 rounded-2xl border-2 border-purple-200 shadow-lg">
                 <h3 className="font-bold text-gray-900 mb-5 flex items-center gap-3 text-lg">
                   <Package className="w-6 h-6" />
                   {t("orders.orderItems")}
