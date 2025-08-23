@@ -110,6 +110,21 @@ const CHARACTER_FIXES: CharacterFix[] = [
     fixed: "العربية",
     description: "Arabic word 'Arabic'",
   },
+  {
+    corrupted: "Order is confirmed",
+    fixed: "Order Confirmed!",
+    description: "Order confirmation message",
+  },
+  {
+    corrupted: "تم تأكي�� الطلب",
+    fixed: "تم تأكيد الطلب!",
+    description: "Arabic order confirmation message",
+  },
+  {
+    corrupted: "تم تأكي��",
+    fixed: "تم تأكيد",
+    description: "Arabic confirmation text",
+  },
 ];
 
 export const handleFixCharacters: RequestHandler = async (req, res) => {
