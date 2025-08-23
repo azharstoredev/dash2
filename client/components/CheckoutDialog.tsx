@@ -85,67 +85,111 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const autoScrollToSummary: boolean =
     savedSettings?.autoScrollToSummary ?? true;
 
-  // Get custom order messages from settings
-  const getOrderMessages = () => {
-    const savedSettings = localStorage.getItem("storeSettings");
-    if (savedSettings) {
-      const settings = JSON.parse(savedSettings);
+  // Get custom order messages from settings with reactive updates
+  const [orderMessages, setOrderMessages] = useState(() => {
+    const getOrderMessages = () => {
+      const savedSettings = localStorage.getItem("storeSettings");
+      if (savedSettings) {
+        const settings = JSON.parse(savedSettings);
+        return {
+          successMessage:
+            language === "ar"
+              ? settings.orderSuccessMessageAr
+              : settings.orderSuccessMessageEn,
+          instructions:
+            language === "ar"
+              ? settings.orderInstructionsAr
+              : settings.orderInstructionsEn,
+          headline:
+            language === "ar"
+              ? settings.successHeadlineAr || t("orderSuccess.headlineAr")
+              : settings.successHeadlineEn || t("orderSuccess.headline"),
+          subtext:
+            language === "ar"
+              ? settings.successSubtextAr ||
+                "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+              : settings.successSubtextEn ||
+                "We'll share updates by phone as your order progresses.",
+          toggles: {
+            displayOrderNumber: settings.displayOrderNumber ?? true,
+            displayOrderItems: settings.displayOrderItems ?? true,
+            displayTotals: settings.displayTotals ?? true,
+            displayNextSteps: settings.displayNextSteps ?? true,
+            displayContact: settings.displayContact ?? true,
+          },
+        };
+      }
+
+      // Default messages if no custom settings
       return {
         successMessage:
           language === "ar"
-            ? settings.orderSuccessMessageAr
-            : settings.orderSuccessMessageEn,
+            ? "شكراً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
+            : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
         instructions:
           language === "ar"
-            ? settings.orderInstructionsAr
-            : settings.orderInstructionsEn,
+            ? "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل معنا."
+            : "For any changes or questions about your order, please contact us.",
         headline:
           language === "ar"
-            ? settings.successHeadlineAr || t("orderSuccess.headlineAr")
-            : settings.successHeadlineEn || t("orderSuccess.headline"),
+            ? t("orderSuccess.headlineAr")
+            : t("orderSuccess.headline"),
         subtext:
           language === "ar"
-            ? settings.successSubtextAr ||
-              "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
-            : settings.successSubtextEn ||
-              "We'll share updates by phone as your order progresses.",
+            ? "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+            : "We'll share updates by phone as your order progresses.",
         toggles: {
-          displayOrderNumber: settings.displayOrderNumber ?? true,
-          displayOrderItems: settings.displayOrderItems ?? true,
-          displayTotals: settings.displayTotals ?? true,
-          displayNextSteps: settings.displayNextSteps ?? true,
-          displayContact: settings.displayContact ?? true,
+          displayOrderNumber: true,
+          displayOrderItems: true,
+          displayTotals: true,
+          displayNextSteps: true,
+          displayContact: true,
         },
       };
-    }
-
-    // Default messages if no custom settings
-    return {
-      successMessage:
-        language === "ar"
-          ? "شكراً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
-          : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
-      instructions:
-        language === "ar"
-          ? "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل معنا."
-          : "For any changes or questions about your order, please contact us.",
-      headline:
-        language === "ar"
-          ? t("orderSuccess.headlineAr")
-          : t("orderSuccess.headline"),
-      subtext:
-        language === "ar"
-          ? "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
-          : "We'll share updates by phone as your order progresses.",
-      toggles: {
-        displayOrderNumber: true,
-        displayOrderItems: true,
-        displayTotals: true,
-        displayNextSteps: true,
-        displayContact: true,
-      },
     };
-  };
+    return getOrderMessages();
+  });
+
+  // Update order messages when dialog opens or language changes
+  useEffect(() => {
+    const updateOrderMessages = () => {
+      const savedSettings = localStorage.getItem("storeSettings");
+      if (savedSettings) {
+        const settings = JSON.parse(savedSettings);
+        setOrderMessages({
+          successMessage:
+            language === "ar"
+              ? settings.orderSuccessMessageAr
+              : settings.orderSuccessMessageEn,
+          instructions:
+            language === "ar"
+              ? settings.orderInstructionsAr
+              : settings.orderInstructionsEn,
+          headline:
+            language === "ar"
+              ? settings.successHeadlineAr || t("orderSuccess.headlineAr")
+              : settings.successHeadlineEn || t("orderSuccess.headline"),
+          subtext:
+            language === "ar"
+              ? settings.successSubtextAr ||
+                "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+              : settings.successSubtextEn ||
+                "We'll share updates by phone as your order progresses.",
+          toggles: {
+            displayOrderNumber: settings.displayOrderNumber ?? true,
+            displayOrderItems: settings.displayOrderItems ?? true,
+            displayTotals: settings.displayTotals ?? true,
+            displayNextSteps: settings.displayNextSteps ?? true,
+            displayContact: settings.displayContact ?? true,
+          },
+        });
+      }
+    };
+
+    if (open) {
+      updateOrderMessages();
+    }
+  }, [open, language, t]);
 
   const [step, setStep] = useState(1);
   const [customerInfo, setCustomerInfo] = useState({
