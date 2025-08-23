@@ -673,29 +673,6 @@ export default function Settings() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="deliveryFee" className="auto-text">
-                    {t("settings.deliveryFee")}
-                  </Label>
-                  <Input
-                    id="deliveryFee"
-                    type="number"
-                    step="0.1"
-                    min="0"
-                    value={settings.deliveryFee || 0}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "deliveryFee",
-                        parseFloat(e.target.value) || 0,
-                      )
-                    }
-                    className="ltr-text"
-                    placeholder="1.5"
-                  />
-                  <p className="text-sm text-muted-foreground auto-text mt-1">
-                    {t("settings.deliveryFeeHint")}
-                  </p>
-                </div>
-                <div>
                   <Label htmlFor="freeDeliveryMinimum" className="auto-text">
                     {t("settings.freeDeliveryMinimum")}
                   </Label>
