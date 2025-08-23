@@ -172,6 +172,25 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
   const totalPrice = getTotalPrice();
 
+  // Reset checkout state when dialog opens
+  useEffect(() => {
+    if (open && !orderSuccess) {
+      setStep(1);
+      setCustomerInfo({
+        name: "",
+        phone: "",
+        address: "",
+        home: "",
+        road: "",
+        block: "",
+        town: "",
+      });
+      setDeliveryType("delivery");
+      setDeliveryArea("sitra");
+      setIsSubmitting(false);
+    }
+  }, [open, orderSuccess]);
+
   // Auto-scroll helpers
   useEffect(() => {
     if (autoScrollToSummary && step === 3) {
