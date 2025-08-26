@@ -24,7 +24,9 @@ import { Minus, Plus } from "lucide-react";
 interface Product {
   id: string;
   name: string;
+  name_ar?: string;
   description: string;
+  description_ar?: string;
   price: number;
   images: string[];
   variants: Array<{
@@ -78,7 +80,8 @@ export default function AddToCartDialog({
       variantId: selectedVariant?.id || "no-variant",
       quantity,
       price: product.price,
-      productName: product.name,
+      productName:
+        language === "ar" && product.name_ar ? product.name_ar : product.name,
       variantName: selectedVariant?.name || t("common.default"),
       productImage: product.images[0] || undefined,
     });
@@ -102,7 +105,11 @@ export default function AddToCartDialog({
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="w-[95vw] sm:max-w-md max-h-[95vh] flex flex-col">
         <DialogHeader className="flex-shrink-0">
-          <DialogTitle>{product.name}</DialogTitle>
+          <DialogTitle>
+            {language === "ar" && product.name_ar
+              ? product.name_ar
+              : product.name}
+          </DialogTitle>
         </DialogHeader>
 
         <div className="flex-1 overflow-y-auto px-1">
@@ -112,7 +119,11 @@ export default function AddToCartDialog({
               <div className="aspect-square sm:aspect-video overflow-hidden rounded-lg bg-gray-100">
                 <img
                   src={product.images[0]}
-                  alt={product.name}
+                  alt={
+                    language === "ar" && product.name_ar
+                      ? product.name_ar
+                      : product.name
+                  }
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -120,7 +131,9 @@ export default function AddToCartDialog({
 
             {/* Product Description */}
             <p className="text-sm text-muted-foreground">
-              {product.description}
+              {language === "ar" && product.description_ar
+                ? product.description_ar
+                : product.description}
             </p>
 
             {/* Price */}

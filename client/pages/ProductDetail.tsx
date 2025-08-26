@@ -28,7 +28,9 @@ import CartSidebar from "../components/CartSidebar";
 interface DataContextProduct {
   id: string;
   name: string;
+  name_ar?: string;
   description: string;
+  description_ar?: string;
   price: number;
   images: string[];
   variants: Array<{
@@ -43,7 +45,9 @@ interface DataContextProduct {
 interface Product {
   id: string;
   name: string;
+  name_ar?: string;
   description: string;
+  description_ar?: string;
   price: number;
   images: string[];
   variants: Array<{
@@ -292,9 +296,15 @@ export default function ProductDetail() {
           {/* Product Information */}
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+              <h1 className="text-3xl font-bold mb-2">
+                {language === "ar" && product.name_ar
+                  ? product.name_ar
+                  : product.name}
+              </h1>
               <p className="text-lg text-muted-foreground mb-4">
-                {product.description}
+                {language === "ar" && product.description_ar
+                  ? product.description_ar
+                  : product.description}
               </p>
 
               <div
