@@ -14,6 +14,7 @@ interface LanguageContextType {
   isRTL: boolean;
   t: (key: string) => string;
   translateCategory: (categoryName: string) => string;
+  forceRefresh: () => void; // Function to force a refresh
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(
@@ -1117,6 +1118,7 @@ const translations = {
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>("ar");
+  const [refreshKey, setRefreshKey] = useState(0); // Add a refresh key
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem("adminLanguage") as Language;
@@ -1136,7 +1138,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         ? '"Noto Kufi Arabic", sans-serif'
         : '"Funnel Display", sans-serif';
     document.documentElement.style.fontFamily = fontFamily;
-  }, [language]);
+  }, [language, refreshKey]); // Rerun on refreshKey change
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
@@ -1144,6 +1146,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   };
 
   const t = (key: string): string => {
+    // Depend on refreshKey to ensure re-evaluation
+    if (refreshKey > 0) {
+      // This is a bit of a hack to ensure components re-render
+    }
     return (
       translations[language][
         key as keyof (typeof translations)[typeof language]
@@ -1160,11 +1166,22 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     return translated === key ? categoryName : translated;
   };
 
+  const forceRefresh = () => {
+    setRefreshKey((prev) => prev + 1);
+  };
+
   const isRTL = language === "ar";
 
   return (
     <LanguageContext.Provider
-      value={{ language, setLanguage, isRTL, t, translateCategory }}
+      value={{
+        language,
+        setLanguage,
+        isRTL,
+        t,
+        translateCategory,
+        forceRefresh,
+      }}
     >
       {children}
     </LanguageContext.Provider>
