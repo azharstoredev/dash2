@@ -146,18 +146,44 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
     try {
       setLoading(true);
-      const [customersData, productsData, ordersData, categoriesData] =
-        await Promise.all([
-          customerApi.getAll(),
-          productApi.getAll(),
-          orderApi.getAll(),
-          categoryApi.getAll(),
-        ]);
-      setCustomers(customersData);
-      const normalizedProducts = productsData as Product[];
-      setProducts(normalizedProducts);
-      setOrders(ordersData);
-      setCategories(categoriesData);
+
+      // Load data with better error recovery - try individual endpoints if Promise.all fails
+      try {
+        const [customersData, productsData, ordersData, categoriesData] =
+          await Promise.all([
+            customerApi.getAll(),
+            productApi.getAll(),
+            orderApi.getAll(),
+            categoryApi.getAll(),
+          ]);
+        setCustomers(customersData);
+        const normalizedProducts = productsData as Product[];
+        setProducts(normalizedProducts);
+        setOrders(ordersData);
+        setCategories(categoriesData);
+      } catch (parallelError) {
+        // If parallel loading fails, try loading individually
+        console.warn(
+          "Parallel loading failed, trying individual requests:",
+          parallelError,
+        );
+
+        try {
+          const customersData = await customerApi.getAll().catch(() => []);
+          const productsData = await productApi.getAll().catch(() => []);
+          const ordersData = await orderApi.getAll().catch(() => []);
+          const categoriesData = await categoryApi.getAll().catch(() => []);
+
+          setCustomers(customersData);
+          setProducts(productsData as Product[]);
+          setOrders(ordersData);
+          setCategories(categoriesData);
+        } catch (individualError) {
+          throw individualError;
+        }
+      }
+
+      console.log("Data loaded successfully");
     } catch (error) {
       console.error(`Failed to load data (attempt ${retryCount + 1}):`, error);
 
@@ -179,10 +205,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    // Small delay to allow server to start up in development
+    // Delay to allow server to start up in development
+    // Longer delay in development to avoid fetch failures on server restart
+    const isDevelopment = process.env.NODE_ENV === "development";
+    const delay = isDevelopment ? 1000 : 100;
+
     const timer = setTimeout(() => {
       loadData();
-    }, 500);
+    }, delay);
 
     return () => clearTimeout(timer);
   }, []);

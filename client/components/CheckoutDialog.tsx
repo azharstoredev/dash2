@@ -3,6 +3,7 @@ import { useLanguage } from "../contexts/LanguageContext";
 import { useData } from "../contexts/DataContext";
 import { useCart } from "../contexts/CartContext";
 import { createCustomer, createOrder } from "../services/api";
+import { formatPrice, formatPriceWithSymbol } from "@/lib/formatters";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -40,6 +41,39 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const savedSettings = savedSettingsRaw ? JSON.parse(savedSettingsRaw) : {};
   const currencySymbol: string = savedSettings?.currencySymbol || "BD";
   const deliveryFeeSetting: number = Number(savedSettings?.deliveryFee ?? 1.5);
+  const freeDeliveryMinimum: number = Number(
+    savedSettings?.freeDeliveryMinimum ?? 20,
+  );
+  const deliveryAreaSitra: number = Number(
+    savedSettings?.deliveryAreaSitra ?? 1.0,
+  );
+  const deliveryAreaMuharraq: number = Number(
+    savedSettings?.deliveryAreaMuharraq ?? 1.5,
+  );
+  const deliveryAreaOther: number = Number(
+    savedSettings?.deliveryAreaOther ?? 2.0,
+  );
+
+  // Get delivery area names
+  const getDeliveryAreaName = (area: "sitra" | "muharraq" | "other") => {
+    switch (area) {
+      case "sitra":
+        return language === "ar"
+          ? savedSettings?.deliveryAreaSitraNameAr || "سترة"
+          : savedSettings?.deliveryAreaSitraNameEn || "Sitra";
+      case "muharraq":
+        return language === "ar"
+          ? savedSettings?.deliveryAreaMuharraqNameAr || "المحرق، عسكر، جو"
+          : savedSettings?.deliveryAreaMuharraqlNameEn ||
+              "Muharraq, Askar, Jao";
+      case "other":
+        return language === "ar"
+          ? savedSettings?.deliveryAreaOtherNameAr || "مدن أخرى"
+          : savedSettings?.deliveryAreaOtherNameEn || "Other Cities";
+      default:
+        return area;
+    }
+  };
   const pickupAddress: string =
     language === "ar"
       ? savedSettings?.pickupAddressAr ||
@@ -51,67 +85,111 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const autoScrollToSummary: boolean =
     savedSettings?.autoScrollToSummary ?? true;
 
-  // Get custom order messages from settings
-  const getOrderMessages = () => {
-    const savedSettings = localStorage.getItem("storeSettings");
-    if (savedSettings) {
-      const settings = JSON.parse(savedSettings);
+  // Get custom order messages from settings with reactive updates
+  const [orderMessages, setOrderMessages] = useState(() => {
+    const getOrderMessages = () => {
+      const savedSettings = localStorage.getItem("storeSettings");
+      if (savedSettings) {
+        const settings = JSON.parse(savedSettings);
+        return {
+          successMessage:
+            language === "ar"
+              ? settings.orderSuccessMessageAr
+              : settings.orderSuccessMessageEn,
+          instructions:
+            language === "ar"
+              ? settings.orderInstructionsAr
+              : settings.orderInstructionsEn,
+          headline:
+            language === "ar"
+              ? settings.successHeadlineAr || t("orderSuccess.headlineAr")
+              : settings.successHeadlineEn || t("orderSuccess.headline"),
+          subtext:
+            language === "ar"
+              ? settings.successSubtextAr ||
+                "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+              : settings.successSubtextEn ||
+                "We'll share updates by phone as your order progresses.",
+          toggles: {
+            displayOrderNumber: settings.displayOrderNumber ?? true,
+            displayOrderItems: settings.displayOrderItems ?? true,
+            displayTotals: settings.displayTotals ?? true,
+            displayNextSteps: settings.displayNextSteps ?? true,
+            displayContact: settings.displayContact ?? true,
+          },
+        };
+      }
+
+      // Default messages if no custom settings
       return {
         successMessage:
           language === "ar"
-            ? settings.orderSuccessMessageAr
-            : settings.orderSuccessMessageEn,
+            ? "شكراً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
+            : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
         instructions:
           language === "ar"
-            ? settings.orderInstructionsAr
-            : settings.orderInstructionsEn,
+            ? "لأي تغييرات أو أسئلة حول طلبك، يرجى ا��تواصل معنا."
+            : "For any changes or questions about your order, please contact us.",
         headline:
           language === "ar"
-            ? settings.successHeadlineAr || t("orderSuccess.headlineAr")
-            : settings.successHeadlineEn || t("orderSuccess.headline"),
+            ? t("orderSuccess.headlineAr")
+            : t("orderSuccess.headline"),
         subtext:
           language === "ar"
-            ? settings.successSubtextAr ||
-              "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
-            : settings.successSubtextEn ||
-              "We'll share updates by phone as your order progresses.",
+            ? "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+            : "We'll share updates by phone as your order progresses.",
         toggles: {
-          displayOrderNumber: settings.displayOrderNumber ?? true,
-          displayOrderItems: settings.displayOrderItems ?? true,
-          displayTotals: settings.displayTotals ?? true,
-          displayNextSteps: settings.displayNextSteps ?? true,
-          displayContact: settings.displayContact ?? true,
+          displayOrderNumber: true,
+          displayOrderItems: true,
+          displayTotals: true,
+          displayNextSteps: true,
+          displayContact: true,
         },
       };
-    }
-
-    // Default messages if no custom settings
-    return {
-      successMessage:
-        language === "ar"
-          ? "شكراً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
-          : "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
-      instructions:
-        language === "ar"
-          ? "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل معنا."
-          : "For any changes or questions about your order, please contact us.",
-      headline:
-        language === "ar"
-          ? t("orderSuccess.headlineAr")
-          : t("orderSuccess.headline"),
-      subtext:
-        language === "ar"
-          ? "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
-          : "We'll share updates by phone as your order progresses.",
-      toggles: {
-        displayOrderNumber: true,
-        displayOrderItems: true,
-        displayTotals: true,
-        displayNextSteps: true,
-        displayContact: true,
-      },
     };
-  };
+    return getOrderMessages();
+  });
+
+  // Update order messages when dialog opens or language changes
+  useEffect(() => {
+    const updateOrderMessages = () => {
+      const savedSettings = localStorage.getItem("storeSettings");
+      if (savedSettings) {
+        const settings = JSON.parse(savedSettings);
+        setOrderMessages({
+          successMessage:
+            language === "ar"
+              ? settings.orderSuccessMessageAr
+              : settings.orderSuccessMessageEn,
+          instructions:
+            language === "ar"
+              ? settings.orderInstructionsAr
+              : settings.orderInstructionsEn,
+          headline:
+            language === "ar"
+              ? settings.successHeadlineAr || t("orderSuccess.headlineAr")
+              : settings.successHeadlineEn || t("orderSuccess.headline"),
+          subtext:
+            language === "ar"
+              ? settings.successSubtextAr ||
+                "سنقوم بإبلاغك بالتحديثات عبر الهاتف حسب تقدم طلبك."
+              : settings.successSubtextEn ||
+                "We'll share updates by phone as your order progresses.",
+          toggles: {
+            displayOrderNumber: settings.displayOrderNumber ?? true,
+            displayOrderItems: settings.displayOrderItems ?? true,
+            displayTotals: settings.displayTotals ?? true,
+            displayNextSteps: settings.displayNextSteps ?? true,
+            displayContact: settings.displayContact ?? true,
+          },
+        });
+      }
+    };
+
+    if (open) {
+      updateOrderMessages();
+    }
+  }, [open, language, t]);
 
   const [step, setStep] = useState(1);
   const [customerInfo, setCustomerInfo] = useState({
@@ -127,6 +205,9 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">(
     "delivery",
   );
+  const [deliveryArea, setDeliveryArea] = useState<
+    "sitra" | "muharraq" | "other"
+  >("sitra");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [orderNumber, setOrderNumber] = useState("");
@@ -134,6 +215,25 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const [orderTotalPrice, setOrderTotalPrice] = useState(0);
 
   const totalPrice = getTotalPrice();
+
+  // Reset checkout state when dialog opens
+  useEffect(() => {
+    if (open && !orderSuccess) {
+      setStep(1);
+      setCustomerInfo({
+        name: "",
+        phone: "",
+        address: "",
+        home: "",
+        road: "",
+        block: "",
+        town: "",
+      });
+      setDeliveryType("delivery");
+      setDeliveryArea("sitra");
+      setIsSubmitting(false);
+    }
+  }, [open, orderSuccess]);
 
   // Auto-scroll helpers
   useEffect(() => {
@@ -221,8 +321,23 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
         price: item.price,
       }));
 
-      // Calculate total including delivery fees
-      const deliveryFee = deliveryType === "delivery" ? deliveryFeeSetting : 0;
+      // Calculate total including delivery fees with free delivery threshold
+      const getDeliveryFeeForArea = () => {
+        if (deliveryType !== "delivery") return 0;
+        if (totalPrice >= freeDeliveryMinimum) return 0;
+
+        switch (deliveryArea) {
+          case "sitra":
+            return deliveryAreaSitra;
+          case "muharraq":
+            return deliveryAreaMuharraq;
+          case "other":
+            return deliveryAreaOther;
+          default:
+            return deliveryFeeSetting;
+        }
+      };
+      const deliveryFee = getDeliveryFeeForArea();
       const orderTotal = totalPrice + deliveryFee;
 
       // Create order
@@ -232,6 +347,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
         total: orderTotal,
         status: "processing",
         deliveryType: deliveryType,
+        deliveryArea: deliveryArea,
         notes: "",
       });
 
@@ -271,6 +387,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
       town: "",
     });
     setDeliveryType("delivery");
+    setDeliveryArea("sitra");
     setOrderSuccess(false);
     setOrderNumber("");
     setOrderItems([]);
@@ -290,6 +407,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
       town: "",
     });
     setDeliveryType("delivery");
+    setDeliveryArea("sitra");
     setOrderSuccess(false);
     setOrderNumber("");
     setOrderItems([]);
@@ -298,11 +416,9 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
   // Order Success Screen - Completely Revamped
   if (orderSuccess) {
-    const orderMessages = getOrderMessages();
-
     return (
       <Dialog open={open} onOpenChange={onClose}>
-        <DialogContent className="max-w-md w-[95vw] mx-auto p-0 bg-white rounded-2xl border-0 shadow-2xl max-h-[95vh] overflow-hidden">
+        <DialogContent className="max-w-lg w-[90vw] mx-auto p-0 bg-white rounded-2xl border-0 shadow-2xl max-h-[85vh] overflow-hidden">
           <div className="flex flex-col h-full">
             {/* Header with Success Animation */}
             <DialogHeader className="p-6 pb-4 border-b bg-gradient-to-br from-green-50 to-emerald-50">
@@ -321,173 +437,17 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
             {/* Scrollable Content */}
             <ScrollArea className="flex-1 p-6">
-              <div className="space-y-6">
-                {/* Success Message - First Priority */}
-                <div className="text-center space-y-4">
-                  <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-                    <p className="text-gray-800 auto-text text-sm leading-relaxed">
+              <div
+                id="checkout-success-bottom"
+                className="flex items-center justify-center min-h-full py-8"
+              >
+                {/* Single Success Message */}
+                <div className="text-center max-w-md mx-auto">
+                  <div className="bg-green-50 p-8 rounded-lg border border-green-200">
+                    <p className="text-gray-800 auto-text text-lg leading-relaxed">
                       {orderMessages.successMessage}
                     </p>
                   </div>
-                  <p className="text-gray-600 auto-text text-xs">
-                    {orderMessages.instructions}
-                  </p>
-                </div>
-
-                {/* Next Steps - Second Priority */}
-                {orderMessages.toggles.displayNextSteps && (
-                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                    <h3 className="font-medium text-blue-900 auto-text text-sm mb-3 flex items-center gap-2 [dir=rtl]:flex-row-reverse">
-                      <Clock className="w-4 h-4" />
-                      {t("checkout.whatsNext")}
-                    </h3>
-                    <ul className="space-y-3 text-xs text-blue-800 auto-text">
-                      <li className="flex items-start gap-3 [dir=rtl]:flex-row-reverse">
-                        <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0 [dir=rtl]:order-2" />
-                        <span className="auto-text [dir=rtl]:order-1">
-                          {language === "ar"
-                            ? t("orderSuccess.prepareOrderAr")
-                            : t("orderSuccess.prepareOrder")}
-                        </span>
-                      </li>
-                      <li className="flex items-start gap-3 [dir=rtl]:flex-row-reverse">
-                        <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0 [dir=rtl]:order-2" />
-                        <span className="auto-text [dir=rtl]:order-1">
-                          {language === "ar"
-                            ? t("orderSuccess.contactPhoneAr")
-                            : t("orderSuccess.contactPhone")}
-                        </span>
-                      </li>
-                      <li className="flex items-start gap-3 [dir=rtl]:flex-row-reverse">
-                        <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0 [dir=rtl]:order-2" />
-                        <span className="auto-text [dir=rtl]:order-1">
-                          {language === "ar"
-                            ? t("orderSuccess.deliveryTimeAr")
-                            : t("orderSuccess.deliveryTime")}
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                )}
-
-                {/* Contact Information - Third Priority */}
-                {orderMessages.toggles.displayContact && (
-                  <div className="bg-gray-50 p-4 rounded-lg border">
-                    <h3 className="font-medium text-gray-900 auto-text text-sm mb-3 flex items-center gap-2 [dir=rtl]:flex-row-reverse">
-                      <Phone className="w-4 h-4" />
-                      {t("checkout.needHelp")}
-                    </h3>
-                    <div className="space-y-3 text-xs text-gray-700">
-                      <div className="flex items-center gap-3 [dir=rtl]:flex-row-reverse">
-                        <Phone className="w-4 h-4 text-gray-500 [dir=rtl]:order-2" />
-                        <span className="ltr-text font-medium [dir=rtl]:order-1">
-                          {contactPhone}
-                        </span>
-                      </div>
-                      <div className="flex items-start gap-3 [dir=rtl]:flex-row-reverse">
-                        <MapPin className="w-4 h-4 text-gray-500 mt-0.5 flex-shrink-0 [dir=rtl]:order-2" />
-                        <span className="auto-text leading-relaxed [dir=rtl]:order-1">
-                          {pickupAddress}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Order Information - Last Priority */}
-                <div className="space-y-4 border-t pt-4">
-                  {/* Order Number */}
-                  {orderMessages.toggles.displayOrderNumber && (
-                    <div className="text-center">
-                      <p className="text-sm font-medium text-gray-700 auto-text mb-3">
-                        {t("checkout.orderNumber")}:
-                      </p>
-                      <Badge
-                        variant="outline"
-                        className="text-lg px-6 py-3 ltr-text font-mono bg-gray-50 border-2"
-                      >
-                        #{orderNumber}
-                      </Badge>
-                    </div>
-                  )}
-
-                  {/* Order Items */}
-                  {orderMessages.toggles.displayOrderItems && (
-                    <div className="space-y-3">
-                      <h3 className="font-medium text-gray-900 auto-text text-sm">
-                        {t("checkout.orderItems")}:
-                      </h3>
-                      <div className="space-y-2 max-h-40 overflow-y-auto">
-                        {items.map((item) => (
-                          <div
-                            key={`${item.productId}-${item.variantId}`}
-                            className="flex justify-between items-start gap-3 p-3 bg-gray-50 rounded-lg text-xs [dir=rtl]:flex-row-reverse"
-                          >
-                            <div className="flex-1 min-w-0">
-                              <p className="font-medium auto-text truncate">
-                                {item.productName}
-                              </p>
-                              {item.variantName && (
-                                <p className="text-gray-600 auto-text truncate">
-                                  {item.variantName}
-                                </p>
-                              )}
-                              <p className="text-gray-500 auto-text">
-                                {t("store.quantity")}:{" "}
-                                <span className="ltr-text font-medium">
-                                  {item.quantity}
-                                </span>
-                              </p>
-                            </div>
-                            <div className="text-end flex-shrink-0">
-                              <p className="font-semibold text-primary ltr-text">
-                                {currencySymbol}{" "}
-                                {(item.price * item.quantity).toFixed(2)}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Order Totals */}
-                  {orderMessages.toggles.displayTotals && (
-                    <div className="space-y-3 pt-3 border-t">
-                      <div className="flex justify-between items-center text-sm [dir=rtl]:flex-row-reverse">
-                        <span className="auto-text">
-                          {t("checkout.subtotal")}:
-                        </span>
-                        <span className="text-primary ltr-text">
-                          {currencySymbol}{" "}
-                          {(
-                            orderTotalPrice -
-                            (deliveryType === "delivery"
-                              ? deliveryFeeSetting
-                              : 0)
-                          ).toFixed(2)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center text-sm [dir=rtl]:flex-row-reverse">
-                        <span className="auto-text">
-                          {t("checkout.deliveryFee")}:
-                        </span>
-                        <span className="text-primary ltr-text">
-                          {deliveryType === "delivery"
-                            ? `${currencySymbol} ${deliveryFeeSetting.toFixed(2)}`
-                            : `${currencySymbol} 0.00`}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center text-base font-bold pt-3 border-t [dir=rtl]:flex-row-reverse">
-                        <span className="auto-text">
-                          {t("orders.orderTotal")}:
-                        </span>
-                        <span className="text-primary text-lg ltr-text">
-                          {currencySymbol} {orderTotalPrice.toFixed(2)}
-                        </span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             </ScrollArea>
@@ -509,7 +469,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="w-[95vw] sm:max-w-lg max-h-[95vh] p-0 rounded-xl border-0 flex flex-col dialog-content-scroll mx-auto">
+      <DialogContent className="w-[90vw] sm:max-w-lg max-h-[85vh] sm:max-h-[90vh] p-0 rounded-2xl border-0 flex flex-col dialog-content-scroll mx-auto shadow-2xl">
         {/* Header */}
         <DialogHeader className="px-4 sm:px-6 py-4 sm:py-6 border-b flex-shrink-0 bg-white">
           <DialogTitle className="text-xl sm:text-2xl font-bold text-center auto-text leading-tight">
@@ -545,9 +505,9 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
 
         {/* Scrollable Content Area */}
         <ScrollArea
-          className={`flex-1 min-h-0 ${enableDialogScroll ? "max-h-[70vh]" : ""}`}
+          className={`flex-1 min-h-0 ${enableDialogScroll ? "max-h-[80vh]" : ""}`}
         >
-          <div className="p-4 sm:p-6 pb-6 sm:pb-8 auto-text">
+          <div className="p-4 sm:p-6 pb-32 sm:pb-36 auto-text">
             {/* Step 1: Customer Information */}
             {step === 1 && (
               <Card className="border-2 shadow-sm">
@@ -561,7 +521,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                     </span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4 sm:space-y-6">
+                <CardContent className="space-y-6 sm:space-y-6">
                   <div className="grid grid-cols-1 gap-4 sm:gap-6">
                     <div className="space-y-2">
                       <Label
@@ -608,7 +568,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                       {t("checkout.customerAddress")}
                     </Label>
                     <div className="grid grid-cols-1 gap-4">
-                      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                      <div className="grid grid-cols-2 gap-4 sm:gap-4">
                         <div className="space-y-2">
                           <Label
                             htmlFor="home"
@@ -644,7 +604,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                           />
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                      <div className="grid grid-cols-2 gap-4 sm:gap-4">
                         <div className="space-y-2">
                           <Label
                             htmlFor="block"
@@ -756,6 +716,120 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                       </div>
                     </div>
                   </RadioGroup>
+
+                  {/* Delivery Area Selection - Only show when delivery is selected */}
+                  {deliveryType === "delivery" && (
+                    <div className="mt-6 pt-6 border-t border-gray-200">
+                      <h4 className="text-base sm:text-lg font-medium auto-text mb-4 flex items-center gap-2">
+                        <MapPin className="w-5 h-5 text-primary" />
+                        {language === "ar"
+                          ? "اختر منطقة التوصيل"
+                          : "Select Delivery Area"}
+                      </h4>
+                      <RadioGroup
+                        value={deliveryArea}
+                        onValueChange={(value) =>
+                          setDeliveryArea(
+                            value as "sitra" | "muharraq" | "other",
+                          )
+                        }
+                        className="grid grid-cols-1 gap-3"
+                      >
+                        <div
+                          className={`flex items-center justify-between space-x-4 [dir=rtl]:space-x-reverse p-4 border-2 rounded-xl cursor-pointer transition-all touch-manipulation hover:shadow-md ${
+                            deliveryArea === "sitra"
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "hover:bg-gray-50"
+                          }`}
+                          onClick={() => setDeliveryArea("sitra")}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <div className="flex items-center space-x-3 [dir=rtl]:space-x-reverse">
+                            <RadioGroupItem value="sitra" id="sitra" />
+                            <Label
+                              htmlFor="sitra"
+                              className="text-sm sm:text-base font-medium cursor-pointer auto-text"
+                            >
+                              {getDeliveryAreaName("sitra")}
+                            </Label>
+                          </div>
+                          <span
+                            className="text-sm font-medium text-primary ltr-text"
+                            dir="ltr"
+                          >
+                            {formatPriceWithSymbol(
+                              deliveryAreaSitra,
+                              currencySymbol,
+                              language,
+                            )}
+                          </span>
+                        </div>
+
+                        <div
+                          className={`flex items-center justify-between space-x-4 [dir=rtl]:space-x-reverse p-4 border-2 rounded-xl cursor-pointer transition-all touch-manipulation hover:shadow-md ${
+                            deliveryArea === "muharraq"
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "hover:bg-gray-50"
+                          }`}
+                          onClick={() => setDeliveryArea("muharraq")}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <div className="flex items-center space-x-3 [dir=rtl]:space-x-reverse">
+                            <RadioGroupItem value="muharraq" id="muharraq" />
+                            <Label
+                              htmlFor="muharraq"
+                              className="text-sm sm:text-base font-medium cursor-pointer auto-text"
+                            >
+                              {getDeliveryAreaName("muharraq")}
+                            </Label>
+                          </div>
+                          <span
+                            className="text-sm font-medium text-primary ltr-text"
+                            dir="ltr"
+                          >
+                            {formatPriceWithSymbol(
+                              deliveryAreaMuharraq,
+                              currencySymbol,
+                              language,
+                            )}
+                          </span>
+                        </div>
+
+                        <div
+                          className={`flex items-center justify-between space-x-4 [dir=rtl]:space-x-reverse p-4 border-2 rounded-xl cursor-pointer transition-all touch-manipulation hover:shadow-md ${
+                            deliveryArea === "other"
+                              ? "border-primary bg-primary/5 shadow-md"
+                              : "hover:bg-gray-50"
+                          }`}
+                          onClick={() => setDeliveryArea("other")}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <div className="flex items-center space-x-3 [dir=rtl]:space-x-reverse">
+                            <RadioGroupItem value="other" id="other" />
+                            <Label
+                              htmlFor="other"
+                              className="text-sm sm:text-base font-medium cursor-pointer auto-text"
+                            >
+                              {getDeliveryAreaName("other")}
+                            </Label>
+                          </div>
+                          <span
+                            className="text-sm font-medium text-primary ltr-text"
+                            dir="ltr"
+                          >
+                            {formatPriceWithSymbol(
+                              deliveryAreaOther,
+                              currencySymbol,
+                              language,
+                            )}
+                          </span>
+                        </div>
+                      </RadioGroup>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             )}
@@ -773,7 +847,10 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                     </span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6 sm:space-y-8">
+                <CardContent
+                  id="checkout-summary-bottom"
+                  className="space-y-6 sm:space-y-8"
+                >
                   {/* Customer Info Review */}
                   <div className="p-4 sm:p-5 bg-gray-50 rounded-lg space-y-4">
                     <h4 className="font-medium auto-text border-b border-gray-200 pb-3 text-base sm:text-lg">
@@ -861,9 +938,15 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                               </p>
                             </div>
                             <div className="text-end auto-text min-w-0">
-                              <p className="font-medium ltr-text text-sm sm:text-lg">
-                                {currencySymbol}{" "}
-                                {(item.price * item.quantity).toFixed(2)}
+                              <p
+                                className="font-medium ltr-text text-sm sm:text-lg"
+                                dir="ltr"
+                              >
+                                {formatPriceWithSymbol(
+                                  item.price * item.quantity,
+                                  currencySymbol,
+                                  language,
+                                )}
                               </p>
                             </div>
                           </div>
@@ -886,8 +969,15 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                         <span className="auto-text text-gray-700 text-base font-medium">
                           {t("checkout.subtotal")}:
                         </span>
-                        <span className="ltr-text font-semibold text-lg text-gray-900">
-                          {currencySymbol} {totalPrice.toFixed(2)}
+                        <span
+                          className="ltr-text font-semibold text-lg text-gray-900"
+                          dir="ltr"
+                        >
+                          {formatPriceWithSymbol(
+                            totalPrice,
+                            currencySymbol,
+                            language,
+                          )}
                         </span>
                       </div>
 
@@ -897,10 +987,49 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                         </span>
                         <span className="ltr-text font-semibold text-lg text-gray-900">
                           {deliveryType === "delivery"
-                            ? `${currencySymbol} ${deliveryFeeSetting.toFixed(2)}`
-                            : `${currencySymbol} 0.00`}
+                            ? totalPrice >= freeDeliveryMinimum
+                              ? language === "ar"
+                                ? "مجاني"
+                                : "Free"
+                              : (() => {
+                                  const areaFee =
+                                    deliveryArea === "sitra"
+                                      ? deliveryAreaSitra
+                                      : deliveryArea === "muharraq"
+                                        ? deliveryAreaMuharraq
+                                        : deliveryAreaOther;
+                                  return formatPriceWithSymbol(
+                                    areaFee,
+                                    currencySymbol,
+                                    language,
+                                  );
+                                })()
+                            : formatPriceWithSymbol(
+                                0,
+                                currencySymbol,
+                                language,
+                              )}
                         </span>
                       </div>
+
+                      {/* Free delivery hint */}
+                      {deliveryType === "delivery" && (
+                        <div className="text-center mb-2">
+                          {totalPrice >= freeDeliveryMinimum ? (
+                            <p className="text-sm text-green-600 font-medium auto-text">
+                              {language === "ar"
+                                ? "🎉 تأهلت للتوصيل المجاني!"
+                                : "🎉 You qualified for free delivery!"}
+                            </p>
+                          ) : (
+                            <p className="text-sm text-gray-500 auto-text">
+                              {language === "ar"
+                                ? `أضف ${formatPriceWithSymbol(freeDeliveryMinimum - totalPrice, currencySymbol, language)} للحصول على توصيل مجاني`
+                                : `Add ${formatPriceWithSymbol(freeDeliveryMinimum - totalPrice, currencySymbol, language)} more for free delivery`}
+                            </p>
+                          )}
+                        </div>
+                      )}
 
                       <Separator className="my-3" />
 
@@ -909,62 +1038,25 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
                           <span className="text-xl font-bold auto-text text-gray-900">
                             {t("checkout.total")}:
                           </span>
-                          <span className="text-3xl font-bold text-primary ltr-text">
-                            {currencySymbol}{" "}
-                            {(
+                          <span
+                            className="text-3xl font-bold text-primary ltr-text"
+                            dir="ltr"
+                          >
+                            {formatPriceWithSymbol(
                               totalPrice +
-                              (deliveryType === "delivery"
-                                ? deliveryFeeSetting
-                                : 0)
-                            ).toFixed(2)}
+                                (deliveryType === "delivery"
+                                  ? totalPrice >= freeDeliveryMinimum
+                                    ? 0
+                                    : deliveryArea === "sitra"
+                                      ? deliveryAreaSitra
+                                      : deliveryArea === "muharraq"
+                                        ? deliveryAreaMuharraq
+                                        : deliveryAreaOther
+                                  : 0),
+                              currencySymbol,
+                              language,
+                            )}
                           </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Payment Method - Enhanced Design with Better Visibility */}
-                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border-2 border-green-300 shadow-lg overflow-hidden">
-                    <div className="bg-green-600 text-white p-4">
-                      <h3 className="font-bold text-xl auto-text flex items-center gap-3 [dir=rtl]:flex-row-reverse">
-                        <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                          <CreditCard className="w-6 h-6" />
-                        </div>
-                        {t("checkout.paymentMethod")}
-                      </h3>
-                    </div>
-
-                    <div className="p-6 space-y-4">
-                      <div className="bg-white rounded-xl p-4 border border-green-200 shadow-sm overflow-hidden">
-                        <div className="flex items-center gap-4 [dir=rtl]:flex-row-reverse">
-                          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <Check className="w-7 h-7 text-green-600" />
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="font-bold text-green-900 auto-text text-lg mb-1">
-                              {t("checkout.cashOnDelivery")}
-                            </h4>
-                            <p className="text-green-700 auto-text text-xs sm:text-sm leading-relaxed break-words whitespace-normal overflow-wrap-anywhere">
-                              {language === "ar"
-                                ? "ادفع نقداً عند استلام طلبك - لا حاجة لبطاقة ائتمان"
-                                : "Pay cash when you receive your order - No credit card needed"}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="bg-green-100 rounded-lg p-3 sm:p-4 border border-green-200 overflow-hidden">
-                        <div className="flex items-start gap-3 [dir=rtl]:flex-row-reverse">
-                          <div className="w-6 h-6 bg-green-200 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <Check className="w-4 h-4 text-green-700" />
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-green-800 auto-text text-xs sm:text-sm font-medium leading-relaxed break-words whitespace-normal overflow-wrap-anywhere">
-                              {language === "ar"
-                                ? "آمن ومضمون - ادفع فقط عند الاستلام الناجح لطلبك"
-                                : "Safe & Secure - Only pay when you successfully receive your order"}
-                            </p>
-                          </div>
                         </div>
                       </div>
                     </div>

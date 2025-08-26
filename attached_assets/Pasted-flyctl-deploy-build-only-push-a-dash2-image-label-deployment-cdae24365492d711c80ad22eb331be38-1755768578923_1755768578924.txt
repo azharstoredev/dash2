@@ -1,0 +1,190 @@
+flyctl deploy --build-only --push -a dash2 --image-label deployment-cdae24365492d711c80ad22eb331be38
+Validating /usr/src/app/fly.toml
+✓ Configuration is valid
+==> Verifying app config
+--> Verified app config
+==> Building image
+Waiting for depot builder...
+--> build: (​)
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.02kB 0.0s done
+#1 DONE 0.0s
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1
+#2 DONE 0.3s
+#3 docker-image://docker.io/docker/dockerfile:1@sha256:38387523653efa0039f8e1c89bb74a30504e76ee9f565e25c9a09841f9427b05
+#3 resolve docker.io/docker/dockerfile:1@sha256:38387523653efa0039f8e1c89bb74a30504e76ee9f565e25c9a09841f9427b05 done
+#3 CACHED
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.02kB 0.0s done
+#1 DONE 0.0s
+#4 [internal] load build definition from Dockerfile
+#4 Deduplicating step ID [internal] load build definition from Dockerfile, another build is calculating it done
+#4 DONE 0.0s
+#5 [internal] load metadata for docker.io/library/nginx:latest
+#5 DONE 0.1s
+#6 [internal] load metadata for docker.io/library/node:20.18.0-slim
+#6 DONE 0.1s
+#7 [internal] load .dockerignore
+#7 transferring context: 799B done
+#7 DONE 0.0s
+#8 [base 1/2] FROM docker.io/library/node:20.18.0-slim@sha256:28fbbb764069c698ead61d6a739a7615e8f0e07a4b8fe1473ceca70c1c3d6aaa
+#8 resolve docker.io/library/node:20.18.0-slim@sha256:28fbbb764069c698ead61d6a739a7615e8f0e07a4b8fe1473ceca70c1c3d6aaa done
+#8 DONE 0.0s
+#9 [stage-2 1/2] FROM docker.io/library/nginx:latest@sha256:33e0bbc7ca9ecf108140af6288c7c9d1ecc77548cbfd3952fd8466a75edefe57
+#9 resolve docker.io/library/nginx:latest@sha256:33e0bbc7ca9ecf108140af6288c7c9d1ecc77548cbfd3952fd8466a75edefe57 done
+#9 CACHED
+#10 [internal] load build context
+#10 transferring context: 5.71MB 0.1s done
+#10 DONE 0.1s
+#11 [base 2/2] WORKDIR /app
+#11 CACHED
+#12 [build 1/6] RUN apt-get update -qq && apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
+#12 CACHED
+#13 [build 2/6] COPY .npmrc package-lock.json package.json ./
+#13 CACHED
+#14 [build 3/6] RUN npm ci --include=dev
+#14 CACHED
+#15 [build 4/6] COPY . .
+#15 DONE 0.1s
+#16 [build 5/6] RUN npm run build
+#16 0.578
+#16 0.578 > build
+#16 0.578 > npm run build:client && npm run build:server
+#16 0.578
+#16 0.726
+#16 0.726 > build:client
+#16 0.726 > vite build
+#16 0.726
+#16 1.261 vite v6.3.5 building for production...
+#16 11.12 rendering chunks...
+#16 11.16 computing gzip size...
+#16 11.20 dist/spa/index.html 1.50 kB │ gzip: 0.74 kB
+#16 11.20 dist/spa/assets/index-Y79qWNSX.css 86.65 kB │ gzip: 14.55 kB
+#16 11.20 dist/spa/assets/index-B0QABtAy.js 1,069.85 kB │ gzip: 298.56 kB
+#16 11.20
+#16 11.20 (!) Some chunks are larger than 500 kB after minification. Consider:
+#16 11.20 - Using dynamic import() to code-split the application
+#16 11.20 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+#16 11.20 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#16 11.21 ✓ built in 9.31s
+#16 11.47
+#16 11.47 > build:server
+#16 11.47 > vite build --config vite.config.server.ts
+#16 11.47
+#16 11.72 vite v6.3.5 building SSR bundle for production...
+#16 12.07 ✓ 0 modules transformed.
+#16 12.08 ✗ Build failed in 320ms
+#16 12.08 error during build:
+#16 12.08 Could not resolve entry module "server/node-build.ts".
+#16 12.08 at getRollupError (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+#16 12.08 at error (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+#16 12.08 at ModuleLoader.loadEntryModule (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:21511:20)
+#16 12.08 at async Promise.all (index 0)
+#16 ERROR: process "/bin/sh -c npm run build" did not complete successfully: exit code: 1
+------
+> [build 5/6] RUN npm run build:
+11.47
+11.72 vite v6.3.5 building SSR bundle for production...
+12.07 ✓ 0 modules transformed.
+12.08 ✗ Build failed in 320ms
+12.08 error during build:
+12.08 Could not resolve entry module "server/node-build.ts".
+12.08 at getRollupError (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+12.08 at error (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+12.08 at ModuleLoader.loadEntryModule (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:21511:20)
+12.08 at async Promise.all (index 0)
+------
+==> Building image
+Waiting for depot builder...
+==> Building image with Depot
+--> build: (​)
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.02kB done
+#1 DONE 0.0s
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1
+#2 DONE 0.1s
+#3 docker-image://docker.io/docker/dockerfile:1@sha256:38387523653efa0039f8e1c89bb74a30504e76ee9f565e25c9a09841f9427b05
+#3 resolve docker.io/docker/dockerfile:1@sha256:38387523653efa0039f8e1c89bb74a30504e76ee9f565e25c9a09841f9427b05 done
+#3 CACHED
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.02kB done
+#1 DONE 0.0s
+#4 [internal] load build definition from Dockerfile
+#4 Deduplicating step ID [internal] load build definition from Dockerfile, another build is calculating it done
+#4 DONE 0.0s
+#5 [internal] load metadata for docker.io/library/nginx:latest
+#5 DONE 0.1s
+#6 [internal] load metadata for docker.io/library/node:20.18.0-slim
+#6 DONE 0.1s
+#7 [internal] load .dockerignore
+#7 transferring context: 799B done
+#7 DONE 0.0s
+#8 [base 1/2] FROM docker.io/library/node:20.18.0-slim@sha256:28fbbb764069c698ead61d6a739a7615e8f0e07a4b8fe1473ceca70c1c3d6aaa
+#8 resolve docker.io/library/node:20.18.0-slim@sha256:28fbbb764069c698ead61d6a739a7615e8f0e07a4b8fe1473ceca70c1c3d6aaa done
+#8 DONE 0.0s
+#9 [stage-2 1/2] FROM docker.io/library/nginx:latest@sha256:33e0bbc7ca9ecf108140af6288c7c9d1ecc77548cbfd3952fd8466a75edefe57
+#9 resolve docker.io/library/nginx:latest@sha256:33e0bbc7ca9ecf108140af6288c7c9d1ecc77548cbfd3952fd8466a75edefe57 done
+#9 CACHED
+#10 [internal] load build context
+#10 transferring context: 8.03kB 0.0s done
+#10 DONE 0.0s
+#11 [build 3/6] RUN npm ci --include=dev
+#11 CACHED
+#12 [build 2/6] COPY .npmrc package-lock.json package.json ./
+#12 CACHED
+#13 [base 2/2] WORKDIR /app
+#13 CACHED
+#14 [build 1/6] RUN apt-get update -qq && apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
+#14 CACHED
+#15 [build 4/6] COPY . .
+#15 CACHED
+#16 [build 5/6] RUN npm run build
+#16 0.230
+#16 0.230 > build
+#16 0.230 > npm run build:client && npm run build:server
+#16 0.230
+#16 0.387
+#16 0.387 > build:client
+#16 0.387 > vite build
+#16 0.387
+#16 3.745
+#16 8.872 rendering chunks...
+#16 8.901 computing gzip size...
+#16 8.943 dist/spa/index.html 1.50 kB │ gzip: 0.74 kB
+#16 8.943 dist/spa/assets/index-Y79qWNSX.css 86.65 kB │ gzip: 14.55 kB
+#16 8.943 dist/spa/assets/index-B0QABtAy.js 1,069.85 kB │ gzip: 298.56 kB
+#16 8.944
+#16 8.944 (!) Some chunks are larger than 500 kB after minification. Consider:
+#16 8.944 - Using dynamic import() to code-split the application
+#16 8.944 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+#16 8.944 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#16 8.945 ✓ built in 8.26s
+#16 9.216
+#16 9.216 > build:server
+#16 9.216 > vite build --config vite.config.server.ts
+#16 9.216
+#16 9.475 vite v6.3.5 building SSR bundle for production...
+#16 9.521 ✓ 0 modules transformed.
+#16 9.523 ✗ Build failed in 12ms
+#16 9.523 error during build:
+#16 9.523 Could not resolve entry module "server/node-build.ts".
+#16 9.523 at getRollupError (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+#16 9.523 at error (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+#16 9.523 at ModuleLoader.loadEntryModule (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:21511:20)
+#16 9.523 at async Promise.all (index 0)
+#16 ERROR: process "/bin/sh -c npm run build" did not complete successfully: exit code: 1
+------
+> [build 5/6] RUN npm run build:
+9.216
+9.475 vite v6.3.5 building SSR bundle for production...
+9.521 ✓ 0 modules transformed.
+9.523 ✗ Build failed in 12ms
+9.523 error during build:
+9.523 Could not resolve entry module "server/node-build.ts".
+9.523 at getRollupError (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+9.523 at error (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+9.523 at ModuleLoader.loadEntryModule (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:21511:20)
+9.523 at async Promise.all (index 0)
+------
+Error: failed to fetch an image or build from source: error building: failed to solve: process "/bin/sh -c npm run build" did not complete successfully: exit code: 1
+unsuccessful command 'flyctl deploy --build-only --push -a dash2 --image-label deployment-cdae24365492d711c80ad22eb331be38 

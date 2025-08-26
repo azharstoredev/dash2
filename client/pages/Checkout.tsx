@@ -19,6 +19,7 @@ import { ArrowLeft, Check, Truck, MapPin } from "lucide-react";
 import ImprovedOrderSummary from "../components/ImprovedOrderSummary";
 
 export default function Checkout() {
+  const { language } = useLanguage();
   const { t } = useLanguage();
   const { items, getTotalPrice, clearCart } = useCart();
   const navigate = useNavigate();
@@ -82,8 +83,22 @@ export default function Checkout() {
         price: item.price,
       }));
 
-      // Calculate final total including delivery fee
-      const deliveryFee = deliveryType === "delivery" ? 1.5 : 0;
+      // Get delivery settings from localStorage
+      const savedSettings = JSON.parse(
+        localStorage.getItem("storeSettings") || "{}",
+      );
+      const deliveryFeeSetting = Number(savedSettings?.deliveryFee ?? 1.5);
+      const freeDeliveryMinimum = Number(
+        savedSettings?.freeDeliveryMinimum ?? 20,
+      );
+
+      // Calculate final total including delivery fee with free delivery threshold
+      const deliveryFee =
+        deliveryType === "delivery"
+          ? totalPrice >= freeDeliveryMinimum
+            ? 0
+            : deliveryFeeSetting
+          : 0;
       const finalTotal = totalPrice + deliveryFee;
 
       // Create order
@@ -147,11 +162,35 @@ export default function Checkout() {
               <Check className="h-8 w-8 text-green-600" />
             </div>
             <h2 className="text-xl font-semibold auto-text">
-              {t("checkout.orderSuccess") || "Order Placed Successfully!"}
+              {(() => {
+                const savedSettings = localStorage.getItem("storeSettings");
+                if (savedSettings) {
+                  const settings = JSON.parse(savedSettings);
+                  return language === "ar"
+                    ? settings.successHeadlineAr || t("orderSuccess.headlineAr")
+                    : settings.successHeadlineEn || t("orderSuccess.headline");
+                }
+                return (
+                  t("checkout.orderSuccess") || "Order Placed Successfully!"
+                );
+              })()}
             </h2>
             <p className="text-muted-foreground auto-text leading-relaxed">
-              {t("checkout.thankYou") ||
-                "Thank you for your order! We have received your order and will process it shortly."}
+              {(() => {
+                const savedSettings = localStorage.getItem("storeSettings");
+                if (savedSettings) {
+                  const settings = JSON.parse(savedSettings);
+                  return language === "ar"
+                    ? settings.orderSuccessMessageAr ||
+                        "شكراً لك على طلبك! سنقوم بتجهيزه خلال 2-4 ساعات وسيصل خلال 1-3 أيام عمل."
+                    : settings.orderSuccessMessageEn ||
+                        "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.";
+                }
+                return (
+                  t("checkout.thankYou") ||
+                  "Thank you for your order! We have received your order and will process it shortly."
+                );
+              })()}
             </p>
             <div className="space-y-2">
               <p className="text-sm font-medium auto-text">
@@ -332,15 +371,6 @@ export default function Checkout() {
                     </div>
                   </div>
                 </RadioGroup>
-              </CardContent>
-            </Card>
-
-            {/* No Credit Card Notice */}
-            <Card className="border-green-200 bg-green-50">
-              <CardContent className="pt-6">
-                <p className="text-sm text-green-800 text-center">
-                  {t("checkout.noCreditCard")}
-                </p>
               </CardContent>
             </Card>
           </div>

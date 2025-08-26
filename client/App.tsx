@@ -85,6 +85,7 @@ import Store from "@/pages/Store";
 import ProductDetail from "@/pages/ProductDetail";
 import NotFound from "@/pages/NotFound";
 import { analyticsService } from "@/services/analytics";
+import NetworkStatus from "@/components/NetworkStatus";
 
 // Component to track page views
 function PageTracker() {
@@ -104,35 +105,38 @@ function AppContent() {
   const { isAuthenticated } = useAuth();
 
   return (
-    <Routes>
-      {/* Store routes - no authentication required (now default) */}
-      <Route path="/" element={<Store />} />
-      <Route path="/product/:id" element={<ProductDetail />} />
+    <>
+      <NetworkStatus />
+      <Routes>
+        {/* Store routes - no authentication required (now default) */}
+        <Route path="/" element={<Store />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
 
-      {/* Admin routes - authentication required (now at /admin) */}
-      <Route
-        path="/admin/*"
-        element={
-          isAuthenticated ? (
-            <DashboardLayout>
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/categories" element={<Categories />} />
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/customers" element={<Customers />} />
-                <Route path="/revenue" element={<Revenue />} />
-                <Route path="/analytics" element={<Analytics />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </DashboardLayout>
-          ) : (
-            <LoginPage />
-          )
-        }
-      />
-    </Routes>
+        {/* Admin routes - authentication required (now at /admin) */}
+        <Route
+          path="/admin/*"
+          element={
+            isAuthenticated ? (
+              <DashboardLayout>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/products" element={<Products />} />
+                  <Route path="/categories" element={<Categories />} />
+                  <Route path="/orders" element={<Orders />} />
+                  <Route path="/customers" element={<Customers />} />
+                  <Route path="/revenue" element={<Revenue />} />
+                  <Route path="/analytics" element={<Analytics />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </DashboardLayout>
+            ) : (
+              <LoginPage />
+            )
+          }
+        />
+      </Routes>
+    </>
   );
 }
 

@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useData } from "@/contexts/DataContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { formatPrice } from "@/lib/formatters";
 import {
   Card,
   CardContent,
@@ -49,7 +50,7 @@ const COLORS = [
 
 export default function Revenue() {
   const { orders, products, getProductById } = useData();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   // Calculate revenue metrics
   const revenueMetrics = useMemo(() => {
@@ -186,7 +187,7 @@ export default function Revenue() {
     },
   ];
 
-  const formatCurrency = (amount: number) => `BD ${amount.toFixed(2)}`;
+  const formatCurrency = (amount: number) => formatPrice(amount, language);
 
   return (
     <div className="space-y-6">

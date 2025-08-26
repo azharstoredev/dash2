@@ -1,0 +1,69 @@
+$ fly logs -a dash2
+Waiting for logs...
+2025-08-21T09:56:39.434 app[48e3106b73e3e8] ams [info] 2025-08-21T09:56:39.434205727 [01K360STHGR3Y5DZ955NDFNZ42:main] Running Firecracker v1.12.1
+2025-08-21T09:56:39.434 app[48e3106b73e3e8] ams [info] 2025-08-21T09:56:39.434367665 [01K360STHGR3Y5DZ955NDFNZ42:main] Listening on API socket ("/fc.sock").
+2025-08-21T09:56:40.360 app[48e3106b73e3e8] ams [info] INFO Starting init (commit: 34faef9)...
+2025-08-21T09:56:40.452 app[48e3106b73e3e8] ams [info] INFO Preparing to run: `docker-entrypoint.sh npm start` as nodejs
+2025-08-21T09:56:40.463 app[48e3106b73e3e8] ams [info] INFO [fly api proxy] listening at /.fly/api
+2025-08-21T09:56:40.470 runner[48e3106b73e3e8] ams [info] Machine started in 1.154s
+2025-08-21T09:56:40.852 app[48e3106b73e3e8] ams [info] 2025/08/21 09:56:40 INFO SSH listening listen_address=[fdaa:28:1225:a7b:442:96e8:1f9e:2]:22
+2025-08-21T09:56:41.405 app[48e3106b73e3e8] ams [info] > start
+2025-08-21T09:56:41.405 app[48e3106b73e3e8] ams [info] > node dist/server/node-build.mjs
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] node:internal/modules/esm/resolve:854
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] ^
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'cors' imported from /app/dist/server/node-build.mjs
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] at packageResolve (node:internal/modules/esm/resolve:854:9)
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] at moduleResolve (node:internal/modules/esm/resolve:927:18)
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] at defaultResolve (node:internal/modules/esm/resolve:1169:11)
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:542:12)
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] at ModuleLoader.resolve (node:internal/modules/esm/loader:510:25)
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] at ModuleLoader.getModuleJob (node:internal/modules/esm/loader:239:38)
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:96:40)
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] at link (node:internal/modules/esm/module_job:95:36) {
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] code: 'ERR_MODULE_NOT_FOUND'
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] }
+2025-08-21T09:56:41.501 app[48e3106b73e3e8] ams [info] Node.js v20.18.0
+2025-08-21T09:56:41.556 app[48e3106b73e3e8] ams [info] npm notice
+2025-08-21T09:56:41.556 app[48e3106b73e3e8] ams [info] npm notice New major version of npm available! 10.8.2 -> 11.5.2
+2025-08-21T09:56:41.556 app[48e3106b73e3e8] ams [info] npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+2025-08-21T09:56:41.556 app[48e3106b73e3e8] ams [info] npm notice To update run: npm install -g npm@11.5.2
+2025-08-21T09:56:41.556 app[48e3106b73e3e8] ams [info] npm notice
+2025-08-21T09:56:42.465 app[48e3106b73e3e8] ams [info] INFO Main child exited normally with code: 1
+2025-08-21T09:56:42.482 app[48e3106b73e3e8] ams [info] INFO Starting clean up.
+2025-08-21T09:56:42.550 app[48e3106b73e3e8] ams [info] WARN could not unmount /rootfs: EINVAL: Invalid argument
+2025-08-21T09:56:42.550 app[48e3106b73e3e8] ams [info] [ 3.037368] reboot: Restarting system
+2025-08-21T09:56:42.811 runner[48e3106b73e3e8] ams [info] machine has reached its max restart count of 10
+2025-08-21T09:56:51.986 proxy[48e3017a7764e8] ams [info] Starting machine
+2025-08-21T09:56:52.065 app[48e3017a7764e8] ams [info] 2025-08-21T09:56:52.065286411 [01K360STR91389KFSR4X0NJQ61:main] Running Firecracker v1.12.1
+2025-08-21T09:56:52.065 app[48e3017a7764e8] ams [info] 2025-08-21T09:56:52.065413051 [01K360STR91389KFSR4X0NJQ61:main] Listening on API socket ("/fc.sock").
+2025-08-21T09:56:52.746 app[48e3017a7764e8] ams [info] INFO Starting init (commit: 34faef9)...
+2025-08-21T09:56:52.812 app[48e3017a7764e8] ams [info] INFO Preparing to run: `docker-entrypoint.sh npm start` as nodejs
+2025-08-21T09:56:52.818 app[48e3017a7764e8] ams [info] INFO [fly api proxy] listening at /.fly/api
+2025-08-21T09:56:52.840 runner[48e3017a7764e8] ams [info] Machine started in 851ms
+2025-08-21T09:56:52.842 proxy[48e3017a7764e8] ams [info] machine started in 855.944229ms
+2025-08-21T09:56:53.081 app[48e3017a7764e8] ams [info] 2025/08/21 09:56:53 INFO SSH listening listen_address=[fdaa:28:1225:a7b:458:9fa:c4af:2]:22
+2025-08-21T09:56:53.417 app[48e3017a7764e8] ams [info] > start
+2025-08-21T09:56:53.417 app[48e3017a7764e8] ams [info] > node dist/server/node-build.mjs
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] node:internal/modules/esm/resolve:854
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] ^
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'cors' imported from /app/dist/server/node-build.mjs
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] at packageResolve (node:internal/modules/esm/resolve:854:9)
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] at moduleResolve (node:internal/modules/esm/resolve:927:18)
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] at defaultResolve (node:internal/modules/esm/resolve:1169:11)
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:542:12)
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] at ModuleLoader.resolve (node:internal/modules/esm/loader:510:25)
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] at ModuleLoader.getModuleJob (node:internal/modules/esm/loader:239:38)
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:96:40)
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] at link (node:internal/modules/esm/module_job:95:36) {
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] code: 'ERR_MODULE_NOT_FOUND'
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] }
+2025-08-21T09:56:53.465 app[48e3017a7764e8] ams [info] Node.js v20.18.0
+2025-08-21T09:56:53.819 app[48e3017a7764e8] ams [info] INFO Main child exited normally with code: 1
+2025-08-21T09:56:53.835 app[48e3017a7764e8] ams [info] INFO Starting clean up.
+2025-08-21T09:56:53.869 app[48e3017a7764e8] ams [info] WARN could not unmount /rootfs: EINVAL: Invalid argument
+2025-08-21T09:56:53.869 app[48e3017a7764e8] ams [info] [ 1.745823] reboot: Restarting system
+2025-08-21T09:56:54.053 runner[48e3017a7764e8] ams [info] machine has reached its max restart count of 10
+2025-08-21T09:57:00.160 proxy[48e3017a7764e8] ams [info] waiting for machine to be reachable on 0.0.0.0:8080 (waited 7.318215668s so far)
+2025-08-21T09:57:06.164 proxy[48e3017a7764e8] ams [info] waiting for machine to be reachable on 0.0.0.0:8080 (waited 13.322234774s so far)

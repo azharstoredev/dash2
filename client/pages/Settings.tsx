@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useDialog } from "@/contexts/DialogContext";
 import { useData } from "@/contexts/DataContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,6 +22,7 @@ import {
   Store,
   CreditCard,
   Truck,
+  Package,
   Phone,
   Mail,
   MapPin,
@@ -43,8 +45,10 @@ import {
   Info,
   Download,
   Upload,
+  Wrench,
 } from "lucide-react";
 import SystemSettings from "@/components/SystemSettings";
+import { diagnoseApiHealth } from "@/utils/apiDiagnostics";
 
 interface StoreSettings {
   // Store Information
@@ -75,15 +79,11 @@ interface StoreSettings {
     sunday: { open: string; close: string; isOpen: boolean };
   };
 
-  // Shipping & Delivery
-  deliveryEnabled: boolean;
-  pickupEnabled: boolean;
-  deliveryFee: number;
-  freeDeliveryThreshold: number;
-  deliveryAreas: string[];
-  estimatedDeliveryTime: string;
-  pickupAddressEn?: string;
-  pickupAddressAr?: string;
+  // Delivery & Pickup Messages
+  pickupMessageEn?: string;
+  pickupMessageAr?: string;
+  deliveryMessageEn?: string;
+  deliveryMessageAr?: string;
 
   // Payment Settings
   cashOnDeliveryEnabled: boolean;
@@ -116,6 +116,9 @@ interface StoreSettings {
   // Admin Settings
   adminPassword?: string;
   adminEmail?: string;
+  currentPassword?: string;
+  newPassword?: string;
+  confirmPassword?: string;
 
   // New Advanced Settings
   enableNotifications?: boolean;
@@ -128,12 +131,30 @@ interface StoreSettings {
   enableAccessibility?: boolean;
   enablePerformanceMode?: boolean;
   enableDebugMode?: boolean;
+
+  // Delivery Settings
+  deliveryFee?: number;
+  freeDeliveryMinimum?: number;
+
+  // Delivery Area Pricing
+  deliveryAreaSitra?: number;
+  deliveryAreaMuharraq?: number;
+  deliveryAreaOther?: number;
+
+  // Delivery Area Names
+  deliveryAreaSitraNameEn?: string;
+  deliveryAreaSitraNameAr?: string;
+  deliveryAreaMuharraqlNameEn?: string;
+  deliveryAreaMuharraqNameAr?: string;
+  deliveryAreaOtherNameEn?: string;
+  deliveryAreaOtherNameAr?: string;
 }
 
 export default function Settings() {
   const { t, language } = useLanguage();
   const { showConfirm, showAlert } = useDialog();
   const { products, orders, customers, refetchData } = useData();
+  const { changePassword, updateEmail, adminInfo, fetchAdminInfo } = useAuth();
   const [settings, setSettings] = useState<StoreSettings>({
     storeName: "",
     storeDescription: "",
@@ -145,7 +166,7 @@ export default function Settings() {
     orderSuccessMessageEn:
       "Thank you for your order! We'll process it within 2-4 hours and deliver within 1-3 business days.",
     orderSuccessMessageAr:
-      "شكراً لك على طلبك! سنقوم بمعالجته خلال 2-4 ساعات والتوصيل خلال 1-3 أيام عمل.",
+      "شكراً لك على طلبك! سنقوم بمعالجته خلال 2-4 ساعات والتوصيل خلال 1-3 أيام عم��.",
     orderInstructionsEn:
       "For any changes or questions about your order, please contact us.",
     orderInstructionsAr: "لأي تغييرات أو أسئلة حول طلبك، يرجى التواصل معنا.",
@@ -158,14 +179,12 @@ export default function Settings() {
       saturday: { open: "09:00", close: "18:00", isOpen: true },
       sunday: { open: "09:00", close: "18:00", isOpen: true },
     },
-    deliveryEnabled: true,
-    pickupEnabled: true,
-    deliveryFee: 1.5,
-    freeDeliveryThreshold: 50,
-    deliveryAreas: ["All Towns", "Jao or Askar"],
-    estimatedDeliveryTime: "1-3 business days",
-    pickupAddressEn: "Home 1348, Road 416, Block 604, Sitra Alqarya",
-    pickupAddressAr: "منزل 1348، طريق 416، مجمع 604، سترة القرية",
+    pickupMessageEn:
+      "Please collect your order from our location during business hours.",
+    pickupMessageAr: "يرجى استلام طلبك من موقعنا خلال ساعات العمل.",
+    deliveryMessageEn:
+      "Your order will be delivered to your address within 1-3 business days.",
+    deliveryMessageAr: "سيتم توصيل طلبك إلى عنوانك خلال 1-3 أيام عمل.",
     cashOnDeliveryEnabled: true,
     bankTransferEnabled: false,
     bankAccountInfo: "",
@@ -188,6 +207,9 @@ export default function Settings() {
     autoScrollToSummary: true,
     adminPassword: "",
     adminEmail: "",
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
     enableNotifications: true,
     enableAnalytics: true,
     enableBackup: true,
@@ -198,11 +220,24 @@ export default function Settings() {
     enableAccessibility: true,
     enablePerformanceMode: false,
     enableDebugMode: false,
+    deliveryFee: 1.5,
+    freeDeliveryMinimum: 20,
+    deliveryAreaSitra: 1.0,
+    deliveryAreaMuharraq: 1.5,
+    deliveryAreaOther: 2.0,
+    deliveryAreaSitraNameEn: "Sitra",
+    deliveryAreaSitraNameAr: "سترة",
+    deliveryAreaMuharraqlNameEn: "Muharraq, Askar, Jao",
+    deliveryAreaMuharraqNameAr: "المحرق، عسكر، جو",
+    deliveryAreaOtherNameEn: "Other Cities",
+    deliveryAreaOtherNameAr: "مدن أخرى",
   });
 
   const [hasChanges, setHasChanges] = useState(false);
   const [activeTab, setActiveTab] = useState("basic");
   const [isSaving, setIsSaving] = useState(false);
+  const [isDiagnosing, setIsDiagnosing] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
 
   useEffect(() => {
     const savedSettings = localStorage.getItem("storeSettings");
@@ -211,6 +246,13 @@ export default function Settings() {
       setSettings((prev) => ({ ...prev, ...parsed }));
     }
   }, []);
+
+  useEffect(() => {
+    // Load admin email from context
+    if (adminInfo?.email) {
+      setSettings((prev) => ({ ...prev, adminEmail: adminInfo.email }));
+    }
+  }, [adminInfo]);
 
   const handleInputChange = (field: string, value: any) => {
     setSettings((prev) => ({ ...prev, [field]: value }));
@@ -235,10 +277,104 @@ export default function Settings() {
     setHasChanges(true);
   };
 
+  const handlePasswordChange = async () => {
+    if (
+      !settings.currentPassword ||
+      !settings.newPassword ||
+      !settings.confirmPassword
+    ) {
+      showAlert({
+        title: t("message.error"),
+        message: "All password fields are required",
+        type: "error",
+      });
+      return;
+    }
+
+    if (settings.newPassword !== settings.confirmPassword) {
+      showAlert({
+        title: t("message.error"),
+        message: t("settings.passwordsDoNotMatch"),
+        type: "error",
+      });
+      return;
+    }
+
+    if (settings.newPassword.length < 6) {
+      showAlert({
+        title: t("message.error"),
+        message: "Password must be at least 6 characters long",
+        type: "error",
+      });
+      return;
+    }
+
+    setIsChangingPassword(true);
+    try {
+      const success = await changePassword(
+        settings.currentPassword,
+        settings.newPassword,
+      );
+
+      if (success) {
+        showAlert({
+          title: t("common.success"),
+          message: t("settings.passwordChanged"),
+          type: "success",
+        });
+
+        // Clear password fields
+        setSettings((prev) => ({
+          ...prev,
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        }));
+      } else {
+        showAlert({
+          title: t("message.error"),
+          message:
+            "Failed to change password. Please check your current password.",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      showAlert({
+        title: t("message.error"),
+        message: "An error occurred while changing password",
+        type: "error",
+      });
+    } finally {
+      setIsChangingPassword(false);
+    }
+  };
+
   const saveSettings = async () => {
     setIsSaving(true);
     try {
+      // Save regular settings to localStorage
       localStorage.setItem("storeSettings", JSON.stringify(settings));
+
+      // Handle admin email update if it changed
+      if (
+        adminInfo?.email &&
+        settings.adminEmail &&
+        adminInfo.email !== settings.adminEmail
+      ) {
+        const emailUpdateSuccess = await updateEmail(settings.adminEmail);
+        if (!emailUpdateSuccess) {
+          showAlert({
+            title: t("message.error"),
+            message: "Failed to update admin email",
+            type: "error",
+          });
+          setIsSaving(false);
+          return;
+        }
+        // Refresh admin info
+        await fetchAdminInfo();
+      }
+
       setHasChanges(false);
       showAlert({
         title: t("settings.saveSuccess"),
@@ -303,6 +439,29 @@ export default function Settings() {
         }
       };
       reader.readAsText(file);
+    }
+  };
+
+  const runDiagnostics = async () => {
+    setIsDiagnosing(true);
+    try {
+      const results = await diagnoseApiHealth();
+      const successCount = results.filter((r) => r.success).length;
+      const totalCount = results.length;
+
+      showAlert({
+        title: "API Diagnostics Complete",
+        message: `${successCount}/${totalCount} endpoints working. Check console for details.`,
+        type: successCount === totalCount ? "success" : "warning",
+      });
+    } catch (error) {
+      showAlert({
+        title: "Diagnostics Failed",
+        message: "Failed to run API diagnostics",
+        type: "error",
+      });
+    } finally {
+      setIsDiagnosing(false);
     }
   };
 
@@ -465,223 +624,389 @@ export default function Settings() {
         {/* Delivery Settings */}
         {activeTab === "delivery" && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Delivery Options */}
+            {/* Delivery Pricing */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Truck className="w-5 h-5" />
-                  {t("settings.shippingDelivery")}
+                  <DollarSign className="w-5 h-5" />
+                  {t("settings.deliveryPricing")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="deliveryEnabled" className="auto-text">
-                    {t("settings.enableDelivery")}
+                <div>
+                  <Label htmlFor="freeDeliveryMinimum" className="auto-text">
+                    {t("settings.freeDeliveryMinimum")}
                   </Label>
-                  <Switch
-                    id="deliveryEnabled"
-                    checked={settings.deliveryEnabled}
-                    onCheckedChange={(checked) =>
-                      handleInputChange("deliveryEnabled", checked)
+                  <Input
+                    id="freeDeliveryMinimum"
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    value={settings.freeDeliveryMinimum || 0}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "freeDeliveryMinimum",
+                        parseFloat(e.target.value) || 0,
+                      )
                     }
+                    onFocus={(e) => {
+                      if (e.target.value === "0") {
+                        e.target.value = "";
+                      }
+                      // Scroll into view on mobile
+                      setTimeout(() => {
+                        e.target.scrollIntoView({
+                          behavior: "smooth",
+                          block: "center",
+                        });
+                      }, 100);
+                    }}
+                    className="ltr-text"
+                    placeholder="20"
                   />
+                  <p className="text-sm text-muted-foreground auto-text mt-1">
+                    {t("settings.freeDeliveryMinimumHint")}
+                  </p>
                 </div>
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="pickupEnabled" className="auto-text">
-                    {t("settings.enablePickup")}
-                  </Label>
-                  <Switch
-                    id="pickupEnabled"
-                    checked={settings.pickupEnabled}
-                    onCheckedChange={(checked) =>
-                      handleInputChange("pickupEnabled", checked)
-                    }
-                  />
-                </div>
-                {settings.deliveryEnabled && (
-                  <>
+              </CardContent>
+            </Card>
+
+            {/* Delivery Area Pricing */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <MapPin className="w-5 h-5" />
+                  {language === "ar"
+                    ? "أسعار التوصيل حسب المنطقة"
+                    : "Delivery Area Pricing"}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-4 p-4 border rounded-lg">
+                  <h4 className="font-medium auto-text">
+                    {language === "ar" ? "المنطقة الأولى" : "Area 1"}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="deliveryFee" className="auto-text">
-                        {t("settings.deliveryFee")}
+                      <Label
+                        htmlFor="deliveryAreaSitraNameEn"
+                        className="auto-text"
+                      >
+                        {language === "ar"
+                          ? "الاسم بالإنجليزية"
+                          : "Name (English)"}
                       </Label>
                       <Input
-                        id="deliveryFee"
-                        type="number"
-                        step="0.01"
-                        value={settings.deliveryFee}
+                        id="deliveryAreaSitraNameEn"
+                        value={settings.deliveryAreaSitraNameEn || ""}
                         onChange={(e) =>
                           handleInputChange(
-                            "deliveryFee",
-                            parseFloat(e.target.value),
+                            "deliveryAreaSitraNameEn",
+                            e.target.value,
                           )
                         }
-                        className="ltr-text"
+                        placeholder="Sitra"
+                        className="auto-text"
                       />
                     </div>
                     <div>
                       <Label
-                        htmlFor="freeDeliveryThreshold"
+                        htmlFor="deliveryAreaSitraNameAr"
                         className="auto-text"
                       >
-                        {t("settings.freeDeliveryThreshold")}
+                        {language === "ar" ? "الاسم بالعربية" : "Name (Arabic)"}
                       </Label>
                       <Input
-                        id="freeDeliveryThreshold"
-                        type="number"
-                        step="0.01"
-                        value={settings.freeDeliveryThreshold}
+                        id="deliveryAreaSitraNameAr"
+                        value={settings.deliveryAreaSitraNameAr || ""}
                         onChange={(e) =>
                           handleInputChange(
-                            "freeDeliveryThreshold",
-                            parseFloat(e.target.value),
+                            "deliveryAreaSitraNameAr",
+                            e.target.value,
                           )
                         }
-                        className="ltr-text"
-                      />
-                    </div>
-                  </>
-                )}
-                {settings.pickupEnabled && (
-                  <>
-                    <div>
-                      <Label htmlFor="pickupAddressEn" className="auto-text">
-                        {t("settings.pickupAddressEn")}
-                      </Label>
-                      <Textarea
-                        id="pickupAddressEn"
-                        value={settings.pickupAddressEn}
-                        onChange={(e) =>
-                          handleInputChange("pickupAddressEn", e.target.value)
-                        }
+                        placeholder="سترة"
                         className="auto-text"
-                        rows={3}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="deliveryAreaSitra" className="auto-text">
+                      {language === "ar" ? "رسوم التوصيل" : "Delivery Fee"}
+                    </Label>
+                    <Input
+                      id="deliveryAreaSitra"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      value={settings.deliveryAreaSitra || 0}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "deliveryAreaSitra",
+                          parseFloat(e.target.value) || 0,
+                        )
+                      }
+                      onFocus={(e) => {
+                        if (e.target.value === "0") {
+                          e.target.value = "";
+                        }
+                        // Scroll into view on mobile
+                        setTimeout(() => {
+                          e.target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          });
+                        }, 100);
+                      }}
+                      className="ltr-text"
+                      placeholder="1.0"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-4 p-4 border rounded-lg">
+                  <h4 className="font-medium auto-text">
+                    {language === "ar" ? "المنطقة الثانية" : "Area 2"}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label
+                        htmlFor="deliveryAreaMuharraqlNameEn"
+                        className="auto-text"
+                      >
+                        {language === "ar"
+                          ? "الاسم بالإنجليزية"
+                          : "Name (English)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaMuharraqlNameEn"
+                        value={settings.deliveryAreaMuharraqlNameEn || ""}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "deliveryAreaMuharraqlNameEn",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="Muharraq, Askar, Jao"
+                        className="auto-text"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="pickupAddressAr" className="auto-text">
-                        {t("settings.pickupAddressAr")}
-                      </Label>
-                      <Textarea
-                        id="pickupAddressAr"
-                        value={settings.pickupAddressAr}
-                        onChange={(e) =>
-                          handleInputChange("pickupAddressAr", e.target.value)
-                        }
+                      <Label
+                        htmlFor="deliveryAreaMuharraqNameAr"
                         className="auto-text"
-                        rows={3}
+                      >
+                        {language === "ar" ? "الاسم بالعربية" : "Name (Arabic)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaMuharraqNameAr"
+                        value={settings.deliveryAreaMuharraqNameAr || ""}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "deliveryAreaMuharraqNameAr",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="المحرق، عسكر، جو"
+                        className="auto-text"
                       />
                     </div>
-                  </>
-                )}
+                  </div>
+                  <div>
+                    <Label htmlFor="deliveryAreaMuharraq" className="auto-text">
+                      {language === "ar" ? "رسوم التوصيل" : "Delivery Fee"}
+                    </Label>
+                    <Input
+                      id="deliveryAreaMuharraq"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      value={settings.deliveryAreaMuharraq || 0}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "deliveryAreaMuharraq",
+                          parseFloat(e.target.value) || 0,
+                        )
+                      }
+                      onFocus={(e) => {
+                        if (e.target.value === "0") {
+                          e.target.value = "";
+                        }
+                        // Scroll into view on mobile
+                        setTimeout(() => {
+                          e.target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          });
+                        }, 100);
+                      }}
+                      className="ltr-text"
+                      placeholder="1.5"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-4 p-4 border rounded-lg">
+                  <h4 className="font-medium auto-text">
+                    {language === "ar" ? "المنطقة الثالثة" : "Area 3"}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label
+                        htmlFor="deliveryAreaOtherNameEn"
+                        className="auto-text"
+                      >
+                        {language === "ar"
+                          ? "الاسم بالإنجليزية"
+                          : "Name (English)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaOtherNameEn"
+                        value={settings.deliveryAreaOtherNameEn || ""}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "deliveryAreaOtherNameEn",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="Other Cities"
+                        className="auto-text"
+                      />
+                    </div>
+                    <div>
+                      <Label
+                        htmlFor="deliveryAreaOtherNameAr"
+                        className="auto-text"
+                      >
+                        {language === "ar" ? "الاسم بالعربية" : "Name (Arabic)"}
+                      </Label>
+                      <Input
+                        id="deliveryAreaOtherNameAr"
+                        value={settings.deliveryAreaOtherNameAr || ""}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "deliveryAreaOtherNameAr",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="م��ن أخرى"
+                        className="auto-text"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="deliveryAreaOther" className="auto-text">
+                      {language === "ar" ? "رسوم التوصيل" : "Delivery Fee"}
+                    </Label>
+                    <Input
+                      id="deliveryAreaOther"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      value={settings.deliveryAreaOther || 0}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "deliveryAreaOther",
+                          parseFloat(e.target.value) || 0,
+                        )
+                      }
+                      onFocus={(e) => {
+                        if (e.target.value === "0") {
+                          e.target.value = "";
+                        }
+                        // Scroll into view on mobile
+                        setTimeout(() => {
+                          e.target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          });
+                        }, 100);
+                      }}
+                      className="ltr-text"
+                      placeholder="2.0"
+                    />
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
-            {/* Operational Settings */}
+            {/* Pickup Messages */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5" />
-                  {t("settings.operationalSettings")}
+                  <Package className="w-5 h-5" />
+                  {t("settings.pickupMessages")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="lowStockThreshold" className="auto-text">
-                    {t("settings.lowStockThreshold")}
+                  <Label htmlFor="pickupMessageEn" className="auto-text">
+                    {t("settings.pickupMessageEn")}
                   </Label>
-                  <Input
-                    id="lowStockThreshold"
-                    type="number"
-                    value={settings.lowStockThreshold}
+                  <Textarea
+                    id="pickupMessageEn"
+                    value={settings.pickupMessageEn || ""}
                     onChange={(e) =>
-                      handleInputChange(
-                        "lowStockThreshold",
-                        parseInt(e.target.value),
-                      )
-                    }
-                    className="ltr-text"
-                    placeholder="5"
-                  />
-                  <p className="text-sm text-gray-600 auto-text mt-1">
-                    Show low stock warning when quantity falls below this number
-                  </p>
-                </div>
-                <div>
-                  <Label htmlFor="maxOrderQuantity" className="auto-text">
-                    {t("settings.maxOrderQuantity")}
-                  </Label>
-                  <Input
-                    id="maxOrderQuantity"
-                    type="number"
-                    value={settings.maxOrderQuantity}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "maxOrderQuantity",
-                        parseInt(e.target.value),
-                      )
-                    }
-                    className="ltr-text"
-                    placeholder="10"
-                  />
-                  <p className="text-sm text-gray-600 auto-text mt-1">
-                    Maximum quantity a customer can order per item
-                  </p>
-                </div>
-                <div>
-                  <Label htmlFor="orderProcessingTime" className="auto-text">
-                    {t("settings.orderProcessingTime")}
-                  </Label>
-                  <Input
-                    id="orderProcessingTime"
-                    value={settings.orderProcessingTime}
-                    onChange={(e) =>
-                      handleInputChange("orderProcessingTime", e.target.value)
+                      handleInputChange("pickupMessageEn", e.target.value)
                     }
                     className="auto-text"
-                    placeholder="2-4 hours"
+                    rows={4}
+                    placeholder="Enter pickup instructions in English..."
                   />
-                  <p className="text-sm text-gray-600 auto-text mt-1">
-                    Estimated time to process orders
-                  </p>
+                </div>
+                <div>
+                  <Label htmlFor="pickupMessageAr" className="auto-text">
+                    {t("settings.pickupMessageAr")}
+                  </Label>
+                  <Textarea
+                    id="pickupMessageAr"
+                    value={settings.pickupMessageAr || ""}
+                    onChange={(e) =>
+                      handleInputChange("pickupMessageAr", e.target.value)
+                    }
+                    className="auto-text"
+                    rows={4}
+                    placeholder="أدخل ت��ليمات الاستلام بالعربية..."
+                  />
                 </div>
               </CardContent>
             </Card>
 
-            {/* Order Success Messages */}
+            {/* Delivery Messages */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5" />
-                  {t("settings.orderSuccessMessage")}
+                  <Truck className="w-5 h-5" />
+                  {t("settings.deliveryMessages")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="orderSuccessMessageEn" className="auto-text">
-                    {t("common.language")}
+                  <Label htmlFor="deliveryMessageEn" className="auto-text">
+                    {t("settings.deliveryMessageEn")}
                   </Label>
                   <Textarea
-                    id="orderSuccessMessageEn"
-                    value={settings.orderSuccessMessageEn}
+                    id="deliveryMessageEn"
+                    value={settings.deliveryMessageEn || ""}
                     onChange={(e) =>
-                      handleInputChange("orderSuccessMessageEn", e.target.value)
+                      handleInputChange("deliveryMessageEn", e.target.value)
                     }
                     className="auto-text"
                     rows={4}
+                    placeholder="Enter delivery instructions in English..."
                   />
                 </div>
                 <div>
-                  <Label htmlFor="orderSuccessMessageAr" className="auto-text">
-                    {t("common.languageAr")}
+                  <Label htmlFor="deliveryMessageAr" className="auto-text">
+                    {t("settings.deliveryMessageAr")}
                   </Label>
                   <Textarea
-                    id="orderSuccessMessageAr"
-                    value={settings.orderSuccessMessageAr}
+                    id="deliveryMessageAr"
+                    value={settings.deliveryMessageAr || ""}
                     onChange={(e) =>
-                      handleInputChange("orderSuccessMessageAr", e.target.value)
+                      handleInputChange("deliveryMessageAr", e.target.value)
                     }
                     className="auto-text"
                     rows={4}
+                    placeholder="أدخل تعليمات التوصيل بالعربية..."
                   />
                 </div>
               </CardContent>
@@ -691,41 +1016,166 @@ export default function Settings() {
 
         {/* Admin Settings */}
         {activeTab === "admin" && (
-          <div className="max-w-xl mx-auto">
-            {/* Admin Access */}
+          <div className="max-w-xl mx-auto space-y-6">
+            {/* Admin Information */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Shield className="w-5 h-5" />
-                  {t("settings.adminSettings")}
+                  <User className="w-5 h-5" />
+                  {t("settings.adminInformation")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="adminPassword" className="auto-text">
-                    {t("settings.adminPassword")}
+                  <Label htmlFor="adminEmail" className="auto-text">
+                    {t("settings.adminEmail")}
                   </Label>
                   <Input
-                    id="adminPassword"
-                    type="password"
-                    value={settings.adminPassword}
+                    id="adminEmail"
+                    type="email"
+                    value={settings.adminEmail}
                     onChange={(e) =>
-                      handleInputChange("adminPassword", e.target.value)
+                      handleInputChange("adminEmail", e.target.value)
+                    }
+                    placeholder="admin@example.com"
+                    className="ltr-text"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Password Change */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="w-5 h-5" />
+                  {t("settings.changePassword")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="currentPassword" className="auto-text">
+                    {t("settings.currentPassword")}
+                  </Label>
+                  <Input
+                    id="currentPassword"
+                    type="password"
+                    value={settings.currentPassword || ""}
+                    onChange={(e) =>
+                      handleInputChange("currentPassword", e.target.value)
+                    }
+                    placeholder="••���•••••"
+                    className="ltr-text"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="newPassword" className="auto-text">
+                    {t("settings.newPassword")}
+                  </Label>
+                  <Input
+                    id="newPassword"
+                    type="password"
+                    value={settings.newPassword || ""}
+                    onChange={(e) =>
+                      handleInputChange("newPassword", e.target.value)
                     }
                     placeholder="••••••••"
                     className="ltr-text"
                   />
-                  <p className="text-sm text-muted-foreground auto-text mt-1">
-                    {t("settings.adminPasswordHint")}
-                  </p>
                 </div>
+                <div>
+                  <Label htmlFor="confirmPassword" className="auto-text">
+                    {t("settings.confirmPassword")}
+                  </Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    value={settings.confirmPassword || ""}
+                    onChange={(e) =>
+                      handleInputChange("confirmPassword", e.target.value)
+                    }
+                    placeholder="••••••••"
+                    className="ltr-text"
+                  />
+                </div>
+                {settings.newPassword &&
+                  settings.confirmPassword &&
+                  settings.newPassword !== settings.confirmPassword && (
+                    <p className="text-sm text-red-600 auto-text">
+                      {t("settings.passwordsDoNotMatch")}
+                    </p>
+                  )}
+                <Button
+                  onClick={handlePasswordChange}
+                  disabled={
+                    !settings.currentPassword ||
+                    !settings.newPassword ||
+                    !settings.confirmPassword ||
+                    settings.newPassword !== settings.confirmPassword ||
+                    isChangingPassword
+                  }
+                  className="w-full"
+                >
+                  {isChangingPassword
+                    ? t("common.loading")
+                    : t("settings.changePassword")}
+                </Button>
               </CardContent>
             </Card>
           </div>
         )}
 
         {/* System Settings */}
-        {activeTab === "system" && <SystemSettings />}
+        {activeTab === "system" && (
+          <div className="space-y-6">
+            {/* API Diagnostics */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Monitor className="w-5 h-5" />
+                  API Diagnostics
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <Info className="w-5 h-5 text-gray-600 mt-0.5" />
+                    <div>
+                      <h4 className="font-medium text-gray-900 mb-1">
+                        Network Connectivity Test
+                      </h4>
+                      <p className="text-sm text-gray-700">
+                        Test all API endpoints to diagnose network connectivity
+                        issues. Results will be logged to the browser console.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-medium">Run API Health Check</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Test connectivity to all backend services
+                    </p>
+                  </div>
+                  <Button
+                    onClick={runDiagnostics}
+                    disabled={isDiagnosing}
+                    variant="outline"
+                    className="flex items-center gap-2"
+                  >
+                    <Monitor className="w-4 h-4" />
+                    {isDiagnosing ? "Testing..." : "Run Diagnostics"}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* System Settings Component */}
+            <SystemSettings />
+          </div>
+        )}
       </div>
     </div>
   );

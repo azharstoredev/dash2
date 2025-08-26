@@ -7,7 +7,7 @@
       "port": 8080,
       "mode": "development"
     },
-    "timestamp": "2025-08-20T14:36:33.230Z"
+    "timestamp": "2025-08-21T10:57:04.260Z"
   },
   {
     "level": "info",
@@ -16,7 +16,7 @@
     "details": {
       "userAgent": "Browser"
     },
-    "timestamp": "2025-08-20T14:36:33.232Z"
+    "timestamp": "2025-08-21T10:57:04.261Z"
   },
   {
     "level": "info",
@@ -26,7 +26,7 @@
       "orderId": "order_001",
       "total": 25.5
     },
-    "timestamp": "2025-08-20T14:36:33.233Z"
+    "timestamp": "2025-08-21T10:57:04.261Z"
   },
   {
     "level": "info",
@@ -35,7 +35,7 @@
     "details": {
       "customerName": "Ahmed Al-Rashid"
     },
-    "timestamp": "2025-08-20T14:36:33.233Z"
+    "timestamp": "2025-08-21T10:57:04.261Z"
   },
   {
     "level": "info",
@@ -45,7 +45,7 @@
       "productName": "USB Cable",
       "newStock": 45
     },
-    "timestamp": "2025-08-20T14:36:33.234Z"
+    "timestamp": "2025-08-21T10:57:04.262Z"
   },
   {
     "level": "warning",
@@ -54,7 +54,7 @@
     "details": {
       "usage": "85%"
     },
-    "timestamp": "2025-08-20T14:36:33.234Z"
+    "timestamp": "2025-08-21T10:57:04.264Z"
   },
   {
     "level": "info",
@@ -63,28 +63,20 @@
     "details": {
       "recordsProcessed": 1250
     },
-    "timestamp": "2025-08-20T14:36:33.234Z"
-  },
-  {
-    "level": "info",
-    "category": "system",
-    "message": "System logs exported (7 entries)",
-    "ip": "::ffff:127.0.0.1",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
-    "timestamp": "2025-08-20T14:42:37.250Z"
+    "timestamp": "2025-08-21T10:57:04.265Z"
   },
   {
     "level": "info",
     "category": "product",
-    "message": "New product added: asfdsadf",
+    "message": "New product added: I",
     "details": {
-      "productId": "175570134749485j9ulvrb",
-      "productName": "asfdsadf",
-      "price": 2,
+      "productId": "1755791007379tanpejwjs",
+      "productName": "I",
+      "price": 0.9,
       "variants": 0
     },
     "ip": "::ffff:127.0.0.1",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
-    "timestamp": "2025-08-20T14:49:07.744Z"
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15",
+    "timestamp": "2025-08-21T15:43:27.590Z"
   }
 ]

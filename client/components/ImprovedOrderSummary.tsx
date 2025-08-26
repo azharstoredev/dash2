@@ -1,5 +1,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useCart } from "@/contexts/CartContext";
+import { formatPrice } from "@/lib/formatters";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -22,7 +23,21 @@ export default function ImprovedOrderSummary({
   const { t, language } = useLanguage();
   const { items, getTotalPrice } = useCart();
   const totalPrice = getTotalPrice();
-  const deliveryFee = deliveryType === "delivery" ? 1.5 : 0;
+
+  // Get delivery settings from localStorage
+  const savedSettings = JSON.parse(
+    localStorage.getItem("storeSettings") || "{}",
+  );
+  const deliveryFeeSetting = Number(savedSettings?.deliveryFee ?? 1.5);
+  const freeDeliveryMinimum = Number(savedSettings?.freeDeliveryMinimum ?? 20);
+
+  // Calculate delivery fee with free delivery threshold
+  const deliveryFee =
+    deliveryType === "delivery"
+      ? totalPrice >= freeDeliveryMinimum
+        ? 0
+        : deliveryFeeSetting
+      : 0;
   const finalTotal = totalPrice + deliveryFee;
 
   return (
@@ -68,16 +83,14 @@ export default function ImprovedOrderSummary({
                         {t("store.quantity")}: {item.quantity}
                       </span>
                       <span className="ltr-text">
-                        {language === "ar" ? "د.ب" : "BD"}{" "}
-                        {item.price.toFixed(2)}{" "}
+                        {formatPrice(item.price, language)}{" "}
                         {language === "ar" ? "للقطعة" : "each"}
                       </span>
                     </div>
                   </div>
                   <div className="text-end">
                     <div className="text-lg font-bold text-primary ltr-text">
-                      {language === "ar" ? "د.ب" : "BD"}{" "}
-                      {(item.price * item.quantity).toFixed(2)}
+                      {formatPrice(item.price * item.quantity, language)}
                     </div>
                   </div>
                 </div>
@@ -130,7 +143,7 @@ export default function ImprovedOrderSummary({
               {t("checkout.subtotal")}:
             </span>
             <span className="ltr-text font-semibold text-gray-900">
-              {language === "ar" ? "د.ب" : "BD"} {totalPrice.toFixed(2)}
+              {formatPrice(totalPrice, language)}
             </span>
           </div>
 
@@ -141,11 +154,31 @@ export default function ImprovedOrderSummary({
             <span className="ltr-text font-semibold text-gray-900">
               {deliveryFee === 0
                 ? language === "ar"
-                  ? "مجاني"
+                  ? "مجان"
                   : "Free"
-                : `${language === "ar" ? "د.ب" : "BD"} ${deliveryFee.toFixed(2)}`}
+                : formatPrice(deliveryFee, language)}
             </span>
           </div>
+
+          {/* Free delivery hint */}
+          {deliveryType === "delivery" && (
+            <div className="text-center mb-2">
+              {deliveryFee === 0 && totalPrice >= freeDeliveryMinimum ? (
+                <p className="text-sm text-green-600 font-medium auto-text">
+                  {language === "ar"
+                    ? "🎉 تأهلت للتوصيل المجاني!"
+                    : "🎉 You qualified for free delivery!"}
+                </p>
+              ) : deliveryType === "delivery" &&
+                totalPrice < freeDeliveryMinimum ? (
+                <p className="text-sm text-gray-500 auto-text">
+                  {language === "ar"
+                    ? `أضف ${formatPrice(freeDeliveryMinimum - totalPrice, language)} للحصول على توصيل مجاني`
+                    : `Add ${formatPrice(freeDeliveryMinimum - totalPrice, language)} more for free delivery`}
+                </p>
+              ) : null}
+            </div>
+          )}
 
           <Separator />
 
@@ -154,7 +187,7 @@ export default function ImprovedOrderSummary({
               {t("checkout.total")}:
             </span>
             <span className="ltr-text text-2xl font-bold text-primary">
-              {language === "ar" ? "د.ب" : "BD"} {finalTotal.toFixed(2)}
+              {formatPrice(finalTotal, language)}
             </span>
           </div>
         </div>
@@ -174,8 +207,7 @@ export default function ImprovedOrderSummary({
           ) : (
             <>
               <ShoppingCart className="w-5 h-5 mr-2" />
-              {t("checkout.placeOrder")} • {language === "ar" ? "د.ب" : "BD"}{" "}
-              {finalTotal.toFixed(2)}
+              {t("checkout.placeOrder")} • {formatPrice(finalTotal, language)}
             </>
           )}
         </Button>
