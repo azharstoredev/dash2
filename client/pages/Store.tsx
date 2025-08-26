@@ -31,7 +31,9 @@ import Footer from "../components/Footer";
 interface Product {
   id: string;
   name: string;
+  name_ar?: string;
   description: string;
+  description_ar?: string;
   price: number;
   images: string[];
   variants: Array<{
@@ -99,10 +101,14 @@ export default function Store() {
 
     // Filter by search query
     if (searchQuery.trim()) {
+      const term = searchQuery.toLowerCase();
       filtered = filtered.filter(
         (product) =>
-          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.description.toLowerCase().includes(searchQuery.toLowerCase()),
+          product.name.toLowerCase().includes(term) ||
+          (product.name_ar && product.name_ar.toLowerCase().includes(term)) ||
+          product.description.toLowerCase().includes(term) ||
+          (product.description_ar &&
+            product.description_ar.toLowerCase().includes(term)),
       );
     }
 
@@ -262,7 +268,9 @@ export default function Store() {
                   className="rounded-full h-10 sm:h-8 px-4 sm:px-3 touch-manipulation"
                 >
                   <span className="auto-text text-sm">
-                    {translateCategory(category.name)}
+                    {language === "ar" && category.name_ar
+                      ? category.name_ar
+                      : category.name}
                   </span>
                 </Button>
               ))}
@@ -308,7 +316,11 @@ export default function Store() {
                   {product.images.length > 0 ? (
                     <img
                       src={product.images[0]}
-                      alt={product.name}
+                      alt={
+                        language === "ar" && product.name_ar
+                          ? product.name_ar
+                          : product.name
+                      }
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                     />
                   ) : (
@@ -324,11 +336,15 @@ export default function Store() {
                 <div className="p-2 sm:p-3 lg:p-4">
                   <div onClick={() => navigate(`/product/${product.id}`)}>
                     <h3 className="font-semibold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2 line-clamp-2 hover:text-primary transition-colors auto-text leading-tight">
-                      {product.name}
+                      {language === "ar" && product.name_ar
+                        ? product.name_ar
+                        : product.name}
                     </h3>
 
                     <p className="text-muted-foreground text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-2 auto-text">
-                      {product.description}
+                      {language === "ar" && product.description_ar
+                        ? product.description_ar
+                        : product.description}
                     </p>
                   </div>
 

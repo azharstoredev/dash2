@@ -28,21 +28,26 @@ export default function Categories() {
   const { categories, products, addCategory, updateCategory, deleteCategory } =
     useData();
   const { showConfirm, showAlert } = useDialog();
-  const { t, translateCategory } = useLanguage();
+  const { t, language } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [formData, setFormData] = useState({
     name: "",
+    name_ar: "",
   });
 
-  const filteredCategories = categories.filter((category) =>
-    category.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredCategories = categories.filter(
+    (category) =>
+      category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (category.name_ar &&
+        category.name_ar.toLowerCase().includes(searchTerm.toLowerCase())),
   );
 
   const resetForm = () => {
     setFormData({
       name: "",
+      name_ar: "",
     });
     setEditingCategory(null);
   };
@@ -52,6 +57,7 @@ export default function Categories() {
       setEditingCategory(category);
       setFormData({
         name: category.name,
+        name_ar: category.name_ar || "",
       });
     } else {
       resetForm();
@@ -191,6 +197,23 @@ export default function Categories() {
                     required
                   />
                 </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="name_ar">
+                    {t("nav.categories")} {t("products.name")} (Arabic)
+                  </Label>
+                  <Input
+                    id="name_ar"
+                    dir="rtl"
+                    value={formData.name_ar}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        name_ar: e.target.value,
+                      }))
+                    }
+                    placeholder="اسم التصنيف"
+                  />
+                </div>
               </div>
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={closeDialog}>
@@ -241,7 +264,9 @@ export default function Categories() {
                     </div>
                     <div>
                       <CardTitle className="text-lg">
-                        {translateCategory(category.name)}
+                        {language === "ar" && category.name_ar
+                          ? category.name_ar
+                          : category.name}
                       </CardTitle>
                       <CardDescription>
                         {productCount} {t("nav.products")}
