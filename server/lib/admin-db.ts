@@ -1,5 +1,15 @@
 import { supabase } from "./supabase";
-import bcrypt from "bcrypt";
+
+// Dynamically import bcrypt to avoid issues in environments where native modules might fail on startup.
+async function getBcrypt() {
+  try {
+    const bcrypt = await import("bcrypt");
+    return bcrypt.default;
+  } catch (error) {
+    console.error("Failed to load bcrypt:", error);
+    throw new Error("Bcrypt password hashing library is not available.");
+  }
+}
 
 // Admin user interface
 export interface AdminUser {
@@ -35,6 +45,7 @@ export const adminDb = {
     if (!admin) {
       return false;
     }
+    const bcrypt = await getBcrypt();
     return await bcrypt.compare(password, admin.password_hash);
   },
 
@@ -45,6 +56,7 @@ export const adminDb = {
       return false;
     }
 
+    const bcrypt = await getBcrypt();
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     const updates = {
       password_hash: hashedPassword,
