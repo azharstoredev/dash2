@@ -78,11 +78,16 @@ export const createOrder: RequestHandler = async (req, res) => {
       }
     }
 
-    // Use the total from the request if provided, otherwise calculate it.
-    const finalTotal = total ?? items.reduce(
+    // Always calculate the total on the server to ensure accuracy
+    const itemsTotal = items.reduce(
       (sum: number, item: OrderItem) => sum + item.price * item.quantity,
       0,
     );
+
+    // This is a simplified delivery fee logic.
+    // In a real application, this would be more complex.
+    const deliveryFee = deliveryType === "delivery" ? 1.5 : 0;
+    const finalTotal = itemsTotal + deliveryFee;
 
     const orderData = {
       customerId,
