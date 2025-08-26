@@ -1,30 +1,42 @@
--- COMPLETE DATABASE RESET AND SETUP
--- This script safely handles all edge cases and creates a clean database
+-- =================================================================
+-- DATABASE MIGRATION SCRIPT
+--
+-- Version: 2.1
+-- Description: Complete database schema setup.
+-- This script is IDEMPOTENT and can be run multiple times safely.
+-- Changes in V2.1: Added explicit unique constraint creation for categories.
+-- =================================================================
 
--- Step 1: Clean slate - Drop everything safely
-DROP VIEW IF EXISTS order_details CASCADE;
-DROP TABLE IF EXISTS orders CASCADE;
-DROP TABLE IF EXISTS products CASCADE;
-DROP TABLE IF EXISTS customers CASCADE;
-DROP TABLE IF EXISTS categories CASCADE;
-DROP TABLE IF EXISTS admin_users CASCADE;
-
--- Drop any existing functions
-DROP FUNCTION IF EXISTS get_order_stats() CASCADE;
-DROP FUNCTION IF EXISTS update_updated_at_column() CASCADE;
-
--- Step 2: Enable UUID extension
+-- Step 1: Enable necessary extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Step 3: Create tables in correct order (categories first, then products)
-CREATE TABLE categories (
+-- =================================================================
+-- Step 2: Define and create core functions
+-- =================================================================
+
+-- Function to automatically update 'updated_at' timestamps
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- =================================================================
+-- Step 3: Define and create tables
+-- =================================================================
+
+-- Categories for products
+CREATE TABLE IF NOT EXISTS categories (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name TEXT NOT NULL,
     name_ar TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE TABLE customers (
+-- Customers table
+CREATE TABLE IF NOT EXISTS customers (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name TEXT NOT NULL,
     phone TEXT NOT NULL,
@@ -37,8 +49,8 @@ CREATE TABLE customers (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Create products table AFTER categories table exists
-CREATE TABLE products (
+-- Products table, depends on categories
+CREATE TABLE IF NOT EXISTS products (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name TEXT NOT NULL,
     name_ar TEXT,
@@ -53,7 +65,8 @@ CREATE TABLE products (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE TABLE orders (
+-- Orders table, depends on customers and products (via items JSON)
+CREATE TABLE IF NOT EXISTS orders (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     customer_id UUID NOT NULL REFERENCES customers(id) ON DELETE CASCADE,
     items JSONB NOT NULL DEFAULT '[]'::jsonb,
@@ -66,7 +79,8 @@ CREATE TABLE orders (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE TABLE admin_users (
+-- Admin users table
+CREATE TABLE IF NOT EXISTS admin_users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
@@ -74,53 +88,55 @@ CREATE TABLE admin_users (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Step 4: Create indexes AFTER all tables exist
-CREATE INDEX idx_products_category_id ON products(category_id);
-CREATE INDEX idx_products_created_at ON products(created_at);
-CREATE INDEX idx_orders_customer_id ON orders(customer_id);
-CREATE INDEX idx_orders_status ON orders(status);
-CREATE INDEX idx_orders_created_at ON orders(created_at);
-CREATE INDEX idx_customers_phone ON customers(phone);
-CREATE INDEX idx_admin_users_email ON admin_users(email);
+-- =================================================================
+-- Step 4: Create indexes for performance
+-- =================================================================
+CREATE INDEX IF NOT EXISTS idx_products_category_id ON products(category_id);
+CREATE INDEX IF NOT EXISTS idx_orders_customer_id ON orders(customer_id);
+CREATE INDEX IF NOT EXISTS idx_customers_phone ON customers(phone);
+CREATE INDEX IF NOT EXISTS idx_admin_users_email ON admin_users(email);
 
--- Step 5: Create trigger function
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = NOW();
-    RETURN NEW;
-END;
-$$ language 'plpgsql';
+-- =================================================================
+-- Step 5: Create triggers to auto-update timestamps
+-- =================================================================
 
--- Step 6: Create triggers
+-- Drop existing triggers before creating new ones to avoid duplicates
+DROP TRIGGER IF EXISTS update_customers_updated_at ON customers;
 CREATE TRIGGER update_customers_updated_at
     BEFORE UPDATE ON customers
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_products_updated_at ON products;
 CREATE TRIGGER update_products_updated_at
     BEFORE UPDATE ON products
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_orders_updated_at ON orders;
 CREATE TRIGGER update_orders_updated_at
     BEFORE UPDATE ON orders
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_admin_users_updated_at ON admin_users;
 CREATE TRIGGER update_admin_users_updated_at
     BEFORE UPDATE ON admin_users
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
--- Step 7: Disable RLS for development
+-- =================================================================
+-- Step 6: Set up Row Level Security (RLS)
+-- =================================================================
 ALTER TABLE categories DISABLE ROW LEVEL SECURITY;
 ALTER TABLE customers DISABLE ROW LEVEL SECURITY;
 ALTER TABLE products DISABLE ROW LEVEL SECURITY;
 ALTER TABLE orders DISABLE ROW LEVEL SECURITY;
 ALTER TABLE admin_users DISABLE ROW LEVEL SECURITY;
 
--- Step 8: Grant permissions
+-- =================================================================
+-- Step 7: Grant permissions to Supabase roles
+-- =================================================================
 GRANT ALL ON ALL TABLES IN SCHEMA public TO service_role;
 GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO service_role;
 GRANT ALL ON ALL FUNCTIONS IN SCHEMA public TO service_role;
@@ -131,44 +147,58 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON products TO authenticated;
 GRANT SELECT, INSERT, UPDATE, DELETE ON orders TO authenticated;
 GRANT SELECT, INSERT, UPDATE, DELETE ON admin_users TO authenticated;
 
--- Step 9: Insert default data
-INSERT INTO categories (name, name_ar) VALUES
+-- =================================================================
+-- Step 8: Add constraints idempotently
+-- This ensures that existing tables are updated correctly.
+-- =================================================================
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint
+        WHERE conrelid = 'categories'::regclass
+        AND conname = 'categories_name_key'
+    ) THEN
+        ALTER TABLE categories ADD CONSTRAINT categories_name_key UNIQUE (name);
+    END IF;
+END;
+$$;
+
+-- =================================================================
+-- Step 9: Insert initial data (if it doesn't exist)
+-- =================================================================
+DO $$
+BEGIN
+    -- Insert default categories
+    INSERT INTO categories (name, name_ar) VALUES
     ('Electronics', 'الأجهزة الإلكترونية'),
     ('Accessories', 'الإكسسوارات'),
-    ('Home & Office', 'المنزل والمكتب');
+    ('Home & Office', 'المنزل والمكتب')
+    ON CONFLICT (name) DO NOTHING;
 
--- Step 10: Insert sample data with proper references
-DO $$
-DECLARE
-    electronics_id UUID;
-    accessories_id UUID;
-    customer1_id UUID;
-    customer2_id UUID;
-BEGIN
-    -- Get category IDs
-    SELECT id INTO electronics_id FROM categories WHERE name = 'Electronics' LIMIT 1;
-    SELECT id INTO accessories_id FROM categories WHERE name = 'Accessories' LIMIT 1;
-
-    -- Insert products
-    INSERT INTO products (name, name_ar, description, description_ar, price, images, variants, category_id, total_stock) VALUES
-        ('Sample Product 1', 'منتج تجريبي 1', 'This is a sample product for testing', 'هذا منتج تجريبي للاختبار', 35.00, '["https://via.placeholder.com/300"]', '[]', electronics_id, 10),
-        ('Sample Product 2', 'منتج تجريبي 2', 'Another sample product', 'منتج تجريبي آخر', 17.50, '["https://via.placeholder.com/300"]', '[]', accessories_id, 5);
-
-    -- Insert customers
-    INSERT INTO customers (name, phone, address, town) VALUES
-        ('Test Customer', '+973 36283382', 'Test Address', 'Manama'),
-        ('Sample Customer', '+973 12345678', 'Sample Address', 'Sitra');
-
-    -- Insert admin user
+    -- Insert a default admin user
     INSERT INTO admin_users (email, password_hash) VALUES
-        ('admin@azharstore.com', '$2b$10$rKvK0YjMlJMK0ZYZYQGzKOKEGYZzKGYzKOKEGYZzKOKEGYZzKOKEGY');
+    ('admin@example.com', '$2y$10$If6v5L5ZX.Iqf82B1HfsA.8w.3zXyPF.B6/N9VJo.vjYdE.aJ/8yS') -- password is 'password'
+    ON CONFLICT (email) DO NOTHING;
 
 END $$;
 
--- Step 11: Create view
-CREATE VIEW order_details AS
+-- =================================================================
+-- Step 10: Create views and statistics functions
+-- =================================================================
+
+-- A view for enriched order details
+CREATE OR REPLACE VIEW order_details AS
 SELECT
-    o.*,
+    o.id,
+    o.customer_id,
+    o.items,
+    o.total,
+    o.status,
+    o.delivery_type,
+    o.delivery_area,
+    o.notes,
+    o.created_at,
+    o.updated_at,
     c.name as customer_name,
     c.phone as customer_phone,
     c.address as customer_address,
@@ -177,9 +207,9 @@ SELECT
     c.block as customer_block,
     c.town as customer_town
 FROM orders o
-JOIN customers c ON o.customer_id = c.id;
+LEFT JOIN customers c ON o.customer_id = c.id;
 
--- Step 12: Create statistics function
+-- A function for dashboard statistics
 CREATE OR REPLACE FUNCTION get_order_stats()
 RETURNS TABLE (
     total_orders BIGINT,
@@ -192,21 +222,26 @@ RETURNS TABLE (
 BEGIN
     RETURN QUERY
     SELECT
-        COUNT(*) as total_orders,
-        COALESCE(SUM(total), 0) as total_revenue,
-        COUNT(*) FILTER (WHERE DATE(created_at) = CURRENT_DATE) as orders_today,
-        COALESCE(SUM(total) FILTER (WHERE DATE(created_at) = CURRENT_DATE), 0) as revenue_today,
-        COUNT(*) FILTER (WHERE DATE_TRUNC('month', created_at) = DATE_TRUNC('month', CURRENT_DATE)) as orders_this_month,
-        COALESCE(SUM(total) FILTER (WHERE DATE_TRUNC('month', created_at) = DATE_TRUNC('month', CURRENT_DATE)), 0) as revenue_this_month
-    FROM orders;
+        COUNT(o.id) as total_orders,
+        COALESCE(SUM(o.total), 0) as total_revenue,
+        COUNT(o.id) FILTER (WHERE DATE(o.created_at) = CURRENT_DATE) as orders_today,
+        COALESCE(SUM(o.total) FILTER (WHERE DATE(o.created_at) = CURRENT_DATE), 0) as revenue_today,
+        COUNT(o.id) FILTER (WHERE DATE_TRUNC('month', o.created_at) = DATE_TRUNC('month', CURRENT_DATE)) as orders_this_month,
+        COALESCE(SUM(o.total) FILTER (WHERE DATE_TRUNC('month', o.created_at) = DATE_TRUNC('month', CURRENT_DATE)), 0) as revenue_this_month
+    FROM orders o;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Step 13: Grant permissions on new objects
-GRANT SELECT ON order_details TO service_role;
-GRANT SELECT ON order_details TO authenticated;
-GRANT EXECUTE ON FUNCTION get_order_stats() TO service_role;
-GRANT EXECUTE ON FUNCTION get_order_stats() TO authenticated;
 
--- Success message
-SELECT 'Database setup completed successfully!' as status;
+-- =================================================================
+-- Step 11: Grant permissions on new views/functions
+-- =================================================================
+GRANT SELECT ON order_details TO authenticated;
+GRANT EXECUTE ON FUNCTION get_order_stats() TO authenticated;
+GRANT SELECT ON order_details TO service_role;
+GRANT EXECUTE ON FUNCTION get_order_stats() TO service_role;
+
+-- =================================================================
+-- Final success message
+-- =================================================================
+SELECT 'Database migration script V2.1 executed successfully.' as status;

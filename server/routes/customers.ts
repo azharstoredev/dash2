@@ -13,22 +13,34 @@ export const getAllCustomers: RequestHandler = async (req, res) => {
 
 export const createCustomer: RequestHandler = async (req, res) => {
   try {
-    console.log("Creating customer with data:", req.body);
-    const { name, phone, address } = req.body;
+    // Detailed logging of the incoming request
+    console.log("Received request to create customer.");
+    console.log("Request Body:", JSON.stringify(req.body, null, 2));
+    console.log("Type of req.body.id:", typeof req.body.id);
+
+
+    // The client should NOT send an ID. The database will generate it.
+    // If an 'id' field is present, even if null or undefined, it can cause issues.
+    // We will create a new object with only the fields we need.
+    const { name, phone, address, home, road, block, town } = req.body;
+    const customerData = { name, phone, address, home, road, block, town };
 
     if (!name || !phone || !address) {
-      console.error("Invalid customer data:", { name, phone, address });
+      console.error("Validation failed: Missing required fields.", customerData);
       return res
         .status(400)
         .json({ error: "Name, phone, and address are required" });
     }
 
-    const newCustomer = await customerDb.create({ name, phone, address });
-    console.log("Customer created successfully:", newCustomer.id);
+    console.log("Attempting to create customer with cleaned data:", customerData);
+
+    const newCustomer = await customerDb.create(customerData);
+
+    console.log("Customer created successfully in DB:", newCustomer.id);
     res.status(201).json(newCustomer);
   } catch (error) {
     console.error("Error creating customer:", error);
-    res.status(500).json({ error: "Failed to create customer" });
+    res.status(500).json({ error: `Failed to create customer: ${error.message}` });
   }
 };
 

@@ -16,6 +16,7 @@ import {
   Languages,
   FolderOpen,
   Settings,
+  RefreshCw, // Import the refresh icon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Footer from "./Footer";
@@ -42,7 +43,7 @@ const getNavigation = (t: (key: string) => string) => [
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { logout } = useAuth();
-  const { language, setLanguage, isRTL, t } = useLanguage();
+  const { language, setLanguage, isRTL, t, forceRefresh } = useLanguage();
   const location = useLocation();
 
   // Force sidebar to close when language changes to prevent RTL/LTR positioning issues
@@ -155,6 +156,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           >
             <Languages className={cn("w-4 h-4", isRTL ? "ml-2" : "mr-2")} />
             {t("language.switch")}
+          </Button>
+          <Button
+            onClick={() => {
+              forceRefresh();
+            }}
+            variant="outline"
+            className="w-full justify-start [dir=rtl]:justify-end [dir=rtl]:flex-row-reverse"
+          >
+            <RefreshCw className={cn("w-4 h-4", isRTL ? "ml-2" : "mr-2")} />
+            {t("orders.refresh")}
           </Button>
           <Button
             onClick={logout}
