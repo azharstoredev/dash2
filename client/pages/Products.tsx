@@ -43,13 +43,15 @@ export default function Products() {
     uploadImage,
   } = useData();
   const { showConfirm, showAlert } = useDialog();
-  const { t, translateCategory } = useLanguage();
+  const { t, translateCategory, language } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [formData, setFormData] = useState({
     name: "",
+    name_ar: "",
     description: "",
+    description_ar: "",
     price: 0,
     images: [] as string[],
     variants: [] as ProductVariant[],
@@ -57,18 +59,25 @@ export default function Products() {
     category_id: "",
   });
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const filteredProducts = products.filter((product) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      product.name.toLowerCase().includes(term) ||
+      (product.name_ar && product.name_ar.toLowerCase().includes(term)) ||
+      product.description.toLowerCase().includes(term) ||
+      (product.description_ar &&
+        product.description_ar.toLowerCase().includes(term))
+    );
+  });
 
   const generateVariantId = () => "v" + Date.now().toString();
 
   const resetForm = () => {
     setFormData({
       name: "",
+      name_ar: "",
       description: "",
+      description_ar: "",
       price: 0,
       images: [],
       variants: [],
@@ -83,7 +92,9 @@ export default function Products() {
       setEditingProduct(product);
       setFormData({
         name: product.name,
+        name_ar: product.name_ar || "",
         description: product.description,
+        description_ar: product.description_ar || "",
         price: product.price,
         images: [...product.images],
         variants: [...product.variants],
@@ -271,6 +282,21 @@ export default function Products() {
                       />
                     </div>
                     <div className="grid gap-2">
+                      <Label htmlFor="name_ar">{t("products.productName")} (Arabic)</Label>
+                      <Input
+                        id="name_ar"
+                        dir="rtl"
+                        value={formData.name_ar}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            name_ar: e.target.value,
+                          }))
+                        }
+                        placeholder="اسم المنتج"
+                      />
+                    </div>
+                    <div className="grid gap-2">
                       <Label htmlFor="description">
                         {t("products.productDescription")}
                       </Label>
@@ -289,6 +315,24 @@ export default function Products() {
                       />
                     </div>
                     <div className="grid gap-2">
+                      <Label htmlFor="description_ar">
+                        {t("products.productDescription")} (Arabic)
+                      </Label>
+                      <Textarea
+                        id="description_ar"
+                        dir="rtl"
+                        value={formData.description_ar}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            description_ar: e.target.value,
+                          }))
+                        }
+                        placeholder="وصف المنتج"
+                        rows={3}
+                      />
+                    </div>
+                    <div className="grid gap-2">
                       <Label htmlFor="price">
                         {t("products.productPrice")} (BD)
                       </Label>
@@ -297,17 +341,35 @@ export default function Products() {
                         type="number"
                         step="0.01"
                         min="0"
-                        value={formData.price === 0 ? "" : formData.price}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            price: parseFloat(e.target.value) || 0,
-                          }))
-                        }
+                        value={formData.price}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === "" || value === ".") {
+                            setFormData((prev) => ({
+                              ...prev,
+                              price: value === "." ? "0." : 0,
+                            }));
+                          } else {
+                            setFormData((prev) => ({
+                              ...prev,
+                              price: parseFloat(value) || 0,
+                            }));
+                          }
+                        }}
                         onFocus={(e) => {
-                          if (e.target.value === "0") {
+                          if (
+                            e.target.value === "0" ||
+                            e.target.value === "0.00"
+                          ) {
                             e.target.value = "";
                           }
+                          // Scroll into view on mobile
+                          setTimeout(() => {
+                            e.target.scrollIntoView({
+                              behavior: "smooth",
+                              block: "center",
+                            });
+                          }, 100);
                         }}
                         placeholder="0.00"
                         required
@@ -341,11 +403,7 @@ export default function Products() {
                           id="stock"
                           type="number"
                           min="0"
-                          value={
-                            formData.total_stock === 0
-                              ? ""
-                              : formData.total_stock
-                          }
+                          value={formData.total_stock}
                           onChange={(e) =>
                             setFormData((prev) => ({
                               ...prev,
@@ -356,6 +414,13 @@ export default function Products() {
                             if (e.target.value === "0") {
                               e.target.value = "";
                             }
+                            // Scroll into view on mobile
+                            setTimeout(() => {
+                              e.target.scrollIntoView({
+                                behavior: "smooth",
+                                block: "center",
+                              });
+                            }, 100);
                           }}
                           placeholder="0"
                           required
@@ -432,9 +497,7 @@ export default function Products() {
                                   id={`variant-stock-${index}`}
                                   type="number"
                                   min="0"
-                                  value={
-                                    variant.stock === 0 ? "" : variant.stock
-                                  }
+                                  value={variant.stock}
                                   onChange={(e) =>
                                     updateVariant(
                                       index,
@@ -446,6 +509,13 @@ export default function Products() {
                                     if (e.target.value === "0") {
                                       e.target.value = "";
                                     }
+                                    // Scroll into view on mobile
+                                    setTimeout(() => {
+                                      e.target.scrollIntoView({
+                                        behavior: "smooth",
+                                        block: "center",
+                                      });
+                                    }, 100);
                                   }}
                                   placeholder="0"
                                   required
@@ -623,14 +693,20 @@ export default function Products() {
                 <div className="flex-grow">
                   {category && (
                     <Badge variant="secondary" className="mb-2">
-                      {translateCategory(category.name)}
+                      {language === "ar" && category.name_ar
+                        ? category.name_ar
+                        : category.name}
                     </Badge>
                   )}
                   <h3 className="text-lg font-semibold text-gray-800 truncate">
-                    {product.name}
+                    {language === "ar" && product.name_ar
+                      ? product.name_ar
+                      : product.name}
                   </h3>
                   <p className="text-sm text-gray-500 h-10 overflow-hidden">
-                    {product.description}
+                    {language === "ar" && product.description_ar
+                      ? product.description_ar
+                      : product.description}
                   </p>
                 </div>
                 <div className="flex justify-between items-center mt-4 pt-4 border-t">

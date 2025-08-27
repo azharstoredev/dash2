@@ -4,6 +4,7 @@ import { useLanguage } from "../contexts/LanguageContext";
 import { useCart } from "../contexts/CartContext";
 import { useData } from "../contexts/DataContext";
 import { getProducts } from "../services/api";
+import { formatPrice } from "@/lib/formatters";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { LoadingScreen } from "../components/ui/loading";
@@ -30,7 +31,9 @@ import Footer from "../components/Footer";
 interface Product {
   id: string;
   name: string;
+  name_ar?: string;
   description: string;
+  description_ar?: string;
   price: number;
   images: string[];
   variants: Array<{
@@ -98,10 +101,14 @@ export default function Store() {
 
     // Filter by search query
     if (searchQuery.trim()) {
+      const term = searchQuery.toLowerCase();
       filtered = filtered.filter(
         (product) =>
-          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.description.toLowerCase().includes(searchQuery.toLowerCase()),
+          product.name.toLowerCase().includes(term) ||
+          (product.name_ar && product.name_ar.toLowerCase().includes(term)) ||
+          product.description.toLowerCase().includes(term) ||
+          (product.description_ar &&
+            product.description_ar.toLowerCase().includes(term)),
       );
     }
 
@@ -130,7 +137,7 @@ export default function Store() {
         <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between [dir=rtl]:flex-row-reverse">
           {/* Logo and Title */}
           <div className="flex items-center gap-2 sm:gap-3 [dir=rtl]:flex-row-reverse min-w-0 flex-1">
-            <div className="h-12 sm:h-16 lg:h-20 flex items-center">
+            <div className="h-16 sm:h-20 lg:h-24 xl:h-28 flex items-center">
               <img
                 src={
                   language === "ar"
@@ -138,7 +145,7 @@ export default function Store() {
                     : "https://cdn.builder.io/api/v1/image/assets%2F22d5611cd8c847859f0fef8105890b91%2Feb0b70b9250f4bfca41dbc5a78c2ce45?format=webp&width=800"
                 }
                 alt="أزهار ستور - azharstore"
-                className="h-12 sm:h-16 lg:h-20 w-auto object-contain"
+                className="h-16 sm:h-20 lg:h-24 xl:h-28 w-auto object-contain"
               />
             </div>
           </div>
@@ -195,7 +202,7 @@ export default function Store() {
               {cartItemsCount > 0 && (
                 <Badge
                   variant="destructive"
-                  className="absolute -top-2 -right-2 [dir=rtl]:-left-2 [dir=rtl]:right-auto h-5 w-5 flex items-center justify-center p-0 text-xs animate-pulse"
+                  className="absolute -top-2 -right-1 [dir=rtl]:-left-1 [dir=rtl]:right-auto h-5 w-5 flex items-center justify-center p-0 text-xs animate-pulse"
                 >
                   {cartItemsCount}
                 </Badge>
@@ -261,7 +268,9 @@ export default function Store() {
                   className="rounded-full h-10 sm:h-8 px-4 sm:px-3 touch-manipulation"
                 >
                   <span className="auto-text text-sm">
-                    {translateCategory(category.name)}
+                    {language === "ar" && category.name_ar
+                      ? category.name_ar
+                      : category.name}
                   </span>
                 </Button>
               ))}
@@ -307,7 +316,11 @@ export default function Store() {
                   {product.images.length > 0 ? (
                     <img
                       src={product.images[0]}
-                      alt={product.name}
+                      alt={
+                        language === "ar" && product.name_ar
+                          ? product.name_ar
+                          : product.name
+                      }
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                     />
                   ) : (
@@ -323,19 +336,26 @@ export default function Store() {
                 <div className="p-2 sm:p-3 lg:p-4">
                   <div onClick={() => navigate(`/product/${product.id}`)}>
                     <h3 className="font-semibold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2 line-clamp-2 hover:text-primary transition-colors auto-text leading-tight">
-                      {product.name}
+                      {language === "ar" && product.name_ar
+                        ? product.name_ar
+                        : product.name}
                     </h3>
 
                     <p className="text-muted-foreground text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-2 auto-text">
-                      {product.description}
+                      {language === "ar" && product.description_ar
+                        ? product.description_ar
+                        : product.description}
                     </p>
                   </div>
 
                   <div className="flex items-center justify-between [dir=rtl]:flex-row-reverse gap-2">
                     <div className="min-w-0 flex-1 flex flex-col justify-center">
                       <div className="flex items-center gap-2 [dir=rtl]:flex-row-reverse">
-                        <span className="text-sm sm:text-base lg:text-lg font-bold text-primary ltr-text">
-                          BD {product.price.toFixed(2)}
+                        <span
+                          className="text-sm sm:text-base lg:text-lg font-bold text-primary ltr-text"
+                          dir="ltr"
+                        >
+                          {formatPrice(product.price, language)}
                         </span>
                         {(product.total_stock || 0) > 0 && (
                           <span className="text-xs text-muted-foreground auto-text">

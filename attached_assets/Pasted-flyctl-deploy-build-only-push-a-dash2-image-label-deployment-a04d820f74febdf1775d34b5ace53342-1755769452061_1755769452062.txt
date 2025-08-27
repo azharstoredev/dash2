@@ -1,0 +1,235 @@
+flyctl deploy --build-only --push -a dash2 --image-label deployment-a04d820f74febdf1775d34b5ace53342 --config fly.toml
+==> Verifying app config
+Validating fly.toml
+✓ Configuration is valid
+--> Verified app config
+==> Building image
+Waiting for depot builder...
+==> Building image with Depot
+--> build: (​)
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.34kB done
+#1 DONE 0.0s
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1
+#2 DONE 0.3s
+#3 docker-image://docker.io/docker/dockerfile:1@sha256:38387523653efa0039f8e1c89bb74a30504e76ee9f565e25c9a09841f9427b05
+#3 resolve docker.io/docker/dockerfile:1@sha256:38387523653efa0039f8e1c89bb74a30504e76ee9f565e25c9a09841f9427b05 done
+#3 CACHED
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.34kB done
+#1 DONE 0.0s
+#4 [internal] load build definition from Dockerfile
+#4 Deduplicating step ID [internal] load build definition from Dockerfile, another build is calculating it done
+#4 DONE 0.0s
+#5 [internal] load metadata for docker.io/library/node:20.18.0-slim
+#5 DONE 0.1s
+#6 [internal] load .dockerignore
+#6 transferring context: 33B
+#6 transferring context: 788B done
+#6 DONE 0.0s
+#7 [base 1/2] FROM docker.io/library/node:20.18.0-slim@sha256:28fbbb764069c698ead61d6a739a7615e8f0e07a4b8fe1473ceca70c1c3d6aaa
+#7 resolve docker.io/library/node:20.18.0-slim@sha256:28fbbb764069c698ead61d6a739a7615e8f0e07a4b8fe1473ceca70c1c3d6aaa done
+#7 DONE 0.0s
+#8 [base 2/2] WORKDIR /app
+#8 CACHED
+#9 [internal] load build context
+#9 transferring context: 5.84MB 0.1s done
+#9 DONE 0.1s
+#10 [build 1/6] RUN apt-get update -qq && apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3 && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+#10 CACHED
+#11 [build 2/6] COPY package-lock.json package.json ./
+#11 CACHED
+#12 [build 3/6] RUN npm ci --include=dev --legacy-peer-deps
+#12 11.82
+#12 11.82 added 497 packages, and audited 498 packages in 11s
+#12 11.82
+#12 11.82 78 packages are looking for funding
+#12 11.82 run `npm fund` for details
+#12 11.82
+#12 11.82 found 0 vulnerabilities
+#12 11.82 npm notice
+#12 11.82 npm notice New major version of npm available! 10.8.2 -> 11.5.2
+#12 11.82 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+#12 11.82 npm notice To update run: npm install -g npm@11.5.2
+#12 11.82 npm notice
+#12 DONE 18.7s
+#13 [build 4/6] COPY . .
+#13 DONE 0.4s
+#14 [build 5/6] RUN npm run build
+#14 0.243
+#14 0.243 > build
+#14 0.243 > npm run build:client && npm run build:server
+#14 0.243
+#14 0.395
+#14 0.395 > build:client
+#14 0.395 > vite build
+#14 0.395
+#14 0.850 vite v6.3.5 building for production...
+#14 1.221 transforming...
+#14 4.224
+#14 4.224 A PostCSS plugin did not pass the `from` option to `postcss.parse`. This may cause imported assets to be incorrectly transformed. If you've recently added a PostCSS plugin that raised this warning, please contact the package author to fix the issue.
+#14 8.245 ✓ 2376 modules transformed.
+#14 9.134 rendering chunks...
+#14 9.164 computing gzip size...
+#14 9.212 dist/spa/index.html 1.50 kB │ gzip: 0.74 kB
+#14 9.212 dist/spa/assets/index-Y79qWNSX.css 86.65 kB │ gzip: 14.55 kB
+#14 9.213 dist/spa/assets/index-B0QABtAy.js 1,069.85 kB │ gzip: 298.56 kB
+#14 9.213
+#14 9.213 (!) Some chunks are larger than 500 kB after minification. Consider:
+#14 9.213 - Using dynamic import() to code-split the application
+#14 9.213 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+#14 9.213 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#14 9.213 ✓ built in 8.33s
+#14 9.486
+#14 9.486 > build:server
+#14 9.486 > vite build --config vite.config.server.ts
+#14 9.486
+#14 9.734 vite v6.3.5 building SSR bundle for production...
+#14 10.08 transforming...
+#14 10.19 ✓ 15 modules transformed.
+#14 10.19 ✗ Build failed in 423ms
+#14 10.19 error during build:
+#14 10.19 server/node-build.ts (8:9): "setupRoutes" is not exported by "server/index.ts", imported by "server/node-build.ts".
+#14 10.19 file: /app/server/node-build.ts:8:9
+#14 10.19
+#14 10.19 6:
+#14 10.19 7: // Import all route handlers
+#14 10.19 8: import { setupRoutes } from './index.js';
+#14 10.19 ^
+#14 10.19 9:
+#14 10.19 10: const __dirname = path.dirname(fileURLToPath(import.meta.url));
+#14 10.19
+#14 10.19 at getRollupError (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+#14 10.19 at error (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+#14 10.19 at Module.error (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:16875:16)
+#14 10.19 at Module.traceVariable (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:17327:29)
+#14 10.19 at ModuleScope.findVariable (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:14997:39)
+#14 10.19 at Identifier.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:5394:40)
+#14 10.19 at CallExpression.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2785:23)
+#14 10.19 at CallExpression.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:12058:15)
+#14 10.19 at ExpressionStatement.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2785:23)
+#14 10.19 at Program.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2781:28)
+#14 ERROR: process "/bin/sh -c npm run build" did not complete successfully: exit code: 1
+------
+> [build 5/6] RUN npm run build:
+10.19 at getRollupError (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+10.19 at error (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+10.19 at Module.error (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:16875:16)
+10.19 at Module.traceVariable (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:17327:29)
+10.19 at ModuleScope.findVariable (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:14997:39)
+10.19 at Identifier.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:5394:40)
+10.19 at CallExpression.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2785:23)
+10.19 at CallExpression.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:12058:15)
+10.19 at ExpressionStatement.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2785:23)
+10.19 at Program.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2781:28)
+------
+==> Building image
+Waiting for depot builder...
+==> Building image with Depot
+--> build: (​)
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 1.34kB done
+#1 DONE 0.0s
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1
+#2 DONE 0.1s
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.34kB done
+#1 DONE 0.0s
+#3 docker-image://docker.io/docker/dockerfile:1@sha256:38387523653efa0039f8e1c89bb74a30504e76ee9f565e25c9a09841f9427b05
+#3 resolve docker.io/docker/dockerfile:1@sha256:38387523653efa0039f8e1c89bb74a30504e76ee9f565e25c9a09841f9427b05 done
+#3 CACHED
+#4 [internal] load build definition from Dockerfile
+#4 Deduplicating step ID [internal] load build definition from Dockerfile, another build is calculating it done
+#4 DONE 0.0s
+#5 [internal] load metadata for docker.io/library/node:20.18.0-slim
+#5 DONE 0.1s
+#6 [internal] load .dockerignore
+#6 transferring context: 788B done
+#6 DONE 0.0s
+#7 [base 1/2] FROM docker.io/library/node:20.18.0-slim@sha256:28fbbb764069c698ead61d6a739a7615e8f0e07a4b8fe1473ceca70c1c3d6aaa
+#7 resolve docker.io/library/node:20.18.0-slim@sha256:28fbbb764069c698ead61d6a739a7615e8f0e07a4b8fe1473ceca70c1c3d6aaa done
+#7 DONE 0.0s
+#8 [base 2/2] WORKDIR /app
+#8 CACHED
+#9 [internal] load build context
+#9 transferring context: 9.21kB 0.0s done
+#9 DONE 0.0s
+#10 [build 1/6] RUN apt-get update -qq && apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3 && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+#10 CACHED
+#11 [build 2/6] COPY package-lock.json package.json ./
+#11 CACHED
+#12 [build 3/6] RUN npm ci --include=dev --legacy-peer-deps
+#12 CACHED
+#13 [build 4/6] COPY . .
+#13 CACHED
+#14 [build 5/6] RUN npm run build
+#14 0.237
+#14 0.237 > build
+#14 0.237 > npm run build:client && npm run build:server
+#14 0.237
+#14 0.384
+#14 0.384 > build:client
+#14 0.384 > vite build
+#14 0.384
+#14 0.798 vite v6.3.5 building for production...
+#14 1.167 transforming...
+#14 4.083
+#14 4.083 A PostCSS plugin did not pass the `from` option to `postcss.parse`. This may cause imported assets to be incorrectly transformed. If you've recently added a PostCSS plugin that raised this warning, please contact the package author to fix the issue.
+#14 7.829 ✓ 2376 modules transformed.
+#14 8.563 rendering chunks...
+#14 8.586 computing gzip size...
+#14 8.626 dist/spa/index.html 1.50 kB │ gzip: 0.74 kB
+#14 8.626 dist/spa/assets/index-Y79qWNSX.css 86.65 kB │ gzip: 14.55 kB
+#14 8.626 dist/spa/assets/index-B0QABtAy.js 1,069.85 kB │ gzip: 298.56 kB
+#14 8.626
+#14 8.626 (!) Some chunks are larger than 500 kB after minification. Consider:
+#14 8.626 - Using dynamic import() to code-split the application
+#14 8.626 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+#14 8.626 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#14 8.627 ✓ built in 7.79s
+#14 8.886
+#14 8.886 > build:server
+#14 8.886 > vite build --config vite.config.server.ts
+#14 8.886
+#14 9.122 vite v6.3.5 building SSR bundle for production...
+#14 9.449 transforming...
+#14 9.557 ✓ 15 modules transformed.
+#14 9.561 ✗ Build failed in 404ms
+#14 9.561 error during build:
+#14 9.561 server/node-build.ts (8:9): "setupRoutes" is not exported by "server/index.ts", imported by "server/node-build.ts".
+#14 9.561 file: /app/server/node-build.ts:8:9
+#14 9.561
+#14 9.561 6:
+#14 9.561 7: // Import all route handlers
+#14 9.561 8: import { setupRoutes } from './index.js';
+#14 9.561 ^
+#14 9.561 9:
+#14 9.561 10: const __dirname = path.dirname(fileURLToPath(import.meta.url));
+#14 9.561
+#14 9.561 at getRollupError (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+#14 9.561 at error (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+#14 9.561 at Module.error (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:16875:16)
+#14 9.561 at Module.traceVariable (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:17327:29)
+#14 9.561 at ModuleScope.findVariable (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:14997:39)
+#14 9.561 at Identifier.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:5394:40)
+#14 9.561 at CallExpression.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2785:23)
+#14 9.561 at CallExpression.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:12058:15)
+#14 9.561 at ExpressionStatement.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2785:23)
+#14 9.561 at Program.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2781:28)
+#14 ERROR: process "/bin/sh -c npm run build" did not complete successfully: exit code: 1
+------
+> [build 5/6] RUN npm run build:
+9.561 at getRollupError (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+9.561 at error (file:///app/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+9.561 at Module.error (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:16875:16)
+9.561 at Module.traceVariable (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:17327:29)
+9.561 at ModuleScope.findVariable (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:14997:39)
+9.561 at Identifier.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:5394:40)
+9.561 at CallExpression.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2785:23)
+9.561 at CallExpression.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:12058:15)
+9.561 at ExpressionStatement.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2785:23)
+9.561 at Program.bind (file:///app/node_modules/rollup/dist/es/shared/node-entry.js:2781:28)
+------
+Error: failed to fetch an image or build from source: error building: failed to solve: process "/bin/sh -c npm run build" did not complete successfully: exit code: 1
+unsuccessful command 'flyctl deploy --build-only --push -a dash2 --image-label deployment-a04d820f74febdf1775d34b5ace53342 --config fly.toml

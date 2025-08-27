@@ -1,5 +1,5 @@
 import "dotenv/config";
-import express from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import path from "path";
 import { handleDemo } from "./routes/demo";
@@ -48,23 +48,35 @@ import {
   initializeLogs,
 } from "./routes/logs";
 
-export function createServer() {
+export async function createServer(): Promise<Express> {
   const app = express();
+  await setupRoutes(app);
+  return app;
+}
 
-  // Middleware
-  app.use(cors());
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
+// Export setupRoutes function for node-build.ts
+export async function setupRoutes(app: Express) {
+  // Apply CORS middleware
+  app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    }),
+  );
+
+  // Parse JSON bodies
+  app.use(express.json({ limit: "50mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
   // Serve uploaded files statically
   app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-  // Example API routes
-  app.get("/api/ping", (_req, res) => {
-    const ping = process.env.PING_MESSAGE ?? "ping";
-    res.json({ message: ping });
-  });
+  // Serve static files from React build (only in production)
+  if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(process.cwd(), "dist/spa")));
+  }
 
+  // Example API routes
   app.get("/api/demo", handleDemo);
 
   // Upload routes
@@ -113,8 +125,34 @@ export function createServer() {
   app.get("/api/logs/export", exportLogs);
   app.get("/api/logs/health", getSystemHealth);
 
+  // Admin routes
+  const {
+    handleAdminLogin,
+    handleChangePassword,
+    handleUpdateEmail,
+    handleGetAdminInfo,
+  } = await import("./routes/admin");
+
+  app.post("/api/admin/login", handleAdminLogin);
+  app.post("/api/admin/change-password", handleChangePassword);
+  app.put("/api/admin/email", handleUpdateEmail);
+  app.get("/api/admin/info", handleGetAdminInfo);
+
   // Initialize sample logs
   initializeLogs();
 
-  return app;
+  // Health check endpoint
+  app.get("/api/ping", (_req, res) => {
+    res.json({ message: "ping", timestamp: new Date().toISOString() });
+  });
+
+  // Catch-all handler: send back React's index.html file for any non-API routes (production only)
+  if (process.env.NODE_ENV === "production") {
+    app.get("*", (_req, res) => {
+      res.sendFile(path.join(process.cwd(), "dist/spa/index.html"));
+    });
+  }
 }
+
+// Note: Server startup is handled by production-server.js in production
+// and by Vite dev server in development

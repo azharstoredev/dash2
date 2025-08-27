@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useCart } from "../contexts/CartContext";
 import { getProducts } from "../services/api";
+import { formatPrice } from "@/lib/formatters";
 import { Button } from "../components/ui/button";
 import { LoadingScreen } from "../components/ui/loading";
 import { Badge } from "../components/ui/badge";
@@ -27,7 +28,9 @@ import CartSidebar from "../components/CartSidebar";
 interface DataContextProduct {
   id: string;
   name: string;
+  name_ar?: string;
   description: string;
+  description_ar?: string;
   price: number;
   images: string[];
   variants: Array<{
@@ -42,7 +45,9 @@ interface DataContextProduct {
 interface Product {
   id: string;
   name: string;
+  name_ar?: string;
   description: string;
+  description_ar?: string;
   price: number;
   images: string[];
   variants: Array<{
@@ -150,8 +155,8 @@ export default function ProductDetail() {
               <img
                 src={
                   language === "ar"
-                    ? "https://cdn.builder.io/api/v1/image/assets%2F22d5611cd8c847859f0fef8105890b91%2Feb0b70b9250f4bfca41dbc5a78c2ce45?format=webp&width=800"
-                    : "https://cdn.builder.io/api/v1/image/assets%2F22d5611cd8c847859f0fef8105890b91%2F16a76df3c393470e995ec2718d67ab09?format=webp&width=800"
+                    ? "https://cdn.builder.io/api/v1/image/assets%2F22d5611cd8c847859f0fef8105890b91%2F16a76df3c393470e995ec2718d67ab09?format=webp&width=800"
+                    : "https://cdn.builder.io/api/v1/image/assets%2F22d5611cd8c847859f0fef8105890b91%2Feb0b70b9250f4bfca41dbc5a78c2ce45?format=webp&width=800"
                 }
                 alt="أزهار ستور - azharstore"
                 className="h-20 w-auto object-contain"
@@ -291,13 +296,22 @@ export default function ProductDetail() {
           {/* Product Information */}
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+              <h1 className="text-3xl font-bold mb-2">
+                {language === "ar" && product.name_ar
+                  ? product.name_ar
+                  : product.name}
+              </h1>
               <p className="text-lg text-muted-foreground mb-4">
-                {product.description}
+                {language === "ar" && product.description_ar
+                  ? product.description_ar
+                  : product.description}
               </p>
 
-              <div className="text-3xl font-bold text-primary mb-4">
-                BD {product.price.toFixed(2)}
+              <div
+                className="text-3xl font-bold text-primary mb-4 ltr-text"
+                dir="ltr"
+              >
+                {formatPrice(product.price, language)}
               </div>
 
               {product.total_stock > 0 ? (

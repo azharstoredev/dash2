@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useCart } from "../contexts/CartContext";
+import { formatPrice } from "@/lib/formatters";
 import {
   Dialog,
   DialogContent,
@@ -49,7 +50,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
   return (
     <>
       <Dialog open={open} onOpenChange={onClose}>
-        <DialogContent className="w-[95vw] max-w-md sm:max-w-lg max-h-[95vh] flex flex-col p-0 rounded-xl border shadow-lg bg-white mx-auto">
+        <DialogContent className="w-[90vw] max-w-md sm:max-w-lg max-h-[85vh] flex flex-col p-0 rounded-2xl border shadow-2xl bg-white mx-auto">
           <DialogHeader className="px-4 py-4 border-b">
             <DialogTitle className="flex items-center gap-2 text-lg font-semibold">
               <ShoppingBag className="h-5 w-5 text-primary" />
@@ -163,11 +164,11 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                             <span className="text-sm font-medium text-gray-700 auto-text">
                               {t("store.unitPrice")}:
                             </span>
-                            <span className="text-lg font-bold text-primary ltr-text">
-                              {language === "ar"
-                                ? t("common.currencyAr")
-                                : t("common.currency")}{" "}
-                              {item.price.toFixed(2)}
+                            <span
+                              className="text-lg font-bold text-primary ltr-text"
+                              dir="ltr"
+                            >
+                              {formatPrice(item.price, language)}
                             </span>
                           </div>
                         </div>
@@ -238,11 +239,14 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                                 : t("common.total")}
                               :
                             </span>
-                            <span className="text-xl font-bold text-primary ltr-text">
-                              {language === "ar"
-                                ? t("common.currencyAr")
-                                : t("common.currency")}{" "}
-                              {(item.price * item.quantity).toFixed(2)}
+                            <span
+                              className="text-xl font-bold text-primary ltr-text"
+                              dir="ltr"
+                            >
+                              {formatPrice(
+                                item.price * item.quantity,
+                                language,
+                              )}
                             </span>
                           </div>
                         </div>
@@ -265,11 +269,11 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                       <span className="auto-text text-gray-600 font-medium text-lg">
                         {t("store.cartTotal")}:
                       </span>
-                      <span className="text-2xl font-bold text-primary ltr-text">
-                        {language === "ar"
-                          ? t("common.currencyAr")
-                          : t("common.currency")}{" "}
-                        {totalPrice.toFixed(2)}
+                      <span
+                        className="text-2xl font-bold text-primary ltr-text"
+                        dir="ltr"
+                      >
+                        {formatPrice(totalPrice, language)}
                       </span>
                     </div>
                     <div className="text-center">

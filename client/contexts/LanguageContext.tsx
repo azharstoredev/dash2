@@ -14,6 +14,7 @@ interface LanguageContextType {
   isRTL: boolean;
   t: (key: string) => string;
   translateCategory: (categoryName: string) => string;
+  forceRefresh: () => void; // Function to force a refresh
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(
@@ -472,6 +473,17 @@ const translations = {
     "settings.deliveryFee": "Delivery Fee",
     "settings.freeDeliveryThreshold": "Free Delivery Threshold",
     "settings.estimatedDeliveryTime": "Estimated Delivery Time",
+    "settings.deliveryPricing": "Delivery Pricing",
+    "settings.freeDeliveryMinimum": "Minimum Amount for Free Delivery",
+    "settings.deliveryFeeHint": "Cost charged for delivery service",
+    "settings.freeDeliveryMinimumHint":
+      "Orders above this amount get free delivery",
+    "settings.pickupMessages": "Pickup Messages",
+    "settings.pickupMessageEn": "Pickup Message (English)",
+    "settings.pickupMessageAr": "Pickup Message (Arabic)",
+    "settings.deliveryMessages": "Delivery Messages",
+    "settings.deliveryMessageEn": "Delivery Message (English)",
+    "settings.deliveryMessageAr": "Delivery Message (Arabic)",
 
     // Payment Settings
     "settings.paymentSettings": "Payment Settings",
@@ -510,6 +522,7 @@ const translations = {
     "settings.operationalSettings": "Operational Settings",
     "settings.uiBehavior": "UI Behavior",
     "settings.adminSettings": "Admin Settings",
+    "settings.adminInformation": "Admin Information",
     "settings.adminPassword": "Admin Password",
     "settings.adminPasswordHint": "Change password to access admin dashboard",
     "settings.adminEmail": "Admin Email",
@@ -572,7 +585,7 @@ const translations = {
     "nav.analytics": "التحليلات",
     "nav.categories": "التصنيفات",
     "nav.settings": "الإعدادات",
-    "nav.logout": "تسجيل الخروج",
+    "nav.logout": "تسجيل الروج",
     "nav.adminPanel": "لوحة الإدارة",
 
     // Dashboard
@@ -655,7 +668,7 @@ const translations = {
     "orders.pickedUp": "تم الاستلام",
     "orders.orderDetails": "تفاصيل الطلب",
     "orders.items": "العناصر",
-    "orders.orderTotal": "إجمال�� الطلب",
+    "orders.orderTotal": "إجمالي الطلب",
     "orders.save": "حفظ",
     "orders.orderDetailsTitle": "تفاصيل الطلب",
     "orders.orderDetailsDesc": "معلومات الطلب الكاملة للتوصيل والتتبع",
@@ -679,7 +692,7 @@ const translations = {
     // Customers
     "customers.title": "العملاء",
     "customers.subtitle": "إدارة قاعدة بيانات العملاء",
-    "customers.addNew": "إضافة عميل جديد",
+    "customers.addNew": "إضاة عميل جديد",
     "customers.search": "البحث في العملاء...",
     "customers.name": "الاسم",
     "customers.phone": "الهاتف",
@@ -705,10 +718,10 @@ const translations = {
     "revenue.totalRevenue": "إجمالي الإيرادات",
     "revenue.ordersCount": "عدد الطلبات",
     "revenue.avgOrderValue": "متوسط قيمة الطلب",
-    "revenue.monthlyTrend": "اتجاه ا��إيرادات الشهرية",
+    "revenue.monthlyTrend": "اتجاه الإيرادات الشهرية",
     "revenue.dailyRevenue": "الإيرادات اليومية (هذا الشهر)",
     "revenue.topProducts": "أفضل المنتجات من حيث الإيرادات",
-    "revenue.deliveryAnalysis": "تحليل نوع التسليم",
+    "revenue.deliveryAnalysis": "تحليل وع التسليم",
     "revenue.revenueByStatus": "الإيرادات حسب حالة الطلب",
     "revenue.month": "الشهر",
     "revenue.revenue": "الإيرادات",
@@ -756,8 +769,8 @@ const translations = {
     "message.orderAdded": "تم إضافة الطلب بنجاح",
     "message.orderUpdated": "تم تحديث الطلب بنجاح",
     "message.orderDeleted": "تم حذف الطلب بنجاح",
-    "message.customerAdded": "تم إضافة ال��ميل بنجاح",
-    "message.customerUpdated": "تم تحديث ا��عميل بنجاح",
+    "message.customerAdded": "تم إضافة العميل بنجاح",
+    "message.customerUpdated": "تم تحديث العميل بنجاح",
     "message.customerDeleted": "تم حذف العميل بنجاح",
     "message.error": "حدث خطأ",
     "message.success": "تمت العملية بنجاح",
@@ -785,7 +798,7 @@ const translations = {
     "store.variant": "النوع",
     "store.selectVariant": "اختر النوع",
     "store.cartEmpty": "سلتك فارغة",
-    "store.cartTotal": "إجمالي ا��سلة",
+    "store.cartTotal": "إجمالي السلة",
     "store.checkout": "إتمام الطلب",
     "store.continueShopping": "متابعة التسوق",
     "store.removeFromCart": "إزالة من السلة",
@@ -808,14 +821,14 @@ const translations = {
     "checkout.delivery": "توصيل",
     "checkout.pickup": "استلام",
     "checkout.orderSummary": "ملخص الطلب",
-    "checkout.subtotal": "المجموع الفر��ي",
-    "checkout.deliveryFee": "رسوم الت��صيل",
+    "checkout.subtotal": "المجموع الفرعي",
+    "checkout.deliveryFee": "رسوم التوصيل",
     "checkout.total": "المجموع الكلي",
-    "checkout.orderTotal": "إجمالي ��لطلب",
+    "checkout.orderTotal": "إجمالي الطلب",
     "checkout.placeOrder": "إرسال الطلب",
-    "checkout.orderSuccess": "تم تأكيد الطلب بنجاح!",
+    "checkout.orderSuccess": "تم أكيد الطلب بنجاح!",
     "checkout.thankYou":
-      "شكراً لك على طلبك! لقد ا��تلمنا طلبك وسنقوم بمعالجته قريباً.",
+      "شكراً لك على طلبك! لقد استلمنا طلبك وسنقوم بمعالجته قريباً.",
     "checkout.orderNumber": "رقم الطلب",
     "checkout.backToStore": "العودة للمتجر",
     "checkout.noCreditCard": "لا حاجة لبطاقة ائتمان - الدفع عند التسليم فقط!",
@@ -829,7 +842,7 @@ const translations = {
     "checkout.contactPhone": "سيتم التواصل معك عبر الهاتف للتأكيد",
     "checkout.deliveryTime": "التوصيل خلال 1-3 أيام عمل",
     "checkout.importError":
-      "فشل في استيراد الإعدادات. يرجى التحقق م�� تنسيق الملف.",
+      "فشل في ستيراد الإعدادات. يرجى التحقق من تنسيق الملف.",
 
     // Additional store keys
     "store.outOfStock": "نفد المخزون",
@@ -853,14 +866,14 @@ const translations = {
     "categories.deleteSuccess": "تم حذف التصنيف بنجاح.",
     "categories.cannotDeleteTitle": "لا يمكن حذف التصنيف",
     "categories.cannotDeleteMessage":
-      "هذا التصنيف مستخدم في {count} م��تج. يرجى إزال�� التصنيف من جميع المنتجات قبل الحذف.",
+      "هذا التصنيف مستخدم في {count} منتج. يرجى إزالة التصنيف من جميع المنتجات قبل الحذف.",
     "categories.nameRequired": "اسم التصنيف مطلوب.",
 
     // Analytics
     "analytics.title": "تحليلات الموقع",
     "analytics.overview": "إحصائيات حقيقية لأداء موقعك والزوار",
     "analytics.totalOrders": "إجمالي الطلبات",
-    "analytics.totalRevenue": "إجمالي الإيرادات",
+    "analytics.totalRevenue": "إجالي الإيرادات",
     "analytics.totalCustomers": "إجمالي العملاء",
     "analytics.totalProducts": "إجمالي المنتجات",
     "analytics.pageViews": "مشاهدات الصفحات",
@@ -878,11 +891,11 @@ const translations = {
     "analytics.orderStatusDistribution": "توزيع حالات الطلبات",
     "analytics.deliveryMethodBreakdown": "تفصيل طرق التوصيل",
     "analytics.orders": "الطلبات",
-    "analytics.revenue": "الإيرادات (د.ب)",
+    "analytics.revenue": "اليرادات (د.ب)",
     "analytics.visitors": "الزوار",
-    "analytics.last7days": "آخر 7 أ��ام",
+    "analytics.last7days": "آخر 7 أيام",
     "analytics.last30days": "آخر 30 يوماً",
-    "analytics.last90days": "آخر 90 يوماً",
+    "analytics.last90days": "آخ 90 يوماً",
     "analytics.refresh": "تحديث",
     "analytics.realTimeTracking": "تتبع مباشر نشط",
     "analytics.lastUpdated": "آخر تحديث",
@@ -893,7 +906,7 @@ const translations = {
       "لا توجد بيانات تحليلات متاحة حالياً. ابدأ باستخدام الموقع لجمع البيانات.",
     "analytics.loadingData": "جارٍ تحميل بيانات التحليلات...",
     "analytics.tryAgain": "إعادة المحاولة",
-    "analytics.noPageData": "لا توجد بيانات صفحات مت��حة",
+    "analytics.noPageData": "لا توجد بيانات صفحات متاحة",
     "analytics.noDeviceData": "لا توجد بيانات أجهزة متاحة",
     "analytics.noErrorsGood": "لا توجد أخطاء - الموقع يعمل بشكل جيد!",
     "analytics.desktop": "الكمبيوتر المكتبي",
@@ -945,10 +958,10 @@ const translations = {
     "settings.save": "حفظ الإعدادات",
     "settings.reset": "إعادة تعيين",
     "settings.saveSuccess": "تم حفظ الإعدادات بنجاح!",
-    "settings.saveError": "فشل في حفظ الإعدادات. يرجى المحاولة مرة أخرى.",
+    "settings.saveError": "فشل في حفظ الإعدادات. يرجى المناولة مرة أخرى.",
     "settings.resetConfirm":
       "هل أنت متأكد من إعادة تعيين جميع الإعدادات للقيم الافتراضية؟",
-    "settings.unsavedChanges": "لديك تغييرات غير محفوظة. لا تنس الحفظ!",
+    "settings.unsavedChanges": "لديك تغييرات غير محفوظة. لا تنس الفظ!",
     "settings.advancedSettings": "الإعدادات المتقدمة",
     "settings.performanceMode": "وضع الأداء",
     "settings.imageCompression": "ضغط الصور",
@@ -963,7 +976,7 @@ const translations = {
     "settings.dialogScroll": "تمرير الحوار",
     "settings.autoScrollToSummary": "التمرير التلقائي للملخص",
     "settings.autoOrderConfirmation": "تأكيد الطلب التلقائي",
-    "settings.lowStockThreshold": "حد المخزون المنخفض",
+    "settings.lowStockThreshold": "حد المخزون المنخض",
     "settings.maxOrderQuantity": "الحد الأقصى لكمية الطلب",
     "settings.orderProcessingTime": "وقت معالجة الطلب",
     "settings.performanceOptimization": "الأداء والتحسين",
@@ -991,6 +1004,7 @@ const translations = {
     "settings.operationalSettings": "الإعدادات التشغيلية",
     "settings.uiBehavior": "سلوك الواجهة",
     "settings.adminSettings": "إعدادات الإدارة",
+    "settings.adminInformation": "معلومات الإدارة",
     "settings.adminPassword": "كلمة مرور الإدارة",
     "settings.adminEmail": "بريد الإدارة الإلكتروني",
     "settings.changePassword": "تغيير كلمة المرور",
@@ -1001,14 +1015,14 @@ const translations = {
     "settings.passwordChanged": "تم تغيير كلمة المرور بنجاح",
     "settings.exportSettings": "تصدير الإعدادات",
     "settings.importSettings": "استيراد الإعدادات",
-    "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياط��",
-    "settings.importDescription": "رفع ملف إعداد��ت مُصدّر مسبقاً",
+    "settings.exportDescription": "تحميل إعداداتك الحالية كملف نسخ احتياي",
+    "settings.importDescription": "رفع ملف إعدادات مُصدّر مسبقاً",
     "settings.chooseFile": "اختر الملف",
     "settings.noFileChosen": "لم يتم اختيار ملف",
-    "settings.displayOptions": "خيارات العرض",
+    "settings.displayOptions": "خارات العرض",
     "settings.paymentSettings": "إعدادات الدفع",
 
-    "settings.enablePerformanceMode": "��ضع الأداء",
+    "settings.enablePerformanceMode": "وضع الأداء",
     "settings.enableImageCompression": "ضغط الصور",
     "settings.maxImageSizeMB": "الحد الأقصى لحجم الصورة (ميجابايت)",
     "settings.enableAutoSave": "الحفظ التلقائي",
@@ -1020,13 +1034,12 @@ const translations = {
     "settings.enableDebugMode": "وضع التصحيح",
     "settings.dialogScrollDesc": "تفعيل التمرير في حوارات الطلبات",
     "settings.autoScrollDesc": "التمرير التلقائي إلى قسم الملخص",
-    "settings.adminPasswordHint":
-      "قم بتغيير كلمة المرور للوصول إلى لوحة التح��م",
+    "settings.adminPasswordHint": "قم بتغيير لمة المرور للوصول إلى لوحة التحكم",
 
     // Store Information
     "settings.storeInformation": "معلومات المتجر",
     "settings.storeName": "اسم المتجر",
-    "settings.storeDescription": "وصف المتجر",
+    "settings.storeDescription": "وصف امتجر",
     "settings.currency": "العملة",
     "settings.currencySymbol": "رمز العملة",
     "settings.bahrainiDinar": "الدينار البحريني",
@@ -1057,6 +1070,17 @@ const translations = {
     "settings.deliveryFee": "رسوم التوصيل",
     "settings.freeDeliveryThreshold": "حد التوصيل المجاني",
     "settings.estimatedDeliveryTime": "الوقت المتوقع للتوصيل",
+    "settings.deliveryPricing": "أسعار التوصيل",
+    "settings.freeDeliveryMinimum": "الحد الأدنى للتوصيل المجاني",
+    "settings.deliveryFeeHint": "التكلفة المحملة لخدمة التوصيل",
+    "settings.freeDeliveryMinimumHint":
+      "الطلبات فوق هذا المبلغ تحصل على توصيل مجاني",
+    "settings.pickupMessages": "رسائل الاستلام",
+    "settings.pickupMessageEn": "رسالة الاستلام (إنجليزي)",
+    "settings.pickupMessageAr": "رسالة الاستلام (عربي)",
+    "settings.deliveryMessages": "رسائل التوصيل",
+    "settings.deliveryMessageEn": "رسالة التوصيل (إنجليزي)",
+    "settings.deliveryMessageAr": "رسالة التوصيل (عربي)",
 
     // Order Messages
     "settings.orderMessages": "رسائل الطلبات",
@@ -1074,17 +1098,17 @@ const translations = {
     "common.total": "المجموع",
     "common.totalAr": "المجموع",
     "common.item": "منتج",
-    "common.items": "منت��ات",
+    "common.items": "منتجات",
     "common.itemAr": "منتج",
     "common.itemsAr": "منتجات",
     "common.language": "اللغة",
-    "common.languageAr": "العرب��ة",
+    "common.languageAr": "العربية",
 
     // Order success messages
     "orderSuccess.headline": "تم تأكيد الطلب!",
     "orderSuccess.headlineAr": "تم تأكيد الطلب!",
     "orderSuccess.prepareOrder": "سنقوم بتجهيز طلبك خلال 2-4 ساعات",
-    "orderSuccess.prepareOrderAr": "سنقوم بتجهيز طلبك خلال 2-4 ساعات",
+    "orderSuccess.prepareOrderAr": "سنقوم بتجهيز طبك خلال 2-4 ساعات",
     "orderSuccess.contactPhone": "سيتم التواصل معك عبر الهاتف للتأكيد",
     "orderSuccess.contactPhoneAr": "سيتم التواصل معك عبر الهاتف للتأكيد",
     "orderSuccess.deliveryTime": "التوصيل خلال 1-3 أيام عمل",
@@ -1094,6 +1118,7 @@ const translations = {
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>("ar");
+  const [refreshKey, setRefreshKey] = useState(0); // Add a refresh key
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem("adminLanguage") as Language;
@@ -1113,7 +1138,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         ? '"Noto Kufi Arabic", sans-serif'
         : '"Funnel Display", sans-serif';
     document.documentElement.style.fontFamily = fontFamily;
-  }, [language]);
+  }, [language, refreshKey]); // Rerun on refreshKey change
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
@@ -1121,6 +1146,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   };
 
   const t = (key: string): string => {
+    // Depend on refreshKey to ensure re-evaluation
+    if (refreshKey > 0) {
+      // This is a bit of a hack to ensure components re-render
+    }
     return (
       translations[language][
         key as keyof (typeof translations)[typeof language]
@@ -1137,11 +1166,22 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     return translated === key ? categoryName : translated;
   };
 
+  const forceRefresh = () => {
+    setRefreshKey((prev) => prev + 1);
+  };
+
   const isRTL = language === "ar";
 
   return (
     <LanguageContext.Provider
-      value={{ language, setLanguage, isRTL, t, translateCategory }}
+      value={{
+        language,
+        setLanguage,
+        isRTL,
+        t,
+        translateCategory,
+        forceRefresh,
+      }}
     >
       {children}
     </LanguageContext.Provider>
